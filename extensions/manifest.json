@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "version": "0.1",
-  "name": "Chrome Extension Template",
-  "description": "description",
+  "name": "web3helper",
+  "description": "web3helper is a helper extension for web3",
   "action": {
     "default_popup": "./dist/index.html"
   },
