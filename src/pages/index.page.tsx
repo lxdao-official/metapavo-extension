@@ -1,32 +1,74 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { CustomNextPage } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useEffect } from "react";
 import { Layout } from "src/layout";
+import createMetaMaskProvider from "metamask-extension-provider";
 
 // chrome APIを使用するためdynamic importし、browser側でのみ読み込まれるようにする
-const Button = dynamic(
-  async () => {
-    const module = await import("src/components/Button");
-    return module.Button;
-  },
-  {
-    ssr: false,
-    loading: () => {
-      return <div className="w-10 h-4 bg-gray-100 rounded border animate-pulse"></div>;
-    },
-  },
-);
+// const Button = dynamic(
+//   async () => {
+//     const module = await import("src/components/Button");
+//     return module.Button;
+//   },
+//   {
+//     ssr: false,
+//     loading: () => {
+//       return <div className="w-10 h-4 bg-gray-100 rounded border animate-pulse"></div>;
+//     },
+//   },
+// );
 
 const IndexPage: CustomNextPage = () => {
+  async function signin() {
+    const maskProvider = createMetaMaskProvider();
+    const addresses = (await maskProvider.request({
+      method: "eth_requestAccounts",
+    })) as string[];
+    const address = addresses[0];
+    const data = await fetch("http://localhost:8080/users/nonce/" + address, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    const json = await data.json();
+    const nonce = json.data.nonce;
+    const message = json.data.signature_message;
+    console.log(address, nonce, message);
+    const signature = await maskProvider.request({
+      method: "personal_sign",
+      params: [address, message],
+    });
+    const data2 = await fetch("http://localhost:8080/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        address: address,
+        signature: signature,
+      }),
+    });
+    const json2 = await data2.json();
+    console.log(json2);
+    if (json2.success) {
+      alert("signin success");
+    }
+  }
+  useEffect(() => {}, []);
   return (
-    <div>
-      <h1 className="text-2xl font-bold whitespace-nowrap">Chrome Extension Template</h1>
-      <Button />
-      <div>
-        <Link href="/sample">
-          <a className="text-blue-500 underline">to sample page</a>
-        </Link>
-      </div>
+    <div style={{ padding: "10px", width: "450px", height: "450px" }}>
+      <button
+        onClick={() => {
+          signin();
+        }}
+      >
+        signin
+      </button>
     </div>
   );
 };
