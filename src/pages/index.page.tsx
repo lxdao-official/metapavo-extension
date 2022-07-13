@@ -57,6 +57,27 @@ const IndexPage: CustomNextPage = () => {
     console.log(json2);
     if (json2.success) {
       alert("signin success");
+      const access_token = json2.data.access_token;
+      localStorage.setItem("access_token", access_token);
+      getUserInfo();
+    }
+  }
+
+  function getUserInfo() {
+    const access_token = localStorage.getItem("access_token");
+    if (access_token) {
+      fetch("http://localhost:8080/users/me", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + access_token,
+        },
+      })
+        .then((data) => data.json())
+        .then((json) => {
+          console.log(json);
+        });
     }
   }
   useEffect(() => {}, []);
