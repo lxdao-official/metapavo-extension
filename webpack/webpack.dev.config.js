@@ -6,7 +6,7 @@ module.exports = {
     background: "./src/scripts/background.ts",
     twitter: "./src/scripts/twitter.ts",
   },
-  // background.jsがmanifest.jsonと同階層にいなければならないため、出力先をmanifestと同階層に指定
+  watch: true,
   output: {
     path: path.resolve(__dirname, "../extensions"),
     filename: "[name].js",

@@ -10,6 +10,11 @@
     {
       "matches": ["https://*/*"],
       "js": ["content.js"]
+    },
+    {
+      "matches": ["https://twitter.com/*", "https://www.twitter.com/*"],
+      "js": ["twitter.js"],
+      "run_at": "document_idle"
     }
   ],
   "background": {
