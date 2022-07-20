@@ -43,7 +43,7 @@ const match = async () => {
   console.log(titleMatched);
   if (titleMatched) {
     const [, name, username] = titleMatched;
-    const res = await fetch("http://localhost:8080/nfts/by_twitter/" + username);
+    const res = await fetch("https://web3helper.herokuapp.com/nfts/by_twitter/" + username);
     const json = await res.json();
     console.log(json);
     if (json.success) {

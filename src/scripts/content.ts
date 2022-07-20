@@ -1,5 +1,5 @@
-import type { Message } from "src/types";
-
+// import type { Message } from "src/types";
+import $ from "jquery";
 // You may need to use relative path import.
 // import { } from "../constants";
 export {};
@@ -37,6 +37,9 @@ setInterval(async () => {
 const box = document.createElement("div");
 box.id = "web3helper-box";
 box.className = "web3-spin";
+box.style.right = "50px";
+box.style.bottom = "50px";
+box.title = "Drag to move";
 
 const gasText = document.createElement("div");
 gasText.id = "web3helper-gas-text";
@@ -52,8 +55,6 @@ box.appendChild(boxLayer2);
 const style = document.createElement("style");
 
 style.innerText = `
-
-
 @keyframes transform {
     0%,
   100% { border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%; } 
@@ -111,7 +112,6 @@ style.innerText = `
   justify-content:center;
   height:50px;
   cursor:pointer;
-
  }
 
 
@@ -119,3 +119,59 @@ style.innerText = `
   `;
 
 document.body.append(style);
+
+// draggleble box
+
+if (localStorage.getItem("web3helper-pos")) {
+  const pos = (localStorage.getItem("web3helper-pos") || "").split("-");
+  if (pos.length == 2) {
+    box.style.right = pos[0];
+    box.style.bottom = pos[1];
+  }
+}
+// Make the DIV element draggable:
+dragElement(box);
+
+function dragElement(elmnt: HTMLElement) {
+  var pos1 = 0,
+    pos2 = 0,
+    pos3 = 0,
+    pos4 = 0;
+
+  // otherwise, move the DIV from anywhere inside the DIV:
+  elmnt.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e: MouseEvent) {
+    e = e || window.event;
+    e.preventDefault();
+
+    // get the mouse cursor position at startup:
+    pos3 = window.innerWidth - e.clientX;
+    pos4 = window.innerHeight - e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e: MouseEvent) {
+    e = e || window.event;
+    e.preventDefault();
+    const nowPosX = window.innerWidth - e.clientX;
+    const nowPosY = window.innerHeight - e.clientY;
+    // calculate the new cursor position:
+    pos1 = pos3 - nowPosX;
+    pos2 = pos4 - nowPosY;
+    pos3 = nowPosX;
+    pos4 = nowPosY;
+    // set the element's new position:
+    elmnt.style.right = Number(elmnt.style.right.replace(/[^\d]/g, "")) - pos1 + "px";
+    elmnt.style.bottom = Number(elmnt.style.bottom.replace(/[^\d]/g, "")) - pos2 + "px";
+    localStorage.setItem("web3helper-pos", [elmnt.style.right, elmnt.style.bottom].join("-"));
+  }
+
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}

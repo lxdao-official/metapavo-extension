@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "version": "0.1",
-  "name": "web3helper",
-  "description": "web3helper is a helper extension for web3",
+  "name": "metapavo",
+  "description": "Metapavo links web3 information into one box",
   "action": {
     "default_popup": "./dist/index.html"
   },
