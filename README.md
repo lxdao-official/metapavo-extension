@@ -8,6 +8,12 @@ build a chrome extension with next.js
 npm run export
 ```
 
+## dev
+
+```
+bundle:dev
+```
+
 ## Usage
 
 If you want to use the ChromeAPI, you will need to use `dynamic import`.

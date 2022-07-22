@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "version": "0.1",
-  "name": "metapavo",
-  "description": "Metapavo links web3 information and functions into one box",
+  "version": "0.1.1",
+  "name": "MetaPavo",
+  "description": "MetaPavo links web3 information and functions into one box",
   "action": {
     "default_icon": "logo-128.png"
   },
