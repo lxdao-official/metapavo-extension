@@ -11,7 +11,7 @@ npm run export
 ## dev
 
 ```
-bundle:dev
+npm run bundle:dev
 ```
 
 ## Usage

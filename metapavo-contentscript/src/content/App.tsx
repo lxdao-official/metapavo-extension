@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 const transform = keyframes`
@@ -97,6 +97,53 @@ async function getNowGas() {
 
 function App() {
   const [gas, setGas] = React.useState(0);
+
+  const rootRef = useRef<any>(null);
+
+  function dragElement(elmnt: HTMLElement) {
+    var pos1 = 0,
+      pos2 = 0,
+      pos3 = 0,
+      pos4 = 0;
+
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+
+    function dragMouseDown(e: MouseEvent) {
+      e = e || window.event;
+      e.preventDefault();
+
+      // get the mouse cursor position at startup:
+      pos3 = window.innerWidth - e.clientX;
+      pos4 = window.innerHeight - e.clientY;
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e: MouseEvent) {
+      e = e || window.event;
+      e.preventDefault();
+      const nowPosX = window.innerWidth - e.clientX;
+      const nowPosY = window.innerHeight - e.clientY;
+      // calculate the new cursor position:
+      pos1 = pos3 - nowPosX;
+      pos2 = pos4 - nowPosY;
+      pos3 = nowPosX;
+      pos4 = nowPosY;
+      // set the element's new position:
+      elmnt.style.right = Number(elmnt.style.right.replace(/[^\d]/g, "")) - pos1 + "px";
+      elmnt.style.bottom = Number(elmnt.style.bottom.replace(/[^\d]/g, "")) - pos2 + "px";
+      localStorage.setItem("web3helper-pos", [elmnt.style.right, elmnt.style.bottom].join("-"));
+    }
+
+    function closeDragElement() {
+      // stop moving when mouse button is released:
+      document.onmouseup = null;
+      document.onmousemove = null;
+    }
+  }
+
   useEffect(() => {
     (async function () {
       let gas = await getNowGas();
@@ -107,9 +154,10 @@ function App() {
       let gas = await getNowGas();
       setGas(gas);
     }, 5000);
+    dragElement(rootRef.current);
   }, []);
   return (
-    <RootElement id="web3helper-box" className="web3-spin" title="Drag to move">
+    <RootElement id="web3helper-box" className="web3-spin" title="Drag to move" ref={rootRef}>
       <div id="web3helper-gas-text">{gas}</div>
       <div id="web3helper-box-layer2"></div>
     </RootElement>
