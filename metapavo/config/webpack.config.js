@@ -194,6 +194,8 @@ module.exports = function (webpackEnv) {
     entry: {
       app: paths.appIndexJs,
       content: "./src/content.tsx",
+      background: "./src/scripts/background.ts",
+      twitter: "./src/scripts/twitter.ts",
     },
     output: {
       // The build folder.

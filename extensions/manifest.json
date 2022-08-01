@@ -17,12 +17,12 @@
     },
     {
       "matches": ["https://twitter.com/*", "https://www.twitter.com/*"],
-      "js": ["twitter.js"],
+      "js": ["./content/static/js/twitter.js"],
       "run_at": "document_idle"
     }
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "./content/static/js/background.js"
   },
   "permissions": ["storage"]
 }

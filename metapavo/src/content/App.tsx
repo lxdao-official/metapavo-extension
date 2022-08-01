@@ -154,6 +154,15 @@ function App() {
       let gas = await getNowGas();
       setGas(gas);
     }, 5000);
+    rootRef.current.style.right = "50px";
+    rootRef.current.style.bottom = "50px";
+    if (localStorage.getItem("web3helper-pos")) {
+      const pos = (localStorage.getItem("web3helper-pos") || "").split("-");
+      if (pos.length == 2) {
+        rootRef.current.style.right = pos[0];
+        rootRef.current.style.bottom = pos[1];
+      }
+    }
     dragElement(rootRef.current);
   }, []);
   return (
