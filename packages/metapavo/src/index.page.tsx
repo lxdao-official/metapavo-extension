@@ -1,9 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import type { CustomNextPage } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect } from "react";
-import { Layout } from "src/layout";
 import createMetaMaskProvider from "metamask-extension-provider";
 
 // chrome APIを使用するためdynamic importし、browser側でのみ読み込まれるようにする
@@ -20,7 +18,7 @@ import createMetaMaskProvider from "metamask-extension-provider";
 //   },
 // );
 
-const IndexPage: CustomNextPage = () => {
+const IndexPage = () => {
   async function signin() {
     const maskProvider = createMetaMaskProvider();
     const addresses = (await maskProvider.request({
@@ -95,5 +93,3 @@ const IndexPage: CustomNextPage = () => {
 };
 
 export default IndexPage;
-
-IndexPage.getLayout = Layout;

@@ -16,13 +16,22 @@
 ## build
 
 ```bash
-cd ./metapavo
-yarn build
+lerna run build
 ```
 
 ## dev
 
 ```
 
+add new content-script to extension
+
+add entry to webpack config ./metapavo/config/webpack.config.js
+
+entry: {
+    app: paths.appIndexJs,
+    content: "./src/content.tsx",
+    background: "./src/scripts/background.ts",
+    twitter: "./src/scripts/twitter.ts",
+},
 
 ```
