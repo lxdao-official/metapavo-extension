@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "bundle:dev": "webpack build --mode production  --config ./webpack/webpack.dev.config.js",
+    "bundle:dev": "webpack build --mode production  --config ./webpack/webpack.dev.config.js ",
     "bundle": "webpack build --mode production --config ./webpack/webpack.config.js",
     "export": "next build && next export -o extensions/dist && npm run bundle"
   },

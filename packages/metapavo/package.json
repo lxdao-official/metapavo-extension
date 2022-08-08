@@ -73,7 +73,8 @@
     "cheerio": "*"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "PUBLIC_URL=../../extensions/content/ BUILD_PATH=../../extensions/content/ node scripts/start.js",
+    "build:dev": "BUILD_PATH=../../extensions/content/ node scripts/build.js ",
     "build": "BUILD_PATH=../../extensions/content/ node scripts/build.js",
     "test": "node scripts/test.js"
   },

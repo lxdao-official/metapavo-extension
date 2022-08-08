@@ -1,20 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
-import { reportScam, Detector, PostDetail, PageDetail } from "../detector/src";
+import { reportScam, Detector, PostDetail, PageDetail, Project } from "../detector/src";
+import {
+  checkTwitterScam,
+  checkTwitterUser,
+  detectProjectByTwitterId,
+  getPageMeta,
+  getTwitterMeta,
+} from "../recognizer/twitter";
+import DangerPopup from "./status/danger";
 
-let detector: Detector | null = null;
-
-function initDetector() {
-  if (detector === null) {
-    detector = new Detector({
-      onlyBuiltIn: false,
-    });
-    detector.update();
-  }
-}
-
-initDetector();
 const transform = keyframes`
   0%,
   100% {
@@ -66,6 +62,8 @@ const RootElement = styled.div`
   --background: rgb(96, 93, 236);
   --blob: #fdfbfd;
   --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
+  --error-shades: inset 10px 0 40px #ff0000, inset -10px 0 20px #ff0000,
+    inset -40px 10px 100px #ff0000;
 
   ::before {
     content: "";
@@ -87,6 +85,20 @@ const RootElement = styled.div`
       ${movement} 10s ease-in-out infinite both;
     animation: ${transform} 10s ease-in-out infinite both alternate,
       ${movement} 10s ease-in-out infinite both;
+    opacity: 0.6;
+  }
+  :hover::before {
+    opacity: 1;
+  }
+  &.metapavo-main-status-danger::before {
+    background-color: var(--blob);
+    box-shadow: var(--error-shades), 0 0 5px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+  }
+  &.metapavo-main-status-success::before {
+    background-color: var(--blob);
+    box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
+    opacity: 1;
   }
 `;
 async function getNowGas() {
@@ -108,10 +120,12 @@ async function getNowGas() {
   }
   return nowGas;
 }
-
+type RecognizerStatus = "danger" | "warning" | "success" | "none";
 function App() {
   const [gas, setGas] = React.useState(0);
-
+  const [hide, setHide] = React.useState(false);
+  const [status, setStatus] = React.useState<RecognizerStatus>("none");
+  const [project, setProject] = React.useState<Project | null>(null);
   const rootRef = useRef<any>(null);
 
   function dragElement(elmnt: HTMLElement) {
@@ -157,133 +171,34 @@ function App() {
       document.onmousemove = null;
     }
   }
-
-  function getTwitterMeta() {
-    if (!window.location.host.includes("twitter.com")) return null;
-
-    const title = document.title;
-
-    const titleMatched = title.match(/^(\([0-9]+\) |)(.*?) \(\@(.*?)\) \/ Twitter/);
-    console.log(titleMatched);
-    if (titleMatched) {
-      const [, messagecount, name, username] = titleMatched;
-      const meta = {
-        title: document.title,
-        name,
-        username,
-      };
-      return meta;
-    } else {
-      return null;
-    }
-  }
-  function getPageMeta() {
-    if (!window.location.host.includes("twitter.com")) throw new Error("no twitter page");
-    const metaHeads = Array.from(document.querySelectorAll("meta")).reduce(
-      (all: any, item: any) => {
-        const metaName = item.name || item.getAttribute("property");
-        if (metaName) all[metaName] = item.content;
-        return all;
-      },
-      {},
-    );
-
-    const canonicalEl = document.querySelectorAll("link[rel=canonical]")[0];
-    const canonicalLink = canonicalEl ? (canonicalEl as any).href : null;
-    const topSourceDomains = Array.from(document.querySelectorAll("img"))
-      .map((img: any) => {
-        const a = document.createElement("a");
-        a.href = img.src;
-        return a.hostname;
-      })
-      .filter((_) => _)
-      .reduce((all: any, domain: string) => {
-        all[domain] = all[domain] || 0;
-        all[domain]++;
-        return all;
-      }, {});
-
-    return {
-      title: document.title,
-      metaHeads,
-      canonicalLink,
-      topSourceDomains: Object.keys(topSourceDomains)
-        .map((domain) => {
-          return {
-            domain,
-            count: topSourceDomains[domain],
-          };
-        })
-        .sort((b, a) => a.count - b.count),
-    };
-  }
-  const getPageDescription = () => {
-    const description = document.querySelector("meta[name=description]");
-    if (description) {
-      return description.getAttribute("description");
-    }
-    return "";
-  };
-
-  const checkTwitterUser = async () => {
-    if (detector?.fetching) {
-      setTimeout(checkTwitterUser, 1000);
-      return;
-    }
-    try {
-      const pageDetails: PageDetail = getPageMeta();
-      if (pageDetails.metaHeads["og:type"] === "profile") {
-        const postDetail: PostDetail = {
-          links: [window.location.href],
-          userId: "",
-          nickname: "",
-          content: "",
-          pageDetails,
-        };
-
-        const description = getPageDescription();
-        if (description) {
-          const result = description.match(
-            /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)/g,
-          );
-          if (result) {
-            postDetail.links = postDetail.links.concat(result);
+  function checkTwitter() {
+    console.log("popstate");
+    let lastCheckTwitterId: string | null = null;
+    setInterval(async () => {
+      const twitterPageDetail = await checkTwitterUser();
+      if (twitterPageDetail && twitterPageDetail.userId) {
+        if (lastCheckTwitterId !== twitterPageDetail.userId) {
+          const projectInfo = await detectProjectByTwitterId(twitterPageDetail?.userId);
+          if (projectInfo) {
+            setStatus("success");
+            setProject(projectInfo);
+          } else {
+            setStatus("none");
           }
-          postDetail.content = description;
+          const twitterInfo = await checkTwitterScam(twitterPageDetail);
+          if (twitterInfo?.detectResult) {
+            setStatus("danger");
+          }
         }
-
-        const twitterMeta = getTwitterMeta();
-        if (twitterMeta) {
-          postDetail.userId = twitterMeta.username;
-          postDetail.nickname = twitterMeta.name;
-        }
-        console.log("postDetail", postDetail);
-        console.log(detector?.database);
-        const result = await detector?.detectScam(postDetail, {
-          checkBySim: true,
-          checkUserId: true,
-          checkContent: true,
-          checkPage: true,
-          checkName: true,
-        });
-        console.log("detect result", result);
-        return result;
+        lastCheckTwitterId = twitterPageDetail.userId;
+      } else {
+        setStatus("none");
       }
-    } catch (e) {}
-  };
-  useEffect(() => {
-    window.addEventListener(
-      "hashchange",
-      function () {
-        setTimeout(() => {
-          checkTwitterUser();
-        }, 2000);
-      },
-      false,
-    );
-    setTimeout(() => {
-      checkTwitterUser();
     }, 2000);
+  }
+  useEffect(() => {
+    checkTwitter();
+
     (async function () {
       let gas = await getNowGas();
       setGas(gas);
@@ -305,10 +220,30 @@ function App() {
     dragElement(rootRef.current);
   }, []);
   return (
-    <RootElement id="web3helper-box" className="web3-spin" title="Drag to move" ref={rootRef}>
-      <div id="web3helper-gas-text">{gas}</div>
-      <div id="web3helper-box-layer2"></div>
-    </RootElement>
+    <>
+      {!hide && (
+        <RootElement
+          id="web3helper-box"
+          className={[
+            "web3-spin",
+            status === "danger" ? "metapavo-main-status-danger" : "",
+            status === "success" ? "metapavo-main-status-success" : "",
+          ].join(" ")}
+          title="Drag to move"
+          ref={rootRef}
+          onDoubleClick={() => {
+            setHide(true);
+            setTimeout(() => {
+              setHide(false);
+            }, 10000);
+          }}
+        >
+          <div id="web3helper-gas-text">{gas}</div>
+          <div id="web3helper-box-layer2"></div>
+        </RootElement>
+      )}
+      <DangerPopup state={status === "danger" ? "show" : "hide"} />
+    </>
   );
 }
 

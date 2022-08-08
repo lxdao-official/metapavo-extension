@@ -701,6 +701,12 @@ export class Detector {
     return null;
   }
 
+  async detectProjectByTwitterId(twitterId: string): Promise<Project | undefined> {
+    return this.database.ProjectList.find((project) => {
+      return project.twitterUsername === twitterId;
+    });
+  }
+
   async checkNFTToken(contract: string, tokenId: string): Promise<NFTCheckResult | null> {
     let result = null;
     try {
