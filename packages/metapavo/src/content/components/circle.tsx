@@ -1,16 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
-import { reportScam, Detector, PostDetail, PageDetail, Project } from "../detector/src";
+import { reportScam, Detector, PostDetail, PageDetail, Project } from "../../detector/src";
 import {
   checkTwitterScam,
   checkTwitterUser,
   detectProjectByTwitterId,
   getPageMeta,
   getTwitterMeta,
-} from "../recognizer/twitter";
-import DangerPopup from "./status/danger";
-import SuccessPopup from "./status/success";
+} from "../../recognizer/twitter";
+import DangerPopup from "../status/danger";
+import SuccessPopup from "../status/success";
 
 const transform = keyframes`
   0%,
@@ -76,7 +76,7 @@ const RootElement = styled.div`
     background-size: 1600% 1600%;
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
-
+    transition: all 0.3s ease;
     perspective: 1000px;
     position: absolute;
     top: 0;
@@ -201,14 +201,12 @@ function App() {
     checkTwitter();
 
     (async function () {
-      let gas = await getNowGas();
-      setGas(gas);
+      chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
+        if (request.cmd === "gasUpdate") setGas(request.value);
+        sendResponse("ok");
+      });
     })();
 
-    setInterval(async () => {
-      let gas = await getNowGas();
-      setGas(gas);
-    }, 5000);
     rootRef.current.style.right = "50px";
     rootRef.current.style.bottom = "50px";
     if (localStorage.getItem("web3helper-pos")) {
