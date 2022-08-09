@@ -10,6 +10,7 @@ import {
   getTwitterMeta,
 } from "../recognizer/twitter";
 import DangerPopup from "./status/danger";
+import SuccessPopup from "./status/success";
 
 const transform = keyframes`
   0%,
@@ -243,6 +244,7 @@ function App() {
         </RootElement>
       )}
       <DangerPopup state={status === "danger" ? "show" : "hide"} />
+      <SuccessPopup state={status === "success" ? "show" : "hide"} />
     </>
   );
 }
