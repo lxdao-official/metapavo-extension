@@ -26,10 +26,10 @@ function sendMessageToContentScript(message: any, callback: any) {
   chrome.tabs.query({}, function (tabs) {
     tabs.forEach((tab: any) => {
       chrome.tabs.sendMessage(tab.id, message, function (response) {
-        if (!window.chrome.runtime.lastError) {
+        if (!chrome.runtime.lastError) {
           if (callback) callback(response);
         } else {
-          console.log(window.chrome.runtime.lastError.message);
+          console.log(chrome.runtime.lastError.message);
         }
       });
     });
