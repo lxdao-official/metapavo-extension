@@ -193,10 +193,10 @@ module.exports = function (webpackEnv) {
     // This means they will be the "root" imports that are included in JS bundle.
     entry: {
       app: paths.appIndexJs,
-      content: "./src/content/content.tsx",
-      popup: "./src/popup/popup.tsx",
-      background: "./src/scripts/background.ts",
-      twitter: "./src/scripts/twitter.ts",
+      content: paths.content,
+      popup: paths.popup,
+      background: paths.background,
+      twitter: paths.twitter,
     },
     output: {
       // The build folder.
