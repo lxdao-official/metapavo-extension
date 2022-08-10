@@ -77,8 +77,7 @@
   },
   "scripts": {
     "start": "PUBLIC_URL=../../extensions/dist/ BUILD_PATH=../../extensions/dist/ node scripts/start.js",
-    "build:dev": "BUILD_PATH=../../extensions/dist/ node scripts/build.js ",
-    "build": "BUILD_PATH=../../extensions/dist/ node scripts/build.js",
+    "build": "set BUILD_PATH=../../extensions/dist/&&node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
