@@ -1,6 +1,4 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import dynamic from "next/dynamic";
-import Link from "next/link";
 import { useEffect } from "react";
 import createMetaMaskProvider from "metamask-extension-provider";
 

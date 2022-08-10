@@ -41,8 +41,6 @@ yarn-error.log*
 
 # extensions
 extensions/dist
-extensions/*.js
-extensions/content
 
 .swc
 .vscode
