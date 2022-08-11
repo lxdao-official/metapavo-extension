@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./components/circle";
-import Main from "./components/main";
-import SelectText from "./components/selectText";
+import App from "./components/circle/circle";
+import Main from "./components/main/main";
+import SelectText from "./plugins/selectText";
 
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-root";
