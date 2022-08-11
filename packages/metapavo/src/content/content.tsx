@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./components/circle";
+import Main from "./components/main";
 import SelectText from "./components/selectText";
 
 const rootElement = document.createElement("div");
