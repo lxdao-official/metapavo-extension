@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { GlobalContext } from "../context/global";
+import { GlobalContext } from "../../context/global";
 import IndexPage from "./login";
 const RootElement = styled.div`
   width: 303px;

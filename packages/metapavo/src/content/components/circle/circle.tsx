@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
-import { reportScam, Detector, PostDetail, PageDetail, Project } from "../../detector/src";
+import { reportScam, Detector, PostDetail, PageDetail, Project } from "../../../detector/src";
 import {
   checkTwitterScam,
   checkTwitterUser,
   detectProjectByTwitterId,
   getPageMeta,
   getTwitterMeta,
-} from "../../recognizer/twitter";
-import useGlobal, { GlobalContext } from "../context/global";
-import DangerPopup from "../status/danger";
-import SuccessPopup from "../status/success";
-import Main from "./main";
+} from "../../../recognizer/twitter";
+import useGlobal, { GlobalContext } from "../../context/global";
+import DangerPopup from "./status/danger";
+import SuccessPopup from "./status/success";
+import Main from "../main/main";
 
 const transform = keyframes`
   0%,
