@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 import { reportScam, Detector, PostDetail, PageDetail, Project } from "../../detector/src";
@@ -9,8 +9,10 @@ import {
   getPageMeta,
   getTwitterMeta,
 } from "../../recognizer/twitter";
+import useGlobal, { GlobalContext } from "../context/global";
 import DangerPopup from "../status/danger";
 import SuccessPopup from "../status/success";
+import Main from "./main";
 
 const transform = keyframes`
   0%,
@@ -50,7 +52,7 @@ const RootElement = styled.div`
   bottom: 50px;
   right: 50px;
   color: #fff;
-  z-index: 99999;
+  z-index: 1000001;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
@@ -102,25 +104,7 @@ const RootElement = styled.div`
     opacity: 1;
   }
 `;
-async function getNowGas() {
-  let nowGas = 0;
-  const r3 = await fetch(
-    "https://app.defisaver.com/api/gas-price/1559/current",
 
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
-
-  const json3 = await r3.json();
-  if (json3.blockPrices && json3.blockPrices.length && json3.blockPrices[0].baseFeePerGas) {
-    nowGas = Math.floor(json3.blockPrices[0].baseFeePerGas);
-  }
-  return nowGas;
-}
 type RecognizerStatus = "danger" | "warning" | "success" | "none";
 function App() {
   const [gas, setGas] = React.useState(0);
@@ -218,31 +202,40 @@ function App() {
     }
     dragElement(rootRef.current);
   }, []);
+
+  const globalContext = useContext(GlobalContext);
+  const useG = useGlobal();
   return (
     <>
-      {!hide && (
-        <RootElement
-          id="web3helper-box"
-          className={[
-            "web3-spin",
-            status === "danger" ? "metapavo-main-status-danger" : "",
-            status === "success" ? "metapavo-main-status-success" : "",
-          ].join(" ")}
-          title="Drag to move"
-          ref={rootRef}
-          onDoubleClick={() => {
-            setHide(true);
-            setTimeout(() => {
-              setHide(false);
-            }, 10000);
-          }}
-        >
-          <div id="web3helper-gas-text">{gas}</div>
-          <div id="web3helper-box-layer2"></div>
-        </RootElement>
-      )}
-      <DangerPopup state={status === "danger" ? "show" : "hide"} />
-      <SuccessPopup state={status === "success" ? "show" : "hide"} />
+      <GlobalContext.Provider value={useG}>
+        {!hide && (
+          <RootElement
+            id="web3helper-box"
+            className={[
+              "web3-spin",
+              status === "danger" ? "metapavo-main-status-danger" : "",
+              status === "success" ? "metapavo-main-status-success" : "",
+            ].join(" ")}
+            title="Drag to move"
+            ref={rootRef}
+            onDoubleClick={() => {
+              setHide(true);
+              setTimeout(() => {
+                setHide(false);
+              }, 10000);
+            }}
+            onClick={() => {
+              useG.setShowMain(!useG.showMain);
+            }}
+          >
+            <div id="web3helper-gas-text">{gas}</div>
+            <div id="web3helper-box-layer2"></div>
+          </RootElement>
+        )}
+        <DangerPopup state={status === "danger" ? "show" : "hide"} />
+        <SuccessPopup state={status === "success" ? "show" : "hide"} />
+        <Main />
+      </GlobalContext.Provider>
     </>
   );
 }

@@ -55,6 +55,7 @@ export default function SelectText() {
             Timezone
           </div>
           <div>add to alarm clock</div>
+          <div>search project</div>
           <div>Power by </div>
         </RootElement>
       )}

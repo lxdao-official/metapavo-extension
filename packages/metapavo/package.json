@@ -76,8 +76,8 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
-    "start": "PUBLIC_URL=../../extensions/dist/ BUILD_PATH=../../extensions/dist/ node scripts/start.js",
-    "build": "set BUILD_PATH=../../extensions/dist/&&node scripts/build.js",
+    "start": "BUILD_PATH=../../extensions/dist/ node scripts/start.js",
+    "build": "BUILD_PATH=../../extensions/dist/ node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
