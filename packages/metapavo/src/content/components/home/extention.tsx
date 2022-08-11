@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
-import useGlobal, { GlobalContext } from "../context/global";
+import useGlobal, { GlobalContext } from "../../context/global";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
