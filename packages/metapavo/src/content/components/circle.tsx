@@ -225,6 +225,9 @@ function App() {
               }, 10000);
             }}
             onClick={() => {
+              //暂时显示
+              setHide(true);
+
               useG.setShowMain(!useG.showMain);
             }}
           >
