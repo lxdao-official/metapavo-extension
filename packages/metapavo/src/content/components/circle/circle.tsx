@@ -67,7 +67,9 @@ const RootElement = styled.div`
   --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
   --error-shades: inset 10px 0 40px #ff0000, inset -10px 0 20px #ff0000,
     inset -40px 10px 100px #ff0000;
-
+  * {
+    font-family: Source Sans Pro, Helvetica Neue, Arial, sans-serif !important;
+  }
   ::before {
     content: "";
     display: block;
