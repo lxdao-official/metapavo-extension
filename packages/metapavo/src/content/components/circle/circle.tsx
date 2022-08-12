@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 import { reportScam, Detector, PostDetail, PageDetail, Project } from "../../../detector/src";
+
 import {
   checkTwitterScam,
   checkTwitterUser,
@@ -13,6 +14,7 @@ import useGlobal, { GlobalContext } from "../../context/global";
 import DangerPopup from "./status/danger";
 import SuccessPopup from "./status/success";
 import Main from "../main/main";
+import useWallet, { WalletContext } from "../../context/useWallet";
 
 const transform = keyframes`
   0%,
@@ -207,36 +209,39 @@ function App() {
 
   const globalContext = useContext(GlobalContext);
   const useG = useGlobal();
+  const wallet = useWallet();
   return (
     <>
       <GlobalContext.Provider value={useG}>
-        {!hide && (
-          <RootElement
-            id="web3helper-box"
-            className={[
-              "web3-spin",
-              status === "danger" ? "metapavo-main-status-danger" : "",
-              status === "success" ? "metapavo-main-status-success" : "",
-            ].join(" ")}
-            title="Drag to move"
-            ref={rootRef}
-            onDoubleClick={() => {
-              setHide(true);
-              setTimeout(() => {
-                setHide(false);
-              }, 10000);
-            }}
-            onClick={() => {
-              useG.setShowMain(!useG.showMain);
-            }}
-          >
-            <div id="web3helper-gas-text">{gas}</div>
-            <div id="web3helper-box-layer2"></div>
-          </RootElement>
-        )}
-        <DangerPopup state={status === "danger" ? "show" : "hide"} />
-        <SuccessPopup state={status === "success" ? "show" : "hide"} />
-        <Main />
+        <WalletContext.Provider value={wallet}>
+          {!hide && (
+            <RootElement
+              id="web3helper-box"
+              className={[
+                "web3-spin",
+                status === "danger" ? "metapavo-main-status-danger" : "",
+                status === "success" ? "metapavo-main-status-success" : "",
+              ].join(" ")}
+              title="Drag to move"
+              ref={rootRef}
+              onDoubleClick={() => {
+                setHide(true);
+                setTimeout(() => {
+                  setHide(false);
+                }, 10000);
+              }}
+              onClick={() => {
+                useG.setShowMain(!useG.showMain);
+              }}
+            >
+              <div id="web3helper-gas-text">{gas}</div>
+              <div id="web3helper-box-layer2"></div>
+            </RootElement>
+          )}
+          <DangerPopup state={status === "danger" ? "show" : "hide"} />
+          <SuccessPopup state={status === "success" ? "show" : "hide"} />
+          <Main />
+        </WalletContext.Provider>
       </GlobalContext.Provider>
     </>
   );

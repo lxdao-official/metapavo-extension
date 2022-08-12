@@ -26,6 +26,13 @@ const ButtonElement = styled.div`
   }
 `;
 
+const ResultElement = styled.div`
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+  line-height: 30px;
+  color: #999;
+`;
+
 const PowerBy = styled.div`
   font-size: 12px;
   color: #999;
@@ -58,21 +65,29 @@ export default function SelectText() {
           setPos(absolutePos);
         } else {
           console.log("no selection");
-          setText("");
-          setPos({
-            x: -100,
-            y: -100,
-          });
+          // setText("");
+          // setPos({
+          //   x: -100,
+          //   y: -100,
+          // });
         }
       }, 500),
     );
+    document.body.addEventListener("click", () => {
+      setText("");
+      setPos({
+        x: -100,
+        y: -100,
+      });
+    });
   });
 
-  const convert = function () {
+  const [convertResult, setConvertResult] = React.useState<Date>();
+  const convert = function (e: React.MouseEvent) {
     if (text) {
       const result = smartParseDate(text);
       if (result) {
-        alert(result.toLocaleString());
+        setConvertResult(result);
       }
     }
   };
@@ -81,8 +96,9 @@ export default function SelectText() {
       {text && (
         <RootElement style={{ left: pos.x + 10 + "px", top: pos.y + "px" }}>
           <ButtonElement
-            onClick={() => {
-              convert();
+            onClick={(e) => {
+              e.stopPropagation();
+              convert(e);
             }}
           >
             🔃 Convert to{" "}
@@ -92,6 +108,9 @@ export default function SelectText() {
             </select>{" "}
             timezone
           </ButtonElement>
+          {convertResult ? (
+            <ResultElement>Convert Result: {convertResult.toLocaleString()}</ResultElement>
+          ) : null}
           <ButtonElement>⏰ Add to alarm clock</ButtonElement>
           <ButtonElement>🔍 Search project in MetaPavo</ButtonElement>
           <PowerBy>Power by MetaPavo</PowerBy>
