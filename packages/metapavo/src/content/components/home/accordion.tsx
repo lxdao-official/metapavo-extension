@@ -40,7 +40,7 @@ const AccordionPage = () => {
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>Moonbirds</Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ p: 0 }}>
           <Extention />
         </AccordionDetails>
       </Accordion>

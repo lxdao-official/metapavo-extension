@@ -3,6 +3,7 @@ import useGlobal, { GlobalContext } from "../../context/global";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { MoonbirdsTab1, MoonbirdsTab2 } from "./moonbirdsTab";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -22,7 +23,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 0 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -54,10 +55,10 @@ function Extention() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Item One
+        <MoonbirdsTab1 />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <MoonbirdsTab2 />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
