@@ -72,21 +72,21 @@ const RootElement = styled.div`
   * {
     font-family: Source Sans Pro, Helvetica Neue, Arial, sans-serif !important;
   }
-  ::before {
+  #metapavo-box-gas {
     content: "";
     display: block;
-    min-height: 50px;
-    min-width: 50px;
+    height: 50px;
+    width: 50px;
     background-color: var(--blob);
     box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
     background-size: 1600% 1600%;
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
     perspective: 1000px;
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 0;
+    right: 0;
     z-index: -1;
     -webkit-animation: ${transform} 10s ease-in-out infinite both alternate,
       ${movement} 10s ease-in-out infinite both;
@@ -94,18 +94,35 @@ const RootElement = styled.div`
       ${movement} 10s ease-in-out infinite both;
     opacity: 0.6;
   }
-  :hover::before {
+  :hover #metapavo-box-gas {
     opacity: 1;
   }
-  &.metapavo-main-status-danger::before {
+  &.metapavo-main-status-danger #metapavo-box-gas {
     background-color: var(--blob);
     box-shadow: var(--error-shades), 0 0 5px rgba(0, 0, 0, 0.4);
     opacity: 1;
   }
-  &.metapavo-main-status-success::before {
+  &.metapavo-main-status-success #metapavo-box-gas {
     background-color: var(--blob);
     box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
     opacity: 1;
+  }
+  &.metapavo-main-box-success {
+    width: 340px;
+    height: 203px;
+  }
+  &.metapavo-main-box-success #metapavo-box-gas {
+    width: 340px;
+    height: 203px;
+    animation: none;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  #metapavo-gas-text {
+    line-height: 50px;
   }
 `;
 
@@ -116,6 +133,8 @@ function App() {
   const [status, setStatus] = React.useState<RecognizerStatus>("none");
   const [project, setProject] = React.useState<Project | null>(null);
   const rootRef = useRef<any>(null);
+  const useG = useGlobal();
+  const wallet = useWallet();
 
   function dragElement(elmnt: HTMLElement) {
     var pos1 = 0,
@@ -151,7 +170,7 @@ function App() {
       // set the element's new position:
       elmnt.style.right = Number(elmnt.style.right.replace(/[^\d]/g, "")) - pos1 + "px";
       elmnt.style.bottom = Number(elmnt.style.bottom.replace(/[^\d]/g, "")) - pos2 + "px";
-      localStorage.setItem("web3helper-pos", [elmnt.style.right, elmnt.style.bottom].join("-"));
+      localStorage.setItem("metapavo-pos", [elmnt.style.right, elmnt.style.bottom].join("-"));
     }
 
     function closeDragElement() {
@@ -160,8 +179,16 @@ function App() {
       document.onmousemove = null;
     }
   }
+  const [addRootClass, setAddRootClass] = React.useState("");
+  const [addBoxClass, setAddBoxClass] = React.useState("");
+
+  function showSuccess() {
+    setAddRootClass("metapavo-main-box-success");
+    setTimeout(() => {
+      setAddRootClass("");
+    }, 5000);
+  }
   function checkTwitter() {
-    console.log("popstate");
     let lastCheckTwitterId: string | null = null;
     setInterval(async () => {
       const twitterPageDetail = await checkTwitterUser();
@@ -170,76 +197,104 @@ function App() {
           const projectInfo = await detectProjectByTwitterId(twitterPageDetail?.userId);
           if (projectInfo) {
             setStatus("success");
+            setTimeout(() => {
+              showSuccess();
+            }, 1000);
             setProject(projectInfo);
           } else {
             setStatus("none");
+            setTimeout(() => {
+              setAddRootClass("");
+            }, 1000);
           }
           const twitterInfo = await checkTwitterScam(twitterPageDetail);
           if (twitterInfo?.detectResult) {
             setStatus("danger");
+            setTimeout(() => {
+              setAddRootClass("metapavo-main-box-danger");
+            }, 1000);
           }
         }
         lastCheckTwitterId = twitterPageDetail.userId;
       } else {
         setStatus("none");
+        setTimeout(() => {
+          setAddRootClass("");
+        }, 1000);
       }
     }, 2000);
   }
   useEffect(() => {
     checkTwitter();
-
+    wallet.fetchLoginInfo();
     (async function () {
       chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
         if (request.cmd === "gasUpdate") setGas(request.value);
         sendResponse("ok");
       });
+      chrome.runtime.sendMessage(
+        {
+          cmd: "getGas",
+        },
+        function (response) {
+          if (!chrome.runtime.lastError) {
+            setGas(response);
+            response();
+          } else {
+            response();
+          }
+        },
+      );
     })();
 
     rootRef.current.style.right = "50px";
     rootRef.current.style.bottom = "50px";
-    if (localStorage.getItem("web3helper-pos")) {
-      const pos = (localStorage.getItem("web3helper-pos") || "").split("-");
-      if (pos.length == 2) {
+    if (localStorage.getItem("metapavo-pos")) {
+      const pos = (localStorage.getItem("metapavo-pos") || "").split("-");
+      if (pos.length === 2) {
         rootRef.current.style.right = pos[0];
         rootRef.current.style.bottom = pos[1];
       }
     }
     dragElement(rootRef.current);
+
+    // document.addEventListener("click", () => {
+    //   useG.setShowMain(false);
+    // });
   }, []);
 
-  const globalContext = useContext(GlobalContext);
-  const useG = useGlobal();
-  const wallet = useWallet();
   return (
     <>
       <GlobalContext.Provider value={useG}>
-        {!hide && (
-          <RootElement
-            id="web3helper-box"
-            className={[
-              "web3-spin",
-              status === "danger" ? "metapavo-main-status-danger" : "",
-              status === "success" ? "metapavo-main-status-success" : "",
-            ].join(" ")}
-            title="Drag to move"
-            ref={rootRef}
-            onDoubleClick={() => {
-              setHide(true);
-              setTimeout(() => {
-                setHide(false);
-              }, 10000);
-            }}
-            onClick={() => {
-              useG.setShowMain(!useG.showMain);
-            }}
-          >
-            <div id="web3helper-gas-text">{gas}</div>
-            <div id="web3helper-box-layer2"></div>
-          </RootElement>
-        )}
-        <DangerPopup state={status === "danger" ? "show" : "hide"} />
-        <SuccessPopup state={status === "success" ? "show" : "hide"} />
-        <Main />
+        <WalletContext.Provider value={wallet}>
+          {!hide && (
+            <RootElement
+              id="web3helper-box"
+              className={[
+                "web3-spin",
+                status === "danger" ? "metapavo-main-status-danger" : "",
+                status === "success" ? "metapavo-main-status-success" : "",
+              ].join(" ")}
+              title="Drag to move"
+              ref={rootRef}
+              onDoubleClick={() => {
+                setHide(true);
+                setTimeout(() => {
+                  setHide(false);
+                }, 10000);
+              }}
+              onClick={() => {
+                useG.setShowMain(!useG.showMain);
+              }}
+            >
+              <div id="web3helper-gas-text">{gas}</div>
+              <div id="web3helper-box-layer2"></div>
+            </RootElement>
+          )}
+          <DangerPopup state={status === "danger" ? "show" : "hide"} />
+          <SuccessPopup state={status === "success" ? "show" : "hide"} />
+          <Main />
+        </WalletContext.Provider>
       </GlobalContext.Provider>
     </>
   );

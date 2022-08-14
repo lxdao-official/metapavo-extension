@@ -42,13 +42,16 @@ const PowerBy = styled.div`
   transform: scale(0.8);
   margin-right: -20px;
 `;
+let binded = false;
 export default function SelectText() {
   const [text, setText] = React.useState("");
   const [pos, setPos] = React.useState({
     x: -100,
     y: -100,
   });
-  useEffect(() => {
+
+  const bindEvents = () => {
+    if (binded) return;
     document.addEventListener(
       "selectionchange",
       _.debounce(function () {
@@ -80,6 +83,10 @@ export default function SelectText() {
         y: -100,
       });
     });
+    binded = true;
+  };
+  useEffect(() => {
+    bindEvents();
   });
 
   const [convertResult, setConvertResult] = React.useState<Date>();

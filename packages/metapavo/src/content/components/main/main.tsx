@@ -49,6 +49,33 @@ function App() {
                 {/* <IndexPage></IndexPage> */}
                 <AccordionPage />
               </div>
+              <svg
+                width="36"
+                height="36"
+                viewBox="0 0 36 36"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ position: "absolute", top: 0, left: "-36px", cursor: "pointer" }}
+                onClick={() => {
+                  context.setShowMain(false);
+                }}
+              >
+                <rect width="36" height="36" fill="#EFEFEF" fill-opacity="0.64" />
+                <path
+                  d="M13 13L23 23"
+                  stroke="#D1D0D6"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M13 23L23 13"
+                  stroke="#D1D0D6"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </RootElement>
           );
         }}

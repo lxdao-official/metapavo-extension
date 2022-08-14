@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { WalletContext } from "../../context/useWallet";
 import ConnectWallet from "../wallet/ConnectWallet";
 // import createMetaMaskProvider from "metamask-extension-provider";
 
@@ -18,10 +19,21 @@ import ConnectWallet from "../wallet/ConnectWallet";
 
 const IndexPage = () => {
   useEffect(() => {}, []);
+  const mainImage = chrome.runtime.getURL("images/main.jpg");
   return (
-    <div style={{ padding: "10px", width: "450px", height: "450px" }}>
-      <ConnectWallet />
-    </div>
+    <WalletContext.Consumer>
+      {(context) => {
+        return (
+          <div style={{}}>
+            <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} />
+            <div style={{ marginTop: "100px", width: "100%", textAlign: "center" }}>
+              {/* {context.loginedAddress ? <div>{context.loginedAddress}</div> : <ConnectWallet />} */}
+              <ConnectWallet />
+            </div>
+          </div>
+        );
+      }}
+    </WalletContext.Consumer>
   );
 };
 

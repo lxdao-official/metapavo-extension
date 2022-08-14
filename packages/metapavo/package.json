@@ -84,7 +84,8 @@
   "scripts": {
     "start": "BUILD_PATH=../../extensions/dist/ node scripts/start.js",
     "build": "set BUILD_PATH=../../extensions/dist/&&node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "preinstall": "npx npm-force-resolutions"
   },
   "eslintConfig": {
     "extends": [
