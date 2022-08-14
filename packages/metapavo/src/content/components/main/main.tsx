@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { GlobalContext } from "../../context/global";
+import useGlobal, { GlobalContext } from "../../context/global";
 import IndexPage from "./login";
 import AccordionPage from "./../home/accordion";
 import ClearIcon from "@mui/icons-material/Clear";
+import { Box } from "@mui/material";
 
 const RootElement = styled.div`
   width: 303px;
@@ -16,26 +17,34 @@ const RootElement = styled.div`
   transition: all 0.3s ease-in-out;
   &.metapavo-main-show {
     right: 0;
-    &.leftIcon {
-      position: absolute;
-      width: 36px;
-      height: 36px;
-      left: 1101px;
-      top: 80px;
-      background: rgba(239, 239, 239, 0.34);
-    }
   }
 `;
 function App() {
+  const useG = useGlobal();
   return (
     <>
       <GlobalContext.Consumer>
         {(context) => {
           return (
             <RootElement className={[context.showMain ? "metapavo-main-show" : ""].join(" ")}>
-              {/* <div className="leftIcon">
+              <Box
+                sx={{
+                  position: "absolute",
+                  width: "36px",
+                  height: "36px",
+                  left: "-35px",
+                  top: "0",
+                  background: "rgba(239, 239, 239, 0.34)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={() => {
+                  useG.setShowMain(!useG.showMain);
+                }}
+              >
                 <ClearIcon />
-              </div> */}
+              </Box>
               <div>
                 {/* <IndexPage></IndexPage> */}
                 <AccordionPage />
