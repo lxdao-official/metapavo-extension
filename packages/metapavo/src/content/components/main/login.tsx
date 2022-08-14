@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { WalletContext } from "../../context/useWallet";
 import ConnectWallet from "../wallet/ConnectWallet";
 // import createMetaMaskProvider from "metamask-extension-provider";
 
@@ -19,9 +20,17 @@ import ConnectWallet from "../wallet/ConnectWallet";
 const IndexPage = () => {
   useEffect(() => {}, []);
   return (
-    <div style={{ padding: "10px", width: "450px", height: "450px" }}>
-      <ConnectWallet />
-    </div>
+    <WalletContext.Consumer>
+      {(context) => {
+        return (
+          <div style={{ display: "flex", alignContent: "center" }}>
+            <div style={{ padding: "10px", width: "450px", height: "450px", textAlign: "center" }}>
+              {context.loginedAddress ? <div>{context.loginedAddress}</div> : <ConnectWallet />}
+            </div>
+          </div>
+        );
+      }}
+    </WalletContext.Consumer>
   );
 };
 

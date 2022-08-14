@@ -82,7 +82,7 @@ const RootElement = styled.div`
     background-size: 1600% 1600%;
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
     perspective: 1000px;
     position: absolute;
     top: 0;
@@ -116,6 +116,8 @@ function App() {
   const [status, setStatus] = React.useState<RecognizerStatus>("none");
   const [project, setProject] = React.useState<Project | null>(null);
   const rootRef = useRef<any>(null);
+  const useG = useGlobal();
+  const wallet = useWallet();
 
   function dragElement(elmnt: HTMLElement) {
     var pos1 = 0,
@@ -151,7 +153,7 @@ function App() {
       // set the element's new position:
       elmnt.style.right = Number(elmnt.style.right.replace(/[^\d]/g, "")) - pos1 + "px";
       elmnt.style.bottom = Number(elmnt.style.bottom.replace(/[^\d]/g, "")) - pos2 + "px";
-      localStorage.setItem("web3helper-pos", [elmnt.style.right, elmnt.style.bottom].join("-"));
+      localStorage.setItem("metapavo-pos", [elmnt.style.right, elmnt.style.bottom].join("-"));
     }
 
     function closeDragElement() {
@@ -187,36 +189,52 @@ function App() {
   }
   useEffect(() => {
     checkTwitter();
-
+    wallet.fetchLoginInfo();
     (async function () {
       chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
         if (request.cmd === "gasUpdate") setGas(request.value);
         sendResponse("ok");
       });
+      chrome.runtime.sendMessage(
+        {
+          cmd: "getGas",
+        },
+        function (response) {
+          console.log(response);
+          if (!chrome.runtime.lastError) {
+            setGas(response);
+            response();
+          } else {
+            console.log(chrome.runtime.lastError.message);
+            response();
+          }
+        },
+      );
     })();
 
     rootRef.current.style.right = "50px";
     rootRef.current.style.bottom = "50px";
-    if (localStorage.getItem("web3helper-pos")) {
-      const pos = (localStorage.getItem("web3helper-pos") || "").split("-");
-      if (pos.length == 2) {
+    if (localStorage.getItem("metapavo-pos")) {
+      const pos = (localStorage.getItem("metapavo-pos") || "").split("-");
+      if (pos.length === 2) {
         rootRef.current.style.right = pos[0];
         rootRef.current.style.bottom = pos[1];
       }
     }
     dragElement(rootRef.current);
+
+    // document.addEventListener("click", () => {
+    //   useG.setShowMain(false);
+    // });
   }, []);
 
-  const globalContext = useContext(GlobalContext);
-  const useG = useGlobal();
-  const wallet = useWallet();
   return (
     <>
       <GlobalContext.Provider value={useG}>
         <WalletContext.Provider value={wallet}>
           {!hide && (
             <RootElement
-              id="web3helper-box"
+              id="metapavo-box"
               className={[
                 "web3-spin",
                 status === "danger" ? "metapavo-main-status-danger" : "",
@@ -234,8 +252,8 @@ function App() {
                 useG.setShowMain(!useG.showMain);
               }}
             >
-              <div id="web3helper-gas-text">{gas}</div>
-              <div id="web3helper-box-layer2"></div>
+              <div id="metapavo-gas-text">{gas}</div>
+              <div id="metapavo-box-layer2"></div>
             </RootElement>
           )}
           <DangerPopup state={status === "danger" ? "show" : "hide"} />
