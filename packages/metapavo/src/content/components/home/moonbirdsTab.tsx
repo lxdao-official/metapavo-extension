@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
-// import errorIcon from './../assets/error.png'
 
 const css = `
     .message{
@@ -25,6 +24,7 @@ const css = `
     }
     .icon{
       margin-right:15px;
+      margin-left:12px;
     }
     .boxText{
       display: flex;
