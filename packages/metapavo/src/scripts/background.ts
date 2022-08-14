@@ -35,20 +35,28 @@ function sendMessageToContentScript(message: any, callback: any) {
     });
   });
 }
-(async function () {
+// (async function () {
+//   let gas = await getNowGas();
+//   if (gas > 0) {
+//     sendMessageToContentScript({ cmd: "gasUpdate", value: gas }, function () {
+//       // console.log("来自content的回复：" + response);
+//     });
+//   }
+// })();
+let timer: any = null;
+async function repeat() {
   let gas = await getNowGas();
   if (gas > 0) {
     sendMessageToContentScript({ cmd: "gasUpdate", value: gas }, function () {
       // console.log("来自content的回复：" + response);
     });
   }
-})();
+  if (timer) clearTimeout(timer);
+  timer = setTimeout(repeat, 5000);
+}
+repeat();
+chrome.alarms.create({ periodInMinutes: 5 });
 
-setInterval(async () => {
-  let gas = await getNowGas();
-  if (gas > 0) {
-    sendMessageToContentScript({ cmd: "gasUpdate", value: gas }, function () {
-      // console.log("来自content的回复：" + response);
-    });
-  }
-}, 5000);
+chrome.alarms.onAlarm.addListener(async () => {
+  repeat();
+});

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 import { reportScam, Detector, PostDetail, PageDetail, Project } from "../../../detector/src";
+
 import {
   checkTwitterScam,
   checkTwitterUser,
@@ -13,6 +14,7 @@ import useGlobal, { GlobalContext } from "../../context/global";
 import DangerPopup from "./status/danger";
 import SuccessPopup from "./status/success";
 import Main from "../main/main";
+import useWallet, { WalletContext } from "../../context/useWallet";
 
 const transform = keyframes`
   0%,
@@ -67,7 +69,9 @@ const RootElement = styled.div`
   --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
   --error-shades: inset 10px 0 40px #ff0000, inset -10px 0 20px #ff0000,
     inset -40px 10px 100px #ff0000;
-
+  * {
+    font-family: Source Sans Pro, Helvetica Neue, Arial, sans-serif !important;
+  }
   ::before {
     content: "";
     display: block;
@@ -205,6 +209,7 @@ function App() {
 
   const globalContext = useContext(GlobalContext);
   const useG = useGlobal();
+  const wallet = useWallet();
   return (
     <>
       <GlobalContext.Provider value={useG}>
@@ -225,9 +230,6 @@ function App() {
               }, 10000);
             }}
             onClick={() => {
-              //暂时显示
-              setHide(true);
-
               useG.setShowMain(!useG.showMain);
             }}
           >

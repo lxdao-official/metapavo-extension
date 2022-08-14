@@ -282,7 +282,11 @@ module.exports = function (webpackEnv) {
       ],
     },
     resolve: {
-      fallback: { url: require.resolve("url/"), stream: require.resolve("stream-browserify") },
+      fallback: {
+        url: require.resolve("url/"),
+        stream: require.resolve("stream-browserify"),
+        buffer: require.resolve("buffer"),
+      },
       // This allows you to set a fallback for where webpack should look for modules.
       // We placed these paths second because we want `node_modules` to "win"
       // if there are any conflicts. This matches Node resolution mechanism.
@@ -301,6 +305,7 @@ module.exports = function (webpackEnv) {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         "react-native": "react-native-web",
+        process: "process/browser",
         // Allows for better profiling with ReactDevTools
         ...(isEnvProductionProfile && {
           "react-dom$": "react-dom/profiling",
@@ -538,6 +543,12 @@ module.exports = function (webpackEnv) {
       ].filter(Boolean),
     },
     plugins: [
+      new webpack.ProvidePlugin({
+        process: "process/browser",
+      }),
+      new webpack.ProvidePlugin({
+        Buffer: ["buffer", "Buffer"],
+      }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(

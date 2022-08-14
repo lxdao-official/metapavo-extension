@@ -703,7 +703,7 @@ export class Detector {
 
   async detectProjectByTwitterId(twitterId: string): Promise<Project | undefined> {
     return this.database.ProjectList.find((project) => {
-      return project.twitterUsername === twitterId;
+      return project.twitterUsername?.toLowerCase() === twitterId.toLowerCase();
     });
   }
 
