@@ -1,5 +1,3 @@
-import React, { useContext, useEffect, useRef } from "react";
-import styled from "styled-components";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 
@@ -81,7 +79,7 @@ const card = (obj: any) => (
     sx={{
       px: "15px",
       py: "10px",
-      width: "100%",
+      // width: "100%",
       height: "83.71px",
       background: "rgba(248, 247, 249, 0.7)",
       border: "0.794574px solid #D7D7D7",
