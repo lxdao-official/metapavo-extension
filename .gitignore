@@ -44,3 +44,6 @@ extensions/dist
 
 .swc
 .vscode
+
+package-lock.json
+yarn.lock
