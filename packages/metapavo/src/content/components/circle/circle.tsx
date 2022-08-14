@@ -267,13 +267,14 @@ function App() {
     <>
       <GlobalContext.Provider value={useG}>
         <WalletContext.Provider value={wallet}>
-          {!hide && (
+          {!hide && !useG.showMain && (
             <RootElement
-              id="web3helper-box"
+              id="metapavo-box"
               className={[
                 "web3-spin",
                 status === "danger" ? "metapavo-main-status-danger" : "",
                 status === "success" ? "metapavo-main-status-success" : "",
+                addRootClass,
               ].join(" ")}
               title="Drag to move"
               ref={rootRef}
@@ -287,12 +288,23 @@ function App() {
                 useG.setShowMain(!useG.showMain);
               }}
             >
-              <div id="web3helper-gas-text">{gas}</div>
-              <div id="web3helper-box-layer2"></div>
+              <div
+                id="metapavo-box-gas"
+                onMouseEnter={() => {
+                  if (status === "success") {
+                    showSuccess();
+                  }
+                }}
+              >
+                <div id="metapavo-gas-text">{gas}</div>
+              </div>
+              <DangerPopup state={addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
+              <SuccessPopup
+                state={addRootClass === "metapavo-main-box-success" ? "show" : "hide"}
+              />
             </RootElement>
           )}
-          <DangerPopup state={status === "danger" ? "show" : "hide"} />
-          <SuccessPopup state={status === "success" ? "show" : "hide"} />
+
           <Main />
         </WalletContext.Provider>
       </GlobalContext.Provider>
