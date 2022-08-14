@@ -2,11 +2,23 @@ import React, { useState, useContext, useEffect } from "react";
 import { ethers } from "ethers";
 import { WalletContext } from "../../context/useWallet";
 import createMetaMaskProvider from "metamask-extension-provider";
+import styled from "styled-components";
 //@ts-ignore
 window.process = {};
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
 const NETWORK = CHAIN_ID === "1" ? "mainnet" : "rinkeby";
 
+const ButtonStyle = styled.button`
+  width: 202px;
+  height: 37px;
+
+  background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+  box-shadow: 0px 0px 0px #4216e7;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+`;
 export default function ConnectWallet(props: any) {
   const [loading, setLoading] = useState(false);
   const { address, setAddress, loginedAddress, setLoginedAddress, fetchLoginInfo } =
@@ -63,13 +75,13 @@ export default function ConnectWallet(props: any) {
   //
   return (
     <>
-      <button
+      <ButtonStyle
         onClick={() => {
           signin();
         }}
       >
         Connect Wallet
-      </button>
+      </ButtonStyle>
     </>
   );
 }

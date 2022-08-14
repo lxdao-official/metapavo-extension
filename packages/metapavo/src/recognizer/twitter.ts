@@ -118,7 +118,6 @@ export const checkTwitterUser: () => Promise<PostDetail | null> = async () => {
         postDetail.userId = twitterMeta.username;
         postDetail.nickname = twitterMeta.name;
       }
-      console.log("postDetail", postDetail);
 
       return postDetail;
     }

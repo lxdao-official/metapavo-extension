@@ -2,99 +2,15 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const RootElement = styled.div`
-  position: fixed;
-  bottom: 150px;
-  right: 150px;
-  z-index: 99999;
-
-  background: #ffffff;
-  border: 1px solid #c22922;
-  box-shadow: -9px 11px 11px 0px #808080;
   opacity: 0;
-  border-radius: 16px;
-  overflow: hidden;
-
-  transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-  -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-
-  border: 2px outset #4a4a4a;
-  overflow: hidden;
-
-  transition: opacity 0.6s ease-out 0s, right 0.6s ease-out 0.8s, bottom 0.6s ease-out 0.8s,
-    width 0.6s ease-out 0.8s, height 0.6s ease-out 0.8s, border-radius 0.3s linear 1.4s,
-    transform 0.5s ease-out 0.5s, box-shadow 0.5s ease-out 0.5s, border 0.3s ease-out 0.4s,
-    background 0.4s ease-in;
-  width: 0px;
-  height: 0px;
+  transition: all 1s ease-in-out 1s;
+  position: absolute;
   &.mp-danger-show {
-    width: 343px;
-    height: 203px;
-    bottom: 80px;
-    right: 50px;
     opacity: 1;
-    border: 2px outset #4a4a4a;
-  }
-  &.mp-danger-show {
-    animation: sheen 4s ease-in-out 1.2s forwards;
   }
   &.mp-danger-hide {
-    animation: sheenrevert 2s ease-out 0s forwards;
-    transition: opacity 0.6s ease-out 3.8s, right 0.6s ease-out 1.8s, bottom 0.6s ease-out 1.8s,
-      width 0.8s ease-out 1.8s, height 1s ease-out 1.8s, border-radius 0.3s linear 1.8s,
-      transform 0.8s ease-out 1.1s, box-shadow 0.5s ease-out 1.1s, border 0.8s ease-out 1.1s,
-      background 0.5s ease-in 2.2s;
-  }
-  @keyframes sheen {
-    50% {
-      transform: matrix3d(
-        1,
-        -0.02,
-        0.14,
-        0.0005,
-        0.2,
-        1,
-        0.26,
-        -0.0003,
-        -0.2,
-        -0.26,
-        0.9602999999999999,
-        0,
-        1,
-        0,
-        0,
-        1
-      );
-    }
-    100% {
-      transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-    }
-  }
-
-  @keyframes sheenrevert {
-    0% {
-      transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-    }
-
-    100% {
-      transform: matrix3d(
-        1,
-        -0.02,
-        0.14,
-        0.0005,
-        0.2,
-        1,
-        0.26,
-        -0.0003,
-        -0.2,
-        -0.26,
-        0.9602999999999999,
-        0,
-        1,
-        0,
-        0,
-        1
-      );
-    }
+    opacity: 0;
+    transition: none;
   }
 `;
 export default function SuccessPopup({ state }: { state: "show" | "hide" }) {

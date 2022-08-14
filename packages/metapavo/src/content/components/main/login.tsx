@@ -19,13 +19,16 @@ import ConnectWallet from "../wallet/ConnectWallet";
 
 const IndexPage = () => {
   useEffect(() => {}, []);
+  const mainImage = chrome.runtime.getURL("images/main.jpg");
   return (
     <WalletContext.Consumer>
       {(context) => {
         return (
-          <div style={{ display: "flex", alignContent: "center" }}>
-            <div style={{ padding: "10px", width: "450px", height: "450px", textAlign: "center" }}>
-              {context.loginedAddress ? <div>{context.loginedAddress}</div> : <ConnectWallet />}
+          <div style={{}}>
+            <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} />
+            <div style={{ marginTop: "100px", width: "100%", textAlign: "center" }}>
+              {/* {context.loginedAddress ? <div>{context.loginedAddress}</div> : <ConnectWallet />} */}
+              <ConnectWallet />
             </div>
           </div>
         );
