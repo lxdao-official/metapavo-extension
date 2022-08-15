@@ -2,7 +2,16 @@ import React, { useRef } from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { MoonbirdsTab1, MoonbirdsTab2 } from "./moonbirdsTab";
+import { MoonbirdsTab1, MoonbirdsTab2, MoonbirdsTab3 } from "./moonbirdsTab";
+import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
+import {
+  Mortar_board,
+  Mortar_board_1,
+  Graph,
+  Graph_1,
+  Checklist,
+  Checklist_1,
+} from "./../assets/mortar-board-1";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -48,9 +57,36 @@ function Extention() {
     <div>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab icon={<FavoriteIcon />} {...a11yProps(0)} />
-          <Tab icon={<FavoriteIcon />} {...a11yProps(1)} />
-          <Tab icon={<FavoriteIcon />} {...a11yProps(2)} />
+          <Tab
+            icon={
+              value == 0 ? (
+                <Mortar_board sx={{ width: "20px", height: "20px" }} />
+              ) : (
+                <Mortar_board_1 sx={{ width: "20px", height: "20px" }} />
+              )
+            }
+            {...a11yProps(0)}
+          />
+          <Tab
+            icon={
+              value == 1 ? (
+                <Graph sx={{ width: "20px", height: "20px" }} />
+              ) : (
+                <Graph_1 sx={{ width: "20px", height: "20px" }} />
+              )
+            }
+            {...a11yProps(1)}
+          />
+          <Tab
+            icon={
+              value == 2 ? (
+                <Checklist sx={{ width: "20px", height: "20px" }} />
+              ) : (
+                <Checklist_1 sx={{ width: "20px", height: "20px" }} />
+              )
+            }
+            {...a11yProps(2)}
+          />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -60,7 +96,7 @@ function Extention() {
         <MoonbirdsTab2 />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <MoonbirdsTab3 />
       </TabPanel>
     </div>
   );

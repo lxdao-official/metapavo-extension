@@ -46,7 +46,7 @@ function App() {
           left: "-35px",
           top: "0",
           background: "rgba(239, 239, 239, 0.34)",
-          display: "flex",
+          display: useG.showMain ? "flex" : "none",
           alignItems: "center",
           justifyContent: "center",
         }}
