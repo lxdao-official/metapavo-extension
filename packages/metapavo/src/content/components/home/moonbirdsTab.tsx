@@ -1,7 +1,11 @@
-import Box from "@mui/material/Box";
+import React, { useRef } from "react";
+import { Box, MenuItem, Select, FormControl } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 
 const css = `
+    .tabInner{
+      text-align:left
+    }
     .message{
         width: 275px;
         height: 52px;
@@ -65,6 +69,46 @@ const css = `
       line-height: 13px;
       display: flex;
       border: none;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+    .topSelect{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid #E5E3E6;
+      border-radius: 6px;
+      margin:15px 11px 25px 12px;
+      width:calc(100% - 23px - 32px);
+      color: #D7D7D7;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      position:relative;
+    }
+    .topSelect:after{
+      content:"v",
+      position:"absolute";
+      right:17.5px;
+      top:10.5px;
+    }
+    .option{
+      margin-top:5px;
+      padding: 8px 16px;
+      color:#000;
+    }
+    
+    .option:hover{
+        backgroundColor:#F5F5F5;
+    }
+    div{
+      font-size:14px;
     }
 `;
 const mookData = [
@@ -84,6 +128,7 @@ const card = (obj: any) => (
       background: "rgba(248, 247, 249, 0.7)",
       border: "0.794574px solid #D7D7D7",
       borderRadius: "6.35659px",
+      textAlign: "left",
     }}
   >
     <Box
@@ -139,7 +184,7 @@ const mockInfo = [
 ];
 
 const info = (obj: any) => (
-  <Box sx={{ mb: 2.25, mx: 3 }}>
+  <Box sx={{ mb: 2.25, mx: 3, textAlign: "left" }}>
     <Box sx={{ fontWeight: 500, fontSize: "12px", lineHeight: "15px", mb: "14px" }}>{obj.name}</Box>
     <Box sx={{ display: "flex", flexWrap: "wrap" }}>
       {obj.array.map((item: any) => (
@@ -172,7 +217,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
   const { loading = false } = props;
 
   return (
-    <div>
+    <div className="tabInner">
       <style type="text/css">{css}</style>
 
       <div className="message">
@@ -244,6 +289,7 @@ const MoonbirdsTab2 = () => {
           gridTemplateColumns: "repeat(2, 1fr)",
           px: 2,
           mt: 2.5,
+          textAlign: "left",
         }}
       >
         {mookData.map((ii) => card(ii))}
@@ -266,4 +312,106 @@ const MoonbirdsTab2 = () => {
   );
 };
 
-export { MoonbirdsTab1, MoonbirdsTab2 };
+const options = [
+  { name: "All Events", id: "0" },
+  { name: "Recent Salas", id: "1" },
+  { name: "Recent Listings", id: "2" },
+  { name: "Recent Mint", id: "3" },
+];
+const mockEvent = [
+  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
+  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
+  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
+  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
+  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
+  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
+];
+
+const line = (obj: any) => (
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      height: "36px",
+      width: "100%",
+      mb: 1.5,
+      fontSize: "14px",
+    }}
+  >
+    <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
+      <Box
+        sx={{
+          height: "15.56",
+          width: "15.56",
+          margin: "12.22px",
+        }}
+      >
+        {obj.icon}
+      </Box>
+      <Box sx={{ height: "36px", width: "36px", backgroundColor: "#eee", mr: "12px" }}>
+        {obj.avatar}
+      </Box>
+      <Box>
+        <Box sx={{ fontWeight: 700, fontSize: "13px", lineHeight: "16px", mb: "4px" }}>
+          {obj.title}
+        </Box>
+        <Box sx={{ fontSize: "11px", lineHeight: "13px", color: "#A9A8AF", display: "flex" }}>
+          {obj.content} ·{" "}
+          <Box component="span" sx={{ fontStyle: "italic" }}>
+            {obj.date}
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+    <Box sx={{ pr: "18px", fontWeight: 500, fontSize: "14px", lineHeight: "17px" }}>
+      #{obj.price}
+    </Box>
+  </Box>
+);
+const MoonbirdsTab3 = (props: MediaProps) => {
+  const { loading = false } = props;
+  const [show, setShow] = React.useState(false);
+  const [val, setVal] = React.useState("0");
+
+  const handleChange = (event: any) => {
+    setVal(event.target.value);
+  };
+  return (
+    <div className="tabInner">
+      <style type="text/css">{css}</style>
+      <Box className="topSelect" onClick={() => setShow(!show)}>
+        <div>All Event</div>
+        {show && (
+          <Box
+            sx={{
+              position: "absolute",
+              width: "100%",
+              top: "48px",
+              left: 0,
+              background: "#fff",
+              border: "1px solid #E5E3E6",
+              borderRadius: "0px 0px 6px 6px",
+              paddingBottom: "5px",
+            }}
+          >
+            {options.map((pp) => (
+              <MenuItem
+                value={pp.id}
+                className="option"
+                sx={{
+                  fontSize: "14px",
+                }}
+              >
+                {pp.name}
+              </MenuItem>
+            ))}
+          </Box>
+        )}
+      </Box>
+      {mockEvent.map((e) => line(e))}
+    </div>
+  );
+};
+
+export { MoonbirdsTab1, MoonbirdsTab2, MoonbirdsTab3 };
