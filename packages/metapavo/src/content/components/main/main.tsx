@@ -18,6 +18,7 @@ const RootElement = styled.div`
   transition: all 0.5s ease-in-out 1s;
   &.metapavo-main-show {
     right: 0;
+    transition: all 0.5s ease-in-out 1s;
   }
 `;
 function App() {

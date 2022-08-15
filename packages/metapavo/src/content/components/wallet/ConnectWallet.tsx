@@ -14,13 +14,13 @@ const NETWORK = CHAIN_ID === "1" ? "mainnet" : "rinkeby";
 const ButtonStyle = styled.button`
   width: 202px;
   height: 37px;
-
   background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
   box-shadow: 0px 0px 0px #4216e7;
   border-radius: 4px;
   color: #fff !important;
   font-size: 14px !important;
   border: none !important;
+  cursor: pointer;
 `;
 export default function ConnectWallet(props: { loginSuccess?: (access_token: string) => void }) {
   const { address, setAddress, loginedAddress, setLoginedAddress, fetchLoginInfo } =
