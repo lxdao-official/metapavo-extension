@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { WalletContext } from "../../context/useWallet";
 import ConnectWallet from "../wallet/ConnectWallet";
 // import createMetaMaskProvider from "metamask-extension-provider";
@@ -17,7 +18,8 @@ import ConnectWallet from "../wallet/ConnectWallet";
 //   },
 // );
 
-const IndexPage = () => {
+const LoginPage = () => {
+  let navigate = useNavigate();
   useEffect(() => {}, []);
   const mainImage = chrome.runtime.getURL("images/main.jpg");
   return (
@@ -28,7 +30,11 @@ const IndexPage = () => {
             <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} />
             <div style={{ marginTop: "100px", width: "100%", textAlign: "center" }}>
               {/* {context.loginedAddress ? <div>{context.loginedAddress}</div> : <ConnectWallet />} */}
-              <ConnectWallet />
+              <ConnectWallet
+                loginSuccess={() => {
+                  navigate("/index");
+                }}
+              />
             </div>
           </div>
         );
@@ -37,4 +43,4 @@ const IndexPage = () => {
   );
 };
 
-export default IndexPage;
+export default LoginPage;

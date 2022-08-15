@@ -49,6 +49,7 @@
     "lodash": "^4.17.21",
     "metamask-extension-provider": "^3.0.0",
     "mini-css-extract-plugin": "^2.4.5",
+    "notistack": "^2.0.5",
     "parse-domain": "3.0.3",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
@@ -62,6 +63,7 @@
     "react-dev-utils": "^12.0.1",
     "react-dom": "^18.2.0",
     "react-refresh": "^0.11.0",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",
@@ -84,8 +86,8 @@
   "scripts": {
     "start": "BUILD_PATH=../../extensions/dist/ node scripts/start.js",
     "build": "set BUILD_PATH=../../extensions/dist/&&node scripts/build.js",
-    "test": "node scripts/test.js",
-    "preinstall": "npx npm-force-resolutions"
+    "build:dev": "set BUILD_PATH=../../extensions/dist/&&node scripts/build-dev.js",
+    "test": "node scripts/test.js"
   },
   "eslintConfig": {
     "extends": [

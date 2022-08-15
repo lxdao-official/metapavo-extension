@@ -152,3 +152,10 @@ export const detectProjectByTwitterId: (twitterId: string) => Promise<Project | 
 
   return (await detector?.detectProjectByTwitterId(twitterId)) || null;
 };
+
+export const detectProjectByTwitterIdFromServer: (
+  twitterId: string,
+) => Promise<Project | null> = async (twitterId: string) => {
+  await fetch("");
+  return (await detector?.detectProjectByTwitterId(twitterId)) || null;
+};

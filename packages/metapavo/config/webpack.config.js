@@ -204,7 +204,7 @@ module.exports = function (webpackEnv) {
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: isEnvProduction ? "static/js/[name].js" : isEnvDevelopment && "static/js/bundle.js",
+      filename: isEnvProduction ? "static/js/[name].js" : isEnvDevelopment && "static/js/[name].js",
       // There are also additional JS chunk files if you use code splitting.
       chunkFilename: isEnvProduction
         ? "static/js/[name].chunk.js"
