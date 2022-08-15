@@ -40,6 +40,10 @@ const css = `
         -webkit-animation: slideshow 5s linear infinite;
         animation: slideshow 5s linear infinite;
       }
+      svg{
+        width:14px;
+        height:14px;
+      }
 `;
 const AccordionPage = () => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
@@ -51,29 +55,45 @@ const AccordionPage = () => {
   return (
     <div>
       <style type="text/css">{css}</style>
-      <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")}>
+      <Accordion
+        expanded={expanded === "panel1"}
+        onChange={handleChange("panel1")}
+        sx={{ fontSize: "14px" }}
+      >
         <AccordionSummary
           expandIcon={
-            expanded === "panel1" ? <RemoveIcon /> : <AddIcon sx={{ color: "#5B28EB" }} />
+            expanded === "panel1" ? (
+              <RemoveIcon sx={{ fontSize: "14px" }} />
+            ) : (
+              <AddIcon sx={{ color: "#5B28EB", fontSize: "14px" }} />
+            )
           }
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>MetaPavo</Typography>
+          <Typography sx={{ width: "33%", flexShrink: 0, fontSize: "14px" }}>MetaPavo</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>MetaPavo</Typography>
+          <Typography sx={{ fontSize: "14px" }}>MetaPavo</Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === "panel2"} onChange={handleChange("panel2")}>
+      <Accordion
+        expanded={expanded === "panel2"}
+        onChange={handleChange("panel2")}
+        sx={{ fontSize: "14px" }}
+      >
         <AccordionSummary
           expandIcon={
-            expanded === "panel2" ? <RemoveIcon /> : <AddIcon sx={{ color: "#5B28EB" }} />
+            expanded === "panel2" ? (
+              <RemoveIcon sx={{ fontSize: "14px" }} />
+            ) : (
+              <AddIcon sx={{ color: "#5B28EB", fontSize: "14px" }} />
+            )
           }
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>Moonbirds</Typography>
+          <Typography sx={{ width: "33%", flexShrink: 0, fontSize: "14px" }}>Moonbirds</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0 }}>
           <Extention />
