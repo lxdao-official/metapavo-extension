@@ -53,7 +53,7 @@ const RootElement = styled.div`
   position: fixed;
   bottom: 50px;
   right: 50px;
-  color: #fff;
+  color: #fff !important;
   z-index: 1000001;
   font-size: 20px;
   font-weight: bold;
@@ -226,7 +226,7 @@ function App() {
   }
   useEffect(() => {
     checkTwitter();
-    wallet.fetchLoginInfo();
+
     (async function () {
       chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
         if (request.cmd === "gasUpdate") setGas(request.value);
@@ -239,9 +239,9 @@ function App() {
         function (response) {
           if (!chrome.runtime.lastError) {
             setGas(response);
-            response();
+            response && response();
           } else {
-            response();
+            response && response();
           }
         },
       );
@@ -304,8 +304,7 @@ function App() {
               />
             </RootElement>
           )}
-
-          <Main />
+          {useG.showMain ? <Main /> : null}
         </WalletContext.Provider>
       </GlobalContext.Provider>
     </>

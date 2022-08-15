@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import config from "../../config";
+import { fetchWrapped } from "../apis/fetch";
 
 export const WalletContext = React.createContext<{
   address: string;
@@ -18,23 +20,20 @@ export default function useWallet() {
   const [address, setAddress] = useState("");
   const [loginedAddress, setLoginedAddress] = useState("");
 
-  function fetchLoginInfo() {
-    chrome.storage.local.get(["access_token"], function (data) {
-      const access_token = data.access_token;
-      if (access_token) {
-        fetch("https://web3helper.herokuapp.com/users/me", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: "Bearer " + access_token,
-          },
-        })
-          .then((data) => data.json())
-          .then((json) => {
+  async function fetchLoginInfo() {
+    return new Promise((resolve, reject) => {
+      fetchWrapped(config.baseURL + "/users/me", {
+        method: "GET",
+      })
+        .then((json) => {
+          if (json?.data?.address) {
             setLoginedAddress(json.data.address);
-          });
-      }
+            resolve(json.data.address);
+          } else {
+            reject();
+          }
+        })
+        .catch(reject);
     });
   }
 

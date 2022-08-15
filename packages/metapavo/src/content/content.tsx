@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { MemoryRouter } from "react-router-dom";
 import App from "./components/circle/circle";
 import Main from "./components/main/main";
 import SelectText from "./plugins/date-tool/selectText";
@@ -18,7 +19,9 @@ document.body.appendChild(rootElement);
 const root = ReactDOM.createRoot(rootElement as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
-    <SelectText />
+    <MemoryRouter initialEntries={["/index"]}>
+      <App />
+      <SelectText />
+    </MemoryRouter>
   </React.StrictMode>,
 );
