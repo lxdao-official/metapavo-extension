@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import App from "./components/circle/circle";
 import Main from "./components/main/main";
 import SelectText from "./plugins/date-tool/selectText";
-
+import { SnackbarProvider } from "notistack";
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-root";
 // Object.assign(rootElement.style, {
@@ -19,9 +19,11 @@ document.body.appendChild(rootElement);
 const root = ReactDOM.createRoot(rootElement as HTMLElement);
 root.render(
   <React.StrictMode>
-    <MemoryRouter initialEntries={["/index"]}>
-      <App />
-      <SelectText />
-    </MemoryRouter>
+    <SnackbarProvider maxSnack={3}>
+      <MemoryRouter initialEntries={["/index"]}>
+        <App />
+        <SelectText />
+      </MemoryRouter>
+    </SnackbarProvider>
   </React.StrictMode>,
 );
