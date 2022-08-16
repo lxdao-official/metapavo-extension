@@ -82,7 +82,7 @@ const RootElement = styled.div`
     background-size: 1600% 1600%;
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
-    transition: all 0.6s ease;
+    transition: all 0.3s ease;
     perspective: 1000px;
     position: absolute;
     bottom: 0;
@@ -276,24 +276,24 @@ function App() {
                 status === "success" ? "metapavo-main-status-success" : "",
                 addRootClass,
               ].join(" ")}
-              title="Drag to move"
-              ref={rootRef}
-              onDoubleClick={() => {
-                setHide(true);
-                setTimeout(() => {
-                  setHide(false);
-                }, 10000);
-              }}
-              onClick={() => {
-                useG.setShowMain(!useG.showMain);
-              }}
             >
               <div
                 id="metapavo-box-gas"
+                title="Drag to move"
+                onDoubleClick={() => {
+                  setHide(true);
+                  setTimeout(() => {
+                    setHide(false);
+                  }, 10000);
+                }}
+                ref={rootRef}
                 onMouseEnter={() => {
                   if (status === "success") {
                     showSuccess();
                   }
+                }}
+                onMouseUp={() => {
+                  useG.setShowMain(!useG.showMain);
                 }}
               >
                 <div id="metapavo-gas-text">{gas}</div>

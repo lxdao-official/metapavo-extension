@@ -3,10 +3,14 @@ import styled from "styled-components";
 const RootElement = styled.div`
   opacity: 0;
   transition: all 1s ease-in-out;
+  width: 0;
+  height: 0;
   position: absolute;
   &.mp-danger-show {
     opacity: 1;
     transition: none;
+    width: auto;
+    height: auto;
   }
   &.mp-danger-hide {
     opacity: 0;

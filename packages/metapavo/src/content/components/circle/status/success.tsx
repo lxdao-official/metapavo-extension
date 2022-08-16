@@ -5,8 +5,12 @@ const RootElement = styled.div`
   opacity: 0;
   transition: all 1s ease-in-out 1s;
   position: absolute;
+  width: 0;
+  height: 0;
   &.mp-danger-show {
     opacity: 1;
+    width: auto;
+    height: auto;
   }
   &.mp-danger-hide {
     opacity: 0;
