@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./extention";
+import Pavo from "./pavo";
 
 const css = `
 ::-webkit-scrollbar {
@@ -62,7 +63,9 @@ const AccordionPage = () => {
           <Typography sx={{ width: "33%", flexShrink: 0 }}>MetaPavo</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>MetaPavo</Typography>
+          <Typography>
+            <Pavo />
+          </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === "panel2"} onChange={handleChange("panel2")}>
@@ -110,7 +113,7 @@ const AccordionPage = () => {
               borderRadius: "100px",
               mr: "10px",
             }}
-          ></Box>
+          />
           <Box
             sx={{
               fontWeight: 500,
