@@ -66,7 +66,8 @@ const RootElement = styled.div`
   cursor: pointer;
   --background: rgb(96, 93, 236);
   --blob: #fdfbfd;
-  --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
+  // --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
+  --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #7de2ac, inset -40px 10px 100px #9f50ff;
   --error-shades: inset 10px 0 40px #ff0000, inset -10px 0 20px #ff0000,
     inset -40px 10px 100px #ff0000;
   * {
@@ -82,7 +83,7 @@ const RootElement = styled.div`
     background-size: 1600% 1600%;
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
-    transition: all 0.6s ease;
+    transition: all 0.3s ease;
     perspective: 1000px;
     position: absolute;
     bottom: 0;
@@ -126,12 +127,9 @@ const RootElement = styled.div`
   }
 `;
 
-type RecognizerStatus = "danger" | "warning" | "success" | "none";
 function App() {
-  const [gas, setGas] = React.useState(0);
   const [hide, setHide] = React.useState(false);
-  const [status, setStatus] = React.useState<RecognizerStatus>("none");
-  const [project, setProject] = React.useState<Project | null>(null);
+
   const rootRef = useRef<any>(null);
   const useG = useGlobal();
   const wallet = useWallet();
@@ -141,13 +139,20 @@ function App() {
       pos2 = 0,
       pos3 = 0,
       pos4 = 0;
-
+    let mousedownTimestamp: number = 0;
     // otherwise, move the DIV from anywhere inside the DIV:
     elmnt.onmousedown = dragMouseDown;
-
+    elmnt.onmouseup = function (e) {
+      if (Date.now() - mousedownTimestamp < 250) {
+        useG.setShowMain(!useG.showMain);
+        closeDragElement();
+      } else {
+      }
+    };
     function dragMouseDown(e: MouseEvent) {
       e = e || window.event;
-      e.preventDefault();
+      // e.preventDefault();
+      mousedownTimestamp = Date.now();
 
       // get the mouse cursor position at startup:
       pos3 = window.innerWidth - e.clientX;
@@ -179,57 +184,13 @@ function App() {
       document.onmousemove = null;
     }
   }
-  const [addRootClass, setAddRootClass] = React.useState("");
-  const [addBoxClass, setAddBoxClass] = React.useState("");
 
-  function showSuccess() {
-    setAddRootClass("metapavo-main-box-success");
-    setTimeout(() => {
-      setAddRootClass("");
-    }, 5000);
-  }
-  function checkTwitter() {
-    let lastCheckTwitterId: string | null = null;
-    setInterval(async () => {
-      const twitterPageDetail = await checkTwitterUser();
-      if (twitterPageDetail && twitterPageDetail.userId) {
-        if (lastCheckTwitterId !== twitterPageDetail.userId) {
-          const projectInfo = await detectProjectByTwitterId(twitterPageDetail?.userId);
-          if (projectInfo) {
-            setStatus("success");
-            setTimeout(() => {
-              showSuccess();
-            }, 1000);
-            setProject(projectInfo);
-          } else {
-            setStatus("none");
-            setTimeout(() => {
-              setAddRootClass("");
-            }, 1000);
-          }
-          const twitterInfo = await checkTwitterScam(twitterPageDetail);
-          if (twitterInfo?.detectResult) {
-            setStatus("danger");
-            setTimeout(() => {
-              setAddRootClass("metapavo-main-box-danger");
-            }, 1000);
-          }
-        }
-        lastCheckTwitterId = twitterPageDetail.userId;
-      } else {
-        setStatus("none");
-        setTimeout(() => {
-          setAddRootClass("");
-        }, 1000);
-      }
-    }, 2000);
-  }
   useEffect(() => {
-    checkTwitter();
+    useG.checkTwitter();
 
     (async function () {
       chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
-        if (request.cmd === "gasUpdate") setGas(request.value);
+        if (request.cmd === "gasUpdate") useG.setGas(request.value);
         sendResponse("ok");
       });
       chrome.runtime.sendMessage(
@@ -238,10 +199,8 @@ function App() {
         },
         function (response) {
           if (!chrome.runtime.lastError) {
-            setGas(response);
-            response && response();
+            useG.setGas(response);
           } else {
-            response && response();
           }
         },
       );
@@ -256,54 +215,52 @@ function App() {
         rootRef.current.style.bottom = pos[1];
       }
     }
-    dragElement(rootRef.current);
-
-    // document.addEventListener("click", () => {
-    //   useG.setShowMain(false);
-    // });
+    rootRef.current && dragElement(rootRef.current);
   }, []);
 
   return (
     <>
       <GlobalContext.Provider value={useG}>
         <WalletContext.Provider value={wallet}>
-          {!hide && !useG.showMain && (
-            <RootElement
-              id="metapavo-box"
-              className={[
-                "web3-spin",
-                status === "danger" ? "metapavo-main-status-danger" : "",
-                status === "success" ? "metapavo-main-status-success" : "",
-                addRootClass,
-              ].join(" ")}
+          <RootElement
+            id="metapavo-box"
+            className={[
+              "web3-spin",
+              useG.detectStatus === "danger" ? "metapavo-main-status-danger" : "",
+              useG.detectStatus === "success" ? "metapavo-main-status-success" : "",
+              useG.addRootClass,
+            ].join(" ")}
+            ref={rootRef}
+            style={{
+              display: !hide && !useG.showMain ? "block" : "none",
+            }}
+          >
+            <div
+              id="metapavo-box-gas"
               title="Drag to move"
-              ref={rootRef}
-              onDoubleClick={() => {
+              onDoubleClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 setHide(true);
                 setTimeout(() => {
                   setHide(false);
                 }, 10000);
               }}
-              onClick={() => {
-                useG.setShowMain(!useG.showMain);
+              onMouseEnter={() => {
+                if (useG.detectStatus === "success") {
+                  useG.showSuccess();
+                }
               }}
             >
-              <div
-                id="metapavo-box-gas"
-                onMouseEnter={() => {
-                  if (status === "success") {
-                    showSuccess();
-                  }
-                }}
-              >
-                <div id="metapavo-gas-text">{gas}</div>
-              </div>
-              <DangerPopup state={addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
-              <SuccessPopup
-                state={addRootClass === "metapavo-main-box-success" ? "show" : "hide"}
-              />
-            </RootElement>
-          )}
+              <div id="metapavo-gas-text">{useG.gas}</div>
+            </div>
+            <DangerPopup
+              state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"}
+            />
+            <SuccessPopup
+              state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"}
+            />
+          </RootElement>
           {useG.showMain ? <Main /> : null}
         </WalletContext.Provider>
       </GlobalContext.Provider>

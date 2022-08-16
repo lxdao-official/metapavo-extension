@@ -1,3 +1,5 @@
+import { getNftByTwitterId } from "../apis/nft_api";
+import { IProject } from "../apis/types";
 import { Detector, PageDetail, PostDetail, Project, ScamResult } from "../detector/src";
 
 let detector: Detector | null = null;
@@ -142,15 +144,10 @@ export const checkTwitterScam: (
   } as checkTwitterResult;
 };
 
-export const detectProjectByTwitterId: (twitterId: string) => Promise<Project | null> = async (
+export const detectProjectByTwitterId: (twitterId: string) => Promise<IProject | null> = async (
   twitterId: string,
 ) => {
-  if (detector?.fetching) {
-    await delay(1000);
-    return await detectProjectByTwitterId(twitterId);
-  }
-
-  return (await detector?.detectProjectByTwitterId(twitterId)) || null;
+  return await getNftByTwitterId(twitterId);
 };
 
 export const detectProjectByTwitterIdFromServer: (

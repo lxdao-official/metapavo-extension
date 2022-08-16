@@ -7,7 +7,10 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./extention";
+import useGlobal from "../../context/global";
+import { NoFound } from "./nofound";
 import { Bottom_1, Bottom_2, Bottom_3 } from "../assets/Svgs";
+
 const css = `
 ::-webkit-scrollbar {
   width: 0px;
@@ -40,29 +43,22 @@ const css = `
         -webkit-animation: slideshow 5s linear infinite;
         animation: slideshow 5s linear infinite;
       }
-      svg{
-        width:14px;
-        height:14px;
-      }
+      
 `;
 const AccordionPage = () => {
-  const [expanded, setExpanded] = React.useState<string | false>(false);
-
-  const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const { activeProject, activeAccoidion, setActiveAccoidion } = useGlobal();
 
   return (
     <div>
       <style type="text/css">{css}</style>
       <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
+        expanded={activeAccoidion === 0}
+        onChange={() => setActiveAccoidion(0)}
         sx={{ fontSize: "14px" }}
       >
         <AccordionSummary
           expandIcon={
-            expanded === "panel1" ? (
+            activeAccoidion === 0 ? (
               <RemoveIcon sx={{ fontSize: "14px" }} />
             ) : (
               <AddIcon sx={{ color: "#5B28EB", fontSize: "14px" }} />
@@ -78,13 +74,13 @@ const AccordionPage = () => {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
+        expanded={activeAccoidion == 1}
+        onChange={() => setActiveAccoidion(1)}
         sx={{ fontSize: "14px" }}
       >
         <AccordionSummary
           expandIcon={
-            expanded === "panel2" ? (
+            activeAccoidion === 1 ? (
               <RemoveIcon sx={{ fontSize: "14px" }} />
             ) : (
               <AddIcon sx={{ color: "#5B28EB", fontSize: "14px" }} />
@@ -93,10 +89,12 @@ const AccordionPage = () => {
           aria-controls="panel2bh-content"
           id="panel2bh-header"
         >
-          <Typography sx={{ width: "33%", flexShrink: 0, fontSize: "14px" }}>Moonbirds</Typography>
+          <Typography sx={{ width: "33%", flexShrink: 0, fontSize: "14px" }}>
+            {activeProject?.name || "unknown"}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0 }}>
-          <Extention />
+          {activeProject ? <Extention /> : <NoFound />}
         </AccordionDetails>
       </Accordion>
 
