@@ -9,10 +9,19 @@ type RecognizerStatus = "danger" | "warning" | "success" | "none";
 export const GlobalContext = React.createContext<{
   showMain: boolean;
   setShowMain: (showMain: boolean) => void;
-}>({
-  showMain: false,
-  setShowMain: () => {},
-});
+  activeProject: IProject | null;
+  setActiveProject: (activeProject: IProject | null) => void;
+  detectStatus: RecognizerStatus;
+  setDetectStatus: (detectStatus: RecognizerStatus) => void;
+  checkTwitter: () => void;
+  addRootClass: string;
+  showSuccess: () => void;
+  gas: number;
+  setGas: (gas: number) => void;
+  activeAccoidion: number;
+  setActiveAccoidion: (activeAccoidion: number) => void;
+  setAddRootClass: (addRootClass: string) => void;
+}>({} as any);
 function useGlobal() {
   const [showMain, setShowMain] = React.useState(false);
   const [activeProject, setActiveProject] = React.useState<IProject | null>(null);
@@ -24,7 +33,7 @@ function useGlobal() {
     setAddRootClass("metapavo-main-box-success");
     setTimeout(() => {
       setAddRootClass("");
-    }, 5000);
+    }, 8000);
   }
   function checkTwitter() {
     let lastCheckTwitterId: string | null = null;
@@ -79,6 +88,7 @@ function useGlobal() {
     setGas,
     activeAccoidion,
     setActiveAccoidion,
+    setAddRootClass,
   };
 }
 export default useGlobal;
