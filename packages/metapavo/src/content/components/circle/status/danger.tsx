@@ -5,6 +5,7 @@ const RootElement = styled.div`
   transition: all 1s ease-in-out;
   width: 0;
   height: 0;
+  overflow: hidden;
   position: absolute;
   &.mp-danger-show {
     opacity: 1;

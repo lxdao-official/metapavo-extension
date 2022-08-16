@@ -7,6 +7,7 @@ const RootElement = styled.div`
   position: absolute;
   width: 0;
   height: 0;
+  overflow: hidden;
   &.mp-danger-show {
     opacity: 1;
     width: auto;

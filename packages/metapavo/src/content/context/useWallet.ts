@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import config from "../../config";
-import { fetchWrapped } from "../apis/fetch";
+import { fetchWrapped } from "../../apis/fetch";
 
 export const WalletContext = React.createContext<{
   address: string;

@@ -23,23 +23,17 @@ const LoginPage = () => {
   useEffect(() => {}, []);
   const mainImage = chrome.runtime.getURL("images/main.jpg");
   return (
-    <WalletContext.Consumer>
-      {(context) => {
-        return (
-          <div style={{}}>
-            <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} />
-            <div style={{ marginTop: "100px", width: "100%", textAlign: "center" }}>
-              {/* {context.loginedAddress ? <div>{context.loginedAddress}</div> : <ConnectWallet />} */}
-              <ConnectWallet
-                loginSuccess={() => {
-                  navigate("/index");
-                }}
-              />
-            </div>
-          </div>
-        );
-      }}
-    </WalletContext.Consumer>
+    <div style={{}}>
+      <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} />
+      <div style={{ marginTop: "100px", width: "100%", textAlign: "center" }}>
+        {/* {context.loginedAddress ? <div>{context.loginedAddress}</div> : <ConnectWallet />} */}
+        <ConnectWallet
+          loginSuccess={() => {
+            navigate("/index");
+          }}
+        />
+      </div>
+    </div>
   );
 };
 
