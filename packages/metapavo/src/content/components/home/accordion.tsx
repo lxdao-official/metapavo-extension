@@ -9,6 +9,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./extention";
 import useGlobal, { GlobalContext } from "../../context/global";
 import { NoFound } from "./nofound";
+import { Bottom_1, Bottom_2, Bottom_3 } from "../assets/Svgs";
 
 const css = `
 ::-webkit-scrollbar {
@@ -156,7 +157,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Box sx={{ mr: "5px" }}>#</Box>
+            <Bottom_1 sx={{ mr: "5px", fontSize: "inherit" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               31gwei
             </Box>
@@ -168,7 +169,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Box sx={{ mr: "5px" }}>#</Box>
+            <Bottom_2 sx={{ mr: "5px", fontSize: "inherit" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               $1,350
             </Box>
@@ -180,7 +181,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Box sx={{ mr: "5px" }}>#</Box>
+            <Bottom_3 sx={{ mr: "5px", fontSize: "inherit" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               1233,992,212
             </Box>

@@ -1,8 +1,9 @@
 import React, { useContext, useRef } from "react";
 import { Box, MenuItem, Select, FormControl } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { Shield_check, Shield_error, Component1, Ellipsis, Btc, Left_Icon } from "../assets/Svgs";
 import useGlobal, { GlobalContext } from "../../context/global";
-
 const css = `
     .tabInner{
       text-align:left
@@ -28,6 +29,8 @@ const css = `
     .icon{
       margin-right:15px;
       margin-left:12px;
+      width:20px;
+      height:20px;
     }
     .boxText{
       display: flex;
@@ -45,7 +48,7 @@ const css = `
       margin-top:12px;
     }
     .ellipsis{
-      width:16px:
+      width:16px;
       height:8px;
       background: #24292E;
       color:#fff;
@@ -112,7 +115,12 @@ const css = `
       font-size:14px;
     }
 `;
-
+const mookData = [
+  { label: "总市值", value: "$7,959,038.01", date: "24H", rate: 800 },
+  { label: "持有者", value: "$7,959,038.01", date: "24H", rate: -800 },
+  { label: "交易量（24H）", value: "$7,959,038.01", date: "24H", rate: -800 },
+  { label: "地板价", value: "$7,959,038.01", date: "24H", rate: 800 },
+];
 const card = (obj: any) => (
   <Box
     component="div"
@@ -128,8 +136,17 @@ const card = (obj: any) => (
     }}
   >
     <Box
-      sx={{ mb: "6.36px", fontWeight: 700, fontSize: "9px", lineHeight: "11px", color: "#A9A8AF" }}
+      sx={{
+        mb: "6.36px",
+        fontWeight: 700,
+        fontSize: "9px",
+        lineHeight: "11px",
+        color: "#A9A8AF",
+        display: "flex",
+        alignItems: "center",
+      }}
     >
+      <Box sx={{ mr: 0.5, fontSize: "14px" }}>{obj.icon}</Box>
       {obj.label}
     </Box>
     <Box sx={{ mb: 1.5, fontWeight: 700, fontSize: "14px", color: "#353536", lineHeight: "17px" }}>
@@ -281,13 +298,13 @@ const MoonbirdsTab1 = (props: MediaProps) => {
   return (
     <div className="tabInner">
       <style type="text/css">{css}</style>
+
       {detectStatus === "danger" && (
         <div className="message">
-          <i className="icon">#</i>
+          <Shield_error className="icon" />
           该项目存在风险，有可能是某知名项目的仿盘，确定你已经对该项目已经有充分了解！
         </div>
       )}
-
       <Box sx={{ p: 2.25 }}>
         <Box sx={{ display: "flex" }}>
           <Skeleton variant="rectangular" width={85} height={85} />
@@ -295,8 +312,17 @@ const MoonbirdsTab1 = (props: MediaProps) => {
             component={"div"}
             sx={{ ml: 2.5, display: "flex", justifyContent: "center", flexDirection: "column" }}
           >
-            <Box sx={{ fontWeight: 600, fontSize: "14px", lineHeight: "17px" }}>
+            <Box
+              sx={{
+                fontWeight: 600,
+                fontSize: "14px",
+                lineHeight: "17px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               {activeProject?.name}
+              <Component1 sx={{ ml: 0.5, width: "16px", height: "16px" }} />
             </Box>
             <Box
               sx={{
@@ -305,16 +331,21 @@ const MoonbirdsTab1 = (props: MediaProps) => {
                 lineHeight: "17px",
                 color: "#A9A8AF",
                 mt: 0.75,
+                display: "flex",
               }}
             >
               {activeProject?.contract_address
                 ? formatAddress(activeProject?.contract_address)
                 : ""}
+              <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
             </Box>
             <Box className="boxText">ERC721{activeProject?.type}</Box>
           </Box>
         </Box>
-        <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>{activeProject?.describe}</Box>
+        <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>
+          {activeProject?.describe}
+          <Ellipsis className="ellipsis" />
+        </Box>
       </Box>
       <Box
         sx={{
@@ -407,12 +438,54 @@ const options = [
   { name: "Recent Mint", id: "3" },
 ];
 const mockEvent = [
-  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
-  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
-  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
-  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
-  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
-  { icon: "#", avatar: "", title: "#3472", content: "Rank 2331", date: "1h ago", price: 0.02 },
+  {
+    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
+    avatar: "",
+    title: "#3472",
+    content: "Rank 2331",
+    date: "1h ago",
+    price: 0.02,
+  },
+  {
+    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
+    avatar: "",
+    title: "#3472",
+    content: "Rank 2331",
+    date: "1h ago",
+    price: 0.02,
+  },
+  {
+    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
+    avatar: "",
+    title: "#3472",
+    content: "Rank 2331",
+    date: "1h ago",
+    price: 0.02,
+  },
+  {
+    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
+    avatar: "",
+    title: "#3472",
+    content: "Rank 2331",
+    date: "1h ago",
+    price: 0.02,
+  },
+  {
+    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
+    avatar: "",
+    title: "#3472",
+    content: "Rank 2331",
+    date: "1h ago",
+    price: 0.02,
+  },
+  {
+    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
+    avatar: "",
+    title: "#3472",
+    content: "Rank 2331",
+    date: "1h ago",
+    price: 0.02,
+  },
 ];
 
 const line = (obj: any) => (
@@ -452,8 +525,18 @@ const line = (obj: any) => (
         </Box>
       </Box>
     </Box>
-    <Box sx={{ pr: "18px", fontWeight: 500, fontSize: "14px", lineHeight: "17px" }}>
-      #{obj.price}
+    <Box
+      sx={{
+        pr: "18px",
+        fontWeight: 500,
+        fontSize: "14px",
+        lineHeight: "17px",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <Btc sx={{ fontSize: "inherit" }} />
+      {obj.price}
     </Box>
   </Box>
 );

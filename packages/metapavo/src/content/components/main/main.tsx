@@ -55,7 +55,7 @@ function App() {
           useG.setShowMain(!useG.showMain);
         }}
       >
-        <ClearIcon />
+        <ClearIcon sx={{ height: "17px", width: "17px" }} />
       </Box>
       <div>
         {/* <AccordionPage /> */}
