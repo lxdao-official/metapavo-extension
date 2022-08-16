@@ -47,21 +47,21 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           <path
             d="M288 33L298 43"
             stroke="#D1D0D6"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M288 43L298 33"
             stroke="#D1D0D6"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M325 59.5H18V60.5H325V59.5Z"
             fill="black"
-            fill-opacity="0.1"
+            fillOpacity="0.1"
             mask="url(#path-2-inside-1_251_1358)"
           />
           <path
@@ -108,9 +108,9 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
             width="343"
             height="203"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
+            colorInterpolationFilters="sRGB"
           >
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"
@@ -180,9 +180,9 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
             y2="140.328"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#7DE2AC" />
-            <stop offset="0.503923" stop-color="#389DFA" />
-            <stop offset="1" stop-color="#9F50FF" />
+            <stop stopColor="#7DE2AC" />
+            <stop offset="0.503923" stopColor="#389DFA" />
+            <stop offset="1" stopColor="#9F50FF" />
           </linearGradient>
           <image
             id="image0_251_1358"

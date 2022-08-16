@@ -200,9 +200,7 @@ function App() {
         function (response) {
           if (!chrome.runtime.lastError) {
             useG.setGas(response);
-            response && response();
           } else {
-            response && response();
           }
         },
       );
@@ -217,51 +215,52 @@ function App() {
         rootRef.current.style.bottom = pos[1];
       }
     }
-    dragElement(rootRef.current);
+    rootRef.current && dragElement(rootRef.current);
   }, []);
 
   return (
     <>
       <GlobalContext.Provider value={useG}>
         <WalletContext.Provider value={wallet}>
-          {!hide && !useG.showMain && (
-            <RootElement
-              id="metapavo-box"
-              className={[
-                "web3-spin",
-                useG.circleStatus === "danger" ? "metapavo-main-status-danger" : "",
-                useG.circleStatus === "success" ? "metapavo-main-status-success" : "",
-                useG.addRootClass,
-              ].join(" ")}
-              ref={rootRef}
+          <RootElement
+            id="metapavo-box"
+            className={[
+              "web3-spin",
+              useG.detectStatus === "danger" ? "metapavo-main-status-danger" : "",
+              useG.detectStatus === "success" ? "metapavo-main-status-success" : "",
+              useG.addRootClass,
+            ].join(" ")}
+            ref={rootRef}
+            style={{
+              display: !hide && !useG.showMain ? "block" : "none",
+            }}
+          >
+            <div
+              id="metapavo-box-gas"
+              title="Drag to move"
+              onDoubleClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setHide(true);
+                setTimeout(() => {
+                  setHide(false);
+                }, 10000);
+              }}
+              onMouseEnter={() => {
+                if (useG.detectStatus === "success") {
+                  useG.showSuccess();
+                }
+              }}
             >
-              <div
-                id="metapavo-box-gas"
-                title="Drag to move"
-                onDoubleClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setHide(true);
-                  setTimeout(() => {
-                    setHide(false);
-                  }, 10000);
-                }}
-                onMouseEnter={() => {
-                  if (useG.circleStatus === "success") {
-                    useG.showSuccess();
-                  }
-                }}
-              >
-                <div id="metapavo-gas-text">{useG.gas}</div>
-              </div>
-              <DangerPopup
-                state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"}
-              />
-              <SuccessPopup
-                state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"}
-              />
-            </RootElement>
-          )}
+              <div id="metapavo-gas-text">{useG.gas}</div>
+            </div>
+            <DangerPopup
+              state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"}
+            />
+            <SuccessPopup
+              state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"}
+            />
+          </RootElement>
           {useG.showMain ? <Main /> : null}
         </WalletContext.Provider>
       </GlobalContext.Provider>

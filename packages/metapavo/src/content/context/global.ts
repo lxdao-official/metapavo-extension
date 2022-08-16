@@ -16,9 +16,10 @@ export const GlobalContext = React.createContext<{
 function useGlobal() {
   const [showMain, setShowMain] = React.useState(false);
   const [activeProject, setActiveProject] = React.useState<IProject | null>(null);
-  const [circleStatus, setCircleStatus] = React.useState<RecognizerStatus>("none");
+  const [detectStatus, setDetectStatus] = React.useState<RecognizerStatus>("none");
   const [addRootClass, setAddRootClass] = React.useState("");
   const [gas, setGas] = React.useState(0);
+  const [activeAccoidion, setActiveAccoidion] = React.useState(0);
   function showSuccess() {
     setAddRootClass("metapavo-main-box-success");
     setTimeout(() => {
@@ -33,13 +34,13 @@ function useGlobal() {
         if (lastCheckTwitterId !== twitterPageDetail.userId) {
           const projectInfo = await detectProjectByTwitterId(twitterPageDetail?.userId);
           if (projectInfo) {
-            setCircleStatus("success");
+            setDetectStatus("success");
             setTimeout(() => {
               showSuccess();
             }, 1000);
             setActiveProject(projectInfo);
           } else {
-            setCircleStatus("none");
+            setDetectStatus("none");
             setActiveProject(null);
             setTimeout(() => {
               setAddRootClass("");
@@ -47,7 +48,7 @@ function useGlobal() {
           }
           const twitterInfo = await checkTwitterScam(twitterPageDetail);
           if (twitterInfo?.detectResult) {
-            setCircleStatus("danger");
+            setDetectStatus("danger");
             setTimeout(() => {
               setAddRootClass("metapavo-main-box-danger");
             }, 1000);
@@ -55,7 +56,7 @@ function useGlobal() {
         }
         lastCheckTwitterId = twitterPageDetail.userId;
       } else {
-        setCircleStatus("none");
+        setDetectStatus("none");
         setActiveProject(null);
         setTimeout(() => {
           setAddRootClass("");
@@ -69,13 +70,15 @@ function useGlobal() {
     setShowMain,
     activeProject,
     setActiveProject,
-    circleStatus,
-    setCircleStatus,
+    detectStatus,
+    setDetectStatus,
     checkTwitter,
     addRootClass,
     showSuccess,
     gas,
     setGas,
+    activeAccoidion,
+    setActiveAccoidion,
   };
 }
 export default useGlobal;

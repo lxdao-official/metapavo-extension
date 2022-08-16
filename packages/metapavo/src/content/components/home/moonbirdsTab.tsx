@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Box, MenuItem, Select, FormControl } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
+import useGlobal, { GlobalContext } from "../../context/global";
 
 const css = `
     .tabInner{
@@ -111,12 +112,7 @@ const css = `
       font-size:14px;
     }
 `;
-const mookData = [
-  { label: "总市值", value: "$7,959,038.01", date: "24H", rate: 800 },
-  { label: "持有者", value: "$7,959,038.01", date: "24H", rate: -800 },
-  { label: "交易量（24H）", value: "$7,959,038.01", date: "24H", rate: -800 },
-  { label: "地板价", value: "$7,959,038.01", date: "24H", rate: 800 },
-];
+
 const card = (obj: any) => (
   <Box
     component="div"
@@ -158,54 +154,31 @@ const card = (obj: any) => (
   </Box>
 );
 
-const mockInfo = [
-  {
-    name: "Collection info",
-    array: [
-      { icon: "", label: "onchainroyale.xyz" },
-      { icon: "", label: "Etherscan" },
-    ],
-  },
-  {
-    name: "Buy now",
-    array: [
-      { icon: "", label: "Opensea" },
-      { icon: "", label: "Looksrare" },
-      { icon: "", label: "X2Y2" },
-    ],
-  },
-  {
-    name: "Soicial Media",
-    array: [
-      { icon: "", label: "Twitter" },
-      { icon: "", label: "Discord" },
-    ],
-  },
-];
-
 const info = (obj: any) => (
   <Box sx={{ mb: 2.25, mx: 3, textAlign: "left" }}>
     <Box sx={{ fontWeight: 500, fontSize: "12px", lineHeight: "15px", mb: "14px" }}>{obj.name}</Box>
     <Box sx={{ display: "flex", flexWrap: "wrap" }}>
       {obj.array.map((item: any) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "12px",
-            lineHeight: "15px",
-            mr: 1,
-            background: "rgba(248, 247, 249, 0.5)",
-            border: "0.8px solid #D7D7D7",
-            borderRadius: "6.4px",
-            p: "10px",
-            mb: 2,
-          }}
-        >
-          <i>#</i>
-          {item.label}
-        </Box>
+        <a href={item.link} target="_blank" rel="noreferrer">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "12px",
+              lineHeight: "15px",
+              mr: 1,
+              background: "rgba(248, 247, 249, 0.5)",
+              border: "0.8px solid #D7D7D7",
+              borderRadius: "6.4px",
+              p: "10px",
+              mb: 2,
+            }}
+          >
+            <i>#</i>
+            {item.label}
+          </Box>
+        </a>
       ))}
     </Box>
   </Box>
@@ -213,17 +186,108 @@ const info = (obj: any) => (
 interface MediaProps {
   loading?: boolean;
 }
+
+function formatAddress(address: string) {
+  // ens
+  if (address.includes(".")) {
+    return address;
+  }
+  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+}
 const MoonbirdsTab1 = (props: MediaProps) => {
   const { loading = false } = props;
+  const { activeProject, detectStatus } = useGlobal();
+  const mookData = [
+    {
+      label: "总市值",
+      value: `$${activeProject?.total_sales?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+    {
+      label: "持有者",
+      value: `$${activeProject?.num_owners?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+    {
+      label: "交易量（24H）",
+      value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+    {
+      label: "交易量（7D）",
+      value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+    {
+      label: "地板价",
+      value: `$${activeProject?.floor_price?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+  ];
 
+  const moreDataInfo = [
+    {
+      name: "More Data",
+      array: [
+        { link: `https://www.nftscan.com/${activeProject?.contract_address}`, label: "NFTEye" },
+        {
+          link: `https://nftnerds.ai/collection/${activeProject?.contract_address}/liveview`,
+          label: "NFTNerds",
+        },
+      ],
+    },
+  ];
+  const linksInfo = [
+    {
+      name: "Collection info",
+      array: [
+        { icon: "", label: "onchainroyale.xyz" },
+        {
+          link: `https://etherscan.io/address/${activeProject?.contract_address}`,
+          label: "Etherscan",
+        },
+        { link: `${activeProject?.external_url}`, label: "Website" },
+        { link: `${activeProject?.github}`, label: "Github" },
+      ],
+    },
+    {
+      name: "Buy now",
+      array: [
+        {
+          link: `https://opensea.io/assets/ethereum/${activeProject?.contract_address}`,
+          label: "OpenSea",
+        },
+        {
+          icon: `https://looksrare.org/collections/${activeProject?.contract_address}`,
+          label: "Looksrare",
+        },
+        { icon: `https://x2y2.io/eth/${activeProject?.contract_address}`, label: "X2Y2" },
+      ],
+    },
+    {
+      name: "Soicial Media",
+      array: [
+        { link: `https://twitter.com/${activeProject?.twitter_username}`, label: "Twitter" },
+        { link: `https://discord.gg/${activeProject?.discord_url}`, label: "Discord" },
+        { link: `https://t.me/${activeProject?.instagram_username}`, label: "Instagram" },
+      ],
+    },
+  ];
   return (
     <div className="tabInner">
       <style type="text/css">{css}</style>
+      {detectStatus === "danger" && (
+        <div className="message">
+          <i className="icon">#</i>
+          该项目存在风险，有可能是某知名项目的仿盘，确定你已经对该项目已经有充分了解！
+        </div>
+      )}
 
-      <div className="message">
-        <i className="icon">#</i>
-        该项目存在风险，有可能是某知名项目的仿盘，确定你已经对该项目已经有充分了解！
-      </div>
       <Box sx={{ p: 2.25 }}>
         <Box sx={{ display: "flex" }}>
           <Skeleton variant="rectangular" width={85} height={85} />
@@ -231,7 +295,9 @@ const MoonbirdsTab1 = (props: MediaProps) => {
             component={"div"}
             sx={{ ml: 2.5, display: "flex", justifyContent: "center", flexDirection: "column" }}
           >
-            <Box sx={{ fontWeight: 600, fontSize: "14px", lineHeight: "17px" }}>Moonbirds</Box>
+            <Box sx={{ fontWeight: 600, fontSize: "14px", lineHeight: "17px" }}>
+              {activeProject?.name}
+            </Box>
             <Box
               sx={{
                 fontWeight: 500,
@@ -241,16 +307,14 @@ const MoonbirdsTab1 = (props: MediaProps) => {
                 mt: 0.75,
               }}
             >
-              0xF71296...e2161C4
+              {activeProject?.contract_address
+                ? formatAddress(activeProject?.contract_address)
+                : ""}
             </Box>
-            <Box className="boxText">ERC721</Box>
+            <Box className="boxText">ERC721{activeProject?.type}</Box>
           </Box>
         </Box>
-        <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>
-          This is an image of a Lucky Cat. The left paw beckons people and the right paw money. This
-          timeThis is an image of a Lucky Cat
-          <i className="ellipsis">...</i>
-        </Box>
+        <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>{activeProject?.describe}</Box>
       </Box>
       <Box
         sx={{
@@ -262,22 +326,46 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       >
         {mookData.map((ii) => card(ii))}
       </Box>
-      <Box sx={{ mt: 2.5 }}>{mockInfo.map((ii) => info(ii))}</Box>
+      <Box sx={{ mt: 2.5 }}>{linksInfo.map((ii) => info(ii))}</Box>
+      <Box sx={{ mt: 2.5 }}>{moreDataInfo.map((ii) => info(ii))}</Box>
     </div>
   );
 };
 
-const mockInfo_ = [
-  {
-    name: "More Data",
-    array: [
-      { icon: "", label: "NFTEye" },
-      { icon: "", label: "NFTNerds" },
-      { icon: "", label: "NFTgo" },
-    ],
-  },
-];
 const MoonbirdsTab2 = () => {
+  const { activeProject, detectStatus } = useGlobal();
+  const mookData = [
+    {
+      label: "总市值",
+      value: `$${activeProject?.total_sales?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+    {
+      label: "持有者",
+      value: `$${activeProject?.num_owners?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+    {
+      label: "交易量（24H）",
+      value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+    {
+      label: "交易量（7D）",
+      value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+    {
+      label: "地板价",
+      value: `$${activeProject?.floor_price?.toLocaleString()}`,
+      date: "24H",
+      rate: 0,
+    },
+  ];
   return (
     <div>
       <style type="text/css">{css}</style>
@@ -307,7 +395,7 @@ const MoonbirdsTab2 = () => {
         </Box>
         <Skeleton variant="rectangular" width={"100%"} height={162} />
       </Box>
-      <Box sx={{ mt: 2.5 }}>{mockInfo_.map((ii) => info(ii))}</Box>
+      {/* <Box sx={{ mt: 2.5 }}>{mockInfo_.map((ii) => info(ii))}</Box> */}
     </div>
   );
 };

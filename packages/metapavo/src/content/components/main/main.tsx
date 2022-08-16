@@ -77,20 +77,20 @@ function App() {
             useG.setShowMain(false);
           }}
         >
-          <rect width="36" height="36" fill="#EFEFEF" fill-opacity="0.64" />
+          <rect width="36" height="36" fill="#EFEFEF" fillOpacity="0.64" />
           <path
             d="M13 13L23 23"
             stroke="#D1D0D6"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M13 23L23 13"
             stroke="#D1D0D6"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       ) : null}
