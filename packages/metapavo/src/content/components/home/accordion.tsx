@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./extention";
-
+import { Bottom_1, Bottom_2, Bottom_3 } from "../assets/Svgs";
 const css = `
 ::-webkit-scrollbar {
   width: 0px;
@@ -159,7 +159,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Box sx={{ mr: "5px" }}>#</Box>
+            <Bottom_1 sx={{ mr: "5px", fontSize: "inherit" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               31gwei
             </Box>
@@ -171,7 +171,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Box sx={{ mr: "5px" }}>#</Box>
+            <Bottom_2 sx={{ mr: "5px", fontSize: "inherit" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               $1,350
             </Box>
@@ -183,7 +183,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Box sx={{ mr: "5px" }}>#</Box>
+            <Bottom_3 sx={{ mr: "5px", fontSize: "inherit" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               1233,992,212
             </Box>

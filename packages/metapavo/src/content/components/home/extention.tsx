@@ -11,7 +11,7 @@ import {
   Graph_1,
   Checklist,
   Checklist_1,
-} from "./../assets/mortar-board-1";
+} from "../assets/Svgs";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -66,6 +66,7 @@ function Extention() {
               )
             }
             {...a11yProps(0)}
+            sx={{ flex: 1 }}
           />
           <Tab
             icon={
@@ -76,6 +77,7 @@ function Extention() {
               )
             }
             {...a11yProps(1)}
+            sx={{ flex: 1 }}
           />
           <Tab
             icon={
@@ -86,6 +88,7 @@ function Extention() {
               )
             }
             {...a11yProps(2)}
+            sx={{ flex: 1 }}
           />
         </Tabs>
       </Box>
