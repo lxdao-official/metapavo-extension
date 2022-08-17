@@ -70,7 +70,10 @@ const testHistoryHotData = [
     userIcon: history_icon2,
     useName: "Azuki",
     userEth: "Floor: 120 E",
-    links: [{ link: "", img: link1 }, { link: "", img: link2 }],
+    links: [
+      { link: "", img: link1 },
+      { link: "", img: link2 },
+    ],
     dayTime: "3月23日",
     hourTime: "8:23 pm",
   },
@@ -105,7 +108,10 @@ const testHostoryAll = [
     userIcon: history_icon2,
     useName: "Azuki",
     userEth: "Floor: 120 E",
-    links: [{ link: "", img: link1 }, { link: "", img: link2 }],
+    links: [
+      { link: "", img: link1 },
+      { link: "", img: link2 },
+    ],
     dayTime: "3月23日",
     hourTime: "8:23 pm",
   },
