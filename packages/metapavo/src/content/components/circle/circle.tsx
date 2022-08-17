@@ -196,6 +196,8 @@ function App() {
 
   useEffect(() => {
     useG.checkTwitter();
+    useG.checkOpenSea();
+    useG.checkWebsite();
 
     (async function () {
       chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {

@@ -47,8 +47,40 @@ const css = `
       
 `;
 const AccordionPage = () => {
-  const { activeProject, activeAccoidion, setActiveAccoidion } = useContext(GlobalContext);
+  const { activeProject, activeAccoidion, setActiveAccoidion, gas } = useContext(GlobalContext);
+  const [btcprice, setBtcprice] = React.useState(0);
+  const [ethprice, setEthprice] = React.useState(0);
+  async function getPrice() {
+    const result = await fetch("https://data.messari.io/api/v1/assets/eth/metrics/market-data", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "5b8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8f",
+      },
+    });
 
+    const data = await result.json();
+    if (data.data && data.data.market_data) {
+      const _ethprice = data.data.market_data.price_usd;
+      setEthprice(_ethprice);
+    }
+    const resbtc = await fetch("https://data.messari.io/api/v1/assets/btc/metrics/market-data", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "5b8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8f",
+      },
+    });
+
+    const databtc = await resbtc.json();
+    if (databtc.data && databtc.data.market_data) {
+      const _btcprice = databtc.data.market_data.price_usd;
+      setBtcprice(_btcprice);
+    }
+  }
+  useEffect(() => {
+    getPrice();
+  });
   return (
     <div>
       <style type="text/css">{css}</style>
@@ -162,7 +194,7 @@ const AccordionPage = () => {
           >
             <Bottom_1 sx={{ mr: "5px", fontSize: "inherit" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
-              31gwei
+              {gas}gwei
             </Box>
           </Box>
           <Box
@@ -174,7 +206,7 @@ const AccordionPage = () => {
           >
             <Bottom_2 sx={{ mr: "5px", fontSize: "inherit" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
-              $1,350
+              ${ethprice.toLocaleString()}
             </Box>
           </Box>
           <Box
@@ -186,7 +218,7 @@ const AccordionPage = () => {
           >
             <Bottom_3 sx={{ mr: "5px", fontSize: "inherit" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
-              1233,992,212
+              ${btcprice.toLocaleString()}
             </Box>
           </Box>
         </Box>
