@@ -2,7 +2,15 @@ import React, { useContext, useRef } from "react";
 import { Box, MenuItem, Select, FormControl } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { Shield_check, Shield_error, Component1, Ellipsis, Btc, Left_Icon } from "../assets/Svgs";
+import {
+  Shield_check,
+  Shield_error,
+  Component1,
+  Ellipsis,
+  Btc,
+  Left_Icon,
+  Fliter,
+} from "../assets/Svgs";
 import useGlobal, { GlobalContext } from "../../context/global";
 const css = `
     .tabInner{
@@ -74,9 +82,9 @@ const css = `
       display: flex;
       border: none;
       outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
+      // appearance: none;
+      // -webkit-appearance: none;
+      // -moz-appearance: none;
     }
     .topSelect{
       display: flex;
@@ -88,7 +96,7 @@ const css = `
       border: 1px solid #E5E3E6;
       border-radius: 6px;
       margin:15px 11px 25px 12px;
-      width:calc(100% - 23px - 32px);
+      width:calc(100% - 23px);
       color: #D7D7D7;
       outline: none;
       appearance: none;
@@ -115,12 +123,6 @@ const css = `
       font-size:14px;
     }
 `;
-const mookData = [
-  { label: "总市值", value: "$7,959,038.01", date: "24H", rate: 800 },
-  { label: "持有者", value: "$7,959,038.01", date: "24H", rate: -800 },
-  { label: "交易量（24H）", value: "$7,959,038.01", date: "24H", rate: -800 },
-  { label: "地板价", value: "$7,959,038.01", date: "24H", rate: 800 },
-];
 const card = (obj: any) => (
   <Box
     component="div"
@@ -133,6 +135,7 @@ const card = (obj: any) => (
       border: "0.794574px solid #D7D7D7",
       borderRadius: "6.35659px",
       textAlign: "left",
+      maxWidth: "130px",
     }}
   >
     <Box
@@ -144,6 +147,7 @@ const card = (obj: any) => (
         color: "#A9A8AF",
         display: "flex",
         alignItems: "center",
+        wordBreak: "break-all",
       }}
     >
       <Box sx={{ mr: 0.5, fontSize: "14px" }}>{obj.icon}</Box>
@@ -220,30 +224,35 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       value: `$${activeProject?.total_sales?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: "$",
     },
     {
       label: "持有者",
       value: `$${activeProject?.num_owners?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量（24H）",
       value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量（7D）",
       value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
       value: `$${activeProject?.floor_price?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
   ];
 
@@ -371,30 +380,35 @@ const MoonbirdsTab2 = () => {
       value: `$${activeProject?.total_sales?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: "$",
     },
     {
       label: "持有者",
       value: `$${activeProject?.num_owners?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量（24H）",
       value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量（7D）",
       value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
       value: `$${activeProject?.floor_price?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
   ];
   return (
@@ -543,16 +557,18 @@ const line = (obj: any) => (
 const MoonbirdsTab3 = (props: MediaProps) => {
   const { loading = false } = props;
   const [show, setShow] = React.useState(false);
-  const [val, setVal] = React.useState("0");
+  const [val, setVal] = React.useState(0);
 
   const handleChange = (event: any) => {
-    setVal(event.target.value);
+    setVal(event);
+    setShow(!show);
   };
   return (
     <div className="tabInner">
       <style type="text/css">{css}</style>
       <Box className="topSelect" onClick={() => setShow(!show)}>
-        <div>All Event</div>
+        <div>{options[val]?.name}</div>
+        <Fliter sx={{ width: "15px", height: "15px", mr: "10.5px" }} />
         {show && (
           <Box
             sx={{
@@ -566,13 +582,14 @@ const MoonbirdsTab3 = (props: MediaProps) => {
               paddingBottom: "5px",
             }}
           >
-            {options.map((pp) => (
+            {options.map((pp, ii) => (
               <MenuItem
                 value={pp.id}
                 className="option"
                 sx={{
                   fontSize: "14px",
                 }}
+                onClick={() => handleChange(ii)}
               >
                 {pp.name}
               </MenuItem>

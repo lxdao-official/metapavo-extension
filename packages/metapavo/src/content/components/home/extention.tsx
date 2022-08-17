@@ -1,9 +1,6 @@
 import React, { useRef } from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
-
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { MoonbirdsTab1, MoonbirdsTab2, MoonbirdsTab3 } from "./moonbirdsTab";
-import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import {
   Mortar_board,
   Mortar_board_1,
@@ -55,8 +52,13 @@ function Extention() {
   };
   return (
     <div>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+      <Box sx={{ borderBottom: 1, borderColor: "divider", backgroundColor: "#fff" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+          sx={{ backgroundColor: "#FDFDFD" }}
+        >
           <Tab
             icon={
               value == 0 ? (
