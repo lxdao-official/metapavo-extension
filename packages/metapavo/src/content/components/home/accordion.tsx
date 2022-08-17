@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./extention";
-import useGlobal from "../../context/global";
+import useGlobal, { GlobalContext } from "../../context/global";
 import { NoFound } from "./nofound";
 import { Bottom_1, Bottom_2, Bottom_3 } from "../assets/Svgs";
 
@@ -46,7 +46,7 @@ const css = `
       
 `;
 const AccordionPage = () => {
-  const { activeProject, activeAccoidion, setActiveAccoidion } = useGlobal();
+  const { activeProject, activeAccoidion, setActiveAccoidion } = useContext(GlobalContext);
 
   return (
     <div>

@@ -215,7 +215,7 @@ function formatAddress(address: string) {
 }
 const MoonbirdsTab1 = (props: MediaProps) => {
   const { loading = false } = props;
-  const { activeProject, detectStatus } = useGlobal();
+  const { activeProject, detectStatus } = useContext(GlobalContext);
   const mookData = [
     {
       label: "总市值",
@@ -297,7 +297,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       name: "Soicial Media",
       array: [
         { link: `https://twitter.com/${activeProject?.twitter_username}`, label: "Twitter" },
-        { link: `https://discord.gg/${activeProject?.discord_url}`, label: "Discord" },
+        { link: `${activeProject?.discord_url}`, label: "Discord" },
         { link: `https://t.me/${activeProject?.instagram_username}`, label: "Instagram" },
       ],
     },

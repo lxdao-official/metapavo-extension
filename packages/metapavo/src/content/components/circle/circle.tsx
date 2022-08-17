@@ -49,6 +49,17 @@ const movement = keyframes`
     transform: translateY(5%) rotateY(10deg);
   }
   `;
+
+const boom = keyframes`
+  0% {
+    border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
+    background-color: #b721ff;
+  }
+  100% {
+    border-radius: 16px;
+    background-color: #fff;
+  }
+  `;
 const RootElement = styled.div`
   position: fixed;
   bottom: 50px;
@@ -83,7 +94,7 @@ const RootElement = styled.div`
     background-size: 1600% 1600%;
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
-    transition: all 0.3s ease;
+    transition: all 1s ease;
     perspective: 1000px;
     position: absolute;
     bottom: 0;
@@ -109,18 +120,17 @@ const RootElement = styled.div`
     opacity: 1;
   }
   &.metapavo-main-box-success {
-    width: 340px;
-    height: 203px;
+    width: 307px;
+    height: 167px;
   }
   &.metapavo-main-box-success #metapavo-box-gas {
-    width: 340px;
-    height: 203px;
-    animation: none;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
-    border-radius: 16px;
+    width: 307px;
+    height: 167px;
+    animation: ${boom} 1s ease-in-out both alternate;
     overflow: hidden;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: none;
   }
   #metapavo-gas-text {
     line-height: 50px;
@@ -157,9 +167,8 @@ function App() {
       // get the mouse cursor position at startup:
       pos3 = window.innerWidth - e.clientX;
       pos4 = window.innerHeight - e.clientY;
-      document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.onmousemove = elementDrag;
+      document.addEventListener("mouseup", closeDragElement);
+      document.addEventListener("mousemove", elementDrag);
     }
 
     function elementDrag(e: MouseEvent) {
@@ -180,8 +189,8 @@ function App() {
 
     function closeDragElement() {
       // stop moving when mouse button is released:
-      document.onmouseup = null;
-      document.onmousemove = null;
+      document.removeEventListener("mouseup", closeDragElement);
+      document.removeEventListener("mousemove", elementDrag);
     }
   }
 
@@ -234,6 +243,12 @@ function App() {
             style={{
               display: !hide && !useG.showMain ? "block" : "none",
             }}
+            onMouseEnter={() => {
+              console.log("useG.detectStatus", useG.detectStatus);
+              if (useG.detectStatus === "success") {
+                useG.showSuccess();
+              }
+            }}
           >
             <div
               id="metapavo-box-gas"
@@ -245,11 +260,6 @@ function App() {
                 setTimeout(() => {
                   setHide(false);
                 }, 10000);
-              }}
-              onMouseEnter={() => {
-                if (useG.detectStatus === "success") {
-                  useG.showSuccess();
-                }
               }}
             >
               <div id="metapavo-gas-text">{useG.gas}</div>
