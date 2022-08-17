@@ -10,6 +10,7 @@ import Extention from "./extention";
 import useGlobal, { GlobalContext } from "../../context/global";
 import { NoFound } from "./nofound";
 import { Bottom_1, Bottom_2, Bottom_3 } from "../assets/Svgs";
+import Pavo from "./pavo";
 
 const css = `
 ::-webkit-scrollbar {
@@ -70,7 +71,9 @@ const AccordionPage = () => {
           <Typography sx={{ width: "33%", flexShrink: 0, fontSize: "14px" }}>MetaPavo</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography sx={{ fontSize: "14px" }}>MetaPavo</Typography>
+          <Typography>
+            <Pavo />
+          </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -128,7 +131,7 @@ const AccordionPage = () => {
               borderRadius: "100px",
               mr: "10px",
             }}
-          ></Box>
+          />
           <Box
             sx={{
               fontWeight: 500,
