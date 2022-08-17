@@ -1,9 +1,6 @@
 import React, { useRef } from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
-
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { MoonbirdsTab1, MoonbirdsTab2, MoonbirdsTab3 } from "./moonbirdsTab";
-import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 import {
   Mortar_board,
   Mortar_board_1,

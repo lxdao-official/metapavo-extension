@@ -2,7 +2,15 @@ import React, { useContext, useRef } from "react";
 import { Box, MenuItem, Select, FormControl } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { Shield_check, Shield_error, Component1, Ellipsis, Btc, Left_Icon } from "../assets/Svgs";
+import {
+  Shield_check,
+  Shield_error,
+  Component1,
+  Ellipsis,
+  Btc,
+  Left_Icon,
+  Fliter,
+} from "../assets/Svgs";
 import useGlobal, { GlobalContext } from "../../context/global";
 const css = `
     .tabInner{
@@ -115,12 +123,6 @@ const css = `
       font-size:14px;
     }
 `;
-const mookData = [
-  { label: "总市值", value: "$7,959,038.01", date: "24H", rate: 800 },
-  { label: "持有者", value: "$7,959,038.01", date: "24H", rate: -800 },
-  { label: "交易量（24H）", value: "$7,959,038.01", date: "24H", rate: -800 },
-  { label: "地板价", value: "$7,959,038.01", date: "24H", rate: 800 },
-];
 const card = (obj: any) => (
   <Box
     component="div"
@@ -220,30 +222,35 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       value: `$${activeProject?.total_sales?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: "$",
     },
     {
       label: "持有者",
       value: `$${activeProject?.num_owners?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量（24H）",
       value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量（7D）",
       value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
       value: `$${activeProject?.floor_price?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
   ];
 
@@ -371,30 +378,35 @@ const MoonbirdsTab2 = () => {
       value: `$${activeProject?.total_sales?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: "$",
     },
     {
       label: "持有者",
       value: `$${activeProject?.num_owners?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量（24H）",
       value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量（7D）",
       value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
       value: `$${activeProject?.floor_price?.toLocaleString()}`,
       date: "24H",
       rate: 0,
+      icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
   ];
   return (
@@ -543,16 +555,18 @@ const line = (obj: any) => (
 const MoonbirdsTab3 = (props: MediaProps) => {
   const { loading = false } = props;
   const [show, setShow] = React.useState(false);
-  const [val, setVal] = React.useState("0");
+  const [val, setVal] = React.useState(0);
 
   const handleChange = (event: any) => {
     setVal(event.target.value);
+    setShow(!show);
   };
   return (
     <div className="tabInner">
       <style type="text/css">{css}</style>
       <Box className="topSelect" onClick={() => setShow(!show)}>
-        <div>All Event</div>
+        <div>{options[val]?.name}</div>
+        <Fliter sx={{ width: "15px", height: "15px", mr: "10.5px" }} />
         {show && (
           <Box
             sx={{
@@ -566,13 +580,14 @@ const MoonbirdsTab3 = (props: MediaProps) => {
               paddingBottom: "5px",
             }}
           >
-            {options.map((pp) => (
+            {options.map((pp, ii) => (
               <MenuItem
                 value={pp.id}
                 className="option"
                 sx={{
                   fontSize: "14px",
                 }}
+                onClick={() => handleChange(ii)}
               >
                 {pp.name}
               </MenuItem>
