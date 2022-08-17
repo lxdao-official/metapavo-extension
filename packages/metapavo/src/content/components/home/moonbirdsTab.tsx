@@ -82,9 +82,9 @@ const css = `
       display: flex;
       border: none;
       outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
+      // appearance: none;
+      // -webkit-appearance: none;
+      // -moz-appearance: none;
     }
     .topSelect{
       display: flex;
@@ -96,7 +96,7 @@ const css = `
       border: 1px solid #E5E3E6;
       border-radius: 6px;
       margin:15px 11px 25px 12px;
-      width:calc(100% - 23px - 32px);
+      width:calc(100% - 23px);
       color: #D7D7D7;
       outline: none;
       appearance: none;
@@ -135,6 +135,7 @@ const card = (obj: any) => (
       border: "0.794574px solid #D7D7D7",
       borderRadius: "6.35659px",
       textAlign: "left",
+      maxWidth: "130px",
     }}
   >
     <Box
@@ -146,6 +147,7 @@ const card = (obj: any) => (
         color: "#A9A8AF",
         display: "flex",
         alignItems: "center",
+        wordBreak: "break-all",
       }}
     >
       <Box sx={{ mr: 0.5, fontSize: "14px" }}>{obj.icon}</Box>
@@ -558,7 +560,7 @@ const MoonbirdsTab3 = (props: MediaProps) => {
   const [val, setVal] = React.useState(0);
 
   const handleChange = (event: any) => {
-    setVal(event.target.value);
+    setVal(event);
     setShow(!show);
   };
   return (

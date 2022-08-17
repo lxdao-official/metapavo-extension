@@ -9,7 +9,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./extention";
 import useGlobal, { GlobalContext } from "../../context/global";
 import { NoFound } from "./nofound";
-import { Bottom_1, Bottom_2, Bottom_3 } from "../assets/Svgs";
+import { Bottom_1, Bottom_2, Bottom_3, MetaPavo } from "../assets/Svgs";
+import Moonbirds from "../assets/Moonbirds.png";
 import Pavo from "./pavo";
 
 const css = `
@@ -87,7 +88,11 @@ const AccordionPage = () => {
       <Accordion
         expanded={activeAccoidion === 0}
         onChange={() => setActiveAccoidion(0)}
-        sx={{ fontSize: "14px" }}
+        sx={{
+          fontSize: "14px",
+          m: "0px !important",
+          border: "1px solid rgba(28, 27, 29, 0.04)",
+        }}
       >
         <AccordionSummary
           expandIcon={
@@ -99,10 +104,26 @@ const AccordionPage = () => {
           }
           aria-controls="panel1bh-content"
           id="panel1bh-header"
+          sx={{
+            backgroundColor: "#EFEFEF",
+          }}
         >
-          <Typography sx={{ width: "33%", flexShrink: 0, fontSize: "14px" }}>MetaPavo</Typography>
+          <Typography
+            sx={{
+              width: "33%",
+              flexShrink: 0,
+              fontSize: "14px",
+              display: "flex",
+              alignItems: "center",
+              fontWeight: 500,
+              color: "#1C1B1D",
+            }}
+          >
+            <MetaPavo sx={{ mr: 0.5, fontSize: "20px", height: "20px" }} />
+            MetaPavo
+          </Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ backgroundColor: "#fff" }}>
           <Typography>
             <Pavo />
           </Typography>
@@ -111,7 +132,11 @@ const AccordionPage = () => {
       <Accordion
         expanded={activeAccoidion == 1}
         onChange={() => setActiveAccoidion(1)}
-        sx={{ fontSize: "14px" }}
+        sx={{
+          fontSize: "14px",
+          m: "0px !important",
+          border: "1px solid rgba(28, 27, 29, 0.04)",
+        }}
       >
         <AccordionSummary
           expandIcon={
@@ -123,12 +148,30 @@ const AccordionPage = () => {
           }
           aria-controls="panel2bh-content"
           id="panel2bh-header"
+          sx={{
+            backgroundColor: "#EFEFEF",
+          }}
         >
-          <Typography sx={{ width: "33%", flexShrink: 0, fontSize: "14px" }}>
+          <Typography
+            sx={{
+              width: "33%",
+              flexShrink: 0,
+              fontSize: "14px",
+              display: "flex",
+              alignItems: "center",
+              fontWeight: 500,
+              color: "#1C1B1D",
+            }}
+          >
+            <Box
+              component="img"
+              src={Moonbirds}
+              sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
+            />
             {activeProject?.name || "unknown"}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ p: 0 }}>
+        <AccordionDetails sx={{ p: 0, backgroundColor: "#fff" }}>
           {activeProject ? <Extention /> : <NoFound />}
         </AccordionDetails>
       </Accordion>

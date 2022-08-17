@@ -52,8 +52,13 @@ function Extention() {
   };
   return (
     <div>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+      <Box sx={{ borderBottom: 1, borderColor: "divider", backgroundColor: "#fff" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+          sx={{ backgroundColor: "#FDFDFD" }}
+        >
           <Tab
             icon={
               value == 0 ? (
