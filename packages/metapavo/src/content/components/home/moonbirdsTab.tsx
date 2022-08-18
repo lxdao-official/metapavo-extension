@@ -45,7 +45,7 @@ const css = `
       justify-content: center;
       align-items: center;
       padding: 3px 4px;
-      width: 49px;
+      width: 60px;
       height: 19px;
       background: #F5F5F5;
       border-radius: 4px;
@@ -54,7 +54,6 @@ const css = `
       line-height: 13px;
       color: #353536;
       margin-top:12px;
-      padding:3px 4px;
     }
     .ellipsis{
       width:16px;
@@ -216,13 +215,21 @@ function formatAddress(address: string) {
   }
   return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
 }
+
+//two decimal places
+const twoDecimal = (num: any) => {
+  console.log(num);
+  if (!num || num !== num || num == "NaN") return 0.0;
+  const data = num + "".toLocaleString();
+  return Number(data).toFixed(2);
+};
 const MoonbirdsTab1 = (props: MediaProps) => {
   const { loading = false } = props;
   const { activeProject, detectStatus } = useContext(GlobalContext);
   const mookData = [
     {
       label: "总市值",
-      value: `$${activeProject?.total_sales?.toLocaleString()}`,
+      value: `$${twoDecimal(activeProject?.total_sales)}`,
       date: "24H",
       rate: 0,
       icon: "$",
@@ -235,22 +242,22 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
-      label: "交易量（24H）",
-      value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
+      label: "交易量(24H)",
+      value: `$${twoDecimal(activeProject?.one_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
-      label: "交易量（7D）",
-      value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
+      label: "交易量(7D)",
+      value: `$${twoDecimal(activeProject?.seven_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
-      value: `$${activeProject?.floor_price?.toLocaleString()}`,
+      value: `$${twoDecimal(activeProject?.floor_price)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
@@ -378,7 +385,7 @@ const MoonbirdsTab2 = () => {
   const mookData = [
     {
       label: "总市值",
-      value: `$${activeProject?.total_sales?.toLocaleString()}`,
+      value: `$${twoDecimal(activeProject?.total_sales)}`,
       date: "24H",
       rate: 0,
       icon: "$",
@@ -391,22 +398,22 @@ const MoonbirdsTab2 = () => {
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
-      label: "交易量（24H）",
-      value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
+      label: "交易量(24H)",
+      value: `$${twoDecimal(activeProject?.one_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
-      label: "交易量（7D）",
-      value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
+      label: "交易量(7D)",
+      value: `$${twoDecimal(activeProject?.seven_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
-      value: `$${activeProject?.floor_price?.toLocaleString()}`,
+      value: `$${twoDecimal(activeProject?.floor_price)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
