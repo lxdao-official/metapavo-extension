@@ -140,6 +140,7 @@ const AccordionPage = () => {
           fontSize: "14px",
           m: "0px !important",
           border: "1px solid rgba(28, 27, 29, 0.04)",
+          alignItems: "center",
         }}
       >
         <AccordionSummary
