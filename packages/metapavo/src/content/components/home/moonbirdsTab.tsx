@@ -54,6 +54,7 @@ const css = `
       line-height: 13px;
       color: #353536;
       margin-top:12px;
+      padding:3px 4px;
     }
     .ellipsis{
       width:16px;
