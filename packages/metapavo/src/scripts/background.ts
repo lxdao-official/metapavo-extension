@@ -101,7 +101,6 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     repeat();
     chrome.alarms.create("gasupdate", { delayInMinutes: 0.2 });
   } else if (alarm.name.startsWith("time_alarm:")) {
-    console.log("notify", alarm.name);
     chrome.notifications.create(alarm.name, {
       type: "basic",
       title: "Time Alarm",

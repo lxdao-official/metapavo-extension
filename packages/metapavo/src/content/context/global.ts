@@ -1,5 +1,5 @@
 import React from "react";
-import { findNftByURL } from "../../apis/nft_api";
+import { createVisitHistory, findNftByURL } from "../../apis/nft_api";
 import { IProject } from "../../apis/types";
 import { recognizerOpenSea } from "../../recognizer/opensea";
 import {
@@ -54,6 +54,7 @@ function useGlobal() {
           showSuccess();
         }, 1000);
         setActiveProject(projectInfo);
+        createVisitHistory(projectInfo.id);
       } else {
         setDetectStatus("none");
         setActiveProject(null);
@@ -80,6 +81,7 @@ function useGlobal() {
               showSuccess();
             }, 1000);
             setActiveProject(projectInfo);
+            createVisitHistory(projectInfo.id);
           } else {
             setDetectStatus("none");
             setActiveProject(null);
@@ -112,6 +114,7 @@ function useGlobal() {
               showSuccess();
             }, 1000);
             setActiveProject(projectInfo);
+            createVisitHistory(projectInfo.id);
           } else {
             setDetectStatus("none");
             setActiveProject(null);

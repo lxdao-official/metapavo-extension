@@ -51,3 +51,16 @@ export async function findAllWebsite(): Promise<string[] | null> {
     });
   });
 }
+
+export async function createVisitHistory(project_id: string) {
+  const res = await fetchWrapped(`${config.baseURL}/visit-histories/create`, {
+    method: "POST",
+    body: JSON.stringify({
+      project_id,
+    }),
+  });
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}
