@@ -3,6 +3,16 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import _ from "lodash";
 import { smartParseDate } from "./util";
+import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
+import Dialog from "@mui/material/Dialog";
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
 const RootElement = styled.div`
   position: absolute;
   background: #fff;
@@ -49,7 +59,7 @@ export default function SelectText() {
     x: -100,
     y: -100,
   });
-
+  const { enqueueSnackbar } = useSnackbar();
   const bindEvents = () => {
     if (binded) return;
     document.addEventListener(
@@ -66,6 +76,7 @@ export default function SelectText() {
             y: oRect.top + window.scrollY,
           };
           setPos(absolutePos);
+          setConvertResult(null);
         } else {
           console.log("no selection");
           // setText("");
@@ -89,13 +100,45 @@ export default function SelectText() {
     bindEvents();
   });
 
-  const [convertResult, setConvertResult] = React.useState<Date>();
+  const [convertResult, setConvertResult] = React.useState<Date | null>();
+  const [addAlarmConfirmShow, setAddAlarmConfirmShow] = React.useState(false);
+  const [addAlarmConfirmContent, setAddAlarmConfirmContent] = React.useState("");
   const convert = function (e: React.MouseEvent) {
     if (text) {
       const result = smartParseDate(text);
       if (result) {
         setConvertResult(result);
       }
+    }
+  };
+  const addAlarm = function (e: any) {
+    e.stopPropagation();
+    setAddAlarmConfirmShow(true);
+    setAddAlarmConfirmContent("");
+  };
+  const handleClose = function () {
+    setAddAlarmConfirmShow(false);
+  };
+
+  const submit = function (e: any) {
+    if (convertResult) {
+      const timestramp = convertResult.getTime();
+
+      chrome.runtime.sendMessage({
+        cmd: "add_time_alarm",
+        value: {
+          timestamp: timestramp,
+          content: addAlarmConfirmContent,
+        },
+      });
+
+      enqueueSnackbar("add success", {
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+      });
+      setAddAlarmConfirmShow(false);
     }
   };
   return (
@@ -111,18 +154,45 @@ export default function SelectText() {
             🔃 Convert to{" "}
             <select value="+8">
               <option value="+8">local</option>
-              <option value="+8">Beijing</option>
+              {/* <option value="+8">Beijing</option> */}
             </select>{" "}
             timezone
           </ButtonElement>
-          {convertResult ? (
+          {text && convertResult ? (
             <ResultElement>Convert Result: {convertResult.toLocaleString()}</ResultElement>
           ) : null}
-          <ButtonElement>⏰ Add to alarm clock</ButtonElement>
+          {text && convertResult ? (
+            <ButtonElement onClick={addAlarm}>⏰ Add to alarm clock</ButtonElement>
+          ) : null}
           <ButtonElement>🔍 Search project in MetaPavo</ButtonElement>
           <PowerBy>Power by MetaPavo</PowerBy>
         </RootElement>
       )}
+      <Dialog open={addAlarmConfirmShow} onClose={handleClose}>
+        <DialogTitle>Add to Alarm List</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            When time is arrive, MetaPavo will remind you by system notifition.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Description"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={addAlarmConfirmContent}
+            onChange={(e) => {
+              setAddAlarmConfirmContent(e.target.value);
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={submit}>Submit</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
