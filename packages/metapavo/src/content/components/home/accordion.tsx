@@ -45,7 +45,11 @@ const css = `
         -webkit-animation: slideshow 5s linear infinite;
         animation: slideshow 5s linear infinite;
       }
-      
+  .Mui-expanded{
+    margin:0 !important;
+    min-height:48px !important;
+    align-items: center;
+  }
 `;
 const AccordionPage = () => {
   const { activeProject, activeAccoidion, setActiveAccoidion, gas } = useContext(GlobalContext);
