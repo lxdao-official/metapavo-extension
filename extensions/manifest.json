@@ -21,10 +21,10 @@
   "background": {
     "service_worker": "./dist/static/js/background.js"
   },
-  "permissions": ["storage", "alarms"],
+  "permissions": ["storage", "alarms", "notifications"],
   "web_accessible_resources": [
     {
-      "resources": ["images/main.jpg"],
+      "resources": ["images/main.jpg", "logo-128.png"],
       "matches": ["https://*/*"]
     }
   ]

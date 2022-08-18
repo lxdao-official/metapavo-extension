@@ -35,17 +35,51 @@ function sendMessageToContentScript(message: any, callback: any) {
     });
   });
 }
+function addAlarm(timestamp: number, content: string) {
+  chrome.alarms.create(`time_alarm:${content}`, {
+    when: timestamp,
+  });
+  chrome.storage.local.get(["alarm_list"], function (data) {
+    if (data && data.alarm_list) {
+      data.alarm_list.push({
+        timestamp: timestamp,
+        content: content,
+      });
+      chrome.storage.local.set({
+        alarm_list: data.alarm_list.filter((item: any) => item.timestamp > Date.now()),
+      });
+    } else {
+      chrome.storage.local.set({
+        alarm_list: [
+          {
+            timestamp: timestamp,
+            content: content,
+          },
+        ],
+      });
+    }
+  });
+}
+// 恢复闹钟list
+chrome.storage.local.get(["alarm_list"], function (data) {
+  if (data && data.alarm_list) {
+    const list = data.alarm_list.filter((item: any) => item.timestamp > Date.now());
+    list.forEach((item: any) => {
+      chrome.alarms.create(`time_alarm:${item.content}`, {
+        when: item.timestamp,
+      });
+    });
+  } else {
+  }
+});
+
 chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.cmd === "getGas") sendResponse(nowGas);
+  if (request.cmd === "add_time_alarm") {
+    addAlarm(request.value.timestamp, request.value.content);
+  }
 });
-// (async function () {
-//   let gas = await getNowGas();
-//   if (gas > 0) {
-//     sendMessageToContentScript({ cmd: "gasUpdate", value: gas }, function () {
-//       // console.log("来自content的回复：" + response);
-//     });
-//   }
-// })();
+
 let timer: any = null;
 async function repeat() {
   let gas = await getNowGas();
@@ -57,9 +91,23 @@ async function repeat() {
   }
 }
 repeat();
-chrome.alarms.create({ delayInMinutes: 0.2 });
 
-chrome.alarms.onAlarm.addListener(async () => {
-  repeat();
-  chrome.alarms.create({ delayInMinutes: 0.2 });
+chrome.alarms.clearAll();
+
+chrome.alarms.create("gasupdate", { delayInMinutes: 0.2 });
+
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  if (alarm.name === "gasupdate") {
+    repeat();
+    chrome.alarms.create("gasupdate", { delayInMinutes: 0.2 });
+  } else if (alarm.name.startsWith("time_alarm:")) {
+    console.log("notify", alarm.name);
+    chrome.notifications.create(alarm.name, {
+      type: "basic",
+      title: "Time Alarm",
+      iconUrl: "../../../logo-128.png",
+      requireInteraction: true,
+      message: `you have a time alarm at this time [${alarm.name.replace("time_alarm:", "")}]`,
+    });
+  }
 });

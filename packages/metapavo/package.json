@@ -49,6 +49,7 @@
     "lodash": "^4.17.21",
     "metamask-extension-provider": "^3.0.0",
     "mini-css-extract-plugin": "^2.4.5",
+    "moment": "^2.29.4",
     "notistack": "^2.0.5",
     "parse-domain": "3.0.3",
     "postcss": "^8.4.4",
