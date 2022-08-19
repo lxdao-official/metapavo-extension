@@ -35,7 +35,7 @@ const css = `
 }
 @keyframes slideshow {
         0% {
-            margin-left: 0;
+            margin-left: 10px;
         }
         to {
             margin-left: -60px;
