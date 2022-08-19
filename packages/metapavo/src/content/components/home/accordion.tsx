@@ -52,7 +52,8 @@ const css = `
   }
 `;
 const AccordionPage = () => {
-  const { activeProject, activeAccoidion, setActiveAccoidion, gas } = useContext(GlobalContext);
+  const { activeProject, activeAccoidion, setActiveAccoidion, gas, showMain } =
+    useContext(GlobalContext);
   const [btcprice, setBtcprice] = React.useState(0);
   const [ethprice, setEthprice] = React.useState(0);
   async function getPrice() {
@@ -84,8 +85,14 @@ const AccordionPage = () => {
     }
   }
   useEffect(() => {
+    console.log("Accordion effect");
     getPrice();
-  });
+    if (activeProject) {
+      setActiveAccoidion(1);
+    } else {
+      setActiveAccoidion(0);
+    }
+  }, [activeProject]);
   return (
     <div>
       <style type="text/css">{css}</style>
@@ -168,11 +175,13 @@ const AccordionPage = () => {
               color: "#1C1B1D",
             }}
           >
-            <Box
-              component="img"
-              src={Moonbirds}
-              sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
-            />
+            {activeProject?.image_url ? (
+              <Box
+                component="img"
+                src={activeProject?.image_url}
+                sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
+              />
+            ) : null}
             {activeProject?.name || "unknown"}
           </Typography>
         </AccordionSummary>

@@ -236,7 +236,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
     },
     {
       label: "持有者",
-      value: `$${activeProject?.num_owners?.toLocaleString()}`,
+      value: `${activeProject?.num_owners?.toLocaleString()}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
@@ -324,7 +324,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       )}
       <Box sx={{ p: 2.25 }}>
         <Box sx={{ display: "flex" }}>
-          <Skeleton variant="rectangular" width={85} height={85} />
+          <Box component="img" src={activeProject?.image_url || ""} width={85} height={85} />
           <Box
             component={"div"}
             sx={{ ml: 2.5, display: "flex", justifyContent: "center", flexDirection: "column" }}
@@ -356,7 +356,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
                 : ""}
               <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
             </Box>
-            <Box className="boxText">ERC721{activeProject?.type}</Box>
+            <Box className="boxText">ERC721</Box>
           </Box>
         </Box>
         <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>
