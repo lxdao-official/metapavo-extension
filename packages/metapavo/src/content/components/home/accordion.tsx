@@ -48,7 +48,8 @@ const css = `
       
 `;
 const AccordionPage = () => {
-  const { activeProject, activeAccoidion, setActiveAccoidion, gas } = useContext(GlobalContext);
+  const { activeProject, activeAccoidion, setActiveAccoidion, gas, showMain } =
+    useContext(GlobalContext);
   const [btcprice, setBtcprice] = React.useState(0);
   const [ethprice, setEthprice] = React.useState(0);
   async function getPrice() {
@@ -80,13 +81,14 @@ const AccordionPage = () => {
     }
   }
   useEffect(() => {
+    console.log("Accordion effect");
     getPrice();
     if (activeProject) {
       setActiveAccoidion(1);
     } else {
       setActiveAccoidion(0);
     }
-  });
+  }, [activeProject]);
   return (
     <div>
       <style type="text/css">{css}</style>
