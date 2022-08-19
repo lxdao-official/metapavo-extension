@@ -33,6 +33,14 @@ export async function findNftByURL(url: string): Promise<IProject | null> {
   return null;
 }
 
+export async function searchProjects(keyword: string): Promise<IProject | null> {
+  const res = await fetchWrapped(`${config.baseURL}/nfts/search/${keyword}`);
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}
+
 export async function findAllWebsite(): Promise<string[] | null> {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get(["nft_website_all"], async function (data) {

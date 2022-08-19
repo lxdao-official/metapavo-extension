@@ -81,6 +81,11 @@ const AccordionPage = () => {
   }
   useEffect(() => {
     getPrice();
+    if (activeProject) {
+      setActiveAccoidion(1);
+    } else {
+      setActiveAccoidion(0);
+    }
   });
   return (
     <div>
@@ -163,11 +168,13 @@ const AccordionPage = () => {
               color: "#1C1B1D",
             }}
           >
-            <Box
-              component="img"
-              src={Moonbirds}
-              sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
-            />
+            {activeProject?.image_url ? (
+              <Box
+                component="img"
+                src={activeProject?.image_url}
+                sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
+              />
+            ) : null}
             {activeProject?.name || "unknown"}
           </Typography>
         </AccordionSummary>
