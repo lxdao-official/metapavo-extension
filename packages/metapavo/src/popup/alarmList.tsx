@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 
 export default function AlarmList() {
   const [alarms, setAlarms] = React.useState<any[]>([]);
+
   useEffect(() => {
     chrome.alarms.getAll((alarms) => {
       setAlarms(
@@ -19,13 +20,11 @@ export default function AlarmList() {
   }, []);
   return (
     <>
-      <Typography variant="h4" gutterBottom>
-        Alarm List
-      </Typography>
       <div>
-        {alarms.map((alarm) => {
-          return (
-            <List sx={{ width: "100%", bgcolor: "background.paper" }} disablePadding={true}>
+        {alarms.length === 0 ? <Typography variant="h6">No alarms</Typography> : null}
+        <List sx={{ width: "100%", bgcolor: "background.paper" }} disablePadding={true}>
+          {alarms.map((alarm) => {
+            return (
               <ListItem divider={true} disablePadding={true}>
                 <ListItemText
                   primary={
@@ -45,9 +44,9 @@ export default function AlarmList() {
                   }
                 />
               </ListItem>
-            </List>
-          );
-        })}
+            );
+          })}{" "}
+        </List>
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { createVisitHistory, findNftByURL } from "../../apis/nft_api";
+import { createVisitHistory, findNftByURL, getNftById } from "../../apis/nft_api";
 import { IProject } from "../../apis/types";
 import { recognizerOpenSea } from "../../recognizer/opensea";
 import {
@@ -27,6 +27,7 @@ export const GlobalContext = React.createContext<{
   activeAccoidion: number;
   setActiveAccoidion: (activeAccoidion: number) => void;
   setAddRootClass: (addRootClass: string) => void;
+  refreshActiveProject: () => void;
 }>({} as any);
 function useGlobal() {
   const [showMain, setShowMain] = React.useState(false);
@@ -35,11 +36,12 @@ function useGlobal() {
   const [addRootClass, setAddRootClass] = React.useState("");
   const [gas, setGas] = React.useState(0);
   const [activeAccoidion, setActiveAccoidion] = React.useState(0);
+
   function showSuccess() {
     setAddRootClass("metapavo-main-box-success");
     setTimeout(() => {
       setAddRootClass("");
-    }, 8000);
+    }, 5000);
   }
 
   async function checkWebsite() {
@@ -141,6 +143,15 @@ function useGlobal() {
     }, 2000);
   }
 
+  async function refreshActiveProject() {
+    if (activeProject) {
+      const res = await getNftById(activeProject.id);
+      if (res) {
+        setActiveProject(res);
+      }
+    }
+  }
+
   return {
     showMain,
     setShowMain,
@@ -158,6 +169,7 @@ function useGlobal() {
     activeAccoidion,
     setActiveAccoidion,
     setAddRootClass,
+    refreshActiveProject,
   };
 }
 export default useGlobal;

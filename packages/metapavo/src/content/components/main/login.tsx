@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { WalletContext } from "../../context/useWallet";
 import ConnectWallet from "../wallet/ConnectWallet";
 // import createMetaMaskProvider from "metamask-extension-provider";
@@ -17,7 +18,37 @@ import ConnectWallet from "../wallet/ConnectWallet";
 //     },
 //   },
 // );
+const DescText = styled.div`
+  width: 245px;
+  margin: 10px auto;
 
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 17px;
+  /* or 142% */
+
+  display: flex;
+  align-items: flex-end;
+  text-align: center;
+
+  color: #9e9aaf;
+`;
+const TitleText = styled.div`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  width: 245px;
+  text-align: center;
+  margin: 20px auto;
+`;
+const ButtonContainer = styled.div`
+  position: absolute;
+  bottom: 80px;
+  right: 50px;
+`;
 const LoginPage = () => {
   let navigate = useNavigate();
   useEffect(() => {}, []);
@@ -25,13 +56,20 @@ const LoginPage = () => {
   return (
     <div style={{}}>
       <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} />
-      <div style={{ marginTop: "100px", width: "100%", textAlign: "center" }}>
-        {/* {context.loginedAddress ? <div>{context.loginedAddress}</div> : <ConnectWallet />} */}
-        <ConnectWallet
-          loginSuccess={() => {
-            navigate("/index");
-          }}
-        />
+      <div style={{ marginTop: "50px", width: "100%", textAlign: "center" }}>
+        <TitleText>MetaPavo</TitleText>
+        <DescText>
+          Whether you are visiting Twitter, Opensea or Etherscan, MetaPavo can intelligently
+          identify the main entry of the project behind, so that you can view the project background
+          in a centralized and immersive way
+        </DescText>
+        <ButtonContainer>
+          <ConnectWallet
+            loginSuccess={() => {
+              navigate("/index");
+            }}
+          />
+        </ButtonContainer>
       </div>
     </div>
   );

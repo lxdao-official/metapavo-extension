@@ -36,4 +36,5 @@ export type IProject = {
   contract_is_verified: number | null;
   create_time: Date;
   update_time: Date;
+  faved: boolean | null;
 };

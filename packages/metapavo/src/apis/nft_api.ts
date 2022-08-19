@@ -43,6 +43,10 @@ export async function searchProjects(keyword: string): Promise<IProject | null> 
 
 export async function findAllWebsite(): Promise<string[] | null> {
   return new Promise((resolve, reject) => {
+    if (!chrome?.storage?.local) {
+      reject("access_token is not found");
+      return;
+    }
     chrome.storage.local.get(["nft_website_all"], async function (data) {
       if (data.nft_website_all) {
         return resolve(data.nft_website_all);
@@ -67,6 +71,47 @@ export async function createVisitHistory(project_id: string) {
       project_id,
     }),
   });
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}
+
+export async function addFavByProjectId(project_id: string) {
+  const res = await fetchWrapped(`${config.baseURL}/favs/create`, {
+    method: "POST",
+    body: JSON.stringify({
+      project_id,
+    }),
+  });
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}
+export async function removeFavByProjectId(project_id: string) {
+  const res = await fetchWrapped(`${config.baseURL}/favs/delete`, {
+    method: "DELETE",
+    body: JSON.stringify({
+      project_id,
+    }),
+  });
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}
+/**
+ * 获取用户的收藏列表
+ * @returns
+ */
+export async function getUsersFavs(pageIndex: number = 1, pageSize: number = 20) {
+  const res = await fetchWrapped(
+    `${config.baseURL}/favs/user/list?pageIndex=${pageIndex}&pageSize=${pageSize}`,
+    {
+      method: "GET",
+    },
+  );
   if (res && res.success) {
     return res.data;
   }

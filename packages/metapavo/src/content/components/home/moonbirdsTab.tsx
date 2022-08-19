@@ -1,6 +1,7 @@
 import React, { useContext, useRef } from "react";
-import { Box, MenuItem, Select, FormControl } from "@mui/material";
+import { Box, MenuItem, Select, FormControl, IconButton } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
+import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   Shield_check,
@@ -12,6 +13,7 @@ import {
   Fliter,
 } from "../assets/Svgs";
 import useGlobal, { GlobalContext } from "../../context/global";
+import copy from "clipboard-copy";
 const css = `
     .tabInner{
       text-align:left
@@ -179,28 +181,30 @@ const info = (obj: any) => (
   <Box sx={{ mb: 2.25, mx: 3, textAlign: "left" }}>
     <Box sx={{ fontWeight: 500, fontSize: "12px", lineHeight: "15px", mb: "14px" }}>{obj.name}</Box>
     <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-      {obj.array.map((item: any) => (
-        <a href={item.link} target="_blank" rel="noreferrer">
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "12px",
-              lineHeight: "15px",
-              mr: 1,
-              background: "rgba(248, 247, 249, 0.5)",
-              border: "0.8px solid #D7D7D7",
-              borderRadius: "6.4px",
-              p: "10px",
-              mb: 2,
-            }}
-          >
-            <i>#</i>
-            {item.label}
-          </Box>
-        </a>
-      ))}
+      {obj.array.map((item: any) =>
+        item ? (
+          <a href={item.link} target="_blank" rel="noreferrer">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "12px",
+                lineHeight: "15px",
+                mr: 1,
+                background: "rgba(248, 247, 249, 0.5)",
+                border: "0.8px solid #D7D7D7",
+                borderRadius: "6.4px",
+                p: "10px",
+                mb: 2,
+              }}
+            >
+              <i>#</i>
+              {item.label}
+            </Box>
+          </a>
+        ) : null,
+      )}
     </Box>
   </Box>
 );
@@ -218,6 +222,13 @@ function formatAddress(address: string) {
 const MoonbirdsTab1 = (props: MediaProps) => {
   const { loading = false } = props;
   const { activeProject, detectStatus } = useContext(GlobalContext);
+  const { enqueueSnackbar } = useSnackbar();
+  const copyContractAddress = () => {
+    if (activeProject?.contract_address) {
+      copy(activeProject.contract_address);
+      enqueueSnackbar("Copied", {});
+    }
+  };
   const mookData = [
     {
       label: "总市值",
@@ -272,35 +283,49 @@ const MoonbirdsTab1 = (props: MediaProps) => {
     {
       name: "Collection info",
       array: [
-        { icon: "", label: "onchainroyale.xyz" },
+        // { icon: "", label: "onchainroyale.xyz" },
         {
           link: `https://etherscan.io/address/${activeProject?.contract_address}`,
           label: "Etherscan",
         },
-        { link: `${activeProject?.external_url}`, label: "Website" },
-        { link: `${activeProject?.github}`, label: "Github" },
+        activeProject?.external_url
+          ? { link: `${activeProject?.external_url}`, label: "Website" }
+          : null,
+        activeProject?.github ? { link: `${activeProject?.github}`, label: "Github" } : null,
       ],
     },
     {
       name: "Buy now",
       array: [
-        {
-          link: `https://opensea.io/assets/ethereum/${activeProject?.contract_address}`,
-          label: "OpenSea",
-        },
-        {
-          icon: `https://looksrare.org/collections/${activeProject?.contract_address}`,
-          label: "Looksrare",
-        },
-        { icon: `https://x2y2.io/eth/${activeProject?.contract_address}`, label: "X2Y2" },
+        activeProject?.id
+          ? {
+              link: `https://opensea.io/collection/${activeProject?.id}`,
+              label: "OpenSea",
+            }
+          : null,
+        activeProject?.contract_address
+          ? {
+              icon: `https://looksrare.org/collections/${activeProject?.contract_address}`,
+              label: "Looksrare",
+            }
+          : null,
+        activeProject?.contract_address
+          ? { icon: `https://x2y2.io/eth/${activeProject?.contract_address}`, label: "X2Y2" }
+          : null,
       ],
     },
     {
       name: "Soicial Media",
       array: [
-        { link: `https://twitter.com/${activeProject?.twitter_username}`, label: "Twitter" },
-        { link: `${activeProject?.discord_url}`, label: "Discord" },
-        { link: `https://t.me/${activeProject?.instagram_username}`, label: "Instagram" },
+        activeProject?.twitter_username
+          ? { link: `https://twitter.com/${activeProject?.twitter_username}`, label: "Twitter" }
+          : null,
+        activeProject?.discord_url
+          ? { link: `${activeProject?.discord_url}`, label: "Discord" }
+          : null,
+        activeProject?.instagram_username
+          ? { link: `https://t.me/${activeProject?.instagram_username}`, label: "Instagram" }
+          : null,
       ],
     },
   ];
@@ -331,7 +356,9 @@ const MoonbirdsTab1 = (props: MediaProps) => {
               }}
             >
               {activeProject?.name}
-              <Component1 sx={{ ml: 0.5, width: "16px", height: "16px" }} />
+              {activeProject?.contract_is_verified ? (
+                <Component1 sx={{ ml: 0.5, width: "16px", height: "16px" }} />
+              ) : null}
             </Box>
             <Box
               sx={{
@@ -346,9 +373,16 @@ const MoonbirdsTab1 = (props: MediaProps) => {
               {activeProject?.contract_address
                 ? formatAddress(activeProject?.contract_address)
                 : ""}
-              <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
+              <IconButton
+                onClick={() => {
+                  copyContractAddress();
+                }}
+                sx={{ ml: 0.5, height: "17px", width: "17px" }}
+              >
+                <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
+              </IconButton>
             </Box>
-            <Box className="boxText">ERC721</Box>
+            <Box className="boxText">{activeProject?.type === 1 ? "ERC20" : "NFT"}</Box>
           </Box>
         </Box>
         <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>

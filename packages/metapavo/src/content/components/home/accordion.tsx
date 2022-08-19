@@ -1,17 +1,21 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
+import { useSnackbar } from "notistack";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./extention";
 import useGlobal, { GlobalContext } from "../../context/global";
 import { NoFound } from "./nofound";
 import { Bottom_1, Bottom_2, Bottom_3, MetaPavo } from "../assets/Svgs";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Moonbirds from "../assets/Moonbirds.png";
 import Pavo from "./pavo";
+import { addFavByProjectId, removeFavByProjectId } from "../../../apis/nft_api";
 
 const css = `
 ::-webkit-scrollbar {
@@ -48,10 +52,11 @@ const css = `
       
 `;
 const AccordionPage = () => {
-  const { activeProject, activeAccoidion, setActiveAccoidion, gas, showMain } =
+  const { activeProject, activeAccoidion, setActiveAccoidion, gas, refreshActiveProject } =
     useContext(GlobalContext);
   const [btcprice, setBtcprice] = React.useState(0);
   const [ethprice, setEthprice] = React.useState(0);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   async function getPrice() {
     const result = await fetch("https://data.messari.io/api/v1/assets/eth/metrics/market-data", {
       method: "GET",
@@ -78,6 +83,33 @@ const AccordionPage = () => {
     if (databtc.data && databtc.data.market_data) {
       const _btcprice = databtc.data.market_data.price_usd;
       setBtcprice(_btcprice);
+    }
+  }
+
+  async function addFav() {
+    if (activeProject) {
+      try {
+        await addFavByProjectId(activeProject.id);
+        enqueueSnackbar("Add to favorite successfully", { variant: "success" });
+        refreshActiveProject();
+      } catch (e: any) {
+        enqueueSnackbar(e.message, { variant: "error" });
+      }
+    } else {
+      enqueueSnackbar("Please select a project first", { variant: "error" });
+    }
+  }
+  async function removeFav() {
+    if (activeProject) {
+      try {
+        await removeFavByProjectId(activeProject.id);
+        enqueueSnackbar("Remove from favorite successfully", { variant: "success" });
+        refreshActiveProject();
+      } catch (e: any) {
+        enqueueSnackbar(e.message, { variant: "error" });
+      }
+    } else {
+      enqueueSnackbar("Please select a project first", { variant: "error" });
     }
   }
   useEffect(() => {
@@ -161,7 +193,6 @@ const AccordionPage = () => {
         >
           <Typography
             sx={{
-              width: "33%",
               flexShrink: 0,
               fontSize: "14px",
               display: "flex",
@@ -177,7 +208,26 @@ const AccordionPage = () => {
                 sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
               />
             ) : null}
-            {activeProject?.name || "unknown"}
+            <Box>{activeProject?.name || "unknown"}</Box>
+            {activeProject?.faved ? (
+              <IconButton
+                onClick={() => {
+                  removeFav();
+                }}
+                sx={{ ml: 0.5, height: "17px", width: "17px" }}
+              >
+                <BookmarkIcon sx={{ ml: 0.5, height: "17px", width: "17px", color: "#b721ff" }} />
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={() => {
+                  addFav();
+                }}
+                sx={{ ml: 0.5, height: "17px", width: "17px" }}
+              >
+                <BookmarkAddIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
+              </IconButton>
+            )}
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0, backgroundColor: "#fff" }}>
