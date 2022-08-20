@@ -134,6 +134,7 @@ const RootElement = styled.div`
   }
   #metapavo-gas-text {
     line-height: 50px;
+    color: #fff !important;
   }
 `;
 
@@ -158,6 +159,16 @@ function App() {
         closeDragElement();
       } else {
       }
+    };
+    elmnt.onmouseenter = () => {
+      if (useG.detectStatus === "success") {
+        useG.showSuccess();
+      }
+      elmnt.setAttribute("mouseIsOver", "1");
+    };
+    elmnt.onmouseleave = () => {
+      elmnt.setAttribute("mouseIsOver", "0");
+      useG.setAddRootClass("");
     };
     function dragMouseDown(e: MouseEvent) {
       e = e || window.event;
@@ -199,24 +210,6 @@ function App() {
     useG.checkOpenSea();
     useG.checkWebsite();
 
-    (async function () {
-      chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
-        if (request.cmd === "gasUpdate") useG.setGas(request.value);
-        sendResponse("ok");
-      });
-      chrome.runtime.sendMessage(
-        {
-          cmd: "getGas",
-        },
-        function (response) {
-          if (!chrome.runtime.lastError) {
-            useG.setGas(response);
-          } else {
-          }
-        },
-      );
-    })();
-
     rootRef.current.style.right = "50px";
     rootRef.current.style.bottom = "50px";
     if (localStorage.getItem("metapavo-pos")) {
@@ -227,7 +220,33 @@ function App() {
       }
     }
     rootRef.current && dragElement(rootRef.current);
+
+    chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
+      if (request.cmd === "gasUpdate") useG.setGas(request.value);
+      sendResponse("ok");
+    });
+    chrome.runtime.sendMessage(
+      {
+        cmd: "getGas",
+      },
+      function (response) {
+        if (!chrome.runtime.lastError) {
+          useG.setGas(response);
+        } else {
+        }
+      },
+    );
   }, []);
+
+  useEffect(() => {
+    if (!!useG.addRootClass) {
+      setTimeout(() => {
+        if (rootRef.current.getAttribute("mouseIsOver") !== "1") {
+          useG.setAddRootClass("");
+        }
+      }, 5000);
+    }
+  }, [useG.addRootClass]);
 
   return (
     <>
@@ -244,12 +263,6 @@ function App() {
             ref={rootRef}
             style={{
               display: !hide && !useG.showMain ? "block" : "none",
-            }}
-            onMouseEnter={() => {
-              console.log("useG.detectStatus", useG.detectStatus);
-              if (useG.detectStatus === "success") {
-                useG.showSuccess();
-              }
             }}
           >
             <div

@@ -152,11 +152,11 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           Floor: {activeProject?.floor_price ? Number(activeProject.floor_price).toFixed(2) : "-"}Ξ
         </div>
         <div className="mp-success-bd-price">
-          Volume (24h):{" "}
+          Volume(24h):{" "}
           {activeProject?.one_day_volume ? Number(activeProject.one_day_volume).toFixed(2) : "-"}Ξ
         </div>
         <div className="mp-success-bd-price">
-          Total Supply: {activeProject?.one_day_volume ? activeProject.total_supply : "-"}
+          Supply: {activeProject?.one_day_volume ? activeProject.total_supply : "-"}
         </div>
         <div className="mp-success-bd-price">
           Holders: {activeProject?.one_day_volume ? activeProject.num_owners : "-"}

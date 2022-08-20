@@ -39,9 +39,6 @@ function useGlobal() {
 
   function showSuccess() {
     setAddRootClass("metapavo-main-box-success");
-    setTimeout(() => {
-      setAddRootClass("");
-    }, 5000);
   }
 
   async function checkWebsite() {

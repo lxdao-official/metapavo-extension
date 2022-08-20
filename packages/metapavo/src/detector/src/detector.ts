@@ -263,9 +263,10 @@ async function _detectScam(
         matchProject = allProjects.find((_) => matchNameInWords(nickname, _.name));
         matchType = "nickname_match_name_words";
       }
-
+      console.log("matchProject", matchProject);
       if (matchProject && matchProject.twitterUsername && userId) {
         const verified = verifyProjectMeta(matchProject, post);
+        console.log("verified", verified);
         if (!verified) {
           fuzzyCheckResult = {
             matchProject,
@@ -285,15 +286,15 @@ async function _detectScam(
       matchType = "userId_match_twitter_name";
       if (matchProject && matchProject.twitterUsername && userId) {
         const verified = verifyProjectMeta(matchProject, post);
-        // if (!verified) {
-        // fuzzyCheckResult = {
-        //   ...matchProject,
-        //   matchType,
-        //   post,
-        //   callActionTest,
-        // };
-        return null;
-        // }
+        if (!verified) {
+          fuzzyCheckResult = {
+            ...matchProject,
+            matchType,
+            post,
+            callActionTest,
+          };
+          // return null;
+        }
       }
     }
   }
@@ -358,7 +359,7 @@ async function _detectScam(
       .map((_) => {
         let score = 0;
         let matchItems = [];
-        let simLimit = 0.8;
+        let simLimit = 0.5;
 
         const projectName = _.name;
         // const projectDomain = _.externalUrl && getDomain(_.externalUrl);
@@ -459,184 +460,184 @@ async function _detectScam(
       matchType = "check_by_sim";
       const verified = verifyProjectMeta(matchProject, post);
       // if (similarProjects[0].hasSimLink && !verified) {
-      // if (!verified) {
-      fuzzyCheckResult = {
-        ...matchProject,
-        matchType,
-        post,
-        callActionTest,
-      };
-      return fuzzyCheckResult;
-      // }
-      // }
-    }
-
-    const checkDomain = projectsWithDomain.length;
-    if (checkDomain) {
-      const simThreshold = 0.65;
-      const domainRegLimit = options.registerDays || 10;
-      const simRegLimit = options.registerDaysSim || 30;
-      const simDayLimit = options.simDayLimit || 0.8;
-
-      const domainResult = fuzzyCheckResult
-        ? [
-            {
-              linkDomain: uniqueDomains[0],
-              contain: false,
-              sim: 0.6,
-              projectWithDomain: {
-                domain: fuzzyCheckResult.matchProject.domainDetail,
-                project: fuzzyCheckResult.matchProject,
-              },
-            },
-          ]
-        : uniqueDomains.map((linkDomain) => {
-            const domainInProjectList = projectsWithDomain.find(
-              (_) => _.domain.topDomain === linkDomain.topDomain,
-            );
-
-            const highSimilarProjects = domainInProjectList
-              ? []
-              : projectsWithDomain
-                  .map((projectWithDomain) => {
-                    const subDomains = projectWithDomain.domain.subDomainsName;
-                    let aString = projectWithDomain.domain.domainName;
-                    const bString = linkDomain.domainName;
-                    const simSizeThreshold = 4;
-
-                    let sim = 0;
-                    let contain = false;
-
-                    function checkMatchItems(aString: string, bString: string) {
-                      if (aString) {
-                        let canDoSimTest =
-                          bString.length > simSizeThreshold && aString.length > simSizeThreshold;
-                        contain = canDoSimTest && bString.includes(aString);
-                        sim = canDoSimTest ? compareTwoStrings(aString, bString) : 0;
-                      }
-                      // if (projectWithDomain.project.slug === "otherdeed") {
-                      //   console.log("project", [aString, bString, sim, contain]);
-                      // }
-                    }
-
-                    if (aString) {
-                      checkMatchItems(aString, bString);
-                    }
-
-                    // subdomain-case  eg. murakamiflowers.kaikaikiki.com
-                    if (sim < simThreshold && subDomains && subDomains.length) {
-                      // if (projectWithDomain.project.slug === "premint") {
-                      //   console.log("compare subdomain", sim, simThreshold);
-                      // }
-                      let aString = subDomains[0];
-                      let projectName = projectWithDomain.project.name.replace(
-                        new RegExp(".", ""),
-                        "",
-                      );
-                      let subdomainInName = projectName.toLowerCase().includes(aString);
-
-                      if (aString != "www" && subdomainInName) {
-                        checkMatchItems(aString, bString);
-                      }
-                    }
-
-                    // subdomain case  eg. nfttrader.io-0x13d8faf4a690f5aed2c529.in match nfttrader.io
-                    const projectDomainName = projectWithDomain.domain.domainName;
-                    if (sim < simThreshold && linkDomain.subDomainsName.length) {
-                      let linkSub = linkDomain.subDomainsName[0];
-                      if (linkSub != "www" && projectDomainName) {
-                        checkMatchItems(projectDomainName, linkSub);
-                      }
-                    }
-
-                    return {
-                      contain,
-                      projectWithDomain,
-                      sim,
-                    };
-                  })
-                  .sort((a, b) => b.sim - a.sim)
-                  .filter((_) => _.sim > simThreshold || _.contain);
-
-            return highSimilarProjects[0]
-              ? {
-                  linkDomain,
-                  contain: highSimilarProjects[0].contain,
-                  sim: highSimilarProjects[0].sim,
-                  projectWithDomain: highSimilarProjects[0].projectWithDomain,
-                }
-              : null;
-          });
-
-      let similarProject = null;
-      let creationDaysOfDomain = -1;
-      let domainMeta = null;
-      for (let index = 0; index < domainResult.length; index++) {
-        const domainSim = domainResult[index];
-        if (!domainSim) continue;
-        if (!domainSim.linkDomain) continue;
-        // full match xxx.com xxx.io
-        const isFullyMatch = domainSim.sim === 1;
-        // contain match cc-xxx.com xxx.io
-        const simAndMatch = domainSim.contain && domainSim.sim > 0.7;
-        // const hasContainAndSim = ;
-        const isCommonWords = commonWords.includes(domainSim.linkDomain.domainName);
-        if (isFullyMatch || simAndMatch) {
-          if (hasContext) {
-            // in twitter context
-            if (fuzzyTwitterCheck) similarProject = domainSim;
-          } else {
-            similarProject = domainSim;
-          }
-          if (!isCommonWords) {
-            continue;
-          }
-        }
-        try {
-          domainMeta = options.skipDomainMeta
-            ? null
-            : await getDomainMeta([domainSim.linkDomain.topDomain]);
-          if (!domainMeta) continue;
-          const domainDetail = domainMeta.data;
-          if (!domainDetail) {
-            console.log("domainMeta", domainMeta);
-            continue;
-          }
-          const createDate = domainDetail.creationDate || domainDetail.updatedDate;
-          creationDaysOfDomain = createDate
-            ? Math.floor((Date.now() - new Date(createDate).getTime()) / 1000 / 86400)
-            : -1;
-          const isRecentRegister =
-            creationDaysOfDomain != -1 &&
-            creationDaysOfDomain < (domainSim.sim > simDayLimit ? simRegLimit : domainRegLimit);
-          if (isRecentRegister) {
-            similarProject = domainSim;
-            if (hasContext && !fuzzyTwitterCheck) similarProject = null;
-            break;
-          } else {
-            // console.log("not recent", domainMeta);
-          }
-        } catch (er) {
-          console.error("check failed", er);
-        }
-      }
-
-      if (similarProject) {
-        const matchProject = similarProject.projectWithDomain.project;
-        const matchType =
-          "match_by_domain_sim_days:" +
-          creationDaysOfDomain +
-          ":sim:" +
-          similarProject.sim.toFixed(2);
-        return {
+      if (!verified) {
+        fuzzyCheckResult = {
           ...matchProject,
           matchType,
           post,
           callActionTest,
-          domainMeta: domainMeta ? domainMeta.data : null,
         };
+        return fuzzyCheckResult;
       }
+      // }
     }
+
+    //   const checkDomain = projectsWithDomain.length;
+    //   if (checkDomain) {
+    //     const simThreshold = 0.65;
+    //     const domainRegLimit = options.registerDays || 10;
+    //     const simRegLimit = options.registerDaysSim || 30;
+    //     const simDayLimit = options.simDayLimit || 0.8;
+
+    //     const domainResult = fuzzyCheckResult
+    //       ? [
+    //           {
+    //             linkDomain: uniqueDomains[0],
+    //             contain: false,
+    //             sim: 0.6,
+    //             projectWithDomain: {
+    //               domain: fuzzyCheckResult.matchProject.domainDetail,
+    //               project: fuzzyCheckResult.matchProject,
+    //             },
+    //           },
+    //         ]
+    //       : uniqueDomains.map((linkDomain) => {
+    //           const domainInProjectList = projectsWithDomain.find(
+    //             (_) => _.domain.topDomain === linkDomain.topDomain,
+    //           );
+
+    //           const highSimilarProjects = domainInProjectList
+    //             ? []
+    //             : projectsWithDomain
+    //                 .map((projectWithDomain) => {
+    //                   const subDomains = projectWithDomain.domain.subDomainsName;
+    //                   let aString = projectWithDomain.domain.domainName;
+    //                   const bString = linkDomain.domainName;
+    //                   const simSizeThreshold = 4;
+
+    //                   let sim = 0;
+    //                   let contain = false;
+
+    //                   function checkMatchItems(aString: string, bString: string) {
+    //                     if (aString) {
+    //                       let canDoSimTest =
+    //                         bString.length > simSizeThreshold && aString.length > simSizeThreshold;
+    //                       contain = canDoSimTest && bString.includes(aString);
+    //                       sim = canDoSimTest ? compareTwoStrings(aString, bString) : 0;
+    //                     }
+    //                     // if (projectWithDomain.project.slug === "otherdeed") {
+    //                     //   console.log("project", [aString, bString, sim, contain]);
+    //                     // }
+    //                   }
+
+    //                   if (aString) {
+    //                     checkMatchItems(aString, bString);
+    //                   }
+
+    //                   // subdomain-case  eg. murakamiflowers.kaikaikiki.com
+    //                   if (sim < simThreshold && subDomains && subDomains.length) {
+    //                     // if (projectWithDomain.project.slug === "premint") {
+    //                     //   console.log("compare subdomain", sim, simThreshold);
+    //                     // }
+    //                     let aString = subDomains[0];
+    //                     let projectName = projectWithDomain.project.name.replace(
+    //                       new RegExp(".", ""),
+    //                       "",
+    //                     );
+    //                     let subdomainInName = projectName.toLowerCase().includes(aString);
+
+    //                     if (aString != "www" && subdomainInName) {
+    //                       checkMatchItems(aString, bString);
+    //                     }
+    //                   }
+
+    //                   // subdomain case  eg. nfttrader.io-0x13d8faf4a690f5aed2c529.in match nfttrader.io
+    //                   const projectDomainName = projectWithDomain.domain.domainName;
+    //                   if (sim < simThreshold && linkDomain.subDomainsName.length) {
+    //                     let linkSub = linkDomain.subDomainsName[0];
+    //                     if (linkSub != "www" && projectDomainName) {
+    //                       checkMatchItems(projectDomainName, linkSub);
+    //                     }
+    //                   }
+
+    //                   return {
+    //                     contain,
+    //                     projectWithDomain,
+    //                     sim,
+    //                   };
+    //                 })
+    //                 .sort((a, b) => b.sim - a.sim)
+    //                 .filter((_) => _.sim > simThreshold || _.contain);
+
+    //           return highSimilarProjects[0]
+    //             ? {
+    //                 linkDomain,
+    //                 contain: highSimilarProjects[0].contain,
+    //                 sim: highSimilarProjects[0].sim,
+    //                 projectWithDomain: highSimilarProjects[0].projectWithDomain,
+    //               }
+    //             : null;
+    //         });
+
+    //     let similarProject = null;
+    //     let creationDaysOfDomain = -1;
+    //     let domainMeta = null;
+    //     for (let index = 0; index < domainResult.length; index++) {
+    //       const domainSim = domainResult[index];
+    //       if (!domainSim) continue;
+    //       if (!domainSim.linkDomain) continue;
+    //       // full match xxx.com xxx.io
+    //       const isFullyMatch = domainSim.sim === 1;
+    //       // contain match cc-xxx.com xxx.io
+    //       const simAndMatch = domainSim.contain && domainSim.sim > 0.7;
+    //       // const hasContainAndSim = ;
+    //       const isCommonWords = commonWords.includes(domainSim.linkDomain.domainName);
+    //       if (isFullyMatch || simAndMatch) {
+    //         if (hasContext) {
+    //           // in twitter context
+    //           if (fuzzyTwitterCheck) similarProject = domainSim;
+    //         } else {
+    //           similarProject = domainSim;
+    //         }
+    //         if (!isCommonWords) {
+    //           continue;
+    //         }
+    //       }
+    //       try {
+    //         domainMeta = options.skipDomainMeta
+    //           ? null
+    //           : await getDomainMeta([domainSim.linkDomain.topDomain]);
+    //         if (!domainMeta) continue;
+    //         const domainDetail = domainMeta.data;
+    //         if (!domainDetail) {
+    //           console.log("domainMeta", domainMeta);
+    //           continue;
+    //         }
+    //         const createDate = domainDetail.creationDate || domainDetail.updatedDate;
+    //         creationDaysOfDomain = createDate
+    //           ? Math.floor((Date.now() - new Date(createDate).getTime()) / 1000 / 86400)
+    //           : -1;
+    //         const isRecentRegister =
+    //           creationDaysOfDomain != -1 &&
+    //           creationDaysOfDomain < (domainSim.sim > simDayLimit ? simRegLimit : domainRegLimit);
+    //         if (isRecentRegister) {
+    //           similarProject = domainSim;
+    //           if (hasContext && !fuzzyTwitterCheck) similarProject = null;
+    //           break;
+    //         } else {
+    //           // console.log("not recent", domainMeta);
+    //         }
+    //       } catch (er) {
+    //         console.error("check failed", er);
+    //       }
+    //     }
+
+    //     if (similarProject) {
+    //       const matchProject = similarProject.projectWithDomain.project;
+    //       const matchType =
+    //         "match_by_domain_sim_days:" +
+    //         creationDaysOfDomain +
+    //         ":sim:" +
+    //         similarProject.sim.toFixed(2);
+    //       return {
+    //         ...matchProject,
+    //         matchType,
+    //         post,
+    //         callActionTest,
+    //         domainMeta: domainMeta ? domainMeta.data : null,
+    //       };
+    //     }
+    //   }
   }
 
   return null;
