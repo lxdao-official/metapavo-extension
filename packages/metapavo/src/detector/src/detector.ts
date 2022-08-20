@@ -263,10 +263,10 @@ async function _detectScam(
         matchProject = allProjects.find((_) => matchNameInWords(nickname, _.name));
         matchType = "nickname_match_name_words";
       }
-      console.log("matchProject", matchProject);
+      // console.log("matchProject", matchProject);
       if (matchProject && matchProject.twitterUsername && userId) {
         const verified = verifyProjectMeta(matchProject, post);
-        console.log("verified", verified);
+        // console.log("verified", verified);
         if (!verified) {
           fuzzyCheckResult = {
             matchProject,
@@ -431,9 +431,6 @@ async function _detectScam(
         for (let index = 0; index < compareItems.length; index++) {
           const [string1, string2, type] = compareItems[index];
           const sim = (string1 && string2 && compareTwoStrings(string1, string2)) || 0;
-          if (sim > 0.5) {
-            console.log(string1, string2, sim);
-          }
           score += sim > simLimit ? 5 : 0;
           if (sim > simLimit && simLimit <= 1)
             matchItems.push({
@@ -454,7 +451,6 @@ async function _detectScam(
         return _.score >= scoreLimit;
       })
       .sort((a, b) => b.score - a.score);
-    console.log("similarProjects", similarProjects);
     if (similarProjects.length && (fuzzyTwitterCheck || options.onlyLink)) {
       matchProject = similarProjects[0].project;
       matchType = "check_by_sim";

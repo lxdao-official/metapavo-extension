@@ -4,19 +4,20 @@ import useGlobal, { GlobalContext } from "../../../context/global";
 
 const RootElement = styled.div`
   opacity: 0;
-  transition: all 0.3s ease-in-out 0.5s;
+  transition: all 0.6s ease-in-out 0s;
   position: absolute;
   width: 307px;
   height: 167px;
   box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
   border-radius: 16px;
-
+  transform-origin: 100% 100%;
   &.mp-success-show {
     opacity: 1;
   }
   &.mp-success-hide {
     opacity: 0;
     transition: none;
+    transform: scale(0);
   }
   .mp-success-hd {
     display: flex;
@@ -220,17 +221,20 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
             </a>
           ) : null}
         </div>
-        <button className="">More</button>
+        <button
+          className=""
+          onClick={() => {
+            useG.setShowMain(!useG.showMain);
+          }}
+        >
+          More
+        </button>
       </div>
-      {/* <div
+      <div
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           setAddRootClass("");
-        }}
-        onMouseUp={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
         }}
         className="mp-success-close"
       >
@@ -244,19 +248,19 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           <path
             d="M7 7L17 17"
             stroke="#D1D0D6"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M7 17L17 7"
             stroke="#D1D0D6"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
-      </div> */}
+      </div>
     </RootElement>
   );
 }

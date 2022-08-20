@@ -15,6 +15,7 @@ import DangerPopup from "./status/danger";
 import SuccessPopup from "./status/success";
 import Main from "../main/main";
 import useWallet, { WalletContext } from "../../context/useWallet";
+import { initial } from "lodash";
 
 const transform = keyframes`
   0%,
@@ -54,6 +55,16 @@ const boom = keyframes`
   0% {
     border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
     background-color: #b721ff;
+  }
+  100% {
+    border-radius: 16px;
+    background-color: #fff;
+  }
+  `;
+const dangerboom = keyframes`
+  0% {
+    border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
+    background-color: #ff0000;
   }
   100% {
     border-radius: 16px;
@@ -132,6 +143,19 @@ const RootElement = styled.div`
     border-radius: 16px;
     box-shadow: none;
   }
+  &.metapavo-main-box-danger {
+    width: 307px;
+    height: 167px;
+  }
+  &.metapavo-main-box-danger #metapavo-box-gas {
+    width: 307px;
+    height: 167px;
+    animation: ${dangerboom} 1s ease-in-out both alternate;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: none;
+  }
   #metapavo-gas-text {
     line-height: 50px;
     color: #fff !important;
@@ -142,34 +166,35 @@ function App() {
   const [hide, setHide] = React.useState(false);
 
   const rootRef = useRef<any>(null);
+  const gasRef = useRef<HTMLDivElement>(null);
   const useG = useGlobal();
   const wallet = useWallet();
 
-  function dragElement(elmnt: HTMLElement) {
+  function dragElement() {
+    if (!gasRef.current) return;
     var pos1 = 0,
       pos2 = 0,
       pos3 = 0,
       pos4 = 0;
     let mousedownTimestamp: number = 0;
     // otherwise, move the DIV from anywhere inside the DIV:
-    elmnt.onmousedown = dragMouseDown;
-    elmnt.onmouseup = function (e) {
-      if (Date.now() - mousedownTimestamp < 250) {
-        useG.setShowMain(!useG.showMain);
-        closeDragElement();
-      } else {
+    gasRef.current.onmousedown = dragMouseDown;
+    gasRef.current.onmouseup = () => {
+      console.log("useG.addRootClass", useG.addRootClass);
+      if (new Date().getTime() - mousedownTimestamp < 300) {
+        if (!useG.addRootClass) {
+          useG.setShowMain(!useG.showMain);
+          closeDragElement();
+        }
       }
     };
-    elmnt.onmouseenter = () => {
-      if (useG.detectStatus === "success") {
-        useG.showSuccess();
-      }
-      elmnt.setAttribute("mouseIsOver", "1");
-    };
-    elmnt.onmouseleave = () => {
-      elmnt.setAttribute("mouseIsOver", "0");
-      useG.setAddRootClass("");
-    };
+    // rootRef.current.onmouseenter = () => {
+    //   if (useG.detectStatus === "success") {
+    //     useG.showSuccess();
+    //   }
+    //   rootRef.current.setAttribute("mouseIsOver", "1");
+    // };
+
     function dragMouseDown(e: MouseEvent) {
       e = e || window.event;
       // e.preventDefault();
@@ -193,9 +218,14 @@ function App() {
       pos3 = nowPosX;
       pos4 = nowPosY;
       // set the element's new position:
-      elmnt.style.right = Number(elmnt.style.right.replace(/[^\d]/g, "")) - pos1 + "px";
-      elmnt.style.bottom = Number(elmnt.style.bottom.replace(/[^\d]/g, "")) - pos2 + "px";
-      localStorage.setItem("metapavo-pos", [elmnt.style.right, elmnt.style.bottom].join("-"));
+      rootRef.current.style.right =
+        Number(rootRef.current.style.right.replace(/[^\d]/g, "")) - pos1 + "px";
+      rootRef.current.style.bottom =
+        Number(rootRef.current.style.bottom.replace(/[^\d]/g, "")) - pos2 + "px";
+      localStorage.setItem(
+        "metapavo-pos",
+        [rootRef.current.style.right, rootRef.current.style.bottom].join("-"),
+      );
     }
 
     function closeDragElement() {
@@ -205,7 +235,7 @@ function App() {
     }
   }
 
-  useEffect(() => {
+  function init() {
     useG.checkTwitter();
     useG.checkOpenSea();
     useG.checkWebsite();
@@ -219,7 +249,7 @@ function App() {
         rootRef.current.style.bottom = pos[1];
       }
     }
-    rootRef.current && dragElement(rootRef.current);
+    rootRef.current && dragElement();
 
     chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
       if (request.cmd === "gasUpdate") useG.setGas(request.value);
@@ -236,10 +266,17 @@ function App() {
         }
       },
     );
+  }
+
+  let inited = false;
+  useEffect(() => {
+    console.log("check", rootRef.current);
+    if (!inited) init();
+    inited = true;
   }, []);
 
   useEffect(() => {
-    if (!!useG.addRootClass) {
+    if (!!useG.addRootClass && useG.detectStatus === "success") {
       setTimeout(() => {
         if (rootRef.current.getAttribute("mouseIsOver") !== "1") {
           useG.setAddRootClass("");
@@ -264,10 +301,24 @@ function App() {
             style={{
               display: !hide && !useG.showMain ? "block" : "none",
             }}
+            onMouseEnter={() => {
+              if (useG.detectStatus === "success") {
+                useG.showSuccess();
+              }
+              rootRef.current.setAttribute("mouseIsOver", "1");
+            }}
+            onMouseLeave={() => {
+              rootRef.current.setAttribute("mouseIsOver", "0");
+              if (useG.detectStatus === "success") {
+                useG.setAddRootClass("");
+              }
+            }}
           >
             <div
               id="metapavo-box-gas"
               title="Drag to move"
+              ref={gasRef}
+              style={{ userSelect: "none" }}
               onDoubleClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();

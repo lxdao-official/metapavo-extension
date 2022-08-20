@@ -137,7 +137,7 @@ function useGlobal() {
           setAddRootClass("");
         }, 1000);
       }
-    }, 2000);
+    }, 3000);
   }
 
   async function refreshActiveProject() {
