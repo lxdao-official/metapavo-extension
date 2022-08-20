@@ -20,24 +20,44 @@ import {
 } from "./styleCom";
 
 // import images
-import arrow_down from "./images/arrow_down.svg";
-import logo from "./images/logo.svg";
-import logo_name from "./images/MetaPavo.svg";
-import RectangleTool from "./images/RectangleTool.svg";
-import Trend1 from "./images/Trend1.svg";
-import Trend2 from "./images/Trend2.svg";
-import history_icon1 from "./images/history_icon1.svg";
-import history_icon2 from "./images/history_icon2.svg";
-import link1 from "./images/link1.svg";
-import link2 from "./images/link2.svg";
-import returnImg from "./images/return.svg";
-import enter from "./images/enter.svg";
-import flag from "./images/flag.svg";
-import userIcon from "./images/user_icon.svg";
-import up from "./images/u_arrow-up.svg";
-import down from "./images/u_arrow-down.svg";
-import esc from "./images/ESC.svg";
-import enter_btn from "./images/enter_btn.svg";
+// import arrow_down from "./images/arrow_down.svg";
+// import logo from "./images/logo.svg";
+// import logo_name from "./images/MetaPavo.svg";
+// import RectangleTool from "./images/RectangleTool.svg";
+// import Trend1 from "./images/Trend1.svg";
+// import Trend2 from "./images/Trend2.svg";
+// import history_icon1 from "./images/history_icon1.svg";
+// import history_icon2 from "./images/history_icon2.svg";
+// import link1 from "./images/link1.svg";
+// import link2 from "./images/link2.svg";
+// import returnImg from "./images/return.svg";
+// import enter from "./images/enter.svg";
+// import flag from "./images/flag.svg";
+// import userIcon from "./images/user_icon.svg";
+// import up from "./images/u_arrow-up.svg";
+// import down from "./images/u_arrow-down.svg";
+// import esc from "./images/ESC.svg";
+// import enter_btn from "./images/enter_btn.svg";
+
+const url_prefix = "https://lengyuerbucket.oss-cn-beijing.aliyuncs.com/pavo/"
+const arrow_down = url_prefix + "arrow_down.svg";
+const logo = url_prefix + "logo.svg";
+const logo_name = url_prefix + "MetaPavo.svg";
+const RectangleTool = url_prefix + "RectangleTool.svg";
+const Trend1 = url_prefix + "Trend1.svg";
+const Trend2 = url_prefix + "Trend2.svg";
+const history_icon1 = url_prefix + "history_icon1.svg";
+const history_icon2 = url_prefix + "history_icon2.svg";
+const link1 = url_prefix + "link1.svg";
+const link2 = url_prefix + "link2.svg";
+const returnImg = url_prefix + "return.svg";
+const enter = url_prefix + "enter.svg";
+const flag = url_prefix + "flag.svg"
+const userIcon = url_prefix + "user_icon.svg";
+const up = url_prefix + "u_arrow-up.svg";
+const down = url_prefix + "u_arrow-down.svg";
+const esc = url_prefix + "ESC.svg";
+const enter_btn = url_prefix + "enter_btn.svg";
 
 // test data
 const testSearchData = [
