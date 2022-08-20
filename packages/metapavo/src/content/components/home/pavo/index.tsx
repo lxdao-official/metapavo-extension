@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import styled from "styled-components";
+import { searchProjects } from "../../../../apis/nft_api"
+import useGlobal, { GlobalContext } from "../../../context/global";
 import { Box } from "@mui/material";
 import {
   Container,
@@ -148,6 +149,7 @@ const Pavo = () => {
   const [historyHot, setHistoryHot] = useState<any[]>([]);
   const [historyAll, setHistoryAll] = useState<any[]>([]);
   const searchDom = useRef<HTMLInputElement | null>(null);
+  const { refreshActiveProject, setActiveProject } = useGlobal()
 
   const mapStatus: any = {};
   mapStatus[(mapStatus[0] = "Hall")] = 0;
@@ -515,17 +517,20 @@ const Pavo = () => {
     setStatus(mapStatus[title]);
   };
 
-  const searchChange = (e: any) => {
+  const searchChange = async (e: any) => {
     const curValue = e.target.value;
+
+    setCurValue(curValue);
 
     if (curValue) {
       console.log("curValue", curValue);
+      // search project 请求逻辑
+      const searchResult = await searchProjects(curValue)
       setStatus(1);
     } else {
       setStatus(0);
     }
 
-    setCurValue(curValue);
     setTimeout(() => {
       searchDom.current !== null && searchDom.current.focus();
     });
