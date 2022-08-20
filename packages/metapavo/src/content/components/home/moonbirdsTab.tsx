@@ -129,7 +129,7 @@ const card = (obj: any) => (
       px: "15px",
       py: "10px",
       // width: "100%",
-      height: "83.71px",
+      height: "59.71px",
       background: "rgba(248, 247, 249, 0.7)",
       border: "0.794574px solid #D7D7D7",
       borderRadius: "6.35659px",
@@ -155,7 +155,7 @@ const card = (obj: any) => (
     <Box sx={{ mb: 1.5, fontWeight: 700, fontSize: "14px", color: "#353536", lineHeight: "17px" }}>
       {obj.value}
     </Box>
-    <Box
+    {/* <Box
       sx={{
         display: "flex",
         alignItems: "center",
@@ -170,7 +170,7 @@ const card = (obj: any) => (
       <Box component="span" sx={{ color: obj.rate > 0 ? "#07A333" : "#FF1159" }}>
         {obj.rate}%
       </Box>
-    </Box>
+    </Box> */}
   </Box>
 );
 
@@ -236,7 +236,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
   const mookData = [
     {
       label: "总市值",
-      value: `$${twoDecimal(activeProject?.total_sales)}`,
+      value: `${twoDecimal(activeProject?.total_sales)}`,
       date: "24H",
       rate: 0,
       icon: "$",
@@ -250,21 +250,21 @@ const MoonbirdsTab1 = (props: MediaProps) => {
     },
     {
       label: "交易量(24H)",
-      value: `$${twoDecimal(activeProject?.one_day_volume)}`,
+      value: `${twoDecimal(activeProject?.one_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量(7D)",
-      value: `$${twoDecimal(activeProject?.seven_day_volume)}`,
+      value: `${twoDecimal(activeProject?.seven_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
-      value: `$${twoDecimal(activeProject?.floor_price)}`,
+      value: `${twoDecimal(activeProject?.floor_price)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
@@ -415,35 +415,35 @@ const MoonbirdsTab2 = () => {
   const mookData = [
     {
       label: "总市值",
-      value: `$${twoDecimal(activeProject?.total_sales)}`,
+      value: `${twoDecimal(activeProject?.total_sales)}`,
       date: "24H",
       rate: 0,
       icon: "$",
     },
     {
       label: "持有者",
-      value: `$${activeProject?.num_owners?.toLocaleString()}`,
+      value: `${activeProject?.num_owners?.toLocaleString()}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量(24H)",
-      value: `$${twoDecimal(activeProject?.one_day_volume)}`,
+      value: `${twoDecimal(activeProject?.one_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "交易量(7D)",
-      value: `$${twoDecimal(activeProject?.seven_day_volume)}`,
+      value: `${twoDecimal(activeProject?.seven_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
-      value: `$${twoDecimal(activeProject?.floor_price)}`,
+      value: `${twoDecimal(activeProject?.floor_price)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
@@ -571,9 +571,9 @@ const line = (obj: any) => (
         </Box>
         <Box sx={{ fontSize: "11px", lineHeight: "13px", color: "#A9A8AF", display: "flex" }}>
           {obj.content} ·{" "}
-          <Box component="span" sx={{ fontStyle: "italic" }}>
+          {/* <Box component="span" sx={{ fontStyle: "italic" }}>
             {obj.date}
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </Box>
