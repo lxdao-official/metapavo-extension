@@ -63,10 +63,65 @@ const RootElement = styled.div`
     cursor: pointer;
     z-index: 100;
   }
+  .mp-success-bd {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+  .mp-success-bd-price {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 25px;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    color: #979797;
+    width: 45%;
+  }
+  .mp-success-links {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 20px;
+    button {
+      width: 72px;
+      height: 25px;
+      background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+      border-radius: 4px;
+      color: #fff;
+      font-size: 12px;
+      line-height: 25px;
+      border: none;
+    }
+  }
+  .mp-success-links-left {
+    display: flex;
+    justify-content: flex-start;
+    line-height: 40px;
+    a {
+      margin-right: 6px;
+      img {
+        width: 20px;
+        height: 20px;
+        vertical-align: 5px;
+      }
+    }
+  }
 `;
 export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
   const useG = useContext(GlobalContext);
   const { activeProject, setAddRootClass } = useG;
+
+  const linkImages = {
+    etherscan: chrome.runtime.getURL("images/etherscan.png"),
+    twitter: chrome.runtime.getURL("images/twitter.png"),
+    opensea: chrome.runtime.getURL("images/opensea.png"),
+    x2y2: chrome.runtime.getURL("images/x2y2.png"),
+    website: chrome.runtime.getURL("images/website.png"),
+    looksrare: chrome.runtime.getURL("images/looksrare.png"),
+    github: chrome.runtime.getURL("images/github.png"),
+  };
   return (
     <RootElement className={[state === "show" ? "mp-success-show" : "mp-success-hide"].join(" ")}>
       <div className="mp-success-hd">
@@ -93,8 +148,79 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
         ) : null}
       </div>
       <div className="mp-success-bd">
-        <p>Floor (24h): ${activeProject?.floor_price}Ξ</p>
-        <p>Volume (24h): ${activeProject?.one_day_volume}Ξ</p>
+        <div className="mp-success-bd-price">
+          Floor: {activeProject?.floor_price ? Number(activeProject.floor_price).toFixed(2) : "-"}Ξ
+        </div>
+        <div className="mp-success-bd-price">
+          Volume(24h):{" "}
+          {activeProject?.one_day_volume ? Number(activeProject.one_day_volume).toFixed(2) : "-"}Ξ
+        </div>
+        <div className="mp-success-bd-price">
+          Supply: {activeProject?.one_day_volume ? activeProject.total_supply : "-"}
+        </div>
+        <div className="mp-success-bd-price">
+          Holders: {activeProject?.one_day_volume ? activeProject.num_owners : "-"}
+        </div>
+      </div>
+      <div className="mp-success-links">
+        <div className="mp-success-links-left">
+          {activeProject?.contract_address ? (
+            <a
+              href={"https://etherscan.io/address/" + activeProject.contract_address}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.etherscan} alt="" />{" "}
+            </a>
+          ) : null}
+          {activeProject?.twitter_username ? (
+            <a
+              href={"https://twitter.com/" + activeProject.twitter_username}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.twitter} alt="" />{" "}
+            </a>
+          ) : null}
+          {activeProject?.external_url ? (
+            <a href={activeProject.external_url} target="_blank" rel="noreferrer">
+              <img src={linkImages.website} alt="" />{" "}
+            </a>
+          ) : null}
+          {activeProject?.id ? (
+            <a
+              href={"https://opensea.io/collection/" + activeProject.id}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.opensea} alt="" />{" "}
+            </a>
+          ) : null}{" "}
+          {activeProject?.id ? (
+            <a
+              href={`https://looksrare.org/collections/${activeProject?.contract_address}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.looksrare} alt="" />{" "}
+            </a>
+          ) : null}
+          {activeProject?.contract_address ? (
+            <a
+              href={`https://x2y2.io/eth/${activeProject?.contract_address}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.x2y2} alt="" />{" "}
+            </a>
+          ) : null}
+          {activeProject?.github ? (
+            <a href={`${activeProject?.github}`} target="_blank" rel="noreferrer">
+              <img src={linkImages.github} alt="" />{" "}
+            </a>
+          ) : null}
+        </div>
+        <button className="">More</button>
       </div>
       {/* <div
         onClick={(e) => {

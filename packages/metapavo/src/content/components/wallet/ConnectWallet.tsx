@@ -69,7 +69,6 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
         fetchLoginInfo();
         props.loginSuccess && props.loginSuccess(access_token);
         enqueueSnackbar("login success", {
-          variant: "success",
           anchorOrigin: {
             vertical: "top",
             horizontal: "center",

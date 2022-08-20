@@ -1,10 +1,15 @@
 import React from "react";
+import { createVisitHistory, findNftByURL, getNftById } from "../../apis/nft_api";
 import { IProject } from "../../apis/types";
+import { recognizerOpenSea } from "../../recognizer/opensea";
 import {
   checkTwitterScam,
   checkTwitterUser,
+  detectProjectByContractAddress,
+  detectProjectById,
   detectProjectByTwitterId,
 } from "../../recognizer/twitter";
+import { recognizerWebsite } from "../../recognizer/website";
 type RecognizerStatus = "danger" | "warning" | "success" | "none";
 export const GlobalContext = React.createContext<{
   showMain: boolean;
@@ -14,6 +19,7 @@ export const GlobalContext = React.createContext<{
   detectStatus: RecognizerStatus;
   setDetectStatus: (detectStatus: RecognizerStatus) => void;
   checkTwitter: () => void;
+  checkOpenSea: () => void;
   addRootClass: string;
   showSuccess: () => void;
   gas: number;
@@ -21,6 +27,7 @@ export const GlobalContext = React.createContext<{
   activeAccoidion: number;
   setActiveAccoidion: (activeAccoidion: number) => void;
   setAddRootClass: (addRootClass: string) => void;
+  refreshActiveProject: () => void;
 }>({} as any);
 function useGlobal() {
   const [showMain, setShowMain] = React.useState(false);
@@ -29,13 +36,71 @@ function useGlobal() {
   const [addRootClass, setAddRootClass] = React.useState("");
   const [gas, setGas] = React.useState(0);
   const [activeAccoidion, setActiveAccoidion] = React.useState(0);
+
   function showSuccess() {
     setAddRootClass("metapavo-main-box-success");
-    setTimeout(() => {
-      setAddRootClass("");
-    }, 8000);
+  }
+
+  async function checkWebsite() {
+    if (window.location.host.indexOf("opensea.io") !== -1) return;
+    if (window.location.host.indexOf("twitter.com") !== -1) return;
+    const matchedURL = await recognizerWebsite();
+    if (matchedURL && matchedURL[1]) {
+      const projectInfo = await findNftByURL(matchedURL);
+      if (projectInfo) {
+        setDetectStatus("success");
+        setTimeout(() => {
+          showSuccess();
+        }, 1000);
+        setActiveProject(projectInfo);
+        createVisitHistory(projectInfo.id);
+      } else {
+        setDetectStatus("none");
+        setActiveProject(null);
+        setTimeout(() => {
+          setAddRootClass("");
+        }, 1000);
+      }
+    }
+    return matchedURL;
+  }
+  async function checkOpenSea() {
+    if (window.location.host.indexOf("opensea.io") == -1) return;
+    let lastCheckOpenseaId: string | undefined = undefined;
+    setInterval(async () => {
+      const result = await recognizerOpenSea();
+      if (result && (result.contract || result.id)) {
+        if ((result.contract || result.id) !== lastCheckOpenseaId) {
+          const projectInfo = result.id
+            ? await detectProjectById(result.id)
+            : await detectProjectByContractAddress(result.contract!);
+          if (projectInfo) {
+            setDetectStatus("success");
+            setTimeout(() => {
+              showSuccess();
+            }, 1000);
+            setActiveProject(projectInfo);
+            createVisitHistory(projectInfo.id);
+          } else {
+            setDetectStatus("none");
+            setActiveProject(null);
+            setTimeout(() => {
+              setAddRootClass("");
+            }, 1000);
+          }
+        }
+        lastCheckOpenseaId = result.contract || result.id;
+      } else {
+        setDetectStatus("none");
+        setActiveProject(null);
+        setTimeout(() => {
+          setAddRootClass("");
+        }, 1000);
+      }
+    }, 2000);
   }
   function checkTwitter() {
+    if (window.location.host.indexOf("twitter.com") == -1) return;
     let lastCheckTwitterId: string | null = null;
     setInterval(async () => {
       const twitterPageDetail = await checkTwitterUser();
@@ -48,6 +113,7 @@ function useGlobal() {
               showSuccess();
             }, 1000);
             setActiveProject(projectInfo);
+            createVisitHistory(projectInfo.id);
           } else {
             setDetectStatus("none");
             setActiveProject(null);
@@ -74,6 +140,15 @@ function useGlobal() {
     }, 2000);
   }
 
+  async function refreshActiveProject() {
+    if (activeProject) {
+      const res = await getNftById(activeProject.id);
+      if (res) {
+        setActiveProject(res);
+      }
+    }
+  }
+
   return {
     showMain,
     setShowMain,
@@ -82,6 +157,8 @@ function useGlobal() {
     detectStatus,
     setDetectStatus,
     checkTwitter,
+    checkOpenSea,
+    checkWebsite,
     addRootClass,
     showSuccess,
     gas,
@@ -89,6 +166,7 @@ function useGlobal() {
     activeAccoidion,
     setActiveAccoidion,
     setAddRootClass,
+    refreshActiveProject,
   };
 }
 export default useGlobal;
