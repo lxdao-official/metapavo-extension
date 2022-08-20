@@ -15,10 +15,10 @@ import {
 import useGlobal, { GlobalContext } from "../../context/global";
 import copy from "clipboard-copy";
 const css = `
-    .tabInner{
+    .metapavo-tabInner{
       text-align:left
     }
-    .message{
+    .metapavo-message{
         width: 275px;
         height: 52px;
         box-sizing: border-box;
@@ -36,18 +36,18 @@ const css = `
     i{
       margin-right:8px;
     }
-    .icon{
+    .metapavo-icon{
       margin-right:15px;
       margin-left:12px;
       width:20px;
       height:20px;
     }
-    .boxText{
+    .metapavo-boxText{
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 3px 4px;
-      width: 49px;
+      width: 60px;
       height: 19px;
       background: #F5F5F5;
       border-radius: 4px;
@@ -57,14 +57,14 @@ const css = `
       color: #353536;
       margin-top:12px;
     }
-    .ellipsis{
+    .metapavo-ellipsis{
       width:16px;
       height:8px;
       background: #24292E;
       color:#fff;
       margin-left:8px;
     }
-    .roundT{
+    .metapavo-roundT{
       display: flex;
       justify-content: center;
       align-items: center;
@@ -76,7 +76,7 @@ const css = `
       color: #353536;
       margin-right:5px;
     }
-    .selectClass{
+    .metapavo-selectClass{
       color:#5B28EB;
       font-weight: 500;
       font-size: 11px;
@@ -88,7 +88,7 @@ const css = `
       // -webkit-appearance: none;
       // -moz-appearance: none;
     }
-    .topSelect{
+    .metapavo-topSelect{
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -106,23 +106,20 @@ const css = `
       -moz-appearance: none;
       position:relative;
     }
-    .topSelect:after{
+    .metapavo-topSelect:after{
       content:"v",
       position:"absolute";
       right:17.5px;
       top:10.5px;
     }
-    .option{
+    .metapavo-option{
       margin-top:5px;
       padding: 8px 16px;
       color:#000;
     }
     
-    .option:hover{
+    .metapavo-option:hover{
         backgroundColor:#F5F5F5;
-    }
-    div{
-      font-size:14px;
     }
 `;
 const card = (obj: any) => (
@@ -167,7 +164,7 @@ const card = (obj: any) => (
         lineHeight: "11px",
       }}
     >
-      <Box component="span" className="roundT">
+      <Box component="span" className="metapavo-roundT">
         {obj.date}
       </Box>
       <Box component="span" sx={{ color: obj.rate > 0 ? "#07A333" : "#FF1159" }}>
@@ -219,6 +216,13 @@ function formatAddress(address: string) {
   }
   return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
 }
+
+//two decimal places
+const twoDecimal = (num: any) => {
+  if (!num || num !== num || num == "NaN") return 0.0;
+  const data = num + "".toLocaleString();
+  return Number(data).toFixed(2);
+};
 const MoonbirdsTab1 = (props: MediaProps) => {
   const { loading = false } = props;
   const { activeProject, detectStatus } = useContext(GlobalContext);
@@ -232,7 +236,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
   const mookData = [
     {
       label: "总市值",
-      value: `$${activeProject?.total_sales?.toLocaleString()}`,
+      value: `$${twoDecimal(activeProject?.total_sales)}`,
       date: "24H",
       rate: 0,
       icon: "$",
@@ -245,22 +249,22 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
-      label: "交易量（24H）",
-      value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
+      label: "交易量(24H)",
+      value: `$${twoDecimal(activeProject?.one_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
-      label: "交易量（7D）",
-      value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
+      label: "交易量(7D)",
+      value: `$${twoDecimal(activeProject?.seven_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
-      value: `$${activeProject?.floor_price?.toLocaleString()}`,
+      value: `$${twoDecimal(activeProject?.floor_price)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
@@ -330,12 +334,12 @@ const MoonbirdsTab1 = (props: MediaProps) => {
     },
   ];
   return (
-    <div className="tabInner">
+    <div className="metapavo-tabInner">
       <style type="text/css">{css}</style>
 
       {detectStatus === "danger" && (
-        <div className="message">
-          <Shield_error className="icon" />
+        <div className="metapavo-message">
+          <Shield_error className="metapavo-icon" />
           该项目存在风险，有可能是某知名项目的仿盘，确定你已经对该项目已经有充分了解！
         </div>
       )}
@@ -382,12 +386,12 @@ const MoonbirdsTab1 = (props: MediaProps) => {
                 <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
               </IconButton>
             </Box>
-            <Box className="boxText">{activeProject?.type === 1 ? "ERC20" : "NFT"}</Box>
+            <Box className="metapavo-boxText">{activeProject?.type === 1 ? "ERC20" : "NFT"}</Box>
           </Box>
         </Box>
         <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>
           {activeProject?.describe}
-          <Ellipsis className="ellipsis" />
+          <Ellipsis className="metapavo-ellipsis" />
         </Box>
       </Box>
       <Box
@@ -411,7 +415,7 @@ const MoonbirdsTab2 = () => {
   const mookData = [
     {
       label: "总市值",
-      value: `$${activeProject?.total_sales?.toLocaleString()}`,
+      value: `$${twoDecimal(activeProject?.total_sales)}`,
       date: "24H",
       rate: 0,
       icon: "$",
@@ -424,22 +428,22 @@ const MoonbirdsTab2 = () => {
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
-      label: "交易量（24H）",
-      value: `$${activeProject?.one_day_volume?.toLocaleString()}`,
+      label: "交易量(24H)",
+      value: `$${twoDecimal(activeProject?.one_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
-      label: "交易量（7D）",
-      value: `$${activeProject?.seven_day_volume?.toLocaleString()}`,
+      label: "交易量(7D)",
+      value: `$${twoDecimal(activeProject?.seven_day_volume)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
     },
     {
       label: "地板价",
-      value: `$${activeProject?.floor_price?.toLocaleString()}`,
+      value: `$${twoDecimal(activeProject?.floor_price)}`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit" }} />,
@@ -466,7 +470,7 @@ const MoonbirdsTab2 = () => {
           <Box sx={{ fontWeight: 500, fontSize: "12px", lineHeight: "15px" }}>
             Market Cap & Volume
           </Box>
-          <select className="selectClass">
+          <select className="metapavo-selectClass">
             <option value={10}>24h</option>
             <option value={20}>3d</option>
             <option value={30}>4d</option>
@@ -598,9 +602,9 @@ const MoonbirdsTab3 = (props: MediaProps) => {
     setShow(!show);
   };
   return (
-    <div className="tabInner">
+    <div className="metapavo-tabInner">
       <style type="text/css">{css}</style>
-      <Box className="topSelect" onClick={() => setShow(!show)}>
+      <Box className="metapavo-topSelect" onClick={() => setShow(!show)}>
         <div>{options[val]?.name}</div>
         <Fliter sx={{ width: "15px", height: "15px", mr: "10.5px" }} />
         {show && (
@@ -619,7 +623,7 @@ const MoonbirdsTab3 = (props: MediaProps) => {
             {options.map((pp, ii) => (
               <MenuItem
                 value={pp.id}
-                className="option"
+                className="metapavo-option"
                 sx={{
                   fontSize: "14px",
                 }}

@@ -39,7 +39,7 @@ const css = `
 }
 @keyframes slideshow {
         0% {
-            margin-left: 0;
+            margin-left: 10px;
         }
         to {
             margin-left: -60px;
@@ -49,7 +49,11 @@ const css = `
         -webkit-animation: slideshow 5s linear infinite;
         animation: slideshow 5s linear infinite;
       }
-      
+  .Mui-expanded{
+    margin:0 !important;
+    min-height:48px !important;
+    align-items: center;
+  }
 `;
 const AccordionPage = () => {
   const { activeProject, activeAccoidion, setActiveAccoidion, gas, refreshActiveProject } =
@@ -175,6 +179,7 @@ const AccordionPage = () => {
           fontSize: "14px",
           m: "0px !important",
           border: "1px solid rgba(28, 27, 29, 0.04)",
+          alignItems: "center",
         }}
       >
         <AccordionSummary
