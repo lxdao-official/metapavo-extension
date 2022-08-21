@@ -253,6 +253,7 @@ export const ToolsItemContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 18px;
+  align-items: center;
 
   img {
     width: 70px;
