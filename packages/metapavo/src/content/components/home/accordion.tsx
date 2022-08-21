@@ -168,7 +168,9 @@ const AccordionPage = () => {
             MetaPavo
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ backgroundColor: "#fff" }}>
+        <AccordionDetails
+          sx={{ backgroundColor: "#fff", overflowY: "auto", height: "calc(100vh - 130px)" }}
+        >
           <Typography>
             <Pavo />
           </Typography>
