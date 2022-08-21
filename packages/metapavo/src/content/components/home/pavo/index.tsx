@@ -41,6 +41,7 @@ import enter_btn from "./images/enter_btn.svg";
 import { getUsersFavs, getVisitHistories } from "../../../../apis/nft_api";
 import { IVisitHistory, IFavs } from "../../../../apis/types";
 import moment from "moment";
+import { useNavigate } from "react-router";
 // test data
 const testSearchData = [
   {
@@ -358,13 +359,17 @@ const Pavo = () => {
   const ToolsHot = (props: any) => {
     const data = props.data;
     const title = props.title;
-
+    let navigate = useNavigate();
     return (
       <ToolsHotContainer>
         <TitleOfHot title={title} />
 
         <div className="hot-tool-list">
-          <ToolsItemContainer>
+          <ToolsItemContainer
+            onClick={() => {
+              navigate("/alarms");
+            }}
+          >
             <AlarmIcon />
             <span>Alarm Reminder</span>
           </ToolsItemContainer>

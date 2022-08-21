@@ -78,6 +78,11 @@ chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) 
   if (request.cmd === "add_time_alarm") {
     addAlarm(request.value.timestamp, request.value.content);
   }
+  if (request.cmd === "get_all_time_alarm") {
+    chrome.alarms.getAll((alarms) => {
+      sendResponse(alarms);
+    });
+  }
 });
 
 let timer: any = null;

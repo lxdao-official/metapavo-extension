@@ -180,7 +180,6 @@ function App() {
     // otherwise, move the DIV from anywhere inside the DIV:
     gasRef.current.onmousedown = dragMouseDown;
     gasRef.current.onmouseup = () => {
-      console.log("useG.addRootClass", useG.addRootClass);
       if (new Date().getTime() - mousedownTimestamp < 300) {
         if (!useG.addRootClass) {
           useG.setShowMain(!useG.showMain);
@@ -188,12 +187,6 @@ function App() {
         }
       }
     };
-    // rootRef.current.onmouseenter = () => {
-    //   if (useG.detectStatus === "success") {
-    //     useG.showSuccess();
-    //   }
-    //   rootRef.current.setAttribute("mouseIsOver", "1");
-    // };
 
     function dragMouseDown(e: MouseEvent) {
       e = e || window.event;
@@ -270,7 +263,6 @@ function App() {
 
   let inited = false;
   useEffect(() => {
-    console.log("check", rootRef.current);
     if (!inited) init();
     inited = true;
   }, []);

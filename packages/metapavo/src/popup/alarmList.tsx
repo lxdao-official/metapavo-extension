@@ -10,13 +10,20 @@ export default function AlarmList() {
   const [alarms, setAlarms] = React.useState<any[]>([]);
 
   useEffect(() => {
-    chrome.alarms.getAll((alarms) => {
-      setAlarms(
-        alarms.filter((a) => {
-          return a.name.startsWith("time_alarm:");
-        }),
-      );
-    });
+    chrome.runtime.sendMessage(
+      {
+        cmd: "get_all_time_alarm",
+      },
+      (res) => {
+        if (!chrome.runtime.lastError) {
+          setAlarms(
+            res.filter((a: any) => {
+              return a.name.startsWith("time_alarm:");
+            }),
+          );
+        }
+      },
+    );
   }, []);
   return (
     <>

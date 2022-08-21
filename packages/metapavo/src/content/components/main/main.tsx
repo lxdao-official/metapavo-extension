@@ -7,6 +7,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { Box } from "@mui/material";
 import { MemoryRouter, Routes, Route, useNavigate } from "react-router-dom";
 import useWallet from "../../context/useWallet";
+import AlarmList from "../../../popup/alarmList";
 const RootElement = styled.div`
   width: 303px;
   height: 100vh;
@@ -65,6 +66,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/index" element={<AccordionPage />} />
+          <Route path="/alarms" element={<AlarmList />} />
         </Routes>
       </div>
       {useG.showMain ? (
