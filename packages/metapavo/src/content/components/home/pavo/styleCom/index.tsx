@@ -149,68 +149,70 @@ export const SearchField = styled.div`
 `;
 
 export const SearchItemContainer = styled.div`
-    box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 272px;
+  padding: 4px 18px;
+  padding-right: 8px;
+  margin-top: 8px;
+  margin-left: -16px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #353536;
+  white-space: nowrap;
+  text-align: right;
+  cursor: pointer;
+
+  .front {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    width: 272px;
-    padding: 4px 18px;
-    padding-right: 8px;
-    margin-top: 8px;
-    margin-left: -16px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #353536;
-    white-space: nowrap;
-    text-align: right;
 
-    .front {
-        display: flex;
-        align-items: center;
-
-        .user-icon {
-            width: 30px;
-            height: 30px;
-            margin-right: 11px;
-        }
-    
-        .user-name {
-            max-width: 100px;
-            height: 16px;
-            margin-right: 4px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    .user-icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 11px;
+      border-radius: 15px;
     }
 
-    .end {
-        display: flex;
-        align-items: center;
-
-        .eth {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 54px;
-            height: 33px;
-            // margin-left: 23px;
-            font-weight: 500;
-            font-size: 12px;
-            color: #A9A8AF;
-    
-            .num {
-                font-weight: 600;
-                font-size: 12px;
-                color: #000000;
-            }
-        }
-    
-        .enter {
-            margin-left: 11.3px;
-        }
+    .user-name {
+      max-width: 100px;
+      height: 16px;
+      margin-right: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-`
+  }
+
+  .end {
+    display: flex;
+    align-items: center;
+
+    .eth {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 54px;
+      height: 33px;
+      // margin-left: 23px;
+      font-weight: 500;
+      font-size: 12px;
+      color: #a9a8af;
+
+      .num {
+        font-weight: 600;
+        font-size: 12px;
+        color: #000000;
+      }
+    }
+
+    .enter {
+      margin-left: 11.3px;
+    }
+  }
+`;
 
 export const Head = styled.div`
   width: 100%;

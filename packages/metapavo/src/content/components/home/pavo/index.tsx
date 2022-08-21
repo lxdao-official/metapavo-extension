@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { getNftById, searchProjects } from "../../../../apis/nft_api";
 import useGlobal, { GlobalContext } from "../../../context/global";
 import { Box, CircularProgress, IconButton } from "@mui/material";
-import useThrottle from './useThrottle'
+import useThrottle from "./useThrottle";
 import {
   Container,
   HeadSelect,
@@ -32,6 +32,7 @@ import { useSnackbar } from "notistack";
 import TrendsALL, { TrendsItem } from "./comps/WatchListAll";
 import HistoryALL, { HistoryItem } from "./comps/historyListAll";
 import AlarmListPage from "./comps/AlarmListPage";
+import { Component1 } from "../../assets/Svgs";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const logo = chrome.runtime.getURL("images/svgs/logo.svg");
 const logo_name = chrome.runtime.getURL("images/svgs/MetaPavo.svg");
@@ -139,8 +140,9 @@ const Pavo = () => {
           return {
             userIcon: item.project?.image_url,
             useName: item.project?.name,
-            userEth: `Floor: ${item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
-              } E`,
+            userEth: `Floor: ${
+              item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
+            } E`,
             links: [],
             dayTime: moment(item.created_at)
               .fromNow()
@@ -163,8 +165,9 @@ const Pavo = () => {
           return {
             img: item.project?.image_url,
             name: item.project?.name,
-            eth: `Floor: ${item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
-              } E`,
+            eth: `Floor: ${
+              item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
+            } E`,
             project_id: item.project_id,
           };
         }),
@@ -204,14 +207,16 @@ const Pavo = () => {
 
   const SearchItem = (props: any) => {
     const item = props.itemData;
-    const clickFn = props.onClick
+    const clickFn = props.onClick;
 
     return (
       <SearchItemContainer onClick={clickFn}>
         <div className="front">
           <img className="user-icon" src={item.user_icon} alt="" />
           <span className="user-name">{item.user_name}</span>
-          <img className="flag" src={item.flag} alt="" />
+          {item.contract_is_verified ? (
+            <Component1 sx={{ ml: 0.5, width: "16px", height: "16px" }} />
+          ) : null}
         </div>
 
         <div className="end">
@@ -227,11 +232,11 @@ const Pavo = () => {
 
   // 检索组件
   const SearchCom = (props: any) => {
-    const status = props.status
-    const searchData = props.searchData
+    const status = props.status;
+    const searchData = props.searchData;
 
     if (status === 1) {
-      searchInputFocus()
+      searchInputFocus();
     }
 
     return (
@@ -251,18 +256,20 @@ const Pavo = () => {
           {status === 1 &&
             searchData.length &&
             searchData.map((item: any, index: number) => {
-              return <SearchItem
-                key={index}
-                itemData={item}
-                onClick={() => {
-                  goDetail(item.project_id);
-                  setTimeout(() => {
-                    setStatus(0)
-                    setSearchData([])
-                    setCurValue('')
-                  }, 1000)
-                }}
-              />;
+              return (
+                <SearchItem
+                  key={index}
+                  itemData={item}
+                  onClick={() => {
+                    goDetail(item.project_id);
+                    setTimeout(() => {
+                      setStatus(0);
+                      setSearchData([]);
+                      setCurValue("");
+                    }, 1000);
+                  }}
+                />
+              );
             })}
 
           {status === 1 && (
@@ -559,7 +566,9 @@ const Pavo = () => {
         );
         break;
       case 1:
-        generateComs.push(...[<HeadCom key={0} />, <SearchCom key={1} status={status} searchData={searchData} />]);
+        generateComs.push(
+          ...[<HeadCom key={0} />, <SearchCom key={1} status={status} searchData={searchData} />],
+        );
         break;
       case 2:
         generateComs.push(
@@ -599,23 +608,33 @@ const Pavo = () => {
     setStatus(mapStatus[title]);
   };
 
-  const search = useThrottle(async () => {
-    // search project 请求逻辑
-    const searchResult: any = await searchProjects(curValue);
-    let searchData = searchResult.data
-    searchData = searchData.map((item: any) => {
-      return {
-        ...item,
-        project_id: item.id,
-        user_icon: item.image_url,
-        user_name: item.name,
-        flag: flag,
-        eth: `${item.floor_price ? Math.round(item.floor_price * 1000) / 1000 : 0} ETH`,
-      }
-    })
-    setSearchData(searchData);
-    setStatus(1);
-  }, 1000, [])
+  const search = useThrottle(
+    async () => {
+      if (!curValue) return;
+      // search project 请求逻辑
+      try {
+        const searchResult: any = await searchProjects(curValue);
+        if (searchResult.data) {
+          let searchData = searchResult.data;
+          searchData = searchData.map((item: any) => {
+            return {
+              ...item,
+              project_id: item.id,
+              user_icon: item.image_url,
+              user_name: item.name,
+              flag: flag,
+              contract_is_verified: item.contract_is_verified,
+              eth: `${item.floor_price ? Math.round(item.floor_price * 1000) / 1000 : 0} ETH`,
+            };
+          });
+          setSearchData(searchData);
+          setStatus(1);
+        }
+      } catch (e) {}
+    },
+    200,
+    [],
+  );
 
   const searchChange = async (e: any) => {
     const curValue = e.target.value;
@@ -624,24 +643,26 @@ const Pavo = () => {
 
     if (!curValue) {
       setStatus(0);
-      setSearchData([])
-      return
+      setSearchData([]);
+      return;
     }
 
-    search()
+    search();
   };
 
   const searchInputFocus = () => {
     searchDom.current !== null && searchDom.current.focus();
-  }
+  };
+
+  // useEffect(() => {
+  //   searchInputFocus();
+  // }, [curValue]);
 
   useEffect(() => {
-    searchInputFocus()
-  }, [curValue])
-
-  useEffect(() => {
+    console.log("init");
     getHistories();
     getFavs();
+    searchInputFocus();
   }, []);
 
   return (

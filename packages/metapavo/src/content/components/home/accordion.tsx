@@ -102,7 +102,7 @@ const AccordionPage = () => {
     if (activeProject) {
       setActiveAccoidion(1);
     }
-  }, []);
+  }, [activeProject]);
   return (
     <div>
       <style type="text/css">{css}</style>
