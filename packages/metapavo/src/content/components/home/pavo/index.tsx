@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { getNftById, searchProjects } from "../../../../apis/nft_api";
 import useGlobal, { GlobalContext } from "../../../context/global";
 import { Box, CircularProgress, IconButton } from "@mui/material";
+import useThrottle from './useThrottle'
 import {
   Container,
   HeadSelect,
@@ -30,6 +31,7 @@ import { WalletContext } from "../../../context/useWallet";
 import { useSnackbar } from "notistack";
 import TrendsALL, { TrendsItem } from "./comps/WatchListAll";
 import HistoryALL, { HistoryItem } from "./comps/historyListAll";
+import { isTemplateElement } from "@babel/types";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const logo = chrome.runtime.getURL("images/svgs/logo.svg");
 const logo_name = chrome.runtime.getURL("images/svgs/MetaPavo.svg");
@@ -49,15 +51,6 @@ const down = chrome.runtime.getURL("images/svgs/u_arrow-down.svg");
 const esc = chrome.runtime.getURL("images/svgs/ESC.svg");
 const enter_btn = chrome.runtime.getURL("images/svgs/enter_btn.svg");
 
-// test data
-const testSearchData = [
-  {
-    user_icon: userIcon,
-    user_name: "Moonbirds",
-    flag: flag,
-    eth: "0.02 ETH",
-  },
-];
 function AlarmIcon() {
   return (
     <div
@@ -111,6 +104,16 @@ function AlarmIcon() {
     </div>
   );
 }
+
+// test data
+const testSearchData = [
+  {
+    user_icon: userIcon,
+    user_name: "Moonbirds",
+    flag: flag,
+    eth: "0.02 ETH",
+  },
+];
 const testToolsHotData = [
   { img: AlarmIcon, name: "Alarm Reminder" },
   // { img: RectangleTool, name: "时区计算" },
@@ -214,9 +217,8 @@ const Pavo = () => {
           return {
             userIcon: item.project?.image_url,
             useName: item.project?.name,
-            userEth: `Floor: ${
-              item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
-            } E`,
+            userEth: `Floor: ${item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
+              } E`,
             links: [{ link: "", img: link1 }],
             dayTime: moment(item.created_at).fromNow(),
             hourTime: moment(item.created_at).format("mm:ss"),
@@ -236,9 +238,8 @@ const Pavo = () => {
           return {
             img: item.project?.image_url,
             name: item.project?.name,
-            eth: `Floor: ${
-              item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
-            } E`,
+            eth: `Floor: ${item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
+              } E`,
             project_id: item.project_id,
           };
         }),
@@ -278,23 +279,36 @@ const Pavo = () => {
 
   const SearchItem = (props: any) => {
     const item = props.itemData;
+    const clickFn = props.onClick
 
     return (
-      <SearchItemContainer>
-        <img className="user-icon" src={item.user_icon} alt="" />
-        <span className="user-name">{item.user_name}</span>
-        <img className="flag" src={item.flag} alt="" />
-        <div className="eth">
-          <span className="num">{item.eth}</span>
-          <span>Floor</span>
+      <SearchItemContainer onClick={clickFn}>
+        <div className="front">
+          <img className="user-icon" src={item.user_icon} alt="" />
+          <span className="user-name">{item.user_name}</span>
+          <img className="flag" src={item.flag} alt="" />
         </div>
-        <img className="enter" src={enter} alt="" />
+
+        <div className="end">
+          <div className="eth">
+            <span className="num">{item.eth}</span>
+            <span>Floor</span>
+          </div>
+          <img className="enter" src={enter} alt="" />
+        </div>
       </SearchItemContainer>
     );
   };
 
   // 检索组件
-  const SearchCom = () => {
+  const SearchCom = (props: any) => {
+    const status = props.status
+    const searchData = props.searchData
+
+    if (status === 1) {
+      searchInputFocus()
+    }
+
     return (
       <SearchField>
         <div className="search">
@@ -311,8 +325,19 @@ const Pavo = () => {
         <div className="search-data">
           {status === 1 &&
             searchData.length &&
-            searchData.map((item, index) => {
-              return <SearchItem key={index} itemData={item} />;
+            searchData.map((item: any, index: number) => {
+              return <SearchItem
+                key={index}
+                itemData={item}
+                onClick={() => {
+                  goDetail(item.project_id);
+                  setTimeout(() => {
+                    setStatus(0)
+                    setSearchData([])
+                    setCurValue('')
+                  }, 1000)
+                }}
+              />;
             })}
 
           {status === 1 && (
@@ -568,7 +593,7 @@ const Pavo = () => {
         generateComs.push(
           ...[
             <HeadCom key={0} />,
-            <SearchCom key={1} />,
+            <SearchCom key={1} status={status} searchData={searchData} />,
             <ToolsHot key={2} data={toolsHot} title={"Tools"} />,
             <TrendsHot key={3} data={trendsHot} title={"Trends"} />,
             <HistoryHot key={4} title={"History"} data={historyHot} />,
@@ -576,7 +601,7 @@ const Pavo = () => {
         );
         break;
       case 1:
-        generateComs.push(...[<HeadCom key={0} />, <SearchCom key={1} />]);
+        generateComs.push(...[<HeadCom key={0} />, <SearchCom key={1} status={status} searchData={searchData} />]);
         break;
       case 2:
         generateComs.push(
@@ -608,38 +633,60 @@ const Pavo = () => {
   };
 
   const opMoreClick = (title: string) => {
-    console.log("more click", title);
     setStatus(mapStatus[title]);
   };
+
+  const search = useThrottle(async () => {
+    // search project 请求逻辑
+    const searchResult: any = await searchProjects(curValue);
+    let searchData = searchResult.data
+    searchData = searchData.map((item: any) => {
+      return {
+        ...item,
+        project_id: item.id,
+        user_icon: item.image_url,
+        user_name: item.name,
+        flag: flag,
+        eth: `${item.floor_price ? Math.round(item.floor_price * 1000) / 1000 : 0} ETH`,
+      }
+    })
+    setSearchData(searchData);
+    setStatus(1);
+  }, 1000, [])
 
   const searchChange = async (e: any) => {
     const curValue = e.target.value;
 
     setCurValue(curValue);
 
-    if (curValue) {
-      console.log("curValue", curValue);
-      // search project 请求逻辑
-      const searchResult = await searchProjects(curValue);
-      setStatus(1);
-    } else {
+    if (!curValue) {
       setStatus(0);
+      setSearchData([])
+      return
     }
 
-    setTimeout(() => {
-      searchDom.current !== null && searchDom.current.focus();
-    });
+    search()
   };
+
+  const searchInputFocus = () => {
+    searchDom.current !== null && searchDom.current.focus();
+  }
+
+  useEffect(() => {
+    searchInputFocus()
+  }, [curValue])
 
   useEffect(() => {
     getHistories();
     getFavs();
-    setSearchData(testSearchData);
     setToolsAll(testToolsAll);
     setTrendsAll(testTrendsAll);
-
     setHistoryAll(testHostoryAll);
   }, []);
+
+  useEffect(() => {
+    console.log("cur status", status, searchData)
+  })
 
   return (
     <Container>
