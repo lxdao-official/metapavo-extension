@@ -18,7 +18,7 @@ export const HeadSelect = styled.div`
   margin-right: 4.9px;
   margin-top: 12px;
   line-height: 14px;
-  text-align: right;
+  justify-content: flex-end;
   cursor: pointer;
 
   span {
@@ -415,7 +415,7 @@ export const HeadReturnContainer = styled.div`
   display: flex;
   width: 303px;
   height: 20px;
-  margin-top: 52px;
+  margin-top: 15px;
 
   img {
     height: 14.166666984558105px;
@@ -438,8 +438,39 @@ export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 275px;
-  height: 160px;
   background: #ffffff;
   box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
   border-radius: 9px;
+  .user-des {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    padding: 13px 19px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+
+    .user-name {
+      font-weight: 700;
+      font-size: 14px;
+      .user-code {
+        background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+      }
+    }
+    .user-eth {
+      font-weight: 500;
+      color: #d1d0d6;
+    }
+  }
+  .op-list {
+    padding: 20px;
+    .metaPavo-pp {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 15px;
+      color: #7f7e85;
+    }
+  }
 `;
