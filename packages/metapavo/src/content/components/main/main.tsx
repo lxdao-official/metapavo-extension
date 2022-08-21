@@ -66,7 +66,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/index" element={<AccordionPage />} />
-          <Route path="/alarms" element={<AlarmList />} />
+          {/* <Route path="/alarms" element={<AlarmListPage />} /> */}
         </Routes>
       </div>
       {useG.showMain ? (

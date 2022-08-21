@@ -130,3 +130,38 @@ export async function getUsersFavs(pageIndex: number = 1, pageSize: number = 20)
   }
   return null;
 }
+
+export async function getUsersAlarms() {
+  const res = await fetchWrapped(`${config.baseURL}/alarms/fromnow/list`, {
+    method: "GET",
+  });
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}
+export async function addAlarmForUser(alarm_at: Date, desc: string) {
+  const res = await fetchWrapped(`${config.baseURL}/alarms`, {
+    method: "POST",
+    body: JSON.stringify({
+      alarm_at,
+      desc,
+    }),
+  });
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}
+export async function removeAlarmForUser(id: string) {
+  const res = await fetchWrapped(`${config.baseURL}/alarms/${id}`, {
+    method: "DELETE",
+    body: JSON.stringify({
+      id,
+    }),
+  });
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}

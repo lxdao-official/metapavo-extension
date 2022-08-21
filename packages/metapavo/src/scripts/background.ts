@@ -1,3 +1,5 @@
+import { addAlarmForUser, getUsersAlarms } from "../apis/nft_api";
+
 // eslint-disable-next-line no-console
 console.log("background script");
 
@@ -35,30 +37,33 @@ function sendMessageToContentScript(message: any, callback: any) {
     });
   });
 }
-function addAlarm(timestamp: number, content: string) {
+async function addAlarm(timestamp: number, content: string) {
+  // chrome.storage.local.get(["alarm_list"], function (data) {
+  //   if (data && data.alarm_list) {
+  //     data.alarm_list.push({
+  //       timestamp: timestamp,
+  //       content: content,
+  //     });
+  //     chrome.storage.local.set({
+  //       alarm_list: data.alarm_list.filter((item: any) => item.timestamp > Date.now()),
+  //     });
+  //   } else {
+  //     chrome.storage.local.set({
+  //       alarm_list: [
+  //         {
+  //           timestamp: timestamp,
+  //           content: content,
+  //         },
+  //       ],
+  //     });
+  //   }
+  // });
+
+  await addAlarmForUser(new Date(timestamp), content);
   chrome.alarms.create(`time_alarm:${content}`, {
     when: timestamp,
   });
-  chrome.storage.local.get(["alarm_list"], function (data) {
-    if (data && data.alarm_list) {
-      data.alarm_list.push({
-        timestamp: timestamp,
-        content: content,
-      });
-      chrome.storage.local.set({
-        alarm_list: data.alarm_list.filter((item: any) => item.timestamp > Date.now()),
-      });
-    } else {
-      chrome.storage.local.set({
-        alarm_list: [
-          {
-            timestamp: timestamp,
-            content: content,
-          },
-        ],
-      });
-    }
-  });
+  restoreAlarmsFromServer();
 }
 // 恢复闹钟list
 chrome.storage.local.get(["alarm_list"], function (data) {
@@ -66,12 +71,24 @@ chrome.storage.local.get(["alarm_list"], function (data) {
     const list = data.alarm_list.filter((item: any) => item.timestamp > Date.now());
     list.forEach((item: any) => {
       chrome.alarms.create(`time_alarm:${item.content}`, {
-        when: item.timestamp,
+        when: new Date(item.timestamp).getTime(),
       });
     });
   } else {
   }
 });
+
+async function restoreAlarmsFromServer() {
+  const alarms = await getUsersAlarms();
+  if (alarms) {
+    alarms.forEach((item: any) => {
+      chrome.alarms.create(`time_alarm:${item.desc}`, {
+        when: item.timestamp,
+      });
+    });
+  }
+}
+restoreAlarmsFromServer();
 
 chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.cmd === "getGas") sendResponse(nowGas);
