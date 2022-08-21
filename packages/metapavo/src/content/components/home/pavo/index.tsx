@@ -63,7 +63,6 @@ import { useNavigate } from "react-router";
 // import esc from "./images/ESC.svg";
 // import enter_btn from "./images/enter_btn.svg";
 
-const url_prefix = "https://lengyuerbucket.oss-cn-beijing.aliyuncs.com/pavo/";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const logo = chrome.runtime.getURL("images/svgs/logo.svg");
 const logo_name = chrome.runtime.getURL("images/svgs/MetaPavo.svg");

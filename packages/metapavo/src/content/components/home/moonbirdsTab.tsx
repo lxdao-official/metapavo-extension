@@ -309,12 +309,12 @@ const MoonbirdsTab1 = (props: MediaProps) => {
           : null,
         activeProject?.contract_address
           ? {
-              icon: `https://looksrare.org/collections/${activeProject?.contract_address}`,
+              link: `https://looksrare.org/collections/${activeProject?.contract_address}`,
               label: "Looksrare",
             }
           : null,
         activeProject?.contract_address
-          ? { icon: `https://x2y2.io/eth/${activeProject?.contract_address}`, label: "X2Y2" }
+          ? { link: `https://x2y2.io/eth/${activeProject?.contract_address}`, label: "X2Y2" }
           : null,
       ],
     },
