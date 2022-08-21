@@ -19,7 +19,13 @@ document.body.appendChild(rootElement);
 const root = ReactDOM.createRoot(rootElement as HTMLElement);
 root.render(
   <React.StrictMode>
-    <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider
+      maxSnack={3}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+    >
       <MemoryRouter initialEntries={["/index"]}>
         <App />
         <SelectText />
