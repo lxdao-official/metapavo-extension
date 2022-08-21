@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import moment from "moment";
 import Typography from "@mui/material/Typography";
 import { getUsersFavs } from "../apis/nft_api";
-import { Avatar, Box, ListItemAvatar } from "@mui/material";
+import { Avatar, Box, CircularProgress, ListItemAvatar } from "@mui/material";
 
 export default function FavList() {
   const [favs, setFavs] = React.useState<any[]>([]);
@@ -25,7 +25,9 @@ export default function FavList() {
   return (
     <>
       {loading ? (
-        <Typography variant="h6">Loading...</Typography>
+        <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
+          <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
+        </Box>
       ) : (
         <div>
           {favs.length === 0 ? <Typography variant="h6">No Projects</Typography> : null}

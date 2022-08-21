@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { getNftById, searchProjects } from "../../../../apis/nft_api";
 import useGlobal, { GlobalContext } from "../../../context/global";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import {
   Container,
   HeadSelect,
@@ -196,8 +196,10 @@ const Pavo = () => {
   mapStatus[(mapStatus[3] = "Trends")] = 3;
   mapStatus[(mapStatus[4] = "History")] = 4;
   mapStatus[(mapStatus[5] = "Seting")] = 5;
-
+  const [watchListLoading, setWatchListLoading] = useState(false);
+  const [getHistoryLoading, setGetHistoryLoading] = useState(false);
   async function getHistories() {
+    setGetHistoryLoading(true);
     const res = await getVisitHistories(1, 10);
     if (res.data) {
       setHistoryHot(
@@ -216,8 +218,10 @@ const Pavo = () => {
         }),
       );
     }
+    setGetHistoryLoading(false);
   }
   async function getFavs() {
+    setWatchListLoading(true);
     const res = await getUsersFavs(1, 6);
     if (res.data) {
       setTrendsHot(
@@ -233,6 +237,7 @@ const Pavo = () => {
         }),
       );
     }
+    setWatchListLoading(false);
   }
   const goDetail = async (project_id: string) => {
     const project = await getNftById(project_id);
@@ -455,7 +460,11 @@ const Pavo = () => {
     return (
       <TrendsHotContainer>
         <TitleOfHot title={title} />
-
+        {watchListLoading ? (
+          <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
+            <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
+          </Box>
+        ) : null}
         <div className="hot-trend-list">
           {data.map((item: any, index: number) => {
             return (
@@ -504,6 +513,11 @@ const Pavo = () => {
         <TitleOfHot title={title} />
 
         <div className="hot-history-list">
+          {getHistoryLoading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
+              <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
+            </Box>
+          ) : null}
           {data.map((item: any, index: number) => {
             return (
               <HistoryItem
@@ -668,9 +682,7 @@ const Pavo = () => {
     getHistories();
     getFavs();
     setSearchData(testSearchData);
-    setToolsHot(testToolsHotData);
     setToolsAll(testToolsAll);
-    setTrendsHot(testTrendsHotData);
     setTrendsAll(testTrendsAll);
 
     setHistoryAll(testHostoryAll);
