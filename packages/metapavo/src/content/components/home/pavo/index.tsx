@@ -128,7 +128,8 @@ const Pavo = () => {
   mapStatus[(mapStatus[2] = "TOOLS")] = 2;
   mapStatus[(mapStatus[3] = "WATCHLIST")] = 3;
   mapStatus[(mapStatus[4] = "HISTORY")] = 4;
-  mapStatus[(mapStatus[5] = "Seting")] = 5;
+  mapStatus[(mapStatus[5] = "Alarm List")] = 5;
+  mapStatus[(mapStatus[6] = "Seting")] = 6;
   const [watchListLoading, setWatchListLoading] = useState(false);
   const [getHistoryLoading, setGetHistoryLoading] = useState(false);
   async function getHistories() {
@@ -189,7 +190,7 @@ const Pavo = () => {
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
   }
   // 头部组件
-  const HeadCom = () => {
+  const HeadCom = (props: any) => {
     return (
       <Head>
         <HeadSelect onClick={() => setSelectMenu(!selectMenu)}>
@@ -667,7 +668,40 @@ const Pavo = () => {
 
   return (
     <Container>
-      {generateComFromStatus(status)}
+      {/* {generateComFromStatus(status)} */}
+      {/* 0 1 */}
+      {(status === 0 || status === 1) && <HeadCom />}
+
+      {/* 0 1 */}
+      {(status === 0 || status === 1) && <SearchCom status={status} searchData={searchData} />}
+
+      {/* 0 */}
+      {(status === 0) && <ToolsHot data={toolsHot} title={"TOOLS"} />}
+
+      {/* 0 */}
+      {(status === 0 || status === 1) && <WatchListHot data={trendsHot} title={"WATCHLIST"} />}
+
+      {/* 0 */}
+      {(status === 0) && <HistoryHot title={"HISTORY"} data={historyHot} />}
+
+      {/* 2 3 4 5 */}
+      {(status === 2 ||
+        status === 3 ||
+        status === 4 ||
+        status === 5
+      ) && <HeadReturn title={mapStatus[status]} />}
+
+      {/* 2 */}
+      {(status === 2) && <ToolsAll data={toolsAll} />}
+
+      {/* 3 */}
+      {(status === 3) && <TrendsALL data={trendsAll} />}
+
+      {/* 4 */}
+      {(status === 4) && <HistoryALL title={"History"} data={historyAll} />}
+
+      {/* 5 */}
+      {(status === 5) && <AlarmListPage />}
       {selectMenu && <LoginModal />}
     </Container>
   );
