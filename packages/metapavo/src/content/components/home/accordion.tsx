@@ -60,7 +60,7 @@ const AccordionPage = () => {
     useContext(GlobalContext);
   const [btcprice, setBtcprice] = React.useState(0);
   const [ethprice, setEthprice] = React.useState(0);
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   async function getPrice() {
     const result = await fetch("https://data.messari.io/api/v1/assets/eth/metrics/market-data", {
       method: "GET",
@@ -90,32 +90,6 @@ const AccordionPage = () => {
     }
   }
 
-  async function addFav() {
-    if (activeProject) {
-      try {
-        await addFavByProjectId(activeProject.id);
-        enqueueSnackbar("Add to favorite successfully", { variant: "success" });
-        refreshActiveProject();
-      } catch (e: any) {
-        enqueueSnackbar(e.message, { variant: "error" });
-      }
-    } else {
-      enqueueSnackbar("Please select a project first", { variant: "error" });
-    }
-  }
-  async function removeFav() {
-    if (activeProject) {
-      try {
-        await removeFavByProjectId(activeProject.id);
-        enqueueSnackbar("Remove from favorite successfully", { variant: "success" });
-        refreshActiveProject();
-      } catch (e: any) {
-        enqueueSnackbar(e.message, { variant: "error" });
-      }
-    } else {
-      enqueueSnackbar("Please select a project first", { variant: "error" });
-    }
-  }
   useEffect(() => {
     console.log("Accordion effect");
     getPrice();
@@ -219,26 +193,7 @@ const AccordionPage = () => {
                 sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
               />
             ) : null}
-            <Box>{activeProject?.name || "unknown"}</Box>
-            {activeProject?.faved ? (
-              <IconButton
-                onClick={() => {
-                  removeFav();
-                }}
-                sx={{ ml: 0.5, height: "17px", width: "17px" }}
-              >
-                <BookmarkIcon sx={{ ml: 0.5, height: "17px", width: "17px", color: "#b721ff" }} />
-              </IconButton>
-            ) : (
-              <IconButton
-                onClick={() => {
-                  addFav();
-                }}
-                sx={{ ml: 0.5, height: "17px", width: "17px" }}
-              >
-                <BookmarkAddIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
-              </IconButton>
-            )}
+            <Box>{activeProject?.name || "UNKOWN"}</Box>
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0, backgroundColor: "#fff", boxShadow: "none" }}>
@@ -307,7 +262,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Bottom_1 sx={{ mr: "5px", fontSize: "inherit" }} />
+            <Bottom_1 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               {gas}gwei
             </Box>
@@ -319,7 +274,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Bottom_2 sx={{ mr: "5px", fontSize: "inherit" }} />
+            <Bottom_2 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               ${ethprice.toLocaleString()}
             </Box>
@@ -331,7 +286,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Bottom_3 sx={{ mr: "5px", fontSize: "inherit" }} />
+            <Bottom_3 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               ${btcprice.toLocaleString()}
             </Box>

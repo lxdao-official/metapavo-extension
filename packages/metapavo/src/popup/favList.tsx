@@ -47,16 +47,16 @@ export default function FavList() {
                       <Box
                         component="img"
                         src={fav.project?.image_url || ""}
-                        width={85}
-                        height={85}
+                        width={40}
+                        height={40}
                       />
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
                     primary={fav.project?.name}
-                    secondary={`${fav.created_at ? fav.created_at.toLocaleString() : ""} floor:${
+                    secondary={`${fav.created_at ? moment(fav.created_at).fromNow() : ""} floor:${
                       fav.project?.floor_price || ""
-                    } total:${fav.project?.total_volumn || ""}`}
+                    } total:${fav.project?.total_volume || ""}`}
                   />
                 </ListItem>
               );
