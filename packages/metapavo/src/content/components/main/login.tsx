@@ -18,6 +18,15 @@ import ConnectWallet from "../wallet/ConnectWallet";
 //     },
 //   },
 // );
+const MainBody = styled.div`
+  margin-top: 50px;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 150px;
+  width: 100%;
+  left: 0;
+`;
 const DescText = styled.div`
   width: 245px;
   margin: 10px auto;
@@ -56,21 +65,21 @@ const LoginPage = () => {
   return (
     <div style={{}}>
       <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} />
-      <div style={{ marginTop: "50px", width: "100%", textAlign: "center" }}>
+      <MainBody>
         <TitleText>MetaPavo</TitleText>
         <DescText>
           Whether you are visiting Twitter, Opensea or Etherscan, MetaPavo can intelligently
           identify the main entry of the project behind, so that you can view the project background
           in a centralized and immersive way
         </DescText>
-        <ButtonContainer>
-          <ConnectWallet
-            loginSuccess={() => {
-              navigate("/index");
-            }}
-          />
-        </ButtonContainer>
-      </div>
+      </MainBody>
+      <ButtonContainer>
+        <ConnectWallet
+          loginSuccess={() => {
+            navigate("/index");
+          }}
+        />
+      </ButtonContainer>
     </div>
   );
 };
