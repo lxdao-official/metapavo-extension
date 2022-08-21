@@ -14,6 +14,15 @@ import {
 } from "../assets/Svgs";
 import useGlobal, { GlobalContext } from "../../context/global";
 import copy from "clipboard-copy";
+const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");
+const link3 = chrome.runtime.getURL("images/svgs/image-3.svg");
+const link4 = chrome.runtime.getURL("images/svgs/image-4.svg");
+const link5 = chrome.runtime.getURL("images/svgs/image-5.svg");
+const link6 = chrome.runtime.getURL("images/svgs/image-6.svg");
+const link7 = chrome.runtime.getURL("images/svgs/image-7.svg");
+const link8 = chrome.runtime.getURL("images/svgs/image-8.svg");
+const link9 = chrome.runtime.getURL("images/svgs/image-9.svg");
+const link10 = chrome.runtime.getURL("images/svgs/image-9.svg");
 const css = `
     .metapavo-tabInner{
       text-align:left
@@ -33,8 +42,10 @@ const css = `
         justify-content: center;
         align-items: center;
     }
-    i{
+    .metaPavo-mr8{
       margin-right:8px;
+      width:14px;
+      height:14px;
     }
     .metapavo-icon{
       margin-right:15px;
@@ -196,7 +207,7 @@ const info = (obj: any) => (
                 mb: 2,
               }}
             >
-              <i>#</i>
+              <img src={item.img} className="metaPavo-mr8" />
               {item.label}
             </Box>
           </a>
@@ -275,10 +286,15 @@ const MoonbirdsTab1 = (props: MediaProps) => {
     {
       name: "More Data",
       array: [
-        { link: `https://www.nftscan.com/${activeProject?.contract_address}`, label: "NFTEye" },
+        {
+          link: `https://www.nftscan.com/${activeProject?.contract_address}`,
+          label: "NFTEye",
+          img: link8,
+        },
         {
           link: `https://nftnerds.ai/collection/${activeProject?.contract_address}/liveview`,
           label: "NFTNerds",
+          img: link9,
         },
       ],
     },
@@ -291,6 +307,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
         {
           link: `https://etherscan.io/address/${activeProject?.contract_address}`,
           label: "Etherscan",
+          img: link2,
         },
         activeProject?.external_url
           ? { link: `${activeProject?.external_url}`, label: "Website" }
@@ -305,16 +322,22 @@ const MoonbirdsTab1 = (props: MediaProps) => {
           ? {
               link: `https://opensea.io/collection/${activeProject?.id}`,
               label: "OpenSea",
+              img: link3,
             }
           : null,
         activeProject?.contract_address
           ? {
               link: `https://looksrare.org/collections/${activeProject?.contract_address}`,
               label: "Looksrare",
+              img: link4,
             }
           : null,
         activeProject?.contract_address
-          ? { link: `https://x2y2.io/eth/${activeProject?.contract_address}`, label: "X2Y2" }
+          ? {
+              link: `https://x2y2.io/eth/${activeProject?.contract_address}`,
+              label: "X2Y2",
+              img: link5,
+            }
           : null,
       ],
     },
@@ -322,13 +345,21 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       name: "Soicial Media",
       array: [
         activeProject?.twitter_username
-          ? { link: `https://twitter.com/${activeProject?.twitter_username}`, label: "Twitter" }
+          ? {
+              link: `https://twitter.com/${activeProject?.twitter_username}`,
+              label: "Twitter",
+              img: link6,
+            }
           : null,
         activeProject?.discord_url
           ? { link: `${activeProject?.discord_url}`, label: "Discord" }
           : null,
         activeProject?.instagram_username
-          ? { link: `https://t.me/${activeProject?.instagram_username}`, label: "Instagram" }
+          ? {
+              link: `https://t.me/${activeProject?.instagram_username}`,
+              label: "Instagram",
+              img: link7,
+            }
           : null,
       ],
     },

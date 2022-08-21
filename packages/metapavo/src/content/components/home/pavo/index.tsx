@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { getNftById, searchProjects } from "../../../../apis/nft_api";
 import useGlobal, { GlobalContext } from "../../../context/global";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, IconButton } from "@mui/material";
 import {
   Container,
   HeadSelect,
@@ -19,13 +19,15 @@ import {
   SearchItemContainer,
   ModalContainer,
 } from "./styleCom";
-
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import copy from "clipboard-copy";
+import ClearIcon from "@mui/icons-material/Clear";
 import { getUsersFavs, getVisitHistories } from "../../../../apis/nft_api";
 import { IVisitHistory, IFavs } from "../../../../apis/types";
 import moment from "moment";
 import { useNavigate } from "react-router";
 import { WalletContext } from "../../../context/useWallet";
-
+import { useSnackbar } from "notistack";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const logo = chrome.runtime.getURL("images/svgs/logo.svg");
 const logo_name = chrome.runtime.getURL("images/svgs/MetaPavo.svg");
@@ -179,6 +181,7 @@ const testHostoryAll = [
 const Pavo = () => {
   const [status, setStatus] = useState<number>(0);
   const [curValue, setCurValue] = useState<string>("");
+  const [selectMenu, setSelectMenu] = useState<boolean>(false);
   const [searchData, setSearchData] = useState<any[]>([]);
   const [toolsHot, setToolsHot] = useState<any[]>([]);
   const [toolsAll, setToolsAll] = useState<any[]>([]);
@@ -256,7 +259,7 @@ const Pavo = () => {
   const HeadCom = () => {
     return (
       <Head>
-        <HeadSelect>
+        <HeadSelect onClick={() => setSelectMenu(!selectMenu)}>
           <span>{formatAddress(loginedAddress)}</span>
           <img src={arrow_down} alt="" />
         </HeadSelect>
@@ -381,7 +384,7 @@ const Pavo = () => {
 
     return (
       <ToolsItemContainer>
-        {item.img}
+        <img src={item.img} />
         <span>{item.name}</span>
       </ToolsItemContainer>
     );
@@ -594,13 +597,37 @@ const Pavo = () => {
     );
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+  const copyContractAddress = () => {
+    copy("");
+    enqueueSnackbar("Copied", {});
+  };
   const LoginModal = (props: any) => {
     return (
       <ModalContainer>
-        <div className="user-des" />
+        <div className="user-des">
+          <div className="user-topLine">
+            <div className="user-name">
+              <span className="user-code">0X34ea...f3cd</span>
+              <IconButton
+                onClick={() => {
+                  copyContractAddress();
+                }}
+                sx={{ ml: 0.5, height: "17px", width: "17px" }}
+              >
+                <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
+              </IconButton>
+            </div>
+            <div className="user-eth">Value: 1213.22 USDC</div>
+          </div>
+          <ClearIcon
+            sx={{ height: "24px", width: "24px", color: "#D1D0D6" }}
+            onClick={() => setSelectMenu(!selectMenu)}
+          />
+        </div>
         <div className="op-list">
-          <div>系统设置</div>
-          <div>退出登录</div>
+          <div className="metaPavo-pp">系统设置</div>
+          <div className="metaPavo-pp">退出登录</div>
         </div>
         <div className="mask" />
       </ModalContainer>
@@ -617,7 +644,7 @@ const Pavo = () => {
             <HeadCom key={0} />,
             <SearchCom key={1} />,
             <ToolsHot key={2} data={toolsHot} title={"Tools"} />,
-            <TrendsHot key={3} data={trendsHot} title={"Watch List"} />,
+            <TrendsHot key={3} data={trendsHot} title={"Trends"} />,
             <HistoryHot key={4} title={"History"} data={historyHot} />,
           ],
         );
@@ -691,7 +718,7 @@ const Pavo = () => {
   return (
     <Container>
       {generateComFromStatus(status)}
-      {/* <LoginModal /> */}
+      {selectMenu && <LoginModal />}
     </Container>
   );
 };
