@@ -4,7 +4,7 @@ import useGlobal, { GlobalContext } from "../../../context/global";
 
 const RootElement = styled.div`
   opacity: 0;
-  transition: all 0.6s ease-in-out 0s;
+  transition: all 0.76s ease-in-out 0s;
   position: absolute;
   width: 307px;
   height: 167px;

@@ -298,7 +298,7 @@ export const TrendsItemContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 12px;
-
+  cursor: pointer;
   .des-cover {
     width: 127px;
     height: 80px;
@@ -353,7 +353,7 @@ export const HistoryHotItemContainer = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: 12px;
-
+  cursor: pointer;
   .user-icon {
     width: 40px;
     height: 40px;

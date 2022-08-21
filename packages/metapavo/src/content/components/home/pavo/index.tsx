@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { searchProjects } from "../../../../apis/nft_api";
+import { getNftById, searchProjects } from "../../../../apis/nft_api";
 import useGlobal, { GlobalContext } from "../../../context/global";
 import { Box } from "@mui/material";
 import {
@@ -203,7 +203,7 @@ const Pavo = () => {
   const [historyHot, setHistoryHot] = useState<any[]>([]);
   const [historyAll, setHistoryAll] = useState<any[]>([]);
   const searchDom = useRef<HTMLInputElement | null>(null);
-  const { refreshActiveProject, setActiveProject } = useGlobal();
+  const { refreshActiveProject, setActiveProject } = useContext(GlobalContext);
 
   const mapStatus: any = {};
   mapStatus[(mapStatus[0] = "Hall")] = 0;
@@ -227,6 +227,7 @@ const Pavo = () => {
             links: [{ link: "", img: link1 }],
             dayTime: moment(item.created_at).fromNow(true),
             hourTime: moment(item.created_at).format("mm:ss"),
+            project_id: item.project_id,
           };
         }),
       );
@@ -243,6 +244,7 @@ const Pavo = () => {
             eth: `Floor: ${
               item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
             } E`,
+            project_id: item.project_id,
           };
         }),
       );
@@ -437,7 +439,7 @@ const Pavo = () => {
     const item = props.itemData;
 
     return (
-      <TrendsItemContainer>
+      <TrendsItemContainer onClick={props.onClick}>
         <div
           style={{ backgroundImage: `url(${item.img ? item.img : RectangleTool})` }}
           className="des-cover"
@@ -460,7 +462,15 @@ const Pavo = () => {
 
         <div className="hot-trend-list">
           {data.map((item: any, index: number) => {
-            return <TrendsItem key={index} itemData={item} />;
+            return (
+              <TrendsItem
+                key={index}
+                itemData={item}
+                onClick={() => {
+                  goDetail(item.project_id);
+                }}
+              />
+            );
           })}
         </div>
       </TrendsHotContainer>
@@ -474,7 +484,15 @@ const Pavo = () => {
       <TrendsHotContainer>
         <div className="trend-list">
           {data.map((item: any, index: number) => {
-            return <TrendsItem key={index} itemData={item} />;
+            return (
+              <TrendsItem
+                key={index}
+                itemData={item}
+                onClick={() => {
+                  goDetail(item.project_id);
+                }}
+              />
+            );
           })}
         </div>
       </TrendsHotContainer>
@@ -491,13 +509,26 @@ const Pavo = () => {
 
         <div className="hot-history-list">
           {data.map((item: any, index: number) => {
-            return <HistoryItem key={index} itemData={item} />;
+            return (
+              <HistoryItem
+                key={index}
+                itemData={item}
+                onClick={() => {
+                  goDetail(item.project_id);
+                }}
+              />
+            );
           })}
         </div>
       </HistoryHotContainer>
     );
   };
-
+  const goDetail = async (project_id: string) => {
+    const project = await getNftById(project_id);
+    if (project) {
+      setActiveProject(project);
+    }
+  };
   const HistoryALL = (props: any) => {
     const data = props.data;
 
@@ -505,7 +536,15 @@ const Pavo = () => {
       <HistoryHotContainer>
         <div className="history-list">
           {data.map((item: any, index: number) => {
-            return <HistoryItem key={index} itemData={item} />;
+            return (
+              <HistoryItem
+                key={index}
+                itemData={item}
+                onClick={() => {
+                  goDetail(item.project_id);
+                }}
+              />
+            );
           })}
         </div>
       </HistoryHotContainer>
@@ -516,7 +555,7 @@ const Pavo = () => {
     const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
 
     return (
-      <HistoryHotItemContainer>
+      <HistoryHotItemContainer onClick={props.onClick}>
         <img className="user-icon" src={userIcon} alt="" />
         <div className="user-des">
           <span className="user-name">{useName}</span>

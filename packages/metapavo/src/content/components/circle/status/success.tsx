@@ -4,7 +4,7 @@ import useGlobal, { GlobalContext } from "../../../context/global";
 
 const RootElement = styled.div`
   opacity: 0;
-  transition: all 0.6s ease-in-out 0s;
+  transition: all 0.76s ease-in-out 0s;
   position: absolute;
   width: 307px;
   height: 167px;
@@ -68,6 +68,7 @@ const RootElement = styled.div`
     display: flex;
     flex-wrap: wrap;
     padding: 10px;
+    padding-left: 20px;
   }
   .mp-success-bd-price {
     font-family: "Inter";
@@ -75,11 +76,13 @@ const RootElement = styled.div`
     font-weight: 600;
     font-size: 12px;
     line-height: 25px;
-    padding-left: 10px;
+
     display: flex;
     align-items: center;
     color: #979797;
     width: 45%;
+    height: 25px;
+    overflow: hidden;
   }
   .mp-success-links {
     display: flex;
