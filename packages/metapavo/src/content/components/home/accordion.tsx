@@ -255,7 +255,7 @@ const AccordionPage = () => {
           width: "100%",
           height: "32px",
           background: "#EBEBEB",
-          overflow: "hide",
+          overflow: "hidden",
           borderTop: "1px solid #E4E4E7",
         }}
       >

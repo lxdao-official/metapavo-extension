@@ -20,49 +20,11 @@ import {
   ModalContainer,
 } from "./styleCom";
 
-// import images
-// <<<<<<< HEAD
-// import arrow_down from "./images/arrow_down.svg";
-// import logo from "./images/logo.svg";
-// import logo_name from "./images/MetaPavo.svg";
-// import RectangleTool from "./images/RectangleTool.svg";
-// import Trend1 from "./images/Trend1.svg";
-// import Trend2 from "./images/Trend2.svg";
-// import history_icon1 from "./images/history_icon1.svg";
-// import history_icon2 from "./images/history_icon2.svg";
-// import link1 from "./images/link1.svg";
-// import link2 from "./images/link2.svg";
-// import returnImg from "./images/return.svg";
-// import enter from "./images/enter.svg";
-// import flag from "./images/flag.svg";
-// import userIcon from "./images/user_icon.svg";
-// import up from "./images/u_arrow-up.svg";
-// import down from "./images/u_arrow-down.svg";
-// import esc from "./images/ESC.svg";
-// import enter_btn from "./images/enter_btn.svg";
 import { getUsersFavs, getVisitHistories } from "../../../../apis/nft_api";
 import { IVisitHistory, IFavs } from "../../../../apis/types";
 import moment from "moment";
 import { useNavigate } from "react-router";
 import { WalletContext } from "../../../context/useWallet";
-// import arrow_down from "./images/arrow_down.svg";
-// import logo from "./images/logo.svg";
-// import logo_name from "./images/MetaPavo.svg";
-// import RectangleTool from "./images/RectangleTool.svg";
-// import Trend1 from "./images/Trend1.svg";
-// import Trend2 from "./images/Trend2.svg";
-// import history_icon1 from "./images/history_icon1.svg";
-// import history_icon2 from "./images/history_icon2.svg";
-// import link1 from "./images/link1.svg";
-// import link2 from "./images/link2.svg";
-// import returnImg from "./images/return.svg";
-// import enter from "./images/enter.svg";
-// import flag from "./images/flag.svg";
-// import userIcon from "./images/user_icon.svg";
-// import up from "./images/u_arrow-up.svg";
-// import down from "./images/u_arrow-down.svg";
-// import esc from "./images/ESC.svg";
-// import enter_btn from "./images/enter_btn.svg";
 
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const logo = chrome.runtime.getURL("images/svgs/logo.svg");
@@ -94,34 +56,55 @@ const testSearchData = [
 ];
 function AlarmIcon() {
   return (
-    <svg
-      viewBox="0 0 1024 1024"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-      width="70"
-      height="70"
+    <div
+      style={{
+        background: "#6EDFA3",
+        borderRadius: "6px",
+        width: "60px",
+        height: "60px",
+        justifyContent: "center",
+        alignItems: "center",
+        alignContent: "center",
+        display: "flex",
+      }}
     >
-      <path
-        d="M271.4 877.5c-4.4 0-8.8-1.2-12.7-3.8-10.5-7-13.4-21.2-6.4-31.8l59.1-88.7c7-10.5 21.2-13.4 31.8-6.4 10.5 7 13.4 21.2 6.4 31.8l-59.1 88.7c-4.4 6.6-11.7 10.2-19.1 10.2zM752.6 877.5c-7.4 0-14.7-3.6-19.1-10.2l-59.9-89.8c-7-10.5-4.2-24.8 6.4-31.8 10.5-7 24.7-4.2 31.8 6.4l59.9 89.8c7 10.5 4.2 24.8-6.4 31.8-3.9 2.6-8.4 3.8-12.7 3.8zM420.6 257.9c-5.9 0-11.7-2.2-16.2-6.7l-49-49c-13.2-13.2-34.6-13.2-47.8 0l-19 19c-8.9 8.9-23.4 8.9-32.4 0-8.9-8.9-8.9-23.4 0-32.4l19-19c31-31 81.5-31 112.6 0l49 49c8.9 8.9 8.9 23.4 0 32.4-4.5 4.4-10.4 6.7-16.2 6.7zM230.2 270c-5.9 0-11.7-2.2-16.2-6.7-8.9-8.9-8.9-23.4 0-32.4l2.1-2.1c8.9-8.9 23.4-8.9 32.4 0s8.9 23.4 0 32.4l-2.1 2.1c-4.5 4.5-10.3 6.7-16.2 6.7zM219.7 428.9c-5.9 0-11.7-2.2-16.2-6.7L168 386.7c-30.2-30.2-30.2-79.5 0-109.7 8.9-8.9 23.4-8.9 32.4 0 8.9 8.9 8.9 23.4 0 32.4-12.4 12.4-12.4 32.5 0 44.9l35.5 35.5c8.9 8.9 8.9 23.4 0 32.4-4.5 4.5-10.4 6.7-16.2 6.7zM795.8 437.5c-5.9 0-11.7-2.2-16.2-6.7-8.9-8.9-8.9-23.4 0-32.4l44.1-44.1c12.4-12.4 12.4-32.5 0-44.9L716.4 202.1c-13.2-13.2-34.6-13.2-47.8 0l-49 49c-8.9 8.9-23.4 8.9-32.4 0-8.9-8.9-8.9-23.5 0-32.4l49-49c31.1-31 81.6-31 112.6 0L856 277c30.2 30.2 30.2 79.5 0 109.7l-44 44.1c-4.5 4.4-10.4 6.7-16.2 6.7z"
-        fill="#6893FF"
-        p-id="13119"
-      ></path>
-      <path
-        d="M512 843.2c-176.9 0-320.7-143.9-320.7-320.7S335.1 201.7 512 201.7s320.7 143.9 320.7 320.7S688.9 843.2 512 843.2z m0-595.7c-151.6 0-274.9 123.3-274.9 274.9S360.4 797.3 512 797.3 786.9 674 786.9 522.4 663.6 247.5 512 247.5z"
-        fill="#6893FF"
-        p-id="13120"
-      ></path>
-      <path
-        d="M477.7 568.2c-7.6 0-15-3.8-19.4-10.7-6.8-10.7-3.6-24.9 7.1-31.6L683 388.5c10.7-6.7 24.8-3.6 31.6 7.1 6.8 10.7 3.6 24.9-7.1 31.6L489.9 564.7c-3.8 2.4-8.1 3.5-12.2 3.5z"
-        fill="#39DB8F"
-        p-id="13121"
-      ></path>
-      <path
-        d="M546.3 568.2c-4 0-8.1-1.1-11.8-3.3L420 496.2c-10.9-6.5-14.4-20.6-7.9-31.4 6.5-10.9 20.6-14.4 31.4-7.9L558 525.6c10.9 6.5 14.4 20.6 7.9 31.4-4.2 7.3-11.8 11.2-19.6 11.2z"
-        fill="#FF6E90"
-        p-id="13122"
-      ></path>
-    </svg>
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16.0001 29.5557C22.7502 29.5557 28.2223 24.0836 28.2223 17.3335C28.2223 10.5833 22.7502 5.11121 16.0001 5.11121C9.24988 5.11121 3.77783 10.5833 3.77783 17.3335C3.77783 24.0836 9.24988 29.5557 16.0001 29.5557Z"
+          fill="white"
+          stroke="white"
+          strokeWidth="2.66667"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M15.8392 10.2357L15.8384 17.5749L21.0199 22.7565"
+          stroke="#6EDFA3"
+          strokeWidth="2.66667"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M2.6665 5.99996L7.33317 2.66663"
+          stroke="white"
+          strokeWidth="2.66667"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M29.3332 5.99996L24.6665 2.66663"
+          stroke="white"
+          strokeWidth="2.66667"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
   );
 }
 const testToolsHotData = [

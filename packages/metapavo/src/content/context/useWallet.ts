@@ -7,14 +7,8 @@ export const WalletContext = React.createContext<{
   setAddress: (address: string) => void;
   loginedAddress: string;
   setLoginedAddress: (loginedAddress: string) => void;
-  fetchLoginInfo: () => void;
-}>({
-  address: "",
-  setAddress: () => {},
-  loginedAddress: "",
-  setLoginedAddress: () => {},
-  fetchLoginInfo: () => {},
-});
+  fetchLoginInfo: () => Promise<string | null>;
+}>({} as any);
 
 export default function useWallet() {
   const [address, setAddress] = useState("");
@@ -42,6 +36,6 @@ export default function useWallet() {
     setAddress,
     loginedAddress,
     setLoginedAddress,
-    fetchLoginInfo,
+    fetchLoginInfo: fetchLoginInfo as any,
   };
 }

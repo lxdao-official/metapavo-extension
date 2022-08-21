@@ -6,7 +6,7 @@ import AccordionPage from "./../home/accordion";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Box } from "@mui/material";
 import { MemoryRouter, Routes, Route, useNavigate } from "react-router-dom";
-import useWallet from "../../context/useWallet";
+import useWallet, { WalletContext } from "../../context/useWallet";
 import AlarmList from "../../../popup/alarmList";
 const RootElement = styled.div`
   width: 303px;
@@ -27,7 +27,7 @@ const RootElement = styled.div`
 function App() {
   const useG = useContext(GlobalContext);
   let navigate = useNavigate();
-  const wallet = useWallet();
+  const wallet = useContext(WalletContext);
   useEffect(() => {
     (async function () {
       try {
