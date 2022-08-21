@@ -24,7 +24,7 @@
   "permissions": ["storage", "alarms", "notifications"],
   "web_accessible_resources": [
     {
-      "resources": ["images/*.jpg", "images/*.png", "logo-128.png"],
+      "resources": ["images/*.jpg", "images/*.png", "images/svgs/*.svg", "logo-128.png"],
       "matches": ["https://*/*"]
     }
   ]

@@ -64,24 +64,24 @@ import { useNavigate } from "react-router";
 // import enter_btn from "./images/enter_btn.svg";
 
 const url_prefix = "https://lengyuerbucket.oss-cn-beijing.aliyuncs.com/pavo/";
-const arrow_down = url_prefix + "arrow_down.svg";
-const logo = url_prefix + "logo.svg";
-const logo_name = url_prefix + "MetaPavo.svg";
-const RectangleTool = url_prefix + "RectangleTool.svg";
-const Trend1 = url_prefix + "Trend1.svg";
-const Trend2 = url_prefix + "Trend2.svg";
-const history_icon1 = url_prefix + "history_icon1.svg";
-const history_icon2 = url_prefix + "history_icon2.svg";
-const link1 = url_prefix + "link1.svg";
-const link2 = url_prefix + "link2.svg";
-const returnImg = url_prefix + "return.svg";
-const enter = url_prefix + "enter.svg";
-const flag = url_prefix + "flag.svg";
-const userIcon = url_prefix + "user_icon.svg";
-const up = url_prefix + "u_arrow-up.svg";
-const down = url_prefix + "u_arrow-down.svg";
-const esc = url_prefix + "ESC.svg";
-const enter_btn = url_prefix + "enter_btn.svg";
+const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
+const logo = chrome.runtime.getURL("images/svgs/logo.svg");
+const logo_name = chrome.runtime.getURL("images/svgs/MetaPavo.svg");
+const RectangleTool = chrome.runtime.getURL("images/svgs/RectangleTool.svg");
+const Trend1 = chrome.runtime.getURL("images/svgs/Trend1.svg");
+const Trend2 = chrome.runtime.getURL("images/svgs/Trend2.svg");
+const history_icon1 = chrome.runtime.getURL("images/svgs/history_icon1.svg");
+const history_icon2 = chrome.runtime.getURL("images/svgs/history_icon2.svg");
+const link1 = chrome.runtime.getURL("images/svgs/link1.svg");
+const link2 = chrome.runtime.getURL("images/svgs/link2.svg");
+const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
+const enter = chrome.runtime.getURL("images/svgs/enter.svg");
+const flag = chrome.runtime.getURL("images/svgs/flag.svg");
+const userIcon = chrome.runtime.getURL("images/svgs/user_icon.svg");
+const up = chrome.runtime.getURL("images/svgs/u_arrow-up.svg");
+const down = chrome.runtime.getURL("images/svgs/u_arrow-down.svg");
+const esc = chrome.runtime.getURL("images/svgs/ESC.svg");
+const enter_btn = chrome.runtime.getURL("images/svgs/enter_btn.svg");
 
 // test data
 const testSearchData = [
