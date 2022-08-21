@@ -70,7 +70,7 @@ function Extention() {
             {...a11yProps(0)}
             sx={{ flex: 1 }}
           />
-          <Tab
+          {/* <Tab
             icon={
               value == 1 ? (
                 <Graph sx={{ width: "20px", height: "20px" }} />
@@ -91,7 +91,7 @@ function Extention() {
             }
             {...a11yProps(2)}
             sx={{ flex: 1 }}
-          />
+          /> */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
