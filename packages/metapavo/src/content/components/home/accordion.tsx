@@ -135,6 +135,7 @@ const AccordionPage = () => {
           fontSize: "14px",
           m: "0px !important",
           border: "1px solid rgba(28, 27, 29, 0.04)",
+          borderBottom: "none",
           boxShadow: "none",
         }}
       >
@@ -180,6 +181,7 @@ const AccordionPage = () => {
           fontSize: "14px",
           m: "0px !important",
           border: "1px solid rgba(28, 27, 29, 0.04)",
+          borderBottom: "none",
           alignItems: "center",
           boxShadow: "none",
         }}
@@ -250,8 +252,9 @@ const AccordionPage = () => {
           bottom: 0,
           width: "100%",
           height: "32px",
-          background: "#fff",
+          background: "#EBEBEB",
           overflow: "hide",
+          borderTop: "1px solid #E4E4E7",
         }}
       >
         <Box
@@ -260,7 +263,8 @@ const AccordionPage = () => {
             display: "flex",
             alignItems: "center",
             zIndex: 2,
-            background: "#fff",
+            background: "#EBEBEB",
+            height: "calc(100% - 1px)",
           }}
         >
           <Box

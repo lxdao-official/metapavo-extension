@@ -28,7 +28,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 0, overflowY: "scroll", height: "calc(100vh - 200px)" }}>
+        <Box sx={{ p: 0, overflowY: "scroll", height: "calc(100vh - 180px)" }}>
           <Typography>{children}</Typography>
         </Box>
       )}
