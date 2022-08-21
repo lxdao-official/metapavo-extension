@@ -44,6 +44,7 @@ import { getUsersFavs, getVisitHistories } from "../../../../apis/nft_api";
 import { IVisitHistory, IFavs } from "../../../../apis/types";
 import moment from "moment";
 import { useNavigate } from "react-router";
+import { WalletContext } from "../../../context/useWallet";
 // import arrow_down from "./images/arrow_down.svg";
 // import logo from "./images/logo.svg";
 // import logo_name from "./images/MetaPavo.svg";
@@ -204,7 +205,7 @@ const Pavo = () => {
   const [historyAll, setHistoryAll] = useState<any[]>([]);
   const searchDom = useRef<HTMLInputElement | null>(null);
   const { refreshActiveProject, setActiveProject } = useContext(GlobalContext);
-
+  const { loginedAddress } = useContext(WalletContext);
   const mapStatus: any = {};
   mapStatus[(mapStatus[0] = "Hall")] = 0;
   mapStatus[(mapStatus[1] = "SearchShow")] = 1;
@@ -256,12 +257,19 @@ const Pavo = () => {
       setActiveProject(project);
     }
   };
+  function formatAddress(address: string) {
+    // ens
+    if (address.includes(".")) {
+      return address;
+    }
+    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+  }
   // 头部组件
   const HeadCom = () => {
     return (
       <Head>
         <HeadSelect>
-          <span>0X34ea...f3cd</span>
+          <span>{formatAddress(loginedAddress)}</span>
           <img src={arrow_down} alt="" />
         </HeadSelect>
 
