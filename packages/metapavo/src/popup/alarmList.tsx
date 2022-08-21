@@ -7,14 +7,20 @@ import moment from "moment";
 import Typography from "@mui/material/Typography";
 import { getUsersAlarms } from "../apis/nft_api";
 import { Box, CircularProgress } from "@mui/material";
+import { useSnackbar } from "notistack";
 
 export default function AlarmList() {
   const [alarms, setAlarms] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   async function restoreAlarmsFromServer() {
     setLoading(true);
-    const _alarms = await getUsersAlarms();
-    setAlarms(_alarms);
+    try {
+      const _alarms = await getUsersAlarms();
+      setAlarms(_alarms);
+    } catch (e: any) {
+      enqueueSnackbar(e.message);
+    }
     setLoading(false);
   }
   useEffect(() => {

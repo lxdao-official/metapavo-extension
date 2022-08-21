@@ -7,16 +7,23 @@ import moment from "moment";
 import Typography from "@mui/material/Typography";
 import { getUsersFavs } from "../apis/nft_api";
 import { Avatar, Box, CircularProgress, ListItemAvatar } from "@mui/material";
+import { useSnackbar } from "notistack";
 
 export default function FavList() {
   const [favs, setFavs] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   async function getFavs() {
     setLoading(true);
-    const data = await getUsersFavs();
-    if (data.data) {
-      setFavs(data.data);
+    try {
+      const data = await getUsersFavs();
+      if (data.data) {
+        setFavs(data.data);
+      }
+    } catch (e: any) {
+      enqueueSnackbar(e.message);
     }
+
     setLoading(false);
   }
   useEffect(() => {

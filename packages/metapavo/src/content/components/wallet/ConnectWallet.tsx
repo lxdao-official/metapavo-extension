@@ -38,8 +38,8 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
       const access_token = await signin();
       props.loginSuccess && props.loginSuccess(access_token);
       enqueueSnackbar("login success");
-    } catch (e) {
-      enqueueSnackbar("login fail");
+    } catch (e: any) {
+      enqueueSnackbar("login fail: " + e.message);
     }
     setLoading(false);
   }

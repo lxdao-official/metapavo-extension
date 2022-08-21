@@ -33,7 +33,7 @@ export const fetchWrapped: (
           };
         }
       } else {
-        throw new Error("access_token is not found");
+        throw reject(new Error("user not login"));
       }
 
       return fetch(input, init)
