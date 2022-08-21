@@ -471,6 +471,7 @@ export const ModalContainer = styled.div`
   .op-list {
     padding: 20px;
     .metaPavo-pp {
+      cursor: pointer;
       padding-top: 8px;
       padding-bottom: 8px;
       font-weight: 600;

@@ -28,6 +28,8 @@ import moment from "moment";
 import { useNavigate } from "react-router";
 import { WalletContext } from "../../../context/useWallet";
 import { useSnackbar } from "notistack";
+import TrendsALL, { TrendsItem } from "./comps/WatchListAll";
+import HistoryALL, { HistoryItem } from "./comps/historyListAll";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const logo = chrome.runtime.getURL("images/svgs/logo.svg");
 const logo_name = chrome.runtime.getURL("images/svgs/MetaPavo.svg");
@@ -191,7 +193,9 @@ const Pavo = () => {
   const [historyAll, setHistoryAll] = useState<any[]>([]);
   const searchDom = useRef<HTMLInputElement | null>(null);
   const { refreshActiveProject, setActiveProject } = useContext(GlobalContext);
-  const { loginedAddress } = useContext(WalletContext);
+  const { loginedAddress, logout } = useContext(WalletContext);
+
+  const navigate = useNavigate();
   const mapStatus: any = {};
   mapStatus[(mapStatus[0] = "Hall")] = 0;
   mapStatus[(mapStatus[1] = "SearchShow")] = 1;
@@ -409,7 +413,9 @@ const Pavo = () => {
     let navigate = useNavigate();
     return (
       <ToolsHotContainer>
-        <TitleOfHot title={title} />
+        <HotTitle>
+          <span className="title">{title}</span>
+        </HotTitle>
 
         <div className="hot-tool-list">
           <ToolsItemContainer
@@ -439,23 +445,6 @@ const Pavo = () => {
     );
   };
 
-  const TrendsItem = (props: any) => {
-    const item = props.itemData;
-
-    return (
-      <TrendsItemContainer onClick={props.onClick}>
-        <div
-          style={{ backgroundImage: `url(${item.img ? item.img : RectangleTool})` }}
-          className="des-cover"
-        />
-        <div className="des-title">
-          <span className="name">{item.name}</span>
-          <span className="eth-own">{item.eth}</span>
-        </div>
-      </TrendsItemContainer>
-    );
-  };
-
   const TrendsHot = (props: any) => {
     const data = props.data;
     const title = props.title;
@@ -469,28 +458,6 @@ const Pavo = () => {
           </Box>
         ) : null}
         <div className="hot-trend-list">
-          {data.map((item: any, index: number) => {
-            return (
-              <TrendsItem
-                key={index}
-                itemData={item}
-                onClick={() => {
-                  goDetail(item.project_id);
-                }}
-              />
-            );
-          })}
-        </div>
-      </TrendsHotContainer>
-    );
-  };
-
-  const TrendsALL = (props: any) => {
-    const data = props.data;
-
-    return (
-      <TrendsHotContainer>
-        <div className="trend-list">
           {data.map((item: any, index: number) => {
             return (
               <TrendsItem
@@ -537,55 +504,6 @@ const Pavo = () => {
     );
   };
 
-  const HistoryALL = (props: any) => {
-    const data = props.data;
-
-    return (
-      <HistoryHotContainer>
-        <div className="history-list">
-          {data.map((item: any, index: number) => {
-            return (
-              <HistoryItem
-                key={index}
-                itemData={item}
-                onClick={() => {
-                  goDetail(item.project_id);
-                }}
-              />
-            );
-          })}
-        </div>
-      </HistoryHotContainer>
-    );
-  };
-
-  const HistoryItem = (props: any) => {
-    const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
-
-    return (
-      <HistoryHotItemContainer onClick={props.onClick}>
-        <img className="user-icon" src={userIcon} alt="" />
-        <div className="user-des">
-          <span className="user-name">{useName}</span>
-          <span className="user-eth">{userEth}</span>
-        </div>
-        <div className="imgs-container">
-          {links.map((link: any, index: number) => {
-            return (
-              <div className="link-container" key={index}>
-                <img className="link-icon" src={link.img} alt="" />
-              </div>
-            );
-          })}
-        </div>
-        <div className="times">
-          <span className="day-time">{dayTime}</span>
-          <span className="hour-time">{hourTime}</span>
-        </div>
-      </HistoryHotItemContainer>
-    );
-  };
-
   const HeadReturn = (props: any) => {
     const title = props.title;
 
@@ -599,7 +517,7 @@ const Pavo = () => {
 
   const { enqueueSnackbar } = useSnackbar();
   const copyContractAddress = () => {
-    copy("");
+    copy(loginedAddress);
     enqueueSnackbar("Copied", {});
   };
   const LoginModal = (props: any) => {
@@ -608,7 +526,7 @@ const Pavo = () => {
         <div className="user-des">
           <div className="user-topLine">
             <div className="user-name">
-              <span className="user-code">0X34ea...f3cd</span>
+              <span className="user-code">{formatAddress(loginedAddress)}</span>
               <IconButton
                 onClick={() => {
                   copyContractAddress();
@@ -618,16 +536,24 @@ const Pavo = () => {
                 <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
               </IconButton>
             </div>
-            <div className="user-eth">Value: 1213.22 USDC</div>
+            {/* <div className="user-eth">Value: 1213.22 USDC</div> */}
           </div>
           <ClearIcon
-            sx={{ height: "24px", width: "24px", color: "#D1D0D6" }}
+            sx={{ height: "24px", width: "24px", color: "#D1D0D6", cursor: "pointer" }}
             onClick={() => setSelectMenu(!selectMenu)}
           />
         </div>
         <div className="op-list">
-          <div className="metaPavo-pp">系统设置</div>
-          <div className="metaPavo-pp">退出登录</div>
+          {/* <div className="metaPavo-pp">系统设置</div> */}
+          <div
+            className="metaPavo-pp"
+            onClick={async () => {
+              await logout();
+              navigate("/login");
+            }}
+          >
+            退出登录
+          </div>
         </div>
         <div className="mask" />
       </ModalContainer>
