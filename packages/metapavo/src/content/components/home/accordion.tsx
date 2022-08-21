@@ -135,6 +135,7 @@ const AccordionPage = () => {
           fontSize: "14px",
           m: "0px !important",
           border: "1px solid rgba(28, 27, 29, 0.04)",
+          boxShadow: "none",
         }}
       >
         <AccordionSummary
@@ -180,6 +181,7 @@ const AccordionPage = () => {
           m: "0px !important",
           border: "1px solid rgba(28, 27, 29, 0.04)",
           alignItems: "center",
+          boxShadow: "none",
         }}
       >
         <AccordionSummary
@@ -235,7 +237,7 @@ const AccordionPage = () => {
             )}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ p: 0, backgroundColor: "#fff" }}>
+        <AccordionDetails sx={{ p: 0, backgroundColor: "#fff", boxShadow: "none" }}>
           {activeProject ? <Extention /> : <NoFound />}
         </AccordionDetails>
       </Accordion>
