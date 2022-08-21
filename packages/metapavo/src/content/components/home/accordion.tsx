@@ -92,13 +92,11 @@ const AccordionPage = () => {
 
   useEffect(() => {
     console.log("Accordion effect");
-    getPrice();
+    // getPrice();
     if (activeProject) {
       setActiveAccoidion(1);
-    } else {
-      setActiveAccoidion(0);
     }
-  }, [activeProject]);
+  }, []);
   return (
     <div>
       <style type="text/css">{css}</style>
@@ -145,9 +143,7 @@ const AccordionPage = () => {
         <AccordionDetails
           sx={{ backgroundColor: "#fff", overflowY: "auto", height: "calc(100vh - 130px)" }}
         >
-          <Typography>
-            <Pavo />
-          </Typography>
+          <Typography>{activeAccoidion === 0 ? <Pavo /> : null}</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -197,7 +193,7 @@ const AccordionPage = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0, backgroundColor: "#fff", boxShadow: "none" }}>
-          {activeProject ? <Extention /> : <NoFound />}
+          {activeAccoidion === 1 ? activeProject ? <Extention /> : <NoFound /> : null}
         </AccordionDetails>
       </Accordion>
 

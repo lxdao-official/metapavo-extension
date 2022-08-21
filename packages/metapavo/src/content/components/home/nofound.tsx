@@ -195,7 +195,7 @@ export function NoFound() {
           </linearGradient>
         </defs>
       </svg>
-      <MainTitle>No Found Project</MainTitle>
+      <MainTitle>No Project Found</MainTitle>
     </div>
   );
 }

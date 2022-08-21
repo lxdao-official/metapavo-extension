@@ -20,6 +20,7 @@ export const GlobalContext = React.createContext<{
   setDetectStatus: (detectStatus: RecognizerStatus) => void;
   checkTwitter: () => void;
   checkOpenSea: () => void;
+  checkWebsite: () => void;
   addRootClass: string;
   showSuccess: () => void;
   gas: number;

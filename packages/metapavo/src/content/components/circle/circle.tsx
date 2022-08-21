@@ -161,14 +161,14 @@ const RootElement = styled.div`
     color: #fff !important;
   }
 `;
-
+let inited = false;
 function App() {
   const [hide, setHide] = React.useState(false);
 
   const rootRef = useRef<any>(null);
   const gasRef = useRef<HTMLDivElement>(null);
-  const useG = useGlobal();
-  const wallet = useWallet();
+  const useG = useContext(GlobalContext);
+  const wallet = useContext(WalletContext);
 
   function dragElement() {
     if (!gasRef.current) return;
@@ -261,7 +261,6 @@ function App() {
     );
   }
 
-  let inited = false;
   useEffect(() => {
     if (!inited) init();
     inited = true;
@@ -279,59 +278,51 @@ function App() {
 
   return (
     <>
-      <GlobalContext.Provider value={useG}>
-        <WalletContext.Provider value={wallet}>
-          <RootElement
-            id="metapavo-box"
-            className={[
-              "web3-spin",
-              useG.detectStatus === "danger" ? "metapavo-main-status-danger" : "",
-              useG.detectStatus === "success" ? "metapavo-main-status-success" : "",
-              useG.addRootClass,
-            ].join(" ")}
-            ref={rootRef}
-            style={{
-              display: !hide && !useG.showMain ? "block" : "none",
-            }}
-            onMouseEnter={() => {
-              if (useG.detectStatus === "success") {
-                useG.showSuccess();
-              }
-              rootRef.current.setAttribute("mouseIsOver", "1");
-            }}
-            onMouseLeave={() => {
-              rootRef.current.setAttribute("mouseIsOver", "0");
-              if (useG.detectStatus === "success") {
-                useG.setAddRootClass("");
-              }
-            }}
-          >
-            <div
-              id="metapavo-box-gas"
-              title="Drag to move"
-              ref={gasRef}
-              style={{ userSelect: "none" }}
-              onDoubleClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setHide(true);
-                setTimeout(() => {
-                  setHide(false);
-                }, 10000);
-              }}
-            >
-              <div id="metapavo-gas-text">{useG.gas}</div>
-            </div>
-            <DangerPopup
-              state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"}
-            />
-            <SuccessPopup
-              state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"}
-            />
-          </RootElement>
-          {useG.showMain ? <Main /> : null}
-        </WalletContext.Provider>
-      </GlobalContext.Provider>
+      <RootElement
+        id="metapavo-box"
+        className={[
+          "web3-spin",
+          useG.detectStatus === "danger" ? "metapavo-main-status-danger" : "",
+          useG.detectStatus === "success" ? "metapavo-main-status-success" : "",
+          useG.addRootClass,
+        ].join(" ")}
+        ref={rootRef}
+        style={{
+          display: !hide && !useG.showMain ? "block" : "none",
+        }}
+        onMouseEnter={() => {
+          if (useG.detectStatus === "success") {
+            useG.showSuccess();
+          }
+          rootRef.current.setAttribute("mouseIsOver", "1");
+        }}
+        onMouseLeave={() => {
+          rootRef.current.setAttribute("mouseIsOver", "0");
+          if (useG.detectStatus === "success") {
+            useG.setAddRootClass("");
+          }
+        }}
+      >
+        <div
+          id="metapavo-box-gas"
+          title="Drag to move"
+          ref={gasRef}
+          style={{ userSelect: "none" }}
+          onDoubleClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setHide(true);
+            setTimeout(() => {
+              setHide(false);
+            }, 10000);
+          }}
+        >
+          <div id="metapavo-gas-text">{useG.gas}</div>
+        </div>
+        <DangerPopup state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
+        <SuccessPopup state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"} />
+      </RootElement>
+      {useG.showMain ? <Main /> : null}
     </>
   );
 }

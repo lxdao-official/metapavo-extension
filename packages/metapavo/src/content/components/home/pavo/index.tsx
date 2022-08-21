@@ -132,9 +132,9 @@ const Pavo = () => {
   const mapStatus: any = {};
   mapStatus[(mapStatus[0] = "Hall")] = 0;
   mapStatus[(mapStatus[1] = "SearchShow")] = 1;
-  mapStatus[(mapStatus[2] = "Tools")] = 2;
-  mapStatus[(mapStatus[3] = "Trends")] = 3;
-  mapStatus[(mapStatus[4] = "History")] = 4;
+  mapStatus[(mapStatus[2] = "TOOLS")] = 2;
+  mapStatus[(mapStatus[3] = "WATCHLIST")] = 3;
+  mapStatus[(mapStatus[4] = "HISTORY")] = 4;
   mapStatus[(mapStatus[5] = "Seting")] = 5;
   const [watchListLoading, setWatchListLoading] = useState(false);
   const [getHistoryLoading, setGetHistoryLoading] = useState(false);
@@ -150,8 +150,11 @@ const Pavo = () => {
             userEth: `Floor: ${
               item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
             } E`,
-            links: [{ link: "", img: link1 }],
-            dayTime: moment(item.created_at).fromNow(),
+            links: [],
+            dayTime: moment(item.created_at)
+              .fromNow()
+              .replace("minutes", "mins")
+              .replace("seconds", "secs"),
             hourTime: moment(item.created_at).format("mm:ss"),
             project_id: item.project_id,
           };

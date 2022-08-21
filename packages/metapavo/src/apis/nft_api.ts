@@ -3,7 +3,7 @@ import { fetchWrapped } from "./fetch";
 import { IProject } from "./types";
 
 export async function getNftByTwitterId(twitterId: string): Promise<IProject | null> {
-  const res = await fetchWrapped(`${config.baseURL}/nfts/by_twitter/${twitterId}`);
+  const res = await fetchWrapped(`${config.baseURL}/nfts/by_twitter/${twitterId}`, {}, false);
   if (res && res.success) {
     return res.data;
   }
@@ -11,14 +11,14 @@ export async function getNftByTwitterId(twitterId: string): Promise<IProject | n
 }
 
 export async function getNftById(id: string): Promise<IProject | null> {
-  const res = await fetchWrapped(`${config.baseURL}/nfts/by_id/${id}`);
+  const res = await fetchWrapped(`${config.baseURL}/nfts/by_id/${id}`, {}, false);
   if (res && res.success) {
     return res.data;
   }
   return null;
 }
 export async function findNftByAddress(address: string): Promise<IProject | null> {
-  const res = await fetchWrapped(`${config.baseURL}/nfts/by_address/${address}`);
+  const res = await fetchWrapped(`${config.baseURL}/nfts/by_address/${address}`, {}, false);
   if (res && res.success) {
     return res.data;
   }
@@ -26,7 +26,11 @@ export async function findNftByAddress(address: string): Promise<IProject | null
 }
 
 export async function findNftByURL(url: string): Promise<IProject | null> {
-  const res = await fetchWrapped(`${config.baseURL}/nfts/by_url/${encodeURIComponent(url)}`);
+  const res = await fetchWrapped(
+    `${config.baseURL}/nfts/by_url/${encodeURIComponent(url)}`,
+    {},
+    false,
+  );
   if (res && res.success) {
     return res.data;
   }
@@ -34,7 +38,7 @@ export async function findNftByURL(url: string): Promise<IProject | null> {
 }
 
 export async function searchProjects(keyword: string): Promise<IProject | null> {
-  const res = await fetchWrapped(`${config.baseURL}/nfts/search/${keyword}`);
+  const res = await fetchWrapped(`${config.baseURL}/nfts/search/${keyword}`, {}, false);
   if (res && res.success) {
     return res.data;
   }
@@ -51,7 +55,7 @@ export async function findAllWebsite(): Promise<string[] | null> {
       if (data.nft_website_all) {
         return resolve(data.nft_website_all);
       } else {
-        const res = await fetchWrapped(`${config.baseURL}/nfts/websites/all`);
+        const res = await fetchWrapped(`${config.baseURL}/nfts/websites/all`, {}, false);
         if (res && res.success) {
           chrome.storage.local.set({
             nft_website_all: res.data,

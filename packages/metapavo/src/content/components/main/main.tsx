@@ -17,11 +17,11 @@ const RootElement = styled.div`
   top: 0;
   background: #fff;
 
-  transition: all 0.5s ease-in-out 1s;
+  // transition: all 0.5s ease-in-out 1s;
   &.metapavo-main-show {
     right: 0;
 
-    transition: all 0.5s ease-in-out 1s;
+    // transition: all 0.5s ease-in-out 1s;
   }
 `;
 function App() {
@@ -30,16 +30,18 @@ function App() {
   const wallet = useContext(WalletContext);
   useEffect(() => {
     (async function () {
-      try {
-        const address = await wallet.fetchLoginInfo();
-        if (!address) {
+      if (useG.showMain) {
+        try {
+          const address = await wallet.fetchLoginInfo();
+          if (!address) {
+            navigate("/login");
+          }
+        } catch (e) {
           navigate("/login");
         }
-      } catch (e) {
-        navigate("/login");
       }
     })();
-  }, [useG.showMain]);
+  }, []);
   return (
     <RootElement className={[useG.showMain ? "metapavo-main-show" : ""].join(" ")}>
       <Box
