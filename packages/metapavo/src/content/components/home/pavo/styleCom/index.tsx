@@ -455,6 +455,9 @@ export const ModalContainer = styled.div`
       font-size: 14px;
       .user-code {
         background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-fill-color: transparent;
       }
     }
     .user-eth {
