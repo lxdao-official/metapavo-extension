@@ -77,6 +77,16 @@ export async function createVisitHistory(project_id: string) {
   return null;
 }
 
+export async function getVisitHistories(page_index = 1, page_size = 10) {
+  const res = await fetchWrapped(`${config.baseURL}/visit-histories/users/list`, {
+    method: "GET",
+  });
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}
+
 export async function addFavByProjectId(project_id: string) {
   const res = await fetchWrapped(`${config.baseURL}/favs/create`, {
     method: "POST",

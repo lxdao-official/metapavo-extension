@@ -38,3 +38,22 @@ export type IProject = {
   update_time: Date;
   faved: boolean | null;
 };
+export type IVisitHistory = {
+  id: string;
+  user_id: string;
+  project_id: string;
+  project_type: number | null;
+  created_at: Date;
+  updated_at: Date | null;
+  project: IProject;
+};
+
+export type IFavs = {
+  id: string;
+  user_id: string;
+  project_id: string;
+  project_type: number | null;
+  created_at: Date;
+  updated_at: Date | null;
+  project: IProject;
+};

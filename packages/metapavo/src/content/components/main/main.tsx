@@ -15,9 +15,11 @@ const RootElement = styled.div`
   z-index: 1000000;
   top: 0;
   background: #fff;
+  overflow-y: auto;
   transition: all 0.5s ease-in-out 1s;
   &.metapavo-main-show {
     right: 0;
+
     transition: all 0.5s ease-in-out 1s;
   }
 `;

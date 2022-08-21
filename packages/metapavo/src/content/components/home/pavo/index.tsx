@@ -38,7 +38,9 @@ import up from "./images/u_arrow-up.svg";
 import down from "./images/u_arrow-down.svg";
 import esc from "./images/ESC.svg";
 import enter_btn from "./images/enter_btn.svg";
-
+import { getUsersFavs, getVisitHistories } from "../../../../apis/nft_api";
+import { IVisitHistory, IFavs } from "../../../../apis/types";
+import moment from "moment";
 // test data
 const testSearchData = [
   {
@@ -48,10 +50,42 @@ const testSearchData = [
     eth: "0.02 ETH",
   },
 ];
+function AlarmIcon() {
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      width="70"
+      height="70"
+    >
+      <path
+        d="M271.4 877.5c-4.4 0-8.8-1.2-12.7-3.8-10.5-7-13.4-21.2-6.4-31.8l59.1-88.7c7-10.5 21.2-13.4 31.8-6.4 10.5 7 13.4 21.2 6.4 31.8l-59.1 88.7c-4.4 6.6-11.7 10.2-19.1 10.2zM752.6 877.5c-7.4 0-14.7-3.6-19.1-10.2l-59.9-89.8c-7-10.5-4.2-24.8 6.4-31.8 10.5-7 24.7-4.2 31.8 6.4l59.9 89.8c7 10.5 4.2 24.8-6.4 31.8-3.9 2.6-8.4 3.8-12.7 3.8zM420.6 257.9c-5.9 0-11.7-2.2-16.2-6.7l-49-49c-13.2-13.2-34.6-13.2-47.8 0l-19 19c-8.9 8.9-23.4 8.9-32.4 0-8.9-8.9-8.9-23.4 0-32.4l19-19c31-31 81.5-31 112.6 0l49 49c8.9 8.9 8.9 23.4 0 32.4-4.5 4.4-10.4 6.7-16.2 6.7zM230.2 270c-5.9 0-11.7-2.2-16.2-6.7-8.9-8.9-8.9-23.4 0-32.4l2.1-2.1c8.9-8.9 23.4-8.9 32.4 0s8.9 23.4 0 32.4l-2.1 2.1c-4.5 4.5-10.3 6.7-16.2 6.7zM219.7 428.9c-5.9 0-11.7-2.2-16.2-6.7L168 386.7c-30.2-30.2-30.2-79.5 0-109.7 8.9-8.9 23.4-8.9 32.4 0 8.9 8.9 8.9 23.4 0 32.4-12.4 12.4-12.4 32.5 0 44.9l35.5 35.5c8.9 8.9 8.9 23.4 0 32.4-4.5 4.5-10.4 6.7-16.2 6.7zM795.8 437.5c-5.9 0-11.7-2.2-16.2-6.7-8.9-8.9-8.9-23.4 0-32.4l44.1-44.1c12.4-12.4 12.4-32.5 0-44.9L716.4 202.1c-13.2-13.2-34.6-13.2-47.8 0l-49 49c-8.9 8.9-23.4 8.9-32.4 0-8.9-8.9-8.9-23.5 0-32.4l49-49c31.1-31 81.6-31 112.6 0L856 277c30.2 30.2 30.2 79.5 0 109.7l-44 44.1c-4.5 4.4-10.4 6.7-16.2 6.7z"
+        fill="#6893FF"
+        p-id="13119"
+      ></path>
+      <path
+        d="M512 843.2c-176.9 0-320.7-143.9-320.7-320.7S335.1 201.7 512 201.7s320.7 143.9 320.7 320.7S688.9 843.2 512 843.2z m0-595.7c-151.6 0-274.9 123.3-274.9 274.9S360.4 797.3 512 797.3 786.9 674 786.9 522.4 663.6 247.5 512 247.5z"
+        fill="#6893FF"
+        p-id="13120"
+      ></path>
+      <path
+        d="M477.7 568.2c-7.6 0-15-3.8-19.4-10.7-6.8-10.7-3.6-24.9 7.1-31.6L683 388.5c10.7-6.7 24.8-3.6 31.6 7.1 6.8 10.7 3.6 24.9-7.1 31.6L489.9 564.7c-3.8 2.4-8.1 3.5-12.2 3.5z"
+        fill="#39DB8F"
+        p-id="13121"
+      ></path>
+      <path
+        d="M546.3 568.2c-4 0-8.1-1.1-11.8-3.3L420 496.2c-10.9-6.5-14.4-20.6-7.9-31.4 6.5-10.9 20.6-14.4 31.4-7.9L558 525.6c10.9 6.5 14.4 20.6 7.9 31.4-4.2 7.3-11.8 11.2-19.6 11.2z"
+        fill="#FF6E90"
+        p-id="13122"
+      ></path>
+    </svg>
+  );
+}
 const testToolsHotData = [
-  { img: RectangleTool, name: "Gas查询" },
-  { img: RectangleTool, name: "时区计算" },
-  { img: RectangleTool, name: "无常损失" },
+  { img: AlarmIcon, name: "Alarm Reminder" },
+  // { img: RectangleTool, name: "时区计算" },
+  // { img: RectangleTool, name: "无常损失" },
 ];
 const testTrendsHotData = [
   { img: Trend1, name: "Doodles", eth: "Floor: 12 wETH" },
@@ -136,6 +170,42 @@ const Pavo = () => {
   mapStatus[(mapStatus[3] = "Trends")] = 3;
   mapStatus[(mapStatus[4] = "History")] = 4;
   mapStatus[(mapStatus[5] = "Seting")] = 5;
+
+  async function getHistories() {
+    const res = await getVisitHistories(1, 10);
+    if (res.data) {
+      setHistoryHot(
+        res.data.map((item: IVisitHistory) => {
+          return {
+            userIcon: item.project?.image_url,
+            useName: item.project?.name,
+            userEth: `Floor: ${
+              item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
+            } E`,
+            links: [{ link: "", img: link1 }],
+            dayTime: moment(item.created_at).fromNow(true),
+            hourTime: moment(item.created_at).format("mm:ss"),
+          };
+        }),
+      );
+    }
+  }
+  async function getFavs() {
+    const res = await getUsersFavs(1, 6);
+    if (res.data) {
+      setTrendsHot(
+        res.data.map((item: IFavs) => {
+          return {
+            img: item.project?.image_url,
+            name: item.project?.name,
+            eth: `Floor: ${
+              item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
+            } E`,
+          };
+        }),
+      );
+    }
+  }
 
   // 头部组件
   const HeadCom = () => {
@@ -266,7 +336,7 @@ const Pavo = () => {
 
     return (
       <ToolsItemContainer>
-        <img src={item.img ? item.img : RectangleTool} alt="" />
+        {item.img}
         <span>{item.name}</span>
       </ToolsItemContainer>
     );
@@ -294,9 +364,10 @@ const Pavo = () => {
         <TitleOfHot title={title} />
 
         <div className="hot-tool-list">
-          {data.map((item: any, index: number) => {
-            return <ToolsItem key={index} itemData={item} />;
-          })}
+          <ToolsItemContainer>
+            <AlarmIcon />
+            <span>Alarm Reminder</span>
+          </ToolsItemContainer>
         </div>
       </ToolsHotContainer>
     );
@@ -321,7 +392,10 @@ const Pavo = () => {
 
     return (
       <TrendsItemContainer>
-        <img src={item.img ? item.img : RectangleTool} alt="" />
+        <div
+          style={{ backgroundImage: `url(${item.img ? item.img : RectangleTool})` }}
+          className="des-cover"
+        />
         <div className="des-title">
           <span className="name">{item.name}</span>
           <span className="eth-own">{item.eth}</span>
@@ -453,7 +527,7 @@ const Pavo = () => {
             <HeadCom key={0} />,
             <SearchCom key={1} />,
             <ToolsHot key={2} data={toolsHot} title={"Tools"} />,
-            <TrendsHot key={3} data={trendsHot} title={"Trends"} />,
+            <TrendsHot key={3} data={trendsHot} title={"Watch List"} />,
             <HistoryHot key={4} title={"History"} data={historyHot} />,
           ],
         );
@@ -512,12 +586,14 @@ const Pavo = () => {
   };
 
   useEffect(() => {
+    getHistories();
+    getFavs();
     setSearchData(testSearchData);
     setToolsHot(testToolsHotData);
     setToolsAll(testToolsAll);
     setTrendsHot(testTrendsHotData);
     setTrendsAll(testTrendsAll);
-    setHistoryHot(testHistoryHotData);
+
     setHistoryAll(testHostoryAll);
   }, []);
 
