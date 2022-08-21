@@ -149,7 +149,12 @@ const AccordionPage = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails
-          sx={{ backgroundColor: "#fff", overflowY: "auto", height: "calc(100vh - 108px)" }}
+          sx={{
+            backgroundColor: "#fff",
+            overflowY: "auto",
+            height: "calc(100vh - 108px)",
+            padding: 0,
+          }}
         >
           <Typography>{activeAccoidion === 0 ? <Pavo /> : null}</Typography>
         </AccordionDetails>
