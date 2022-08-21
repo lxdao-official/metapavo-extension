@@ -51,7 +51,13 @@ const css = `
       }
   .Mui-expanded{
     margin:0 !important;
-    min-height:48px !important;
+    min-height:37px !important;
+    align-items: center;
+  }
+  .MuiAccordionSummary-root{
+    margin:0 !important;
+    min-height:37px !important;
+    height:37px;
     align-items: center;
   }
 `;
@@ -60,7 +66,7 @@ const AccordionPage = () => {
     useContext(GlobalContext);
   const [btcprice, setBtcprice] = React.useState(0);
   const [ethprice, setEthprice] = React.useState(0);
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   async function getPrice() {
     const result = await fetch("https://data.messari.io/api/v1/assets/eth/metrics/market-data", {
       method: "GET",
@@ -90,41 +96,13 @@ const AccordionPage = () => {
     }
   }
 
-  async function addFav() {
-    if (activeProject) {
-      try {
-        await addFavByProjectId(activeProject.id);
-        enqueueSnackbar("Add to favorite successfully", { variant: "success" });
-        refreshActiveProject();
-      } catch (e: any) {
-        enqueueSnackbar(e.message, { variant: "error" });
-      }
-    } else {
-      enqueueSnackbar("Please select a project first", { variant: "error" });
-    }
-  }
-  async function removeFav() {
-    if (activeProject) {
-      try {
-        await removeFavByProjectId(activeProject.id);
-        enqueueSnackbar("Remove from favorite successfully", { variant: "success" });
-        refreshActiveProject();
-      } catch (e: any) {
-        enqueueSnackbar(e.message, { variant: "error" });
-      }
-    } else {
-      enqueueSnackbar("Please select a project first", { variant: "error" });
-    }
-  }
   useEffect(() => {
     console.log("Accordion effect");
-    getPrice();
+    // getPrice();
     if (activeProject) {
       setActiveAccoidion(1);
-    } else {
-      setActiveAccoidion(0);
     }
-  }, [activeProject]);
+  }, []);
   return (
     <div>
       <style type="text/css">{css}</style>
@@ -137,6 +115,7 @@ const AccordionPage = () => {
           border: "1px solid rgba(28, 27, 29, 0.04)",
           borderBottom: "none",
           boxShadow: "none",
+          minHeight: "37px",
         }}
       >
         <AccordionSummary
@@ -151,6 +130,7 @@ const AccordionPage = () => {
           id="panel1bh-header"
           sx={{
             backgroundColor: "#EFEFEF",
+            margin: "0",
           }}
         >
           <Typography
@@ -169,11 +149,9 @@ const AccordionPage = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails
-          sx={{ backgroundColor: "#fff", overflowY: "auto", height: "calc(100vh - 130px)" }}
+          sx={{ backgroundColor: "#fff", overflowY: "auto", height: "calc(100vh - 108px)" }}
         >
-          <Typography>
-            <Pavo />
-          </Typography>
+          <Typography>{activeAccoidion === 0 ? <Pavo /> : null}</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -219,30 +197,11 @@ const AccordionPage = () => {
                 sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
               />
             ) : null}
-            <Box>{activeProject?.name || "unknown"}</Box>
-            {activeProject?.faved ? (
-              <IconButton
-                onClick={() => {
-                  removeFav();
-                }}
-                sx={{ ml: 0.5, height: "17px", width: "17px" }}
-              >
-                <BookmarkIcon sx={{ ml: 0.5, height: "17px", width: "17px", color: "#b721ff" }} />
-              </IconButton>
-            ) : (
-              <IconButton
-                onClick={() => {
-                  addFav();
-                }}
-                sx={{ ml: 0.5, height: "17px", width: "17px" }}
-              >
-                <BookmarkAddIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
-              </IconButton>
-            )}
+            <Box>{activeProject?.name || "UNKOWN"}</Box>
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0, backgroundColor: "#fff", boxShadow: "none" }}>
-          {activeProject ? <Extention /> : <NoFound />}
+          {activeAccoidion === 1 ? activeProject ? <Extention /> : <NoFound /> : null}
         </AccordionDetails>
       </Accordion>
 
@@ -307,7 +266,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Bottom_1 sx={{ mr: "5px", fontSize: "inherit" }} />
+            <Bottom_1 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               {gas}gwei
             </Box>
@@ -319,7 +278,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Bottom_2 sx={{ mr: "5px", fontSize: "inherit" }} />
+            <Bottom_2 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               ${ethprice.toLocaleString()}
             </Box>
@@ -331,7 +290,7 @@ const AccordionPage = () => {
               mr: "10px",
             }}
           >
-            <Bottom_3 sx={{ mr: "5px", fontSize: "inherit" }} />
+            <Bottom_3 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
             <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
               ${btcprice.toLocaleString()}
             </Box>

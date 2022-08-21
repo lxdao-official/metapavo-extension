@@ -5,6 +5,8 @@ import App from "./components/circle/circle";
 import Main from "./components/main/main";
 import SelectText from "./plugins/date-tool/selectText";
 import { SnackbarProvider } from "notistack";
+import useGlobal, { GlobalContext } from "./context/global";
+import useWallet, { WalletContext } from "./context/useWallet";
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-root";
 // Object.assign(rootElement.style, {
@@ -17,19 +19,40 @@ rootElement.id = "metapavo-root";
 // });
 document.body.appendChild(rootElement);
 const root = ReactDOM.createRoot(rootElement as HTMLElement);
-root.render(
-  <React.StrictMode>
+
+function Root() {
+  const useG = useGlobal();
+  const wallet = useWallet();
+
+  return (
     <SnackbarProvider
-      maxSnack={3}
+      maxSnack={1}
       anchorOrigin={{
         vertical: "top",
         horizontal: "center",
       }}
     >
       <MemoryRouter initialEntries={["/index"]}>
-        <App />
-        <SelectText />
+        <GlobalContext.Provider value={useG}>
+          <WalletContext.Provider value={wallet}>
+            <App />
+          </WalletContext.Provider>
+        </GlobalContext.Provider>
       </MemoryRouter>
+    </SnackbarProvider>
+  );
+}
+root.render(
+  <React.StrictMode>
+    <Root />
+    <SnackbarProvider
+      maxSnack={1}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+    >
+      <SelectText />
     </SnackbarProvider>
   </React.StrictMode>,
 );

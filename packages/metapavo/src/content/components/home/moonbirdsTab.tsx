@@ -14,6 +14,8 @@ import {
 } from "../assets/Svgs";
 import useGlobal, { GlobalContext } from "../../context/global";
 import copy from "clipboard-copy";
+import styled from "styled-components";
+import { addFavByProjectId, removeFavByProjectId } from "../../../apis/nft_api";
 const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");
 const link3 = chrome.runtime.getURL("images/svgs/image-3.svg");
 const link4 = chrome.runtime.getURL("images/svgs/image-4.svg");
@@ -58,7 +60,7 @@ const css = `
       justify-content: center;
       align-items: center;
       padding: 3px 4px;
-      width: 60px;
+      width: 50px;
       height: 19px;
       background: #F5F5F5;
       border-radius: 4px;
@@ -66,7 +68,19 @@ const css = `
       font-size: 11px;
       line-height: 13px;
       color: #353536;
-      margin-top:12px;
+      
+    }
+    .metapavo-addwatch{
+      height: 19px;
+    background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 18px;
+    border: none;
+    margin-left: 10px;
+    padding:0 10px 0 5px;
+    cursor:pointer;
     }
     .metapavo-ellipsis{
       width:16px;
@@ -140,8 +154,7 @@ const card = (obj: any) => (
       px: "15px",
       py: "10px",
       // width: "100%",
-      height: "59.71px",
-      background: "rgba(248, 247, 249, 0.7)",
+      height: "55.71px",
       border: "0.794574px solid #D7D7D7",
       borderRadius: "6.35659px",
       textAlign: "left",
@@ -151,19 +164,31 @@ const card = (obj: any) => (
     <Box
       sx={{
         mb: "6.36px",
-        fontWeight: 700,
-        fontSize: "9px",
+        fontWeight: 500,
+        fontSize: "12px",
+        transform: "scale(0.9)",
         lineHeight: "11px",
         color: "#A9A8AF",
         display: "flex",
         alignItems: "center",
         wordBreak: "break-all",
+        transformOrigin: "0 0",
       }}
     >
-      <Box sx={{ mr: 0.5, fontSize: "14px" }}>{obj.icon}</Box>
       {obj.label}
     </Box>
-    <Box sx={{ mb: 1.5, fontWeight: 700, fontSize: "14px", color: "#353536", lineHeight: "17px" }}>
+    <Box
+      sx={{
+        mb: 1.5,
+        fontWeight: 600,
+        fontSize: "14px",
+        color: "#353536",
+        lineHeight: "17px",
+        display: "flex",
+        fontFamily: "Inter",
+      }}
+    >
+      <Box sx={{ fontSize: "14px" }}>{obj.icon}</Box>
       {obj.value}
     </Box>
     {/* <Box
@@ -184,37 +209,59 @@ const card = (obj: any) => (
     </Box> */}
   </Box>
 );
+const LinkButton = styled.a`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  /* identical to box height */
 
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+
+  color: #000000;
+  cursor: pointer;
+`;
 const info = (obj: any) => (
-  <Box sx={{ mb: 2.25, mx: 3, textAlign: "left" }}>
-    <Box sx={{ fontWeight: 500, fontSize: "12px", lineHeight: "15px", mb: "14px" }}>{obj.name}</Box>
-    <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-      {obj.array.map((item: any) =>
-        item ? (
-          <a href={item.link} target="_blank" rel="noreferrer">
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "12px",
-                lineHeight: "15px",
-                mr: 1,
-                background: "rgba(248, 247, 249, 0.5)",
-                border: "0.8px solid #D7D7D7",
-                borderRadius: "6.4px",
-                p: "10px",
-                mb: 2,
-              }}
-            >
-              <img src={item.img} className="metaPavo-mr8" />
-              {item.label}
-            </Box>
-          </a>
-        ) : null,
-      )}
-    </Box>
-  </Box>
+  <>
+    {obj.array.filter((f: any) => {
+      return f;
+    }).length === 0 ? null : (
+      <Box sx={{ mb: 2.25, mx: 3, textAlign: "left" }}>
+        <Box sx={{ fontWeight: 500, fontSize: "12px", lineHeight: "15px", mb: "14px" }}>
+          {obj.name}
+        </Box>
+        <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+          {obj.array.map((item: any) =>
+            item ? (
+              <LinkButton href={item.link} target="_blank" rel="noreferrer">
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "12px",
+                    lineHeight: "15px",
+                    mr: 1,
+                    background: "rgba(248, 247, 249, 0.5)",
+                    border: "0.8px solid #D7D7D7",
+                    borderRadius: "6.4px",
+                    p: "10px",
+                    mb: 2,
+                  }}
+                >
+                  <img src={item.img} className="metaPavo-mr8" />
+                  {item.label}
+                </Box>
+              </LinkButton>
+            ) : null,
+          )}
+        </Box>
+      </Box>
+    )}
+  </>
 );
 interface MediaProps {
   loading?: boolean;
@@ -236,7 +283,7 @@ const twoDecimal = (num: any) => {
 };
 const MoonbirdsTab1 = (props: MediaProps) => {
   const { loading = false } = props;
-  const { activeProject, detectStatus } = useContext(GlobalContext);
+  const { activeProject, detectStatus, refreshActiveProject } = useContext(GlobalContext);
   const { enqueueSnackbar } = useSnackbar();
   const copyContractAddress = () => {
     if (activeProject?.contract_address) {
@@ -246,39 +293,41 @@ const MoonbirdsTab1 = (props: MediaProps) => {
   };
   const mookData = [
     {
-      label: "总市值",
+      label: "Total Sales",
       value: `${twoDecimal(activeProject?.total_sales)}`,
       date: "24H",
       rate: 0,
-      icon: "$",
+      icon: "$ ",
     },
     {
-      label: "持有者",
-      value: `${activeProject?.num_owners?.toLocaleString()}`,
+      label: "Holders",
+      value: `${activeProject?.num_owners?.toLocaleString() || "-"}/${
+        activeProject?.total_supply ? parseInt(activeProject?.total_supply) : "-"
+      }`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit" }} />,
+      icon: <></>,
     },
     {
-      label: "交易量(24H)",
-      value: `${twoDecimal(activeProject?.one_day_volume)}`,
+      label: "Volume (24H)",
+      value: `${twoDecimal(activeProject?.one_day_volume)} Ξ`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit" }} />,
+      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
-      label: "交易量(7D)",
-      value: `${twoDecimal(activeProject?.seven_day_volume)}`,
+      label: "Volume (7D)",
+      value: `${twoDecimal(activeProject?.seven_day_volume)} Ξ`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit" }} />,
+      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
-      label: "地板价",
-      value: `${twoDecimal(activeProject?.floor_price)}`,
+      label: "Floor Price",
+      value: `${twoDecimal(activeProject?.floor_price)} Ξ`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit" }} />,
+      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
   ];
 
@@ -364,6 +413,32 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       ],
     },
   ];
+  async function addFav() {
+    if (activeProject) {
+      try {
+        await addFavByProjectId(activeProject.id);
+        enqueueSnackbar("Add to favorite successfully");
+        refreshActiveProject();
+      } catch (e: any) {
+        enqueueSnackbar(e.message, { variant: "error" });
+      }
+    } else {
+      enqueueSnackbar("Please select a project first", { variant: "error" });
+    }
+  }
+  async function removeFav() {
+    if (activeProject) {
+      try {
+        await removeFavByProjectId(activeProject.id);
+        enqueueSnackbar("Remove from favorite successfully");
+        refreshActiveProject();
+      } catch (e: any) {
+        enqueueSnackbar(e.message, { variant: "error" });
+      }
+    } else {
+      enqueueSnackbar("Please select a project first", { variant: "error" });
+    }
+  }
   return (
     <div className="metapavo-tabInner">
       <style type="text/css">{css}</style>
@@ -379,7 +454,12 @@ const MoonbirdsTab1 = (props: MediaProps) => {
           <Box component="img" src={activeProject?.image_url || ""} width={85} height={85} />
           <Box
             component={"div"}
-            sx={{ ml: 2.5, display: "flex", justifyContent: "center", flexDirection: "column" }}
+            sx={{
+              marginLeft: "15px",
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
           >
             <Box
               sx={{
@@ -417,13 +497,31 @@ const MoonbirdsTab1 = (props: MediaProps) => {
                 <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
               </IconButton>
             </Box>
-            <Box className="metapavo-boxText">{activeProject?.type === 1 ? "ERC20" : "NFT"}</Box>
+            <Box sx={{ display: "flex", justifyContent: "flex-start", marginTop: "12px" }}>
+              <Box className="metapavo-boxText">{activeProject?.type === 1 ? "ERC20" : "NFT"}</Box>
+              {activeProject?.faved ? (
+                <button
+                  className="metapavo-addwatch"
+                  onClick={() => {
+                    removeFav();
+                  }}
+                >
+                  － WATCHING
+                </button>
+              ) : (
+                <button
+                  className="metapavo-addwatch"
+                  onClick={() => {
+                    addFav();
+                  }}
+                >
+                  ＋ WATCH LIST
+                </button>
+              )}
+            </Box>
           </Box>
         </Box>
-        <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>
-          {activeProject?.describe}
-          <Ellipsis className="metapavo-ellipsis" />
-        </Box>
+        <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>{activeProject?.describe}</Box>
       </Box>
       <Box
         sx={{
@@ -445,39 +543,41 @@ const MoonbirdsTab2 = () => {
   const { activeProject, detectStatus } = useGlobal();
   const mookData = [
     {
-      label: "总市值",
+      label: "Total Sales",
       value: `${twoDecimal(activeProject?.total_sales)}`,
       date: "24H",
       rate: 0,
       icon: "$",
     },
     {
-      label: "持有者",
-      value: `${activeProject?.num_owners?.toLocaleString()}`,
+      label: "Holders",
+      value: `${activeProject?.num_owners?.toLocaleString() || "-"}/${
+        activeProject?.total_supply ? parseInt(activeProject?.total_supply) : "-"
+      }`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit" }} />,
+      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
     },
     {
-      label: "交易量(24H)",
+      label: "Volume(24H)",
       value: `${twoDecimal(activeProject?.one_day_volume)}`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit" }} />,
+      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
     },
     {
-      label: "交易量(7D)",
+      label: "Volume(7D)",
       value: `${twoDecimal(activeProject?.seven_day_volume)}`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit" }} />,
+      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
     },
     {
-      label: "地板价",
+      label: "Floor Price",
       value: `${twoDecimal(activeProject?.floor_price)}`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit" }} />,
+      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
     },
   ];
   return (

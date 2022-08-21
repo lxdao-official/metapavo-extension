@@ -7,16 +7,23 @@ import moment from "moment";
 import Typography from "@mui/material/Typography";
 import { getUsersFavs } from "../apis/nft_api";
 import { Avatar, Box, CircularProgress, ListItemAvatar } from "@mui/material";
+import { useSnackbar } from "notistack";
 
 export default function FavList() {
   const [favs, setFavs] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   async function getFavs() {
     setLoading(true);
-    const data = await getUsersFavs();
-    if (data.data) {
-      setFavs(data.data);
+    try {
+      const data = await getUsersFavs();
+      if (data.data) {
+        setFavs(data.data);
+      }
+    } catch (e: any) {
+      enqueueSnackbar(e.message);
     }
+
     setLoading(false);
   }
   useEffect(() => {
@@ -40,16 +47,16 @@ export default function FavList() {
                       <Box
                         component="img"
                         src={fav.project?.image_url || ""}
-                        width={85}
-                        height={85}
+                        width={40}
+                        height={40}
                       />
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
                     primary={fav.project?.name}
-                    secondary={`${fav.created_at ? fav.created_at.toLocaleString() : ""} floor:${
+                    secondary={`${fav.created_at ? moment(fav.created_at).fromNow() : ""} floor:${
                       fav.project?.floor_price || ""
-                    } total:${fav.project?.total_volumn || ""}`}
+                    } total:${fav.project?.total_volume || ""}`}
                   />
                 </ListItem>
               );

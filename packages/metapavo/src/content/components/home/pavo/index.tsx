@@ -31,7 +31,7 @@ import { WalletContext } from "../../../context/useWallet";
 import { useSnackbar } from "notistack";
 import TrendsALL, { TrendsItem } from "./comps/WatchListAll";
 import HistoryALL, { HistoryItem } from "./comps/historyListAll";
-import { isTemplateElement } from "@babel/types";
+import AlarmListPage from "./comps/AlarmListPage";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const logo = chrome.runtime.getURL("images/svgs/logo.svg");
 const logo_name = chrome.runtime.getURL("images/svgs/MetaPavo.svg");
@@ -105,84 +105,6 @@ function AlarmIcon() {
   );
 }
 
-// test data
-const testSearchData = [
-  {
-    user_icon: userIcon,
-    user_name: "Moonbirds",
-    flag: flag,
-    eth: "0.02 ETH",
-  },
-];
-const testToolsHotData = [
-  { img: AlarmIcon, name: "Alarm Reminder" },
-  // { img: RectangleTool, name: "时区计算" },
-  // { img: RectangleTool, name: "无常损失" },
-];
-const testTrendsHotData = [
-  { img: Trend1, name: "Doodles", eth: "Floor: 12 wETH" },
-  { img: Trend2, name: "Moonbirds", eth: "Floor: 12 wETH" },
-];
-const testHistoryHotData = [
-  {
-    userIcon: history_icon1,
-    useName: "Drippies™",
-    userEth: "Floor: 12 E",
-    links: [{ link: "", img: link1 }],
-    dayTime: "今天",
-    hourTime: "3:23 am",
-  },
-  {
-    userIcon: history_icon2,
-    useName: "Azuki",
-    userEth: "Floor: 120 E",
-    links: [
-      { link: "", img: link1 },
-      { link: "", img: link2 },
-    ],
-    dayTime: "3月23日",
-    hourTime: "8:23 pm",
-  },
-];
-
-const testToolsAll = [
-  { img: RectangleTool, name: "Gas查询" },
-  { img: RectangleTool, name: "时区计算" },
-  { img: RectangleTool, name: "无常损失" },
-  { img: RectangleTool, name: "Gas查询" },
-  { img: RectangleTool, name: "时区计算" },
-  { img: RectangleTool, name: "无常损失" },
-];
-const testTrendsAll = [
-  { img: Trend1, name: "Doodles", eth: "Floor: 12 wETH" },
-  { img: Trend2, name: "Moonbirds", eth: "Floor: 12 wETH" },
-  { img: Trend1, name: "Doodles", eth: "Floor: 12 wETH" },
-  { img: Trend2, name: "Moonbirds", eth: "Floor: 12 wETH" },
-  { img: Trend1, name: "Doodles", eth: "Floor: 12 wETH" },
-  { img: Trend2, name: "Moonbirds", eth: "Floor: 12 wETH" },
-];
-const testHostoryAll = [
-  {
-    userIcon: history_icon1,
-    useName: "Drippies™",
-    userEth: "Floor: 12 E",
-    links: [{ link: "", img: link1 }],
-    dayTime: "今天",
-    hourTime: "3:23 am",
-  },
-  {
-    userIcon: history_icon2,
-    useName: "Azuki",
-    userEth: "Floor: 120 E",
-    links: [
-      { link: "", img: link1 },
-      { link: "", img: link2 },
-    ],
-    dayTime: "3月23日",
-    hourTime: "8:23 pm",
-  },
-];
-
 const Pavo = () => {
   const [status, setStatus] = useState<number>(0);
   const [curValue, setCurValue] = useState<string>("");
@@ -202,9 +124,9 @@ const Pavo = () => {
   const mapStatus: any = {};
   mapStatus[(mapStatus[0] = "Hall")] = 0;
   mapStatus[(mapStatus[1] = "SearchShow")] = 1;
-  mapStatus[(mapStatus[2] = "Tools")] = 2;
-  mapStatus[(mapStatus[3] = "Trends")] = 3;
-  mapStatus[(mapStatus[4] = "History")] = 4;
+  mapStatus[(mapStatus[2] = "TOOLS")] = 2;
+  mapStatus[(mapStatus[3] = "WATCHLIST")] = 3;
+  mapStatus[(mapStatus[4] = "HISTORY")] = 4;
   mapStatus[(mapStatus[5] = "Seting")] = 5;
   const [watchListLoading, setWatchListLoading] = useState(false);
   const [getHistoryLoading, setGetHistoryLoading] = useState(false);
@@ -219,8 +141,11 @@ const Pavo = () => {
             useName: item.project?.name,
             userEth: `Floor: ${item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
               } E`,
-            links: [{ link: "", img: link1 }],
-            dayTime: moment(item.created_at).fromNow(),
+            links: [],
+            dayTime: moment(item.created_at)
+              .fromNow()
+              .replace("minutes", "mins")
+              .replace("seconds", "secs"),
             hourTime: moment(item.created_at).format("mm:ss"),
             project_id: item.project_id,
           };
@@ -445,7 +370,8 @@ const Pavo = () => {
         <div className="hot-tool-list">
           <ToolsItemContainer
             onClick={() => {
-              navigate("/alarms");
+              // navigate("/alarms");
+              setStatus(5);
             }}
           >
             <AlarmIcon />
@@ -469,8 +395,35 @@ const Pavo = () => {
       </ToolsHotContainer>
     );
   };
-
-  const TrendsHot = (props: any) => {
+  const Empty = () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          justifyItems: "center",
+          alignItems: "center",
+          padding: "30px 0",
+        }}
+      >
+        <svg
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="40"
+          fill="#999"
+        >
+          <path d="M855.6 427.2H168.5c-12.7 0-24.4 6.9-30.6 18L4.4 684.7C1.5 689.9 0 695.8 0 701.8v287.1c0 19.4 15.7 35.1 35.1 35.1H989c19.4 0 35.1-15.7 35.1-35.1V701.8c0-6-1.5-11.8-4.4-17.1L886.2 445.2c-6.2-11.1-17.9-18-30.6-18zM673.4 695.6c-16.5 0-30.8 11.5-34.3 27.7-12.7 58.5-64.8 102.3-127.2 102.3s-114.5-43.8-127.2-102.3c-3.5-16.1-17.8-27.7-34.3-27.7H119c-26.4 0-43.3-28-31.1-51.4l81.7-155.8c6.1-11.6 18-18.8 31.1-18.8h622.4c13 0 25 7.2 31.1 18.8l81.7 155.8c12.2 23.4-4.7 51.4-31.1 51.4H673.4zM819.9 209.5c-1-1.8-2.1-3.7-3.2-5.5-9.8-16.6-31.1-22.2-47.8-12.6L648.5 261c-17 9.8-22.7 31.6-12.6 48.4 0.9 1.4 1.7 2.9 2.5 4.4 9.5 17 31.2 22.8 48 13L807 257.3c16.7-9.7 22.4-31 12.9-47.8zM375.4 261.1L255 191.6c-16.7-9.6-38-4-47.8 12.6-1.1 1.8-2.1 3.6-3.2 5.5-9.5 16.8-3.8 38.1 12.9 47.8L337.3 327c16.9 9.7 38.6 4 48-13.1 0.8-1.5 1.7-2.9 2.5-4.4 10.2-16.8 4.5-38.6-12.4-48.4zM512 239.3h2.5c19.5 0.3 35.5-15.5 35.5-35.1v-139c0-19.3-15.6-34.9-34.8-35.1h-6.4C489.6 30.3 474 46 474 65.2v139c0 19.5 15.9 35.4 35.5 35.1h2.5z"></path>
+        </svg>
+        <div style={{ marginTop: "10px", fontSize: "14px", color: "#555", textAlign: "center" }}>
+          No Records
+        </div>
+      </div>
+    );
+  };
+  const WatchListHot = (props: any) => {
     const data = props.data;
     const title = props.title;
 
@@ -481,6 +434,8 @@ const Pavo = () => {
           <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
             <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
           </Box>
+        ) : data.length === 0 ? (
+          <Empty />
         ) : null}
         <div className="hot-trend-list">
           {data.map((item: any, index: number) => {
@@ -512,7 +467,10 @@ const Pavo = () => {
             <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
               <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
             </Box>
+          ) : data.length === 0 ? (
+            <Empty />
           ) : null}
+
           {data.map((item: any, index: number) => {
             return (
               <HistoryItem
@@ -593,10 +551,10 @@ const Pavo = () => {
         generateComs.push(
           ...[
             <HeadCom key={0} />,
-            <SearchCom key={1} status={status} searchData={searchData} />,
-            <ToolsHot key={2} data={toolsHot} title={"Tools"} />,
-            <TrendsHot key={3} data={trendsHot} title={"Trends"} />,
-            <HistoryHot key={4} title={"History"} data={historyHot} />,
+            <SearchCom key={1} />,
+            <ToolsHot key={2} data={toolsHot} title={"TOOLS"} />,
+            <WatchListHot key={3} data={trendsHot} title={"WATCHLIST"} />,
+            <HistoryHot key={4} title={"HISTORY"} data={historyHot} />,
           ],
         );
         break;
@@ -625,6 +583,11 @@ const Pavo = () => {
             <HeadReturn key={0} title={mapStatus[status]} />,
             <HistoryALL key={4} title={"History"} data={historyAll} />,
           ],
+        );
+        break;
+      case 5:
+        generateComs.push(
+          ...[<HeadReturn key={0} title={"Alarm List"} />, <AlarmListPage key={5} />],
         );
         break;
     }
@@ -679,14 +642,7 @@ const Pavo = () => {
   useEffect(() => {
     getHistories();
     getFavs();
-    setToolsAll(testToolsAll);
-    setTrendsAll(testTrendsAll);
-    setHistoryAll(testHostoryAll);
   }, []);
-
-  useEffect(() => {
-    console.log("cur status", status, searchData)
-  })
 
   return (
     <Container>

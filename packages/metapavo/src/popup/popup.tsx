@@ -1,4 +1,5 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import styled from "styled-components";
@@ -62,8 +63,16 @@ function Page() {
 }
 root.render(
   <React.StrictMode>
-    <RootElement>
-      <Page />
-    </RootElement>
+    <SnackbarProvider
+      maxSnack={1}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+    >
+      <RootElement>
+        <Page />
+      </RootElement>
+    </SnackbarProvider>
   </React.StrictMode>,
 );

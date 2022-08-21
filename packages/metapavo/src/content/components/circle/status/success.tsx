@@ -226,6 +226,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
         </div>
         <button
           className=""
+          style={{ cursor: "pointer" }}
           onClick={() => {
             useG.setShowMain(!useG.showMain);
           }}

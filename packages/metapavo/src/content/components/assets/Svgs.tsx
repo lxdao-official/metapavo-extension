@@ -272,7 +272,7 @@ function Btc(props: SvgIconProps) {
   return (
     <SvgIcon
       width="8px"
-      height="13px"
+      height="12px"
       viewBox="0 0 8 13"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

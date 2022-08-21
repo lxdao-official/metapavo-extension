@@ -98,7 +98,7 @@ export default function SelectText() {
   };
   useEffect(() => {
     bindEvents();
-  });
+  }, []);
 
   const [convertResult, setConvertResult] = React.useState<Date | null>();
   const [addAlarmConfirmShow, setAddAlarmConfirmShow] = React.useState(false);

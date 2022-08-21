@@ -32,6 +32,7 @@ const MoreButton = styled.button`
   font-size: 14px;
   line-height: 22px;
   border: none;
+  cursor: pointer;
 `;
 const TrendsALL = (props: any) => {
   const [list, setList] = useState<any[]>([]);

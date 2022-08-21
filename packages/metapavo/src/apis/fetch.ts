@@ -1,7 +1,12 @@
 export const fetchWrapped: (
   input: RequestInfo | URL,
   init?: RequestInit | undefined,
-) => Promise<any> = async (input: RequestInfo | URL, init?: RequestInit | undefined) => {
+  needLogin?: boolean,
+) => Promise<any> = async (
+  input: RequestInfo | URL,
+  init?: RequestInit | undefined,
+  needLogin = true,
+) => {
   return new Promise((resolve, reject) => {
     if (!chrome?.storage?.local) {
       reject("access_token is not found");
@@ -34,7 +39,21 @@ export const fetchWrapped: (
           };
         }
       } else {
-        throw new Error("access_token is not found");
+        if (needLogin) throw reject(new Error("user not login"));
+        else if (init) {
+          init.headers = {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            ...init.headers,
+          };
+        } else {
+          init = {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        }
       }
 
       return fetch(input, init)

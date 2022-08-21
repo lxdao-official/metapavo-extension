@@ -22,6 +22,7 @@ const MoreButton = styled.button`
   font-size: 14px;
   line-height: 22px;
   border: none;
+  cursor: pointer;
 `;
 export const HistoryItem = (props: any) => {
   const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
