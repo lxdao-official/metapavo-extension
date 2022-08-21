@@ -51,7 +51,13 @@ const css = `
       }
   .Mui-expanded{
     margin:0 !important;
-    min-height:48px !important;
+    min-height:37px !important;
+    align-items: center;
+  }
+  .MuiAccordionSummary-root{
+    margin:0 !important;
+    min-height:37px !important;
+    height:37px;
     align-items: center;
   }
 `;
@@ -109,6 +115,7 @@ const AccordionPage = () => {
           border: "1px solid rgba(28, 27, 29, 0.04)",
           borderBottom: "none",
           boxShadow: "none",
+          minHeight: "37px",
         }}
       >
         <AccordionSummary
@@ -123,6 +130,7 @@ const AccordionPage = () => {
           id="panel1bh-header"
           sx={{
             backgroundColor: "#EFEFEF",
+            margin: "0",
           }}
         >
           <Typography
@@ -141,7 +149,7 @@ const AccordionPage = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails
-          sx={{ backgroundColor: "#fff", overflowY: "auto", height: "calc(100vh - 130px)" }}
+          sx={{ backgroundColor: "#fff", overflowY: "auto", height: "calc(100vh - 108px)" }}
         >
           <Typography>{activeAccoidion === 0 ? <Pavo /> : null}</Typography>
         </AccordionDetails>
