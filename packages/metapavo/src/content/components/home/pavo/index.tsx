@@ -250,7 +250,12 @@ const Pavo = () => {
       );
     }
   }
-
+  const goDetail = async (project_id: string) => {
+    const project = await getNftById(project_id);
+    if (project) {
+      setActiveProject(project);
+    }
+  };
   // 头部组件
   const HeadCom = () => {
     return (
@@ -523,12 +528,7 @@ const Pavo = () => {
       </HistoryHotContainer>
     );
   };
-  const goDetail = async (project_id: string) => {
-    const project = await getNftById(project_id);
-    if (project) {
-      setActiveProject(project);
-    }
-  };
+
   const HistoryALL = (props: any) => {
     const data = props.data;
 
