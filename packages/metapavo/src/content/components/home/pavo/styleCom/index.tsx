@@ -229,7 +229,7 @@ export const HotTitle = styled.div`
   align-items: center;
   width: 100%;
   height: 29px;
-  padding: 6px 10px;
+  padding: 6px 10px 18px 10px;
   font-weight: 500;
 
   .title {
@@ -302,7 +302,8 @@ export const TrendsItemContainer = styled.div`
   cursor: pointer;
   .des-cover {
     width: 127px;
-    height: 80px;
+    height: 127px;
+    border-radius: 6px;
     background-size: cover;
     background-position: center;
   }
@@ -313,6 +314,7 @@ export const TrendsItemContainer = styled.div`
     width: 100%;
     height: 32px;
     text-align: left;
+    margin-top: 8px;
 
     .name {
       width: 100%;

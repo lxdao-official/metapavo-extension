@@ -209,7 +209,7 @@ const Pavo = () => {
               item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
             } E`,
             links: [{ link: "", img: link1 }],
-            dayTime: moment(item.created_at).fromNow(true),
+            dayTime: moment(item.created_at).fromNow(),
             hourTime: moment(item.created_at).format("mm:ss"),
             project_id: item.project_id,
           };
