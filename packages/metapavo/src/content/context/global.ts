@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { createVisitHistory, findNftByURL, getNftById } from "../../apis/nft_api";
 import { IProject } from "../../apis/types";
 import { recognizerOpenSea } from "../../recognizer/opensea";
@@ -29,6 +30,7 @@ export const GlobalContext = React.createContext<{
   setActiveAccoidion: (activeAccoidion: number) => void;
   setAddRootClass: (addRootClass: string) => void;
   refreshActiveProject: () => void;
+  showLogin: () => void;
 }>({} as any);
 function useGlobal() {
   const [showMain, setShowMain] = React.useState(false);
@@ -149,10 +151,15 @@ function useGlobal() {
       }
     }
   }
-
+  let navigate = useNavigate();
+  async function showLogin() {
+    setShowMain(true);
+    navigate("/login");
+  }
   return {
     showMain,
     setShowMain,
+    showLogin,
     activeProject,
     setActiveProject,
     detectStatus,

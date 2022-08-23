@@ -25,6 +25,15 @@ function Root() {
   const wallet = useWallet();
 
   return (
+    <GlobalContext.Provider value={useG}>
+      <WalletContext.Provider value={wallet}>
+        <App />
+      </WalletContext.Provider>
+    </GlobalContext.Provider>
+  );
+}
+root.render(
+  <React.StrictMode>
     <SnackbarProvider
       maxSnack={1}
       anchorOrigin={{
@@ -33,18 +42,9 @@ function Root() {
       }}
     >
       <MemoryRouter initialEntries={["/index"]}>
-        <GlobalContext.Provider value={useG}>
-          <WalletContext.Provider value={wallet}>
-            <App />
-          </WalletContext.Provider>
-        </GlobalContext.Provider>
+        <Root />
       </MemoryRouter>
     </SnackbarProvider>
-  );
-}
-root.render(
-  <React.StrictMode>
-    <Root />
     <SnackbarProvider
       maxSnack={1}
       anchorOrigin={{

@@ -17,7 +17,11 @@ export default function AlarmList() {
     setLoading(true);
     try {
       const _alarms = await getUsersAlarms();
-      setAlarms(_alarms);
+      if (_alarms) {
+        setAlarms(_alarms);
+      } else {
+        setAlarms([]);
+      }
     } catch (e: any) {
       enqueueSnackbar(e.message);
     }

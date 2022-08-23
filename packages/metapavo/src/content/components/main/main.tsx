@@ -26,20 +26,21 @@ const RootElement = styled.div`
 `;
 function App() {
   const useG = useContext(GlobalContext);
-  let navigate = useNavigate();
+
   const wallet = useContext(WalletContext);
+  let navigate = useNavigate();
   useEffect(() => {
     (async function () {
-      if (useG.showMain) {
-        try {
-          const address = await wallet.fetchLoginInfo();
-          if (!address) {
-            navigate("/login");
-          }
-        } catch (e) {
+      // if (useG.showMain) {
+      try {
+        const address = await wallet.fetchLoginInfo();
+        if (!address) {
           navigate("/login");
         }
+      } catch (e) {
+        navigate("/login");
       }
+      // }
     })();
   }, []);
   return (
