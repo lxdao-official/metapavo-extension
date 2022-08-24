@@ -21,6 +21,7 @@
   "background": {
     "service_worker": "./dist/static/js/background.js"
   },
+  "options_page": "options.html",
   "permissions": ["storage", "alarms", "notifications"],
   "web_accessible_resources": [
     {

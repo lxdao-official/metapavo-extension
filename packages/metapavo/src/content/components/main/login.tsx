@@ -23,7 +23,7 @@ const MainBody = styled.div`
   width: 100%;
   text-align: center;
   position: absolute;
-  bottom: 150px;
+  bottom: 170px;
   width: 100%;
   left: 0;
 `;
@@ -54,9 +54,13 @@ const TitleText = styled.div`
   margin: 20px auto;
 `;
 const ButtonContainer = styled.div`
-  position: absolute;
-  bottom: 80px;
-  right: 50px;
+      display: flex;
+    position: absolute;
+    bottom: 80px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
 `;
 const LoginPage = () => {
   let navigate = useNavigate();

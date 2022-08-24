@@ -72,6 +72,7 @@ module.exports = {
   popup: resolveApp("./src/popup/popup.tsx"),
   background: resolveApp("./src/scripts/background.ts"),
   twitter: resolveApp("./src/scripts/twitter.ts"),
+  login: resolveApp("./src/others/single-login.tsx"),
 };
 
 module.exports.moduleFileExtensions = moduleFileExtensions;
