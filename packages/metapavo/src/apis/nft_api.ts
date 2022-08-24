@@ -136,9 +136,13 @@ export async function getUsersFavs(pageIndex: number = 1, pageSize: number = 20)
 }
 
 export async function getUsersAlarms() {
-  const res = await fetchWrapped(`${config.baseURL}/alarms/fromnow/list`, {
-    method: "GET",
-  });
+  const res = await fetchWrapped(
+    `${config.baseURL}/alarms/fromnow/list`,
+    {
+      method: "GET",
+    },
+    false,
+  );
   if (res && res.success) {
     return res.data;
   }

@@ -31,16 +31,16 @@ function App() {
   let navigate = useNavigate();
   useEffect(() => {
     (async function () {
-      // if (useG.showMain) {
-      try {
-        const address = await wallet.fetchLoginInfo();
-        if (!address) {
+      if (useG.showMain) {
+        try {
+          const address = await wallet.fetchLoginInfo();
+          if (!address) {
+            navigate("/login");
+          }
+        } catch (e) {
           navigate("/login");
         }
-      } catch (e) {
-        navigate("/login");
       }
-      // }
     })();
   }, []);
   return (

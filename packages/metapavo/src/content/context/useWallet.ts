@@ -16,12 +16,13 @@ export const WalletContext = React.createContext<{
 export default function useWallet() {
   const [address, setAddress] = useState("");
   const [loginedAddress, setLoginedAddress] = useState("");
+
   const signin: () => Promise<string> = () => {
     return new Promise(async (resolve, reject) => {
       let addresses: string[] = [];
       const maskProvider = createMetaMaskProvider();
       console.log("maskProvider", maskProvider);
-      maskProvider.on("error", (error) => {
+      maskProvider.on("error", () => {
         reject(new Error("metamask connect error"));
         // Failed to connect to MetaMask, fallback logic.
       });

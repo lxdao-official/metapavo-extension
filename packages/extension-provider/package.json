@@ -1,0 +1,31 @@
+{
+  "name": "metamask-extension-provider",
+  "version": "3.0.6",
+  "description": "A module for allowing a WebExtension to access the web3 provider from an installed MetaMask instance.",
+  "main": "index.js",
+  "type": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "buildSample": "browserify sample-extension/index.js -o sample-extension/bundle.js"
+  },
+  "repository": "https://github.com/DimensionDev/extension-provider",
+  "keywords": [
+    "MetaMask",
+    "Ethereum",
+    "Provider"
+  ],
+  "author": "Dan Finlay <dan@danfinlay.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danfinlay/metamask-extension-provider/issues"
+  },
+  "homepage": "https://github.com/danfinlay/metamask-extension-provider#readme",
+  "dependencies": {
+    "@metamask/inpage-provider": "^8.1.0",
+    "detect-browser": "^3.0.0",
+    "extension-port-stream": "^1.0.0"
+  },
+  "devDependencies": {
+    "web3": "^1.3.3"
+  }
+}

@@ -247,6 +247,7 @@ function App() {
     chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
       if (request.cmd === "gasUpdate") useG.setGas(request.value);
       if (request.cmd === "needlogin") {
+        console.log("needlogin");
         useG.showLogin();
       }
       sendResponse("ok");

@@ -8,6 +8,7 @@ export const fetchWrapped: (
   needLogin = true,
 ) => {
   return new Promise((resolve, reject) => {
+    console.log("request", input, init);
     if (!chrome?.storage?.local) {
       reject("access_token is not found");
       return;
