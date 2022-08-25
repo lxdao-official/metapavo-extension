@@ -39,10 +39,10 @@ const css = `
 }
 @keyframes slideshow {
         0% {
-            margin-left: 10px;
+            margin-left: 0px;
         }
         to {
-            margin-left: -60px;
+            margin-left: -50px;
         }
       }
       .textScroll{
@@ -103,6 +103,36 @@ const AccordionPage = () => {
       setActiveAccoidion(1);
     }
   }, [activeProject]);
+
+  const scrollData = [
+    {
+      icon: <Bottom_1 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />,
+      name: `${gas}gwei`,
+    },
+    {
+      icon: <Bottom_1 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />,
+      name: `${ethprice.toLocaleString()}`,
+    },
+    {
+      icon: <Bottom_3 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />,
+      name: `${btcprice.toLocaleString()}`,
+    },
+  ];
+  const scrollView = (item: any) => (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        mr: "10px",
+      }}
+    >
+      {item.icon}
+      <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
+        {item.name}
+      </Box>
+    </Box>
+  );
+
   return (
     <div>
       <style type="text/css">{css}</style>
@@ -264,42 +294,8 @@ const AccordionPage = () => {
           }}
           className="textScroll"
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: "10px",
-            }}
-          >
-            <Bottom_1 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
-            <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
-              {gas}gwei
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: "10px",
-            }}
-          >
-            <Bottom_2 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
-            <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
-              ${ethprice.toLocaleString()}
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: "10px",
-            }}
-          >
-            <Bottom_3 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
-            <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
-              ${btcprice.toLocaleString()}
-            </Box>
-          </Box>
+          {scrollData.map((ii) => scrollView(ii))}
+          {scrollData.map((ii) => scrollView(ii))}
         </Box>
       </Box>
     </div>
