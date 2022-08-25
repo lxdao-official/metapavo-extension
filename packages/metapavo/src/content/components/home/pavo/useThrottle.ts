@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useCallback } from "react";
 const useThrottle = (fn: any, delay: any, dep: any = []) => {
   const { current }: any = useRef({ fn, timer: null });
   useEffect(
-    function() {
+    function () {
       current.fn = fn;
     },
     [fn],

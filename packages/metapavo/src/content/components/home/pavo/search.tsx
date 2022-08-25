@@ -99,25 +99,26 @@ export const SearchCom = (props: any) => {
       </div>
 
       <div className="search-data">
-        {searchData.length &&
-          searchData.map((item: any, index: number) => {
-            return (
-              <SearchItem
-                key={index}
-                itemData={item}
-                onClick={() => {
-                  props.goDetail(item.project_id);
-                  // setTimeout(() => {
-                  //   setStatus(0);
-                  //   setSearchData([]);
-                  //   setCurValue("");
-                  // }, 1000);
-                }}
-              />
-            );
-          })}
+        {searchData.length
+          ? searchData.map((item: any, index: number) => {
+              return (
+                <SearchItem
+                  key={index}
+                  itemData={item}
+                  onClick={() => {
+                    props.goDetail(item.project_id);
+                    // setTimeout(() => {
+                    //   setStatus(0);
+                    //   setSearchData([]);
+                    //   setCurValue("");
+                    // }, 1000);
+                  }}
+                />
+              );
+            })
+          : null}
 
-        {searchData.length && (
+        {searchData.length ? (
           <div className="prompt">
             <Box
               sx={{
@@ -179,7 +180,7 @@ export const SearchCom = (props: any) => {
             </Box>
             <span className="text-check">选中</span>
           </div>
-        )}
+        ) : null}
       </div>
     </SearchField>
   );
