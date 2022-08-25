@@ -1,29 +1,14 @@
-import React, { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import styled from "styled-components";
-import useGlobal, { GlobalContext } from "../../context/global";
+import { GlobalContext } from "../../context/global";
 import LoginPage from "./login";
 import AccordionPage from "./../home/accordion";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Box } from "@mui/material";
-import { MemoryRouter, Routes, Route, useNavigate } from "react-router-dom";
-import useWallet, { WalletContext } from "../../context/useWallet";
-import AlarmList from "../../../popup/alarmList";
-const RootElement = styled.div`
-  width: 303px;
-  height: 100vh;
-  position: fixed;
-  right: -303px;
-  z-index: 1000000;
-  top: 0;
-  background: #fff;
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { WalletContext } from "../../context/useWallet";
+import { MainRootElement } from "./styles";
 
-  // transition: all 0.5s ease-in-out 1s;
-  &.metapavo-main-show {
-    right: 0;
-
-    // transition: all 0.5s ease-in-out 1s;
-  }
-`;
 function App() {
   const useG = useContext(GlobalContext);
 
@@ -43,8 +28,9 @@ function App() {
       }
     })();
   }, []);
+
   return (
-    <RootElement className={[useG.showMain ? "metapavo-main-show" : ""].join(" ")}>
+    <MainRootElement className={[useG.showMain ? "metapavo-main-show" : ""].join(" ")}>
       <Box
         sx={{
           position: "absolute",
@@ -111,7 +97,7 @@ function App() {
           </svg>
         </div>
       ) : null}
-    </RootElement>
+    </MainRootElement>
   );
 }
 

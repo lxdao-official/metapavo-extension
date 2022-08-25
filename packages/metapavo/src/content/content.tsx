@@ -37,14 +37,14 @@ const wagmiClient = createClient({
 });
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-root";
-// Object.assign(rootElement.style, {
-//   position: "absolute",
-//   width: 0,
-//   height: 0,
-//   right: 0,
-//   bottom: 0,
-//   zIndex: 100000,
-// });
+Object.assign(rootElement.style, {
+  position: "absolute",
+  width: 0,
+  height: 0,
+  right: 0,
+  bottom: 0,
+  zIndex: 100000000000,
+});
 document.body.appendChild(rootElement);
 const root = ReactDOM.createRoot(rootElement as HTMLElement);
 

@@ -33,7 +33,7 @@ export const GlobalContext = React.createContext<{
   showLogin: () => void;
 }>({} as any);
 function useGlobal() {
-  const [showMain, setShowMain] = React.useState(false);
+  const [showMain, _setShowMain] = React.useState(false);
   const [activeProject, setActiveProject] = React.useState<IProject | null>(null);
   const [detectStatus, setDetectStatus] = React.useState<RecognizerStatus>("none");
   const [addRootClass, setAddRootClass] = React.useState("");
@@ -42,6 +42,15 @@ function useGlobal() {
 
   function showSuccess() {
     setAddRootClass("metapavo-main-box-success");
+  }
+
+  function setShowMain(_show: boolean) {
+    if (_show) {
+      document.body.style.paddingRight = "303px";
+    } else {
+      document.body.style.paddingRight = "0";
+    }
+    _setShowMain(_show);
   }
 
   async function checkWebsite() {
