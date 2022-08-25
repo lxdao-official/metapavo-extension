@@ -66,8 +66,12 @@ const AccordionPage = () => {
     useContext(GlobalContext);
   const [btcprice, setBtcprice] = React.useState(0);
   const [ethprice, setEthprice] = React.useState(0);
-
+  let alreadyFetchPrice = false;
   async function getPrice() {
+    if (alreadyFetchPrice) {
+      return;
+    }
+    alreadyFetchPrice = true;
     const result = await fetch("https://data.messari.io/api/v1/assets/eth/metrics/market-data", {
       method: "GET",
       headers: {
@@ -98,7 +102,7 @@ const AccordionPage = () => {
 
   useEffect(() => {
     console.log("Accordion effect");
-    // getPrice();
+    getPrice();
     if (activeProject) {
       setActiveAccoidion(1);
     }

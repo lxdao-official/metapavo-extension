@@ -43,7 +43,9 @@ export const SearchCom = (props: any) => {
   const searchDom = useRef<HTMLInputElement | null>(null);
   const search = useThrottle(
     async () => {
-      if (!curValue) return;
+      if (!curValue) {
+        return setSearchData([]);
+      }
       // search project 请求逻辑
       try {
         const searchResult: any = await searchProjects(curValue);
@@ -73,11 +75,11 @@ export const SearchCom = (props: any) => {
 
     setCurValue(curValue);
 
-    if (!curValue) {
-      //   setStatus(0);
-      setSearchData([]);
-      return;
-    }
+    // if (!curValue) {
+    //   //   setStatus(0);
+    //   setSearchData([]);
+    //   return;
+    // }
 
     search();
   };
