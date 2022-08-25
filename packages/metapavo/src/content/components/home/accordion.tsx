@@ -110,7 +110,7 @@ const AccordionPage = () => {
       name: `${gas}gwei`,
     },
     {
-      icon: <Bottom_1 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />,
+      icon: <Bottom_2 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />,
       name: `${ethprice.toLocaleString()}`,
     },
     {
