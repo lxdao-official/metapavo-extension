@@ -336,7 +336,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
       name: "More Data",
       array: [
         {
-          link: `https://www.nftscan.com/${activeProject?.contract_address}`,
+          link: `https://nfteye.io/collections/${activeProject?.id}`,
           label: "NFTEye",
           img: link8,
         },
