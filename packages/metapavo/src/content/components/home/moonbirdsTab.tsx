@@ -302,7 +302,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
     {
       label: "Holders",
       value: `${activeProject?.num_owners?.toLocaleString() || "-"}/${
-        activeProject?.total_supply ? parseInt(activeProject?.total_supply) : "-"
+        activeProject?.total_supply ? parseInt(activeProject?.total_supply).toLocaleString() : "-"
       }`,
       date: "24H",
       rate: 0,
