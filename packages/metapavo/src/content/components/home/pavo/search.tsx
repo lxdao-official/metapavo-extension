@@ -40,36 +40,34 @@ const SearchItem = (props: any) => {
 export const SearchCom = (props: any) => {
   const [curValue, setCurValue] = useState<string>("");
   const [searchData, setSearchData] = useState<any[]>([]);
-  const searchDom = useRef<HTMLInputElement | null>(null);
-  const search = useThrottle(
-    async () => {
-      if (!curValue) {
-        return setSearchData([]);
+  const search = async (keyword: string) => {
+    if (!keyword) {
+      setSearchData([]);
+      return;
+    }
+    // search project 请求逻辑
+    try {
+      const searchResult: any = await searchProjects(keyword);
+      if (searchResult.data) {
+        let searchData = searchResult.data;
+        searchData = searchData.map((item: any) => {
+          return {
+            ...item,
+            project_id: item.id,
+            user_icon: item.image_url,
+            user_name: item.name,
+            flag: flag,
+            contract_is_verified: item.contract_is_verified,
+            eth: `${item.floor_price ? Math.round(item.floor_price * 1000) / 1000 : 0} ETH`,
+          };
+        });
+        setSearchData(searchData);
       }
-      // search project 请求逻辑
-      try {
-        const searchResult: any = await searchProjects(curValue);
-        if (searchResult.data) {
-          let searchData = searchResult.data;
-          searchData = searchData.map((item: any) => {
-            return {
-              ...item,
-              project_id: item.id,
-              user_icon: item.image_url,
-              user_name: item.name,
-              flag: flag,
-              contract_is_verified: item.contract_is_verified,
-              eth: `${item.floor_price ? Math.round(item.floor_price * 1000) / 1000 : 0} ETH`,
-            };
-          });
-          setSearchData(searchData);
-          // setStatus(1);
-        }
-      } catch (e) {}
-    },
-    200,
-    [],
-  );
+    } catch (e) {
+      setSearchData([]);
+    }
+  };
+
   const searchChange = async (e: any) => {
     const curValue = e.target.value;
 
@@ -81,7 +79,7 @@ export const SearchCom = (props: any) => {
     //   return;
     // }
 
-    search();
+    search(curValue);
   };
   // if (status === 1) {
   //   searchInputFocus();
@@ -93,7 +91,7 @@ export const SearchCom = (props: any) => {
         <input
           type="text"
           onChange={searchChange}
-          ref={searchDom}
+          onPaste={searchChange}
           value={curValue}
           placeholder="Search collection/address/.."
         />

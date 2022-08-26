@@ -21,8 +21,11 @@ const RootElement = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   font-size: 12px;
   line-height: 25px;
+  z-index: 10000000;
   * {
     font-family: Source Sans Pro, Helvetica Neue, Arial, sans-serif !important;
+    color: #c4c4c4;
+    font-size: 12px;
   }
 `;
 
@@ -68,15 +71,17 @@ export default function SelectText() {
         const selection = document.getSelection();
         if (selection && selection.type === "Range") {
           const selectionText = selection.toString();
-          setText(selectionText);
-          const oRange = selection.getRangeAt(0); //get the text range
-          const oRect = oRange.getBoundingClientRect();
-          const absolutePos = {
-            x: oRect.left + window.scrollX + oRect.width,
-            y: oRect.top + window.scrollY,
-          };
-          setPos(absolutePos);
-          setConvertResult(null);
+          if (selectionText.length >= 10) {
+            setText(selectionText);
+            const oRange = selection.getRangeAt(0); //get the text range
+            const oRect = oRange.getBoundingClientRect();
+            const absolutePos = {
+              x: oRect.left + window.scrollX + oRect.width,
+              y: oRect.top + window.scrollY,
+            };
+            setPos(absolutePos);
+            setConvertResult(null);
+          }
         } else {
           console.log("no selection");
           // setText("");
