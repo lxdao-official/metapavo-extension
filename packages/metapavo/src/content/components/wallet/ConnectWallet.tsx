@@ -13,7 +13,7 @@ const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
 const NETWORK = CHAIN_ID === "1" ? "mainnet" : "rinkeby";
 
 const ButtonStyle = styled.button`
-  width: 202px;
+  padding: 0 20px;
   height: 37px;
   background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
   box-shadow: 0px 0px 0px #4216e7;
@@ -28,7 +28,7 @@ const ButtonStyle = styled.button`
   }
 `;
 const ButtonStyleSec = styled.button`
-  width: 160px;
+  padding: 0 20px;
   height: 30px;
   background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
   box-shadow: 0px 0px 0px #4216e7;
