@@ -89,7 +89,7 @@ export const SearchCom = (props: any) => {
 
   return (
     <SearchField>
-      <div className="search">
+      <div className="metapavo-search">
         <input
           type="text"
           onChange={searchChange}
@@ -100,7 +100,7 @@ export const SearchCom = (props: any) => {
         {/* {status !== 1 && <div>/</div>} */}
       </div>
 
-      <div className="search-data">
+      <div className="metapavo-search-data">
         {searchData.length
           ? searchData.map((item: any, index: number) => {
               return (
@@ -121,7 +121,7 @@ export const SearchCom = (props: any) => {
           : null}
 
         {searchData.length ? (
-          <div className="prompt">
+          <div className="metapavo-prompt">
             <Box
               sx={{
                 boxShadow: "0px 1.5px 0px rgba(215, 215, 215, 0.6)",
@@ -148,10 +148,10 @@ export const SearchCom = (props: any) => {
                 border: "0.5px solid #D7D7D7",
               }}
             >
-              <img className="down" src={down} alt="" />
+              <img className="metapavo-down" src={down} alt="" />
             </Box>
 
-            <span className="text-chose">选择</span>
+            <span className="metapavo-text-chose">选择</span>
             <Box
               sx={{
                 boxShadow: "0px 1.5px 0px rgba(215, 215, 215, 0.6)",
@@ -163,10 +163,10 @@ export const SearchCom = (props: any) => {
                 border: "0.5px solid #D7D7D7",
               }}
             >
-              <img className="esc" src={esc} alt="" />
+              <img className="metapavo-esc" src={esc} alt="" />
             </Box>
 
-            <span className="text-close">关闭窗口</span>
+            <span className="metapavo-text-close">关闭窗口</span>
             <Box
               sx={{
                 boxShadow: "0px 1.5px 0px rgba(215, 215, 215, 0.6)",
@@ -178,9 +178,9 @@ export const SearchCom = (props: any) => {
                 border: "0.5px solid #D7D7D7",
               }}
             >
-              <img className="enter-btn" src={enter_btn} alt="" />
+              <img className="metapavo-enter-btn" src={enter_btn} alt="" />
             </Box>
-            <span className="text-check">选中</span>
+            <span className="metapavo-text-check">选中</span>
           </div>
         ) : null}
       </div>

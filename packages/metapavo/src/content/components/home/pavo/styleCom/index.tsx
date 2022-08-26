@@ -64,16 +64,18 @@ export const SearchField = styled.div`
   border-radius: 6px;
   color: #d7d7d7;
 
-  .search {
+  .metapavo-search {
     display: flex;
     width: 100%;
 
     input {
-      width: 215px;
-      height: 17px;
-      line-height: 17px;
-      border: 0;
-      outline: 0;
+      width: 215px !important;
+      height: 17px !important;
+      line-height: 17px !important;
+      border: 0 !important;
+      outline: 0 !important;
+      background: none !important;
+      color: #d7d7d7 !important;
     }
 
     div {
@@ -89,12 +91,12 @@ export const SearchField = styled.div`
     }
   }
 
-  .search-data {
+  .metapavo-search-data {
     display: flex;
     flex-direction: column;
     width: 100%;
 
-    .prompt {
+    .metapavo-prompt {
       box-sizing: border-box;
       display: flex;
       width: 272px;
@@ -111,17 +113,17 @@ export const SearchField = styled.div`
       line-height: 21px;
       white-space: nowrap;
 
-      .up {
+      .metapavo-up {
         // width: 13px;
         // height: 13x;
       }
 
-      .down {
+      .metapavo-down {
         // width: 13px;
         // height: 13x;
       }
 
-      .text-chose {
+      .metapavo-text-chose {
         font-weight: 400;
         font-size: 11px;
         margin-left: 7px;
@@ -129,18 +131,18 @@ export const SearchField = styled.div`
         line-height: 21px;
       }
 
-      .esc {
+      .metapavo-esc {
       }
 
-      .text-close {
+      .metapavo-text-close {
         margin-left: 7px;
         margin-right: 19px;
       }
 
-      .enter-btn {
+      .metapavo-enter-btn {
       }
 
-      .text-check {
+      .metapavo-text-check {
         margin-left: 7px;
         margin-right: 13px;
       }
@@ -500,3 +502,5 @@ export const ModalContainer = styled.div`
     }
   }
 `;
+
+const SearchInput = styled.input``;
