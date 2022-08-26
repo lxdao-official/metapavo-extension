@@ -515,7 +515,7 @@ const ProjectTab = (props: MediaProps) => {
           </Box>
         </Box>
         <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>
-          <MuiMarkdown>{activeProject?.describe ? activeProject?.describe : ""}</MuiMarkdown>
+          {activeProject?.describe ? activeProject?.describe : ""}
         </Box>
       </Box>
       <Box
