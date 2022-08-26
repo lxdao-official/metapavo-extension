@@ -71,16 +71,16 @@ const css = `
       
     }
     .metapavo-addwatch{
-      height: 19px;
-    background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
-    border-radius: 4px;
-    color: #fff;
-    font-size: 12px;
-    line-height: 18px;
-    border: none;
-    margin-left: 10px;
-    padding:0 10px 0 5px;
-    cursor:pointer;
+      height: 19px !important;
+    background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%) !important;
+    border-radius: 4px !important;
+    color: #fff !important;
+    font-size: 12px !important;
+    line-height: 18px !important;
+    border: none !important;
+    margin-left: 10px !important;
+    padding:0 10px 0 5px !important;
+    cursor:pointer !important;
     }
     .metapavo-ellipsis{
       width:16px;
@@ -383,7 +383,7 @@ const MoonbirdsTab1 = (props: MediaProps) => {
           : null,
         activeProject?.contract_address
           ? {
-              link: `https://x2y2.io/eth/${activeProject?.contract_address}`,
+              link: `https://x2y2.io/collection/${activeProject?.id}/items`,
               label: "X2Y2",
               img: link5,
             }

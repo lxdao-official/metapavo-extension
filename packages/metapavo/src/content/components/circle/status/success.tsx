@@ -211,7 +211,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           ) : null}
           {activeProject?.contract_address ? (
             <a
-              href={`https://x2y2.io/eth/${activeProject?.contract_address}`}
+              href={`https://x2y2.io/collection/${activeProject?.id}/items`}
               target="_blank"
               rel="noreferrer"
             >
