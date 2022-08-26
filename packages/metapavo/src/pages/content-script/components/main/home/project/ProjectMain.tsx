@@ -1,17 +1,10 @@
-import React, { useContext, useRef } from "react";
-import { Box, MenuItem, Select, FormControl, IconButton } from "@mui/material";
+import React, { useContext } from "react";
+import { Box, MenuItem, IconButton } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
-import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import {
-  Shield_check,
-  Shield_error,
-  Component1,
-  Ellipsis,
-  Btc,
-  Left_Icon,
-  Fliter,
-} from "../../../assets/Svgs";
+import MuiMarkdown from "mui-markdown";
+import { Shield_error, Component1, Btc, Left_Icon, Fliter } from "../../../assets/Svgs";
 import useGlobal, { GlobalContext } from "../../../../context/global";
 import copy from "clipboard-copy";
 import styled from "styled-components";
@@ -521,7 +514,9 @@ const ProjectTab = (props: MediaProps) => {
             </Box>
           </Box>
         </Box>
-        <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>{activeProject?.describe}</Box>
+        <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>
+          <MuiMarkdown>{activeProject?.describe ? activeProject?.describe : ""}</MuiMarkdown>
+        </Box>
       </Box>
       <Box
         sx={{

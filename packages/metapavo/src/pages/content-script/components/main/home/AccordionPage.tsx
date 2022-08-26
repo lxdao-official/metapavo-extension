@@ -137,7 +137,7 @@ const AccordionPage = () => {
             margin: "0",
           }}
         >
-          <Typography
+          <Box
             sx={{
               width: "33%",
               flexShrink: 0,
@@ -150,7 +150,7 @@ const AccordionPage = () => {
           >
             <MetaPavo sx={{ mr: 0.5, fontSize: "20px", height: "20px" }} />
             MetaPavo
-          </Typography>
+          </Box>
         </AccordionSummary>
         <AccordionDetails
           sx={{
@@ -160,7 +160,7 @@ const AccordionPage = () => {
             padding: 0,
           }}
         >
-          <Typography>{activeAccoidion === 0 ? <Pavo /> : null}</Typography>
+          <div>{activeAccoidion === 0 ? <Pavo /> : null}</div>
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -189,7 +189,7 @@ const AccordionPage = () => {
             backgroundColor: "#EFEFEF",
           }}
         >
-          <Typography
+          <Box
             sx={{
               flexShrink: 0,
               fontSize: "14px",
@@ -207,7 +207,7 @@ const AccordionPage = () => {
               />
             ) : null}
             <Box>{activeProject?.name || "UNKOWN"}</Box>
-          </Typography>
+          </Box>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0, backgroundColor: "#fff", boxShadow: "none" }}>
           {activeAccoidion === 1 ? activeProject ? <Extention /> : <NoFound /> : null}

@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
-import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
-import { useAccount, useProvider, useSigner, useSignMessage } from "wagmi";
+import { useSnackbar } from "notistack";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import { WalletContext } from "../content-script/context/useWallet";

@@ -30,7 +30,7 @@ function App() {
   }, []);
 
   return (
-    <MainRootElement className={[useG.showMain ? "metapavo-main-show" : ""].join(" ")}>
+    <MainRootElement className={useG.showMain ? "metapavo-main-show" : "metapavo-main-hide"}>
       <Box
         sx={{
           position: "absolute",

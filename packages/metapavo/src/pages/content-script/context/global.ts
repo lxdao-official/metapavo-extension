@@ -46,9 +46,13 @@ function useGlobal() {
 
   function setShowMain(_show: boolean) {
     if (_show) {
-      document.body.style.paddingRight = "303px";
+      setTimeout(() => {
+        document.body.style.paddingRight = "303px";
+      }, 600);
     } else {
+      // setTimeout(() => {
       document.body.style.paddingRight = "0";
+      // }, 800);
     }
     _setShowMain(_show);
   }

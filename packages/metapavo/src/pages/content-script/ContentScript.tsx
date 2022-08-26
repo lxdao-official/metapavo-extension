@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
-import App from "./components/circle/circle";
+import App from "./components/pavo-ball/ball";
 import SelectText from "./plugins/date-tool/selectText";
 import { SnackbarProvider } from "notistack";
 import useGlobal, { GlobalContext } from "./context/global";

@@ -1,5 +1,25 @@
-import styled from "styled-components";
-
+import styled, { keyframes } from "styled-components";
+const show = keyframes`
+  0% {
+    right:-303px;
+    opacity:0;
+  }
+  100% {
+    right:0;
+    opacity:1;
+  }
+  `;
+const hide = keyframes`
+ 0% {
+    right:0;
+    opacity:1;
+  }
+  100% {
+    right:-303px;
+    opacity:0;
+  }
+ 
+  `;
 export const MainRootElement = styled.div`
   width: 303px;
   height: 100vh;
@@ -9,10 +29,13 @@ export const MainRootElement = styled.div`
   top: 0;
   background: #fff;
 
-  // transition: all 0.5s ease-in-out 1s;
   &.metapavo-main-show {
-    right: 0;
-
-    // transition: all 0.5s ease-in-out 1s;
+    right: -303px;
+    animation: ${show} 0.6s ease-in-out 0s;
+    animation-fill-mode: forwards;
+  }
+  &.metapavo-main-hide {
+    animation: ${hide} 0.6s ease-in-out 0s;
+    animation-fill-mode: forwards;
   }
 `;
