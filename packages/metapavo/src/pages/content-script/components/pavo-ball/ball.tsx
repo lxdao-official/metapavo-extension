@@ -80,6 +80,7 @@ function App() {
     useG.checkTwitter();
     useG.checkOpenSea();
     useG.checkWebsite();
+    useG.checkX2Y2();
     // document.addEventListener("click", (e) => {
     //   if (useG.showMain) {
     //     useG.setShowMain(false);

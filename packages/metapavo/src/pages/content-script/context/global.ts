@@ -11,6 +11,7 @@ import {
   detectProjectByTwitterId,
 } from "../../../utils/recognizer/twitter";
 import { recognizerWebsite } from "../../../utils/recognizer/website";
+import { recognizerX2Y2 } from "../../../utils/recognizer/x2y2";
 type RecognizerStatus = "danger" | "warning" | "success" | "none";
 export const GlobalContext = React.createContext<{
   showMain: boolean;
@@ -22,6 +23,7 @@ export const GlobalContext = React.createContext<{
   checkTwitter: () => void;
   checkOpenSea: () => void;
   checkWebsite: () => void;
+  checkX2Y2: () => void;
   addRootClass: string;
   showSuccess: () => void;
   gas: number;
@@ -85,6 +87,41 @@ function useGlobal() {
     let lastCheckOpenseaId: string | undefined = undefined;
     setInterval(async () => {
       const result = await recognizerOpenSea();
+      if (result && (result.contract || result.id)) {
+        if ((result.contract || result.id) !== lastCheckOpenseaId) {
+          const projectInfo = result.id
+            ? await detectProjectById(result.id)
+            : await detectProjectByContractAddress(result.contract!);
+          if (projectInfo) {
+            setDetectStatus("success");
+            setTimeout(() => {
+              showSuccess();
+            }, 1000);
+            setActiveProject(projectInfo);
+            createVisitHistory(projectInfo.id);
+          } else {
+            setDetectStatus("none");
+            setActiveProject(null);
+            setTimeout(() => {
+              setAddRootClass("");
+            }, 1000);
+          }
+        }
+        lastCheckOpenseaId = result.contract || result.id;
+      } else {
+        setDetectStatus("none");
+        setActiveProject(null);
+        setTimeout(() => {
+          setAddRootClass("");
+        }, 1000);
+      }
+    }, 2000);
+  }
+  async function checkX2Y2() {
+    if (window.location.host.indexOf("x2y2.io") == -1) return;
+    let lastCheckOpenseaId: string | undefined = undefined;
+    setInterval(async () => {
+      const result = await recognizerX2Y2();
       if (result && (result.contract || result.id)) {
         if ((result.contract || result.id) !== lastCheckOpenseaId) {
           const projectInfo = result.id
@@ -180,6 +217,7 @@ function useGlobal() {
     checkTwitter,
     checkOpenSea,
     checkWebsite,
+    checkX2Y2,
     addRootClass,
     showSuccess,
     gas,

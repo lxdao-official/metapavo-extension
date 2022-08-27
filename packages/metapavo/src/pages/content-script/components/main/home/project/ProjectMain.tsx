@@ -19,7 +19,10 @@ const link7 = chrome.runtime.getURL("images/svgs/image-7.svg");
 const link8 = chrome.runtime.getURL("images/svgs/image-8.svg");
 const link9 = chrome.runtime.getURL("images/svgs/image-9.svg");
 const link10 = chrome.runtime.getURL("images/svgs/image-9.svg");
-
+const icon_github = chrome.runtime.getURL("images/github.png");
+const icon_website = chrome.runtime.getURL("images/website.png");
+const icon_discord = chrome.runtime.getURL("images/discord.png");
+const icon_gem = chrome.runtime.getURL("images/gem.png");
 const card = (obj: any) => (
   <Box
     component="div"
@@ -218,9 +221,11 @@ const ProjectTab = (props: MediaProps) => {
           img: link2,
         },
         activeProject?.external_url
-          ? { link: `${activeProject?.external_url}`, label: "Website" }
+          ? { link: `${activeProject?.external_url}`, label: "Website", img: icon_website }
           : null,
-        activeProject?.github ? { link: `${activeProject?.github}`, label: "Github" } : null,
+        activeProject?.github
+          ? { link: `${activeProject?.github}`, label: "Github", img: icon_github }
+          : null,
       ],
     },
     {
@@ -247,6 +252,13 @@ const ProjectTab = (props: MediaProps) => {
               img: link5,
             }
           : null,
+        activeProject?.contract_address
+          ? {
+              link: `https://www.gem.xyz/collection/${activeProject?.id}`,
+              label: "Gem",
+              img: icon_gem,
+            }
+          : null,
       ],
     },
     {
@@ -260,7 +272,7 @@ const ProjectTab = (props: MediaProps) => {
             }
           : null,
         activeProject?.discord_url
-          ? { link: `${activeProject?.discord_url}`, label: "Discord" }
+          ? { link: `${activeProject?.discord_url}`, label: "Discord", img: icon_discord }
           : null,
         activeProject?.instagram_username
           ? {
