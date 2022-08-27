@@ -1,9 +1,9 @@
 ## build
 
 ```bash
-# 安装依赖
+# install dependencies
 lerna run bootstrap
-# 构建 extension
+# build extension
 cd packages/metapavo
 npm run build:dev
 ```
@@ -12,7 +12,7 @@ and then open chrome extension dev mode
 
 add /extensions folder to chrome
 
-each time you modify the extension, you need to rebuild and reload it in chrome
+each time you modify the extension, you need to rebuild and reload it in
 
 ## struct
 
@@ -23,51 +23,51 @@ each time you modify the extension, you need to rebuild and reload it in chrome
     |- content.js
     |- popup.js
 ├── pages
-│   ├── content-script # the content script folder,注入到页面的js文件
+│   ├── content-script # the content script folder,JS file injected to the page
 │       ├── ContentScript.tsx # 入口
 │       ├── components
-│           ├── main    # 右侧划出的界面
-│               ├── home    # 右侧划出的界面的主体组件
+│           ├── main    # The interface drawn on the right
+│               ├── home    # The main component of the interface drawn on the right
 │                   ├── AccordionPage.tsx
 │                   ├── index
 │                   ├── nofound.tsx
 │                   └── project
 │                       ├── ProjectContainer.tsx
 │                       └── ProjectMain.tsx
-│               ├── login.tsx # 登录界面
-│               ├── root.tsx # 主界面入口
-│               └── styles.tsx # 样式文件
-│           ├── pavo-ball # 球的组件
-│               ├── ball.tsx # 球的组件
-│               ├── status # 球的状态组件
+│               ├── login.tsx # login interface
+│               ├── root.tsx # main interface entry
+│               └── styles.tsx # style file
+│           ├── pavo-ball # components of the ball
+│               ├── ball.tsx # components of the ball
+│               ├── status # ball state component
 │                   ├── danger.tsx
 │                   └── success.tsx
 │               └── styles.tsx
-│           └── wallet  # 钱包组件
+│           └── wallet  # Wallet component
 │               └── ConnectWallet.tsx
-│       ├── context # 全局的上下文组件
+│       ├── context # global context component
 │           ├── global.ts
 │           └── useWallet.ts
-│       └── plugins # 插件组件
+│       └── plugins # Plugin components
 │           └── date-tool
 │               ├── selectText.tsx
 │               └── util.ts
-│   └── popup # 插件 popup 界面
+│   └── popup # Plugin popup interface
 │       ├── alarmList.tsx
 │       ├── favList.tsx
 │       └── popup.tsx
-├── scripts # 其他插件脚本
-│   ├── background.ts # 后台脚本
-│   └── twitter.ts  # twitter 插件脚本（弃用）
+├── scripts # Other plugin scripts
+│   ├── background.ts # background script
+│   └── twitter.ts  # twitter plugin script (deprecated)
 └── utils
-│   ├── apis # 后台接口
+│   ├── apis # backend interface
 │       ├── fetch.ts
 │       ├── nft_api.ts
 │       └── types.ts
-│   ├── detector # 垃圾twitter检测插件
+│   ├── detector # Spam twitter detection plugin
 │       └── src
 │           ├── index.ts
-│   └── recognizer # 主体信息识别脚本
+│   └── recognizer # Subject Information Recognition Script
 │       ├── opensea.ts
 │       ├── twitter.ts
 │       └── website.ts
@@ -75,7 +75,7 @@ each time you modify the extension, you need to rebuild and reload it in chrome
 
 ```
 
-## 开发其他新的入口页面或脚本
+## Develop other new entry pages or scripts
 
 ```
 
