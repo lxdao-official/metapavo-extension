@@ -745,7 +745,6 @@ const MoonbirdsTab3 = (props: MediaProps) => {
               width: "100%",
               top: "48px",
               left: 0,
-              background: "#fff",
               border: "1px solid #E5E3E6",
               borderRadius: "0px 0px 6px 6px",
               paddingBottom: "5px",

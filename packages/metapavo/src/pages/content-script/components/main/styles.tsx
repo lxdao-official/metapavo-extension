@@ -27,7 +27,7 @@ export const MainRootElement = styled.div`
   right: -303px;
   z-index: 100000000002;
   top: 0;
-  background: #fff;
+  background: #fcfcfc;
 
   &.metapavo-main-show {
     right: -303px;

@@ -154,7 +154,7 @@ const AccordionPage = () => {
         </AccordionSummary>
         <AccordionDetails
           sx={{
-            backgroundColor: "#fff",
+            backgroundColor: "#fcfcfc",
             overflowY: "auto",
             height: "calc(100vh - 108px)",
             padding: 0,
@@ -209,7 +209,7 @@ const AccordionPage = () => {
             <Box>{activeProject?.name || "UNKOWN"}</Box>
           </Box>
         </AccordionSummary>
-        <AccordionDetails sx={{ p: 0, backgroundColor: "#fff", boxShadow: "none" }}>
+        <AccordionDetails sx={{ p: 0, backgroundColor: "#fcfcfc", boxShadow: "none" }}>
           {activeAccoidion === 1 ? activeProject ? <Extention /> : <NoFound /> : null}
         </AccordionDetails>
       </Accordion>
