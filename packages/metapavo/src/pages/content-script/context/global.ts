@@ -126,11 +126,11 @@ function useGlobal() {
         }
         lastCheckId = nowCheckedResult.contract || nowCheckedResult.id;
       } else {
-        setDetectStatus("none");
-        setActiveProject(null);
-        setTimeout(() => {
-          setAddRootClass("");
-        }, 1000);
+        // setDetectStatus("none");
+        // setActiveProject(null);
+        // setTimeout(() => {
+        //   setAddRootClass("");
+        // }, 1000);
       }
     }, 2000);
   }
