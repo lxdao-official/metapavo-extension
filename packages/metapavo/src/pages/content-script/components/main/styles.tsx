@@ -28,7 +28,7 @@ export const MainRootElement = styled.div`
   z-index: 100000000002;
   top: 0;
   background: #fcfcfc;
-
+  border-left: 1px solid #e8e8e8;
   &.metapavo-main-show {
     right: -303px;
     animation: ${show} 0.6s ease-in-out 0s;

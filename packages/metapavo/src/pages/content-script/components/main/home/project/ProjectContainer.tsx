@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
-import { ProjectTab, MoonbirdsTab2, MoonbirdsTab3 } from "./ProjectMain";
+import { ProjectTab } from "./ProjectMain";
 import { Mortar_board, Mortar_board_1 } from "../../../assets/Svgs";
 
 interface TabPanelProps {
@@ -21,7 +21,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 0, overflowY: "scroll", height: "calc(100vh - 180px)" }}>
+        <Box sx={{ p: 0, overflowY: "scroll", height: "calc(100vh - 156px)" }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -45,7 +45,7 @@ function Extention() {
   };
   return (
     <div>
-      <Box sx={{ borderBottom: 1, borderColor: "divider", backgroundColor: "#fff" }}>
+      <Box sx={{ backgroundColor: "#fff" }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -90,12 +90,12 @@ function Extention() {
       <TabPanel value={value} index={0}>
         <ProjectTab />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      {/* <TabPanel value={value} index={1}>
         <MoonbirdsTab2 />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <MoonbirdsTab3 />
-      </TabPanel>
+      </TabPanel> */}
     </div>
   );
 }

@@ -36,24 +36,8 @@ import { Component1 } from "../../../assets/Svgs";
 import styled from "styled-components";
 import { SearchCom } from "./search";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
-const logo = chrome.runtime.getURL("images/svgs/logo.svg");
-const logo_name = chrome.runtime.getURL("images/svgs/MetaPavo.svg");
-const RectangleTool = chrome.runtime.getURL("images/svgs/RectangleTool.svg");
-const Trend1 = chrome.runtime.getURL("images/svgs/Trend1.svg");
-const Trend2 = chrome.runtime.getURL("images/svgs/Trend2.svg");
-const history_icon1 = chrome.runtime.getURL("images/svgs/history_icon1.svg");
-const history_icon2 = chrome.runtime.getURL("images/svgs/history_icon2.svg");
-const link1 = chrome.runtime.getURL("images/svgs/link1.svg");
-const link2 = chrome.runtime.getURL("images/svgs/link2.svg");
+const index_logo = chrome.runtime.getURL("images/index-logo.png");
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
-const enter = chrome.runtime.getURL("images/svgs/enter.svg");
-const flag = chrome.runtime.getURL("images/svgs/flag.svg");
-const userIcon = chrome.runtime.getURL("images/svgs/user_icon.svg");
-const up = chrome.runtime.getURL("images/svgs/u_arrow-up.svg");
-const down = chrome.runtime.getURL("images/svgs/u_arrow-down.svg");
-const esc = chrome.runtime.getURL("images/svgs/ESC.svg");
-const enter_btn = chrome.runtime.getURL("images/svgs/enter_btn.svg");
-
 function AlarmIcon() {
   return (
     <div
@@ -209,8 +193,7 @@ const Pavo = () => {
         </HeadSelect>
 
         <HeadLogo>
-          <img className="logo" src={logo} alt="" />
-          <img className="logo-name" src={logo_name} alt="" />
+          <img className="logo" src={index_logo} alt="" />
         </HeadLogo>
       </Head>
     );
@@ -243,7 +226,6 @@ const Pavo = () => {
   const ToolsHot = (props: any) => {
     const data = props.data;
     const title = props.title;
-    let navigate = useNavigate();
     return (
       <ToolsHotContainer>
         <HotTitle>
@@ -426,83 +408,18 @@ const Pavo = () => {
     );
   };
 
-  // const generateComFromStatus = (status: number) => {
-  //   const generateComs = [];
-
-  //   switch (status) {
-  //     case 0:
-  //       generateComs.push(
-  //         ...[
-  //           <HeadCom key={0} />,
-  //           <SearchCom key={1} />,
-  //           <ToolsHot key={2} data={toolsHot} title={"TOOLS"} />,
-  //           <WatchListHot key={3} data={trendsHot} title={"WATCHLIST"} />,
-  //           <HistoryHot key={4} title={"HISTORY"} data={historyHot} />,
-  //         ],
-  //       );
-  //       break;
-  //     case 1:
-  //       generateComs.push(
-  //         ...[<HeadCom key={0} />, <SearchCom key={1} status={status} searchData={searchData} />],
-  //       );
-  //       break;
-  //     case 2:
-  //       generateComs.push(
-  //         ...[
-  //           <HeadReturn key={0} title={mapStatus[status]} />,
-  //           <ToolsAll key={1} data={toolsAll} />,
-  //         ],
-  //       );
-  //       break;
-  //     case 3:
-  //       generateComs.push(
-  //         ...[
-  //           <HeadReturn key={0} title={mapStatus[status]} />,
-  //           <TrendsALL key={1} data={trendsAll} />,
-  //         ],
-  //       );
-  //       break;
-  //     case 4:
-  //       generateComs.push(
-  //         ...[
-  //           <HeadReturn key={0} title={mapStatus[status]} />,
-  //           <HistoryALL key={4} title={"History"} data={historyAll} />,
-  //         ],
-  //       );
-  //       break;
-  //     case 5:
-  //       generateComs.push(
-  //         ...[<HeadReturn key={0} title={"Alarm List"} />, <AlarmListPage key={5} />],
-  //       );
-  //       break;
-  //   }
-
-  //   return generateComs;
-  // };
-
   const opMoreClick = (title: string) => {
     setStatus(mapStatus[title]);
   };
-
-  // const searchInputFocus = () => {
-  //   searchDom.current !== null && searchDom.current.focus();
-  // };
-
-  // useEffect(() => {
-  //   searchInputFocus();
-  // }, [curValue]);
 
   useEffect(() => {
     console.log("init");
     getHistories();
     getFavs();
-    // searchInputFocus();
   }, []);
 
   return (
     <Container>
-      {/* {generateComFromStatus(status)} */}
-      {/* 0 1 */}
       <HeadCom />
 
       {/* 0 1 */}

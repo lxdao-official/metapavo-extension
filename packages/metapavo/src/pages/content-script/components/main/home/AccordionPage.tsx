@@ -60,6 +60,12 @@ const css = `
     height:37px;
     align-items: center;
   }
+  .MuiAccordion-root:before{
+      display:none !important;
+    }
+    .MuiAccordionSummary-expandIconWrapper{
+        color:#D1D0D6 !important;
+    }
 `;
 const AccordionPage = () => {
   const { activeProject, activeAccoidion, setActiveAccoidion, gas, refreshActiveProject } =
@@ -116,8 +122,8 @@ const AccordionPage = () => {
         sx={{
           fontSize: "14px",
           m: "0px !important",
-          border: "1px solid rgba(28, 27, 29, 0.04)",
-          borderBottom: "none",
+          border: "none",
+          borderBottom: "1px solid #E8E8E8",
           boxShadow: "none",
           minHeight: "37px",
         }}
@@ -169,8 +175,8 @@ const AccordionPage = () => {
         sx={{
           fontSize: "14px",
           m: "0px !important",
-          border: "1px solid rgba(28, 27, 29, 0.04)",
-          borderBottom: "none",
+          border: "none",
+          borderBottom: "1px solid #E8E8E8",
           alignItems: "center",
           boxShadow: "none",
         }}

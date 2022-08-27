@@ -43,14 +43,8 @@ export const HeadLogo = styled.div`
   align-items: center;
 
   .logo {
-    width: 51px;
+    width: 168px;
     height: 40.52px;
-  }
-
-  .logo-name {
-    width: 102.22px;
-    height: 18.66px;
-    line-height: 40.95px;
   }
 `;
 

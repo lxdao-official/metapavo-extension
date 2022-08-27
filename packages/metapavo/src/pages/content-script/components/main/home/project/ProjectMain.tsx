@@ -9,6 +9,7 @@ import useGlobal, { GlobalContext } from "../../../../context/global";
 import copy from "clipboard-copy";
 import styled from "styled-components";
 import { addFavByProjectId, removeFavByProjectId } from "../../../../../../utils/apis/nft_api";
+import { css, LinkButton } from "./styles";
 const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");
 const link3 = chrome.runtime.getURL("images/svgs/image-3.svg");
 const link4 = chrome.runtime.getURL("images/svgs/image-4.svg");
@@ -18,133 +19,7 @@ const link7 = chrome.runtime.getURL("images/svgs/image-7.svg");
 const link8 = chrome.runtime.getURL("images/svgs/image-8.svg");
 const link9 = chrome.runtime.getURL("images/svgs/image-9.svg");
 const link10 = chrome.runtime.getURL("images/svgs/image-9.svg");
-const css = `
-  
-    .metapavo-tabInner{
-      text-align:left;
-      
-    }
-    .metapavo-tabInner * {
-      box-sizing: border-box;
-    }
-    .metapavo-message{
-        width: 275px;
-        height: 52px;
-        box-sizing: border-box;
-        margin:16px 14px 0 14px;
-        background: rgba(248, 247, 249, 0.5);
-        border: 0.8px solid #E14942;
-        border-radius: 6.35659px;
-        color:#E14942;
-        font-size: 11px;
-        line-height: 13px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .metaPavo-mr8{
-      margin-right:8px;
-      width:14px;
-      height:14px;
-    }
-    .metapavo-icon{
-      margin-right:15px;
-      margin-left:12px;
-      width:20px;
-      height:20px;
-    }
-    .metapavo-boxText{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 3px 4px;
-      width: 50px;
-      height: 19px;
-      background: #F5F5F5;
-      border-radius: 4px;
-      font-weight: 500;
-      font-size: 11px;
-      line-height: 13px;
-      color: #353536;
-      
-    }
-    .metapavo-addwatch{
-      height: 19px !important;
-    background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%) !important;
-    border-radius: 4px !important;
-    color: #fff !important;
-    font-size: 12px !important;
-    line-height: 18px !important;
-    border: none !important;
-    margin-left: 10px !important;
-    padding:0 10px 0 5px !important;
-    cursor:pointer !important;
-    }
-    .metapavo-ellipsis{
-      width:16px;
-      height:8px;
-      background: #24292E;
-      color:#fff;
-      margin-left:8px;
-    }
-    .metapavo-roundT{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 3.17829px 6.35659px;
-      width: 30.71px;
-      height: 17.36px;
-      background: #EFEEF1;
-      border-radius: 20.6589px;
-      color: #353536;
-      margin-right:5px;
-    }
-    .metapavo-selectClass{
-      color:#5B28EB;
-      font-weight: 500;
-      font-size: 11px;
-      line-height: 13px;
-      display: flex;
-      border: none;
-      outline: none;
-      // appearance: none;
-      // -webkit-appearance: none;
-      // -moz-appearance: none;
-    }
-    .metapavo-topSelect{
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid #E5E3E6;
-      border-radius: 6px;
-      margin:15px 11px 25px 12px;
-      width:calc(100% - 23px);
-      color: #D7D7D7;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      position:relative;
-    }
-    .metapavo-topSelect:after{
-      content:"v",
-      position:"absolute";
-      right:17.5px;
-      top:10.5px;
-    }
-    .metapavo-option{
-      margin-top:5px;
-      padding: 8px 16px;
-      color:#000;
-    }
-    
-    .metapavo-option:hover{
-        backgroundColor:#F5F5F5;
-    }
-`;
+
 const card = (obj: any) => (
   <Box
     component="div"
@@ -207,21 +82,7 @@ const card = (obj: any) => (
     </Box> */}
   </Box>
 );
-const LinkButton = styled.a`
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 15px;
-  /* identical to box height */
 
-  display: flex;
-  text-decoration: none;
-  align-items: center;
-
-  color: #000000;
-  cursor: pointer;
-`;
 const info = (obj: any) => (
   <>
     {obj.array.filter((f: any) => {
@@ -292,7 +153,7 @@ const ProjectTab = (props: MediaProps) => {
   const mookData = [
     {
       label: "Total Sales",
-      value: `${twoDecimal(activeProject?.total_sales)}`,
+      value: `${Number(twoDecimal(activeProject?.total_sales)).toLocaleString()}`,
       date: "24H",
       rate: 0,
       icon: "$ ",
@@ -308,21 +169,21 @@ const ProjectTab = (props: MediaProps) => {
     },
     {
       label: "Volume (24H)",
-      value: `${twoDecimal(activeProject?.one_day_volume)} Ξ`,
+      value: `${Number(twoDecimal(activeProject?.one_day_volume)).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
       label: "Volume (7D)",
-      value: `${twoDecimal(activeProject?.seven_day_volume)} Ξ`,
+      value: `${Number(twoDecimal(activeProject?.seven_day_volume)).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
       label: "Floor Price",
-      value: `${twoDecimal(activeProject?.floor_price)} Ξ`,
+      value: `${Number(twoDecimal(activeProject?.floor_price)).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
       icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
@@ -444,7 +305,8 @@ const ProjectTab = (props: MediaProps) => {
       {detectStatus === "danger" && (
         <div className="metapavo-message">
           <Shield_error className="metapavo-icon" />
-          该项目存在风险，有可能是某知名项目的仿盘，确定你已经对该项目已经有充分了解！
+          There are risks in this project. It may be a copy of a well-known project. Make sure you
+          have a full understanding of the project!
         </div>
       )}
       <Box sx={{ p: 2.25 }}>
@@ -539,235 +401,4 @@ const ProjectTab = (props: MediaProps) => {
   );
 };
 
-const MoonbirdsTab2 = () => {
-  const { activeProject, detectStatus } = useGlobal();
-  const mookData = [
-    {
-      label: "Total Sales",
-      value: `${twoDecimal(activeProject?.total_sales)}`,
-      date: "24H",
-      rate: 0,
-      icon: "$",
-    },
-    {
-      label: "Holders",
-      value: `${activeProject?.num_owners?.toLocaleString() || "-"}/${
-        activeProject?.total_supply ? parseInt(activeProject?.total_supply) : "-"
-      }`,
-      date: "24H",
-      rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
-    },
-    {
-      label: "Volume(24H)",
-      value: `${twoDecimal(activeProject?.one_day_volume)}`,
-      date: "24H",
-      rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
-    },
-    {
-      label: "Volume(7D)",
-      value: `${twoDecimal(activeProject?.seven_day_volume)}`,
-      date: "24H",
-      rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
-    },
-    {
-      label: "Floor Price",
-      value: `${twoDecimal(activeProject?.floor_price)}`,
-      date: "24H",
-      rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
-    },
-  ];
-  return (
-    <div>
-      <style type="text/css">{css}</style>
-
-      <Box
-        sx={{
-          display: "grid",
-          gap: 1,
-          gridTemplateColumns: "repeat(2, 1fr)",
-          px: 2,
-          mt: 2.5,
-          textAlign: "left",
-        }}
-      >
-        {mookData.map((ii) => card(ii))}
-      </Box>
-      <Box sx={{ mb: 1, px: 2 }}>
-        <Box sx={{ p: "10px", display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ fontWeight: 500, fontSize: "12px", lineHeight: "15px" }}>
-            Market Cap & Volume
-          </Box>
-          <select className="metapavo-selectClass">
-            <option value={10}>24h</option>
-            <option value={20}>3d</option>
-            <option value={30}>4d</option>
-          </select>
-        </Box>
-        <Skeleton variant="rectangular" width={"100%"} height={162} />
-      </Box>
-      {/* <Box sx={{ mt: 2.5 }}>{mockInfo_.map((ii) => info(ii))}</Box> */}
-    </div>
-  );
-};
-
-const options = [
-  { name: "All Events", id: "0" },
-  { name: "Recent Salas", id: "1" },
-  { name: "Recent Listings", id: "2" },
-  { name: "Recent Mint", id: "3" },
-];
-const mockEvent = [
-  {
-    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
-    avatar: "",
-    title: "#3472",
-    content: "Rank 2331",
-    date: "1h ago",
-    price: 0.02,
-  },
-  {
-    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
-    avatar: "",
-    title: "#3472",
-    content: "Rank 2331",
-    date: "1h ago",
-    price: 0.02,
-  },
-  {
-    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
-    avatar: "",
-    title: "#3472",
-    content: "Rank 2331",
-    date: "1h ago",
-    price: 0.02,
-  },
-  {
-    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
-    avatar: "",
-    title: "#3472",
-    content: "Rank 2331",
-    date: "1h ago",
-    price: 0.02,
-  },
-  {
-    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
-    avatar: "",
-    title: "#3472",
-    content: "Rank 2331",
-    date: "1h ago",
-    price: 0.02,
-  },
-  {
-    icon: <Left_Icon sx={{ width: "14px", height: "14px" }} />,
-    avatar: "",
-    title: "#3472",
-    content: "Rank 2331",
-    date: "1h ago",
-    price: 0.02,
-  },
-];
-
-const line = (obj: any) => (
-  <Box
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      height: "36px",
-      width: "100%",
-      mb: 1.5,
-      fontSize: "14px",
-    }}
-  >
-    <Box sx={{ display: "flex", alignItems: "center", height: "100%" }}>
-      <Box
-        sx={{
-          height: "15.56",
-          width: "15.56",
-          margin: "12.22px",
-        }}
-      >
-        {obj.icon}
-      </Box>
-      <Box sx={{ height: "36px", width: "36px", backgroundColor: "#eee", mr: "12px" }}>
-        {obj.avatar}
-      </Box>
-      <Box>
-        <Box sx={{ fontWeight: 700, fontSize: "13px", lineHeight: "16px", mb: "4px" }}>
-          {obj.title}
-        </Box>
-        <Box sx={{ fontSize: "11px", lineHeight: "13px", color: "#A9A8AF", display: "flex" }}>
-          {obj.content} ·{" "}
-          {/* <Box component="span" sx={{ fontStyle: "italic" }}>
-            {obj.date}
-          </Box> */}
-        </Box>
-      </Box>
-    </Box>
-    <Box
-      sx={{
-        pr: "18px",
-        fontWeight: 500,
-        fontSize: "14px",
-        lineHeight: "17px",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <Btc sx={{ fontSize: "inherit" }} />
-      {obj.price}
-    </Box>
-  </Box>
-);
-const MoonbirdsTab3 = (props: MediaProps) => {
-  const { loading = false } = props;
-  const [show, setShow] = React.useState(false);
-  const [val, setVal] = React.useState(0);
-
-  const handleChange = (event: any) => {
-    setVal(event);
-    setShow(!show);
-  };
-  return (
-    <div className="metapavo-tabInner">
-      <style type="text/css">{css}</style>
-      <Box className="metapavo-topSelect" onClick={() => setShow(!show)}>
-        <div>{options[val]?.name}</div>
-        <Fliter sx={{ width: "15px", height: "15px", mr: "10.5px" }} />
-        {show && (
-          <Box
-            sx={{
-              position: "absolute",
-              width: "100%",
-              top: "48px",
-              left: 0,
-              border: "1px solid #E5E3E6",
-              borderRadius: "0px 0px 6px 6px",
-              paddingBottom: "5px",
-            }}
-          >
-            {options.map((pp, ii) => (
-              <MenuItem
-                value={pp.id}
-                className="metapavo-option"
-                sx={{
-                  fontSize: "14px",
-                }}
-                onClick={() => handleChange(ii)}
-              >
-                {pp.name}
-              </MenuItem>
-            ))}
-          </Box>
-        )}
-      </Box>
-      {mockEvent.map((e) => line(e))}
-    </div>
-  );
-};
-
-export { ProjectTab, MoonbirdsTab2, MoonbirdsTab3 };
+export { ProjectTab };

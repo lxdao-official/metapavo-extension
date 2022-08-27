@@ -31,24 +31,6 @@ function App() {
 
   return (
     <MainRootElement className={useG.showMain ? "metapavo-main-show" : "metapavo-main-hide"}>
-      <Box
-        sx={{
-          position: "absolute",
-          width: "36px",
-          height: "36px",
-          left: "-35px",
-          top: "0",
-          background: "rgba(239, 239, 239, 0.34)",
-          display: useG.showMain ? "flex" : "none",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        onClick={() => {
-          useG.setShowMain(!useG.showMain);
-        }}
-      >
-        <ClearIcon sx={{ height: "17px", width: "17px" }} />
-      </Box>
       <div>
         {/* <AccordionPage /> */}
 
@@ -66,7 +48,7 @@ function App() {
           style={{
             position: "absolute",
             top: 0,
-            left: "-36px",
+            left: "-37px",
             cursor: "pointer",
             width: "36px",
             height: "36px",
