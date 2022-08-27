@@ -8,10 +8,16 @@ cd packages/metapavo
 npm run build:dev
 ```
 
+and then open chrome extension dev mode
+
+add /extensions folder to chrome
+
+each time you modify the extension, you need to rebuild and reload it in chrome
+
 ## struct
 
 ```bash
-./extension/ # the result extesion folder
+./extensions/ # the result extesion folder
     |- manifest.json
     |- background.js
     |- content.js
