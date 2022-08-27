@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { createVisitHistory, findNftByURL, getNftById } from "../../../utils/apis/nft_api";
 import { IProject } from "../../../utils/apis/types";
+import { recognizerGEM } from "../../../utils/recognizer/gem";
 import { recognizerOpenSea } from "../../../utils/recognizer/opensea";
 import {
   checkTwitterScam,
@@ -21,9 +22,8 @@ export const GlobalContext = React.createContext<{
   detectStatus: RecognizerStatus;
   setDetectStatus: (detectStatus: RecognizerStatus) => void;
   checkTwitter: () => void;
-  checkOpenSea: () => void;
+  checkMarketPlace: () => void;
   checkWebsite: () => void;
-  checkX2Y2: () => void;
   addRootClass: string;
   showSuccess: () => void;
   gas: number;
@@ -82,16 +82,33 @@ function useGlobal() {
     }
     return matchedURL;
   }
-  async function checkOpenSea() {
-    if (window.location.host.indexOf("opensea.io") == -1) return;
-    let lastCheckOpenseaId: string | undefined = undefined;
+  async function checkMarketPlace() {
+    let lastCheckId: string | undefined = undefined;
     setInterval(async () => {
       const result = await recognizerOpenSea();
+      let nowCheckedResult: {
+        contract?: string;
+        id?: string;
+      } | null = null;
       if (result && (result.contract || result.id)) {
-        if ((result.contract || result.id) !== lastCheckOpenseaId) {
-          const projectInfo = result.id
-            ? await detectProjectById(result.id)
-            : await detectProjectByContractAddress(result.contract!);
+        nowCheckedResult = result;
+      } else {
+        const resultX2Y2 = await recognizerX2Y2();
+        if (resultX2Y2 && (resultX2Y2.contract || resultX2Y2.id)) {
+          nowCheckedResult = resultX2Y2;
+        } else {
+          const resultGEM = await recognizerGEM();
+          if (resultGEM && (resultGEM.contract || resultGEM.id)) {
+            nowCheckedResult = resultGEM;
+          }
+        }
+      }
+      if (nowCheckedResult) {
+        const nowCheckedId = nowCheckedResult.contract || nowCheckedResult.id;
+        if (lastCheckId !== nowCheckedId) {
+          const projectInfo = nowCheckedResult.id
+            ? await detectProjectById(nowCheckedResult.id)
+            : await detectProjectByContractAddress(nowCheckedResult.contract!);
           if (projectInfo) {
             setDetectStatus("success");
             setTimeout(() => {
@@ -107,7 +124,7 @@ function useGlobal() {
             }, 1000);
           }
         }
-        lastCheckOpenseaId = result.contract || result.id;
+        lastCheckId = nowCheckedResult.contract || nowCheckedResult.id;
       } else {
         setDetectStatus("none");
         setActiveProject(null);
@@ -117,41 +134,7 @@ function useGlobal() {
       }
     }, 2000);
   }
-  async function checkX2Y2() {
-    if (window.location.host.indexOf("x2y2.io") == -1) return;
-    let lastCheckOpenseaId: string | undefined = undefined;
-    setInterval(async () => {
-      const result = await recognizerX2Y2();
-      if (result && (result.contract || result.id)) {
-        if ((result.contract || result.id) !== lastCheckOpenseaId) {
-          const projectInfo = result.id
-            ? await detectProjectById(result.id)
-            : await detectProjectByContractAddress(result.contract!);
-          if (projectInfo) {
-            setDetectStatus("success");
-            setTimeout(() => {
-              showSuccess();
-            }, 1000);
-            setActiveProject(projectInfo);
-            createVisitHistory(projectInfo.id);
-          } else {
-            setDetectStatus("none");
-            setActiveProject(null);
-            setTimeout(() => {
-              setAddRootClass("");
-            }, 1000);
-          }
-        }
-        lastCheckOpenseaId = result.contract || result.id;
-      } else {
-        setDetectStatus("none");
-        setActiveProject(null);
-        setTimeout(() => {
-          setAddRootClass("");
-        }, 1000);
-      }
-    }, 2000);
-  }
+
   function checkTwitter() {
     if (window.location.host.indexOf("twitter.com") == -1) return;
     let lastCheckTwitterId: string | null = null;
@@ -215,9 +198,8 @@ function useGlobal() {
     detectStatus,
     setDetectStatus,
     checkTwitter,
-    checkOpenSea,
+    checkMarketPlace,
     checkWebsite,
-    checkX2Y2,
     addRootClass,
     showSuccess,
     gas,

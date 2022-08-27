@@ -126,6 +126,8 @@ const AccordionPage = () => {
           borderBottom: "1px solid #E8E8E8",
           boxShadow: "none",
           minHeight: "37px",
+          width: "100%",
+          display: "block",
         }}
       >
         <AccordionSummary
@@ -141,6 +143,7 @@ const AccordionPage = () => {
           sx={{
             backgroundColor: "#EFEFEF",
             margin: "0",
+            display: "block",
           }}
         >
           <Box
@@ -179,6 +182,8 @@ const AccordionPage = () => {
           borderBottom: "1px solid #E8E8E8",
           alignItems: "center",
           boxShadow: "none",
+          width: "100%",
+          display: "block",
         }}
       >
         <AccordionSummary
@@ -193,6 +198,7 @@ const AccordionPage = () => {
           id="panel2bh-header"
           sx={{
             backgroundColor: "#EFEFEF",
+            display: "block",
           }}
         >
           <Box

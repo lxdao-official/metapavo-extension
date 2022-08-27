@@ -34,6 +34,7 @@ export const MainRootElement = styled.div`
     animation: ${show} 0.6s ease-in-out 0s;
     animation-fill-mode: forwards;
   }
+
   &.metapavo-main-hide {
     animation: ${hide} 0.6s ease-in-out 0s;
     animation-fill-mode: forwards;

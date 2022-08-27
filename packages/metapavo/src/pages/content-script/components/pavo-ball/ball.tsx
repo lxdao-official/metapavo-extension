@@ -78,14 +78,8 @@ function App() {
 
   function init() {
     useG.checkTwitter();
-    useG.checkOpenSea();
+    useG.checkMarketPlace();
     useG.checkWebsite();
-    useG.checkX2Y2();
-    // document.addEventListener("click", (e) => {
-    //   if (useG.showMain) {
-    //     useG.setShowMain(false);
-    //   }
-    // });
 
     rootRef.current.style.right = "50px";
     rootRef.current.style.bottom = "50px";
