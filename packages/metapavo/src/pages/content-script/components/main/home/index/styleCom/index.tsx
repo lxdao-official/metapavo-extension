@@ -77,7 +77,9 @@ export const SearchField = styled.div`
       background: none !important;
       color: #d7d7d7 !important;
     }
-
+    input::placeholder {
+      color: #d7d7d7 !important;
+    }
     div {
       box-sizing: border-box;
       width: 25px;

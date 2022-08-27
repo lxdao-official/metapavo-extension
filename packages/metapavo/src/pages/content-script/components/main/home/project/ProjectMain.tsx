@@ -19,8 +19,13 @@ const link8 = chrome.runtime.getURL("images/svgs/image-8.svg");
 const link9 = chrome.runtime.getURL("images/svgs/image-9.svg");
 const link10 = chrome.runtime.getURL("images/svgs/image-9.svg");
 const css = `
+  
     .metapavo-tabInner{
-      text-align:left
+      text-align:left;
+      
+    }
+    .metapavo-tabInner * {
+      box-sizing: border-box;
     }
     .metapavo-message{
         width: 275px;

@@ -7,15 +7,6 @@ import { SnackbarProvider } from "notistack";
 import useGlobal, { GlobalContext } from "./context/global";
 import useWallet, { WalletContext } from "./context/useWallet";
 
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-
-const lightTheme = createTheme({
-  palette: {
-    mode: "light",
-  },
-});
-
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-root";
 Object.assign(rootElement.style, {
@@ -43,28 +34,25 @@ function Root() {
 }
 root.render(
   <React.StrictMode>
-    <CssBaseline />
-    <ThemeProvider theme={lightTheme}>
-      <SnackbarProvider
-        maxSnack={1}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <MemoryRouter initialEntries={["/index"]}>
-          <Root />
-        </MemoryRouter>
-      </SnackbarProvider>
-      <SnackbarProvider
-        maxSnack={1}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <SelectText />
-      </SnackbarProvider>
-    </ThemeProvider>
+    <SnackbarProvider
+      maxSnack={1}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+    >
+      <MemoryRouter initialEntries={["/index"]}>
+        <Root />
+      </MemoryRouter>
+    </SnackbarProvider>
+    <SnackbarProvider
+      maxSnack={1}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+    >
+      <SelectText />
+    </SnackbarProvider>
   </React.StrictMode>,
 );
