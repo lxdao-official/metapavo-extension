@@ -92,6 +92,7 @@ export const RootElement = styled.div`
   height: 50px;
   cursor: pointer;
   --background: rgb(96, 93, 236);
+  transition: all 0.5s ease-in-out;
   --blob: #fdfbfd;
   // --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
   --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #7de2ac, inset -40px 10px 100px #9f50ff;
@@ -103,6 +104,9 @@ export const RootElement = styled.div`
   :hover #metapavo-box-gas {
     opacity: 1;
   }
+  &.metapavo-main-show {
+    bottom: -10px !important;
+  }
   &.metapavo-main-status-danger #metapavo-box-gas {
     background-color: var(--blob);
     box-shadow: var(--error-shades), 0 0 5px rgba(0, 0, 0, 0.4);
@@ -113,32 +117,32 @@ export const RootElement = styled.div`
     box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
     opacity: 1;
   }
-  &.metapavo-main-box-success {
-    width: 307px;
-    height: 167px;
-  }
-  &.metapavo-main-box-success #metapavo-box-gas {
-    width: 307px;
-    height: 167px;
-    animation: ${boom} 1s ease-in-out both alternate;
-    overflow: hidden;
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: none;
-  }
-  &.metapavo-main-box-danger {
-    width: 307px;
-    height: 167px;
-  }
-  &.metapavo-main-box-danger #metapavo-box-gas {
-    width: 307px;
-    height: 167px;
-    animation: ${dangerboom} 1s ease-in-out both alternate;
-    overflow: hidden;
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: none;
-  }
+  // &.metapavo-main-box-success {
+  //   width: 307px;
+  //   height: 167px;
+  // }
+  // &.metapavo-main-box-success #metapavo-box-gas {
+  //   width: 307px;
+  //   height: 167px;
+  //   animation: ${boom} 1s ease-in-out both alternate;
+  //   overflow: hidden;
+  //   background-color: #fff;
+  //   border-radius: 16px;
+  //   box-shadow: none;
+  // }
+  // &.metapavo-main-box-danger {
+  //   width: 307px;
+  //   height: 167px;
+  // }
+  // &.metapavo-main-box-danger #metapavo-box-gas {
+  //   width: 307px;
+  //   height: 167px;
+  //   animation: ${dangerboom} 1s ease-in-out both alternate;
+  //   overflow: hidden;
+  //   background-color: #fff;
+  //   border-radius: 16px;
+  //   box-shadow: none;
+  // }
   #metapavo-gas-text {
     line-height: 50px;
     color: #fff !important;

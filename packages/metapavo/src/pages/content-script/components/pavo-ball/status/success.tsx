@@ -11,14 +11,14 @@ const RootElement = styled.div`
   box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
   border-radius: 16px;
   transform-origin: 100% 100%;
-  left: 0;
-  top: 0;
+  right: -11px;
+  bottom: 55px;
+  background: #fff;
   &.mp-success-show {
     opacity: 1;
   }
   &.mp-success-hide {
     opacity: 0;
-    transition: none;
     transform: scale(0);
   }
   .mp-success-hd {

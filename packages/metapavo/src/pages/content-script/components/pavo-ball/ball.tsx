@@ -113,15 +113,15 @@ function App() {
     inited = true;
   }, []);
 
-  useEffect(() => {
-    if (!!useG.addRootClass && useG.detectStatus === "success") {
-      setTimeout(() => {
-        if (rootRef.current.getAttribute("mouseIsOver") !== "1") {
-          useG.setAddRootClass("");
-        }
-      }, 5000);
-    }
-  }, [useG.addRootClass]);
+  // useEffect(() => {
+  //   if (!!useG.addRootClass && useG.detectStatus === "success") {
+  //     setTimeout(() => {
+  //       if (rootRef.current.getAttribute("mouseIsOver") !== "1") {
+  //         useG.setAddRootClass("");
+  //       }
+  //     }, 5000);
+  //   }
+  // }, [useG.addRootClass]);
 
   return (
     <>
@@ -132,23 +132,28 @@ function App() {
           useG.detectStatus === "danger" ? "metapavo-main-status-danger" : "",
           useG.detectStatus === "success" ? "metapavo-main-status-success" : "",
           useG.addRootClass,
+          useG.showMain ? "metapavo-main-show" : "",
         ].join(" ")}
         ref={rootRef}
         style={{
-          display: !hide && !useG.showMain ? "block" : "none",
+          display: !hide ? "block" : "none",
         }}
-        onMouseEnter={() => {
-          if (useG.detectStatus === "success") {
-            useG.showSuccess();
-          }
-          rootRef.current.setAttribute("mouseIsOver", "1");
-        }}
-        onMouseLeave={() => {
-          rootRef.current.setAttribute("mouseIsOver", "0");
-          if (useG.detectStatus === "success") {
-            useG.setAddRootClass("");
-          }
-        }}
+        // onMouseEnter={() => {
+        //   if (useG.detectStatus === "success") {
+        //     useG.showSuccess();
+        //   }
+        //   rootRef.current.setAttribute("mouseIsOver", "1");
+        // }}
+        // onMouseLeave={() => {
+        //   rootRef.current.setAttribute("mouseIsOver", "0");
+        //   if (useG.detectStatus === "success") {
+        //     setTimeout(() => {
+        //       if (rootRef.current.getAttribute("mouseIsOver") !== "1") {
+        //         useG.setAddRootClass("");
+        //       }
+        //     }, 1000);
+        //   }
+        // }}
       >
         <GasBox
           id="metapavo-box-gas"
