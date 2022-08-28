@@ -9,7 +9,7 @@ import {
   getVisitHistories,
 } from "../../../../../../../utils/apis/nft_api";
 import { IFavs, IVisitHistory } from "../../../../../../../utils/apis/types";
-import { GlobalContext } from "../../../../../context/global";
+import { GlobalContext } from "../../../../../context/useGlobal";
 import {
   HistoryHotContainer,
   HistoryHotItemContainer,

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import styled from "styled-components";
-import { GlobalContext } from "../../context/global";
+import { GlobalContext } from "../../context/useGlobal";
 import LoginPage from "./login";
 import AccordionPage from "./home/AccordionPage";
 import ClearIcon from "@mui/icons-material/Clear";

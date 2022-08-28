@@ -1,6 +1,6 @@
 import { Box, Skeleton } from "@mui/material";
 import { css } from "./styles";
-import useGlobal from "../../../../context/global";
+import useGlobal from "../../../../context/useGlobal";
 import { Btc } from "../../../assets/Svgs";
 const twoDecimal = (num: any) => {
   if (!num || num !== num || num == "NaN") return 0.0;

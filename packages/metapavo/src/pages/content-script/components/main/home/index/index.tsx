@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { getNftById, searchProjects } from "../../../../../../utils/apis/nft_api";
-import useGlobal, { GlobalContext } from "../../../../context/global";
+import useGlobal, { GlobalContext } from "../../../../context/useGlobal";
 import { Box, CircularProgress, IconButton } from "@mui/material";
 import useThrottle from "./useThrottle";
 import {

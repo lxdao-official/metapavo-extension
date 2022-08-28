@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import App from "./components/pavo-ball/ball";
 import SelectText from "./plugins/date-tool/selectText";
 import { SnackbarProvider } from "notistack";
-import useGlobal, { GlobalContext } from "./context/global";
+import useGlobal, { GlobalContext } from "./context/useGlobal";
 import useWallet, { WalletContext } from "./context/useWallet";
 
 const rootElement = document.createElement("div");

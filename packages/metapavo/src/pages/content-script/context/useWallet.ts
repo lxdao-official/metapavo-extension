@@ -52,7 +52,6 @@ export default function useWallet() {
         }),
       });
       const json2 = await data2.json();
-      console.log(json2);
       if (json2.success) {
         const access_token = json2.data.access_token;
         chrome.storage.local.set({ access_token: access_token }, function () {});
@@ -74,19 +73,6 @@ export default function useWallet() {
         await connector.killSession();
         connector.createSession();
       }
-
-      // connector.on("connect", (error, payload) => {
-      //   // Get provided accounts and chainId
-      //   const { accounts, chainId } = payload.params[0];
-      //   if (accounts.length) {
-      //     setAddress(accounts[0]);
-      //   }
-      // });
-
-      // connector.on("session_update", (error, payload) => {
-      //   // Get updated accounts and chainId
-      //   const { accounts, chainId } = payload.params[0];
-      // });
 
       connector.on("connect", async (error, payload) => {
         // Get provided accounts and chainId
@@ -118,6 +104,16 @@ export default function useWallet() {
       connector.on("disconnect", async (error, payload) => {
         // Delete connector
         reject(new Error("disconnect"));
+      });
+    });
+  };
+  const checkMetaMaskValid: () => Promise<boolean> = () => {
+    return new Promise(async (resolve, reject) => {
+      const maskProvider = createMetaMaskProvider();
+      console.log("maskProvider", maskProvider);
+      maskProvider.on("error", () => {
+        console.log("maskProvider error");
+        resolve(false);
       });
     });
   };
@@ -184,5 +180,6 @@ export default function useWallet() {
     signinWithMetamask,
     signinWithWalletConnect,
     logout,
+    checkMetaMaskValid,
   };
 }

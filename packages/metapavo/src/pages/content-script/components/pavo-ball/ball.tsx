@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useRef } from "react";
 
-import { GlobalContext } from "../../context/global";
+import { GlobalContext } from "../../context/useGlobal";
 import DangerPopup from "./status/danger";
 import SuccessPopup from "./status/success";
 import Main from "../main/root";
-import { WalletContext } from "../../context/useWallet";
 import { GasBox, RootElement } from "./styles";
 
 let inited = false;
@@ -14,7 +13,6 @@ function App() {
   const rootRef = useRef<any>(null);
   const gasRef = useRef<HTMLDivElement>(null);
   const useG = useContext(GlobalContext);
-  const wallet = useContext(WalletContext);
 
   function dragElement() {
     if (!gasRef.current) return;
@@ -77,10 +75,7 @@ function App() {
   }
 
   function init() {
-    useG.checkTwitter();
-    useG.checkMarketPlace();
-    useG.checkWebsite();
-
+    useG.checkPlatform();
     rootRef.current.style.right = "50px";
     rootRef.current.style.bottom = "50px";
     if (localStorage.getItem("metapavo-pos")) {

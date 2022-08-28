@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import MuiMarkdown from "mui-markdown";
 import { Shield_error, Component1, Btc, Left_Icon, Fliter } from "../../../assets/Svgs";
-import useGlobal, { GlobalContext } from "../../../../context/global";
+import useGlobal, { GlobalContext } from "../../../../context/useGlobal";
 import copy from "clipboard-copy";
 import styled from "styled-components";
 import { addFavByProjectId, removeFavByProjectId } from "../../../../../../utils/apis/nft_api";

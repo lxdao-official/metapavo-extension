@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { getNftById, getUsersFavs } from "../../../../../../../utils/apis/nft_api";
 import { IFavs } from "../../../../../../../utils/apis/types";
-import { GlobalContext } from "../../../../../context/global";
+import { GlobalContext } from "../../../../../context/useGlobal";
 import { TrendsHotContainer, TrendsItemContainer } from "../styleCom";
 const RectangleTool = chrome.runtime.getURL("images/svgs/RectangleTool.svg");
 export const TrendsItem = (props: any) => {

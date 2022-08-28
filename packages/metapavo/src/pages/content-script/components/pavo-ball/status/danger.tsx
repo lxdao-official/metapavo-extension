@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
-import useGlobal, { GlobalContext } from "../../../context/global";
+import useGlobal, { GlobalContext } from "../../../context/useGlobal";
 
 const RootElement = styled.div`
   opacity: 0;

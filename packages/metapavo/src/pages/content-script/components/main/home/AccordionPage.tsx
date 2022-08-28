@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useSnackbar } from "notistack";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./project/ProjectContainer";
-import useGlobal, { GlobalContext } from "../../../context/global";
+import useGlobal, { GlobalContext } from "../../../context/useGlobal";
 import { NoFound } from "./nofound";
 import { Bottom_1, Bottom_2, Bottom_3, MetaPavo } from "../../assets/Svgs";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
