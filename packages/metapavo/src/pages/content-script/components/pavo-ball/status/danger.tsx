@@ -12,15 +12,14 @@ const RootElement = styled.div`
   border-radius: 16px;
   background: rgba(225, 73, 66, 0.97);
   transform-origin: 100% 100%;
-  left: 0;
-  top: 0;
+  right: -11px;
+  bottom: 55px;
   &.mp-success-show {
     opacity: 1;
   }
   &.mp-success-hide {
     opacity: 0;
     transform: scale(0);
-    transition: none;
   }
   .mp-success-hd {
     display: flex;

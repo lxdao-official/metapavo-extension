@@ -21,7 +21,7 @@ export function getTwitterMeta() {
 
   const titleMatched = title.match(/^(\([0-9]+\) |)(.*?) \(\@(.*?)\) \/ Twitter/);
   if (titleMatched) {
-    const [name, username] = titleMatched;
+    const [, messagecount, name, username] = titleMatched;
     const meta = {
       title: document.title,
       name,
@@ -88,42 +88,37 @@ export interface checkTwitterResult {
   detectResult?: ScamResult;
 }
 export const checkTwitterUser: () => Promise<PostDetail | null> = async () => {
-  if (detector?.fetching) {
-    await delay(1000);
-    return await checkTwitterUser();
-  }
-  try {
-    const pageDetails: PageDetail = getPageMeta();
-    // 确定是 twitter 主页
-    if (pageDetails.metaHeads["og:type"] === "profile") {
-      const postDetail: PostDetail = {
-        links: [window.location.href],
-        userId: "",
-        nickname: "",
-        content: "",
-        pageDetails,
-      };
+  const pageDetails: PageDetail = getPageMeta();
+  console.log("pageDetails", pageDetails);
+  // 确定是 twitter 主页
+  if (pageDetails.metaHeads["og:type"] === "profile") {
+    const postDetail: PostDetail = {
+      links: [window.location.href],
+      userId: "",
+      nickname: "",
+      content: "",
+      pageDetails,
+    };
 
-      const description = getPageDescription();
-      if (description) {
-        const result = description.match(
-          /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)/g,
-        );
-        if (result) {
-          postDetail.links = postDetail.links.concat(result);
-        }
-        postDetail.content = description;
+    const description = getPageDescription();
+    if (description) {
+      const result = description.match(
+        /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)/g,
+      );
+      if (result) {
+        postDetail.links = postDetail.links.concat(result);
       }
-
-      const twitterMeta = getTwitterMeta();
-      if (twitterMeta) {
-        postDetail.userId = twitterMeta.username;
-        postDetail.nickname = twitterMeta.name;
-      }
-
-      return postDetail;
+      postDetail.content = description;
     }
-  } catch (e) {}
+
+    const twitterMeta = getTwitterMeta();
+    if (twitterMeta) {
+      postDetail.userId = twitterMeta.username;
+      postDetail.nickname = twitterMeta.name;
+    }
+
+    return postDetail;
+  }
   return null;
 };
 

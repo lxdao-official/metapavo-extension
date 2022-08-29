@@ -6,11 +6,6 @@ export async function checkTwitter(): Promise<{
   projectInfo?: IProject;
   status: CheckResultStatus;
 }> {
-  if (window.location.host.indexOf("twitter.com") === -1)
-    return {
-      status: CheckResultStatus.NOCHECK,
-    };
-
   const twitterPageDetail = await checkTwitterUser();
   if (twitterPageDetail && twitterPageDetail.userId) {
     if (lastCheckTwitterId !== twitterPageDetail.userId) {

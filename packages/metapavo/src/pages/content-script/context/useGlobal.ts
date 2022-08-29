@@ -64,37 +64,47 @@ function useGlobal() {
         setTimeout(() => {
           setAddRootClass("metapavo-main-box-danger");
         }, 1000);
-      }
-      if (["twitter.com"].indexOf(window.location.host) !== -1) {
-        checkEntryResult = await checkTwitter();
-      } else if (["opensea.io", "x2y2.io", "gem.xyz"].indexOf(window.location.host) !== -1) {
-        checkEntryResult = await checkMarketPlace();
       } else {
-        checkEntryResult = await checkWebsite();
-      }
+        if (window.location.host.indexOf("twitter.com") !== -1) {
+          checkEntryResult = await checkTwitter();
+        } else if (
+          [
+            "opensea.io",
+            "www.opensea.io",
+            "x2y2.io",
+            "www.x2y2.io",
+            "gem.xyz",
+            "www.gem.xyz",
+          ].indexOf(window.location.host) !== -1
+        ) {
+          checkEntryResult = await checkMarketPlace();
+        } else {
+          checkEntryResult = await checkWebsite();
+        }
 
-      if (checkEntryResult.status === CheckResultStatus.SUCCESS && checkEntryResult.projectInfo) {
-        setDetectStatus("success");
-        setTimeout(() => {
-          showSuccess();
-        }, 1000);
-        setActiveProject(checkEntryResult.projectInfo);
-        createVisitHistory(checkEntryResult.projectInfo.id);
-      }
-      if (checkEntryResult.status === CheckResultStatus.NOTINSERVER) {
-        setDetectStatus("none");
-        setActiveProject(null);
-        // setTimeout(() => {
-        setAddRootClass("");
-        // }, 1000);
-      }
+        if (checkEntryResult.status === CheckResultStatus.SUCCESS && checkEntryResult.projectInfo) {
+          setDetectStatus("success");
+          setTimeout(() => {
+            showSuccess();
+          }, 1000);
+          setActiveProject(checkEntryResult.projectInfo);
+          createVisitHistory(checkEntryResult.projectInfo.id);
+        }
+        if (checkEntryResult.status === CheckResultStatus.NOTINSERVER) {
+          setDetectStatus("none");
+          setActiveProject(null);
+          // setTimeout(() => {
+          setAddRootClass("");
+          // }, 1000);
+        }
 
-      if (checkEntryResult.status === CheckResultStatus.NOENTRY) {
-        setDetectStatus("none");
-        setActiveProject(null);
-        // setTimeout(() => {
-        setAddRootClass("");
-        // }, 1000);
+        if (checkEntryResult.status === CheckResultStatus.NOENTRY) {
+          setDetectStatus("none");
+          setActiveProject(null);
+          // setTimeout(() => {
+          setAddRootClass("");
+          // }, 1000);
+        }
       }
     }, 2000);
   }
