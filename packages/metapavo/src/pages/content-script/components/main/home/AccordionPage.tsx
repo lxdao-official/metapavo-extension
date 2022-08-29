@@ -16,56 +16,63 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Moonbirds from "../assets/Moonbirds.png";
 import Pavo from "./index/index";
 import { addFavByProjectId, removeFavByProjectId } from "../../../../../utils/apis/nft_api";
+import styled from "styled-components";
 
-const css = `
-::-webkit-scrollbar {
-  width: 0px;
-}
- 
-::-webkit-scrollbar-track {
-  background-color: none;
-}
- 
-::-webkit-scrollbar-thumb {
-  background-color: none;
-}
- 
-::-webkit-scrollbar-thumb:hover {
-  background-color: none;
-}
- 
-::-webkit-scrollbar-thumb:active {
-  background-color: none;
-}
-@keyframes slideshow {
-        0% {
-            margin-left: 10px;
-        }
-        to {
-            margin-left: -60px;
-        }
-      }
-      .textScroll{
-        -webkit-animation: slideshow 5s linear infinite;
-        animation: slideshow 5s linear infinite;
-      }
-  .Mui-expanded{
-    margin:0 !important;
-    min-height:37px !important;
+const AccordionContainer = styled.div`
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: none;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: none;
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: none;
+  }
+  @keyframes slideshow {
+    0% {
+      margin-left: 10px;
+    }
+    to {
+      margin-left: -60px;
+    }
+  }
+  .textScroll {
+    -webkit-animation: slideshow 5s linear infinite;
+    animation: slideshow 5s linear infinite;
+  }
+  .Mui-expanded {
+    margin: 0 !important;
+    min-height: 37px !important;
     align-items: center;
   }
-  .MuiAccordionSummary-root{
-    margin:0 !important;
-    min-height:37px !important;
-    height:37px;
+  .MuiAccordionSummary-root {
+    margin: 0 !important;
+    min-height: 37px !important;
+    height: 37px;
     align-items: center;
   }
-  .MuiAccordion-root:before{
-      display:none !important;
-    }
-    .MuiAccordionSummary-expandIconWrapper{
-        color:#D1D0D6 !important;
-    }
+  .MuiAccordion-root:before {
+    display: none !important;
+  }
+  .MuiAccordionSummary-expandIconWrapper {
+    color: #d1d0d6 !important;
+  }
+  .MuiAccordionSummary-root {
+    background: #efefef !important;
+  }
+  .MuiAccordionDetails-root {
+    background: none !important;
+  }
 `;
 const AccordionPage = () => {
   const { activeProject, activeAccoidion, setActiveAccoidion, gas, refreshActiveProject } =
@@ -114,8 +121,7 @@ const AccordionPage = () => {
     }
   }, [activeProject]);
   return (
-    <div>
-      <style type="text/css">{css}</style>
+    <AccordionContainer>
       <Accordion
         expanded={activeAccoidion === 0}
         onChange={() => setActiveAccoidion(0)}
@@ -213,7 +219,7 @@ const AccordionPage = () => {
                 sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
               />
             ) : null}
-            <Box>{activeProject?.name || "UNKOWN"}</Box>
+            <Box sx={{ color: "#1C1B1D" }}>{activeProject?.name || "UNKOWN"}</Box>
           </Box>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0, backgroundColor: "#fcfcfc", boxShadow: "none" }}>
@@ -312,7 +318,7 @@ const AccordionPage = () => {
           </Box>
         </Box>
       </Box>
-    </div>
+    </AccordionContainer>
   );
 };
 

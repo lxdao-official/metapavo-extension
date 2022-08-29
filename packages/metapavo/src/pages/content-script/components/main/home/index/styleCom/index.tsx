@@ -393,6 +393,9 @@ export const HistoryHotItemContainer = styled.div`
     .user-name {
       font-weight: 700;
       color: #353536;
+      overflow: hidden;
+      height: 18px;
+      text-overflow: ellipsis;
     }
     .user-eth {
       font-weight: 500;
@@ -425,8 +428,10 @@ export const HistoryHotItemContainer = styled.div`
     color: #a9a8af;
     text-align: right;
     .day-time {
+      color: #a9a8af;
     }
     .hour-time {
+      color: #a9a8af;
     }
   }
 `;
