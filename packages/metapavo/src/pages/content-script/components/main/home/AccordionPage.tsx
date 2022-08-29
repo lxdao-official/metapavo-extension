@@ -1,21 +1,15 @@
-import React, { useContext, useEffect, useRef } from "react";
-import { Box, IconButton } from "@mui/material";
+import React, { useContext, useEffect } from "react";
+import { Box } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
-import { useSnackbar } from "notistack";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./project/ProjectContainer";
-import useGlobal, { GlobalContext } from "../../../context/useGlobal";
+import { GlobalContext } from "../../../context/useGlobal";
 import { NoFound } from "./nofound";
 import { Bottom_1, Bottom_2, Bottom_3, MetaPavo } from "../../assets/Svgs";
-import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import Moonbirds from "../assets/Moonbirds.png";
 import Pavo from "./index/index";
-import { addFavByProjectId, removeFavByProjectId } from "../../../../../utils/apis/nft_api";
 import styled from "styled-components";
 
 const AccordionContainer = styled.div`

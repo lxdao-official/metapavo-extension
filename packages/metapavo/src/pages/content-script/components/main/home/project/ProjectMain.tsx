@@ -1,13 +1,10 @@
-import React, { useContext } from "react";
-import { Box, MenuItem, IconButton } from "@mui/material";
-import Skeleton from "@mui/material/Skeleton";
+import { useContext } from "react";
+import { Box, IconButton } from "@mui/material";
 import { useSnackbar } from "notistack";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import MuiMarkdown from "mui-markdown";
-import { Shield_error, Component1, Btc, Left_Icon, Fliter } from "../../../assets/Svgs";
-import useGlobal, { GlobalContext } from "../../../../context/useGlobal";
+import { Shield_error, Component1, Btc } from "../../../assets/Svgs";
+import { GlobalContext } from "../../../../context/useGlobal";
 import copy from "clipboard-copy";
-import styled from "styled-components";
 import { addFavByProjectId, removeFavByProjectId } from "../../../../../../utils/apis/nft_api";
 import { css, LinkButton } from "./styles";
 const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");

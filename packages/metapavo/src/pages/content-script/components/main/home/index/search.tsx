@@ -1,9 +1,8 @@
 import { Box } from "@mui/material";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { searchProjects } from "../../../../../../utils/apis/nft_api";
 import { Component1 } from "../../../assets/Svgs";
 import { SearchField, SearchItemContainer } from "./styleCom";
-import useThrottle from "./useThrottle";
 const enter = chrome.runtime.getURL("images/svgs/enter.svg");
 const flag = chrome.runtime.getURL("images/svgs/flag.svg");
 const userIcon = chrome.runtime.getURL("images/svgs/user_icon.svg");

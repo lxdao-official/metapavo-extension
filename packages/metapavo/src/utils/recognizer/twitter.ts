@@ -21,7 +21,7 @@ export function getTwitterMeta() {
 
   const titleMatched = title.match(/^(\([0-9]+\) |)(.*?) \(\@(.*?)\) \/ Twitter/);
   if (titleMatched) {
-    const [, messagecount, name, username] = titleMatched;
+    const [name, username] = titleMatched;
     const meta = {
       title: document.title,
       name,

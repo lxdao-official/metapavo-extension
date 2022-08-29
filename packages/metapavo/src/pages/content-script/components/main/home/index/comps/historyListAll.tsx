@@ -3,20 +3,10 @@ import moment from "moment";
 import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-  getNftById,
-  getUsersFavs,
-  getVisitHistories,
-} from "../../../../../../../utils/apis/nft_api";
-import { IFavs, IVisitHistory } from "../../../../../../../utils/apis/types";
+import { getNftById, getVisitHistories } from "../../../../../../../utils/apis/nft_api";
+import { IVisitHistory } from "../../../../../../../utils/apis/types";
 import { GlobalContext } from "../../../../../context/useGlobal";
-import {
-  HistoryHotContainer,
-  HistoryHotItemContainer,
-  TrendsHotContainer,
-  TrendsItemContainer,
-} from "../styleCom";
-const RectangleTool = chrome.runtime.getURL("images/svgs/RectangleTool.svg");
+import { HistoryHotContainer, HistoryHotItemContainer } from "../styleCom";
 const MoreButton = styled.button`
   width: 72px;
   height: 25px;

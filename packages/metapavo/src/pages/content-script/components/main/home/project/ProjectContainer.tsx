@@ -36,7 +36,6 @@ function a11yProps(index: number) {
   };
 }
 function Extention() {
-  const rootRef = useRef<any>(null);
   const [hide, setHide] = React.useState(false);
   const [value, setValue] = React.useState(0);
 

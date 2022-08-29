@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router";
-import { createVisitHistory, findNftByURL, getNftById } from "../../../utils/apis/nft_api";
+import { createVisitHistory, getNftById } from "../../../utils/apis/nft_api";
 import { IProject } from "../../../utils/apis/types";
 import { ScamResult } from "../../../utils/detector/src";
 import { checkMarketPlace } from "../../../utils/recognizer/checkers/marketplace";
@@ -8,16 +8,6 @@ import { checkTwitter } from "../../../utils/recognizer/checkers/twitter";
 import { checkTwitterScam } from "../../../utils/recognizer/checkers/twitterScam";
 import { CheckResultStatus } from "../../../utils/recognizer/checkers/types";
 import { checkWebsite } from "../../../utils/recognizer/checkers/website";
-import { recognizerGEM } from "../../../utils/recognizer/gem";
-import { recognizerOpenSea } from "../../../utils/recognizer/opensea";
-import {
-  checkTwitterUser,
-  detectProjectByContractAddress,
-  detectProjectById,
-  detectProjectByTwitterId,
-} from "../../../utils/recognizer/twitter";
-import { recognizerWebsite } from "../../../utils/recognizer/website";
-import { recognizerX2Y2 } from "../../../utils/recognizer/x2y2";
 type RecognizerStatus = "danger" | "warning" | "success" | "none";
 export const GlobalContext = React.createContext<{
   showMain: boolean;
