@@ -431,6 +431,9 @@ module.exports = function (webpackEnv) {
               test: /\.(js|mjs)$/,
               exclude: /@babel(?:\/|\\{1,2})runtime/,
               loader: require.resolve("babel-loader"),
+              resolve: {
+                fullySpecified: false,
+              },
               options: {
                 babelrc: false,
                 configFile: false,

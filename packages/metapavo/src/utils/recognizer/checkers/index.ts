@@ -32,7 +32,6 @@ export class Checker extends EventEmitter {
       } else {
         checkEntryResult = await checkWebsite();
       }
-      console.log(checkEntryResult);
       if (checkEntryResult?.projectInfo) {
         if (this.lastCheckEntryResult?.projectInfo) {
           if (this.lastCheckEntryResult?.projectInfo?.id !== checkEntryResult.projectInfo.id) {
