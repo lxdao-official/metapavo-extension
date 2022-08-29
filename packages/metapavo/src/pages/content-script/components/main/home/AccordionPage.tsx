@@ -37,7 +37,7 @@ const AccordionContainer = styled.div`
       margin-left: 5px;
     }
     to {
-      margin-left: -134.41px;
+      margin-left: -281px;
     }
   }
   .textScroll {
@@ -119,14 +119,17 @@ const AccordionPage = () => {
     {
       icon: <Bottom_1 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
       name: `${gas}gwei`,
+      width: "53px",
     },
     {
       icon: <Bottom_2 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
       name: `${ethprice.toLocaleString()}`,
+      width: "68px",
     },
     {
       icon: <Bottom_3 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
       name: `${btcprice.toLocaleString()}`,
+      width: "73px",
     },
   ];
   const scrollView = (item: any) => (
@@ -138,7 +141,15 @@ const AccordionPage = () => {
       }}
     >
       {item.icon}
-      <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
+      <Box
+        sx={{
+          fontWeight: 500,
+          fontSize: "11px",
+          lineHeight: "120%",
+          color: "#616367",
+          width: item.width,
+        }}
+      >
         {item.name}
       </Box>
     </Box>
