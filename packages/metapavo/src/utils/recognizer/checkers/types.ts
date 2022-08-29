@@ -3,4 +3,5 @@ export enum CheckResultStatus {
   NOENTRY = "noentry",
   SUCCESS = "changed",
   NOTINSERVER = "notinserver",
+  NOCHECK = "nocheck",
 }

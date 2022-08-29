@@ -13,23 +13,23 @@ import Pavo from "./index/index";
 import styled from "styled-components";
 
 const AccordionContainer = styled.div`
-  ::-webkit-scrollbar {
+  div::-webkit-scrollbar {
     width: 0px;
   }
 
-  ::-webkit-scrollbar-track {
+  div::-webkit-scrollbar-track {
     background-color: none;
   }
 
-  ::-webkit-scrollbar-thumb {
+  div::-webkit-scrollbar-thumb {
     background-color: none;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
+  div::-webkit-scrollbar-thumb:hover {
     background-color: none;
   }
 
-  ::-webkit-scrollbar-thumb:active {
+  div::-webkit-scrollbar-thumb:active {
     background-color: none;
   }
   @keyframes slideshow {

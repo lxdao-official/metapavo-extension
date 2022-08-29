@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 import { ProjectTab } from "./ProjectMain";
 import { Mortar_board, Mortar_board_1 } from "../../../assets/Svgs";
@@ -36,7 +36,6 @@ function a11yProps(index: number) {
   };
 }
 function Extention() {
-  const [hide, setHide] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

@@ -65,12 +65,13 @@ function useGlobal() {
           setAddRootClass("metapavo-main-box-danger");
         }, 1000);
       }
-
-      checkEntryResult = await checkTwitter();
-
-      if (!checkEntryResult.projectInfo) checkEntryResult = await checkMarketPlace();
-
-      if (!checkEntryResult.projectInfo) checkEntryResult = await checkWebsite();
+      if (["twitter.com"].indexOf(window.location.host) !== -1) {
+        checkEntryResult = await checkTwitter();
+      } else if (["opensea.io", "x2y2.io", "gem.xyz"].indexOf(window.location.host) !== -1) {
+        checkEntryResult = await checkMarketPlace();
+      } else {
+        checkEntryResult = await checkWebsite();
+      }
 
       if (checkEntryResult.status === CheckResultStatus.SUCCESS && checkEntryResult.projectInfo) {
         setDetectStatus("success");
@@ -80,12 +81,20 @@ function useGlobal() {
         setActiveProject(checkEntryResult.projectInfo);
         createVisitHistory(checkEntryResult.projectInfo.id);
       }
-      if (checkEntryResult.status == CheckResultStatus.NOTINSERVER) {
+      if (checkEntryResult.status === CheckResultStatus.NOTINSERVER) {
         setDetectStatus("none");
         setActiveProject(null);
-        setTimeout(() => {
-          setAddRootClass("");
-        }, 1000);
+        // setTimeout(() => {
+        setAddRootClass("");
+        // }, 1000);
+      }
+
+      if (checkEntryResult.status === CheckResultStatus.NOENTRY) {
+        setDetectStatus("none");
+        setActiveProject(null);
+        // setTimeout(() => {
+        setAddRootClass("");
+        // }, 1000);
       }
     }, 2000);
   }

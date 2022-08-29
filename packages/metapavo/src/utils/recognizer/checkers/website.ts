@@ -7,12 +7,6 @@ export async function checkWebsite(): Promise<{
   projectInfo?: IProject;
   status: CheckResultStatus;
 }> {
-  if (["opensea.io", "twitter.com", "x2y2.io", "gem.xyz"].indexOf(window.location.host) !== -1) {
-    return {
-      status: CheckResultStatus.NOENTRY,
-    };
-  }
-
   const matchedURL = await recognizerWebsite();
   if (matchedURL && matchedURL[1]) {
     const projectInfo = await findNftByURL(matchedURL);
@@ -23,7 +17,7 @@ export async function checkWebsite(): Promise<{
       };
     } else {
       return {
-        status: CheckResultStatus.NOENTRY,
+        status: CheckResultStatus.NOTINSERVER,
       };
     }
   } else {

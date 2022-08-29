@@ -102,7 +102,6 @@ chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) 
   }
 });
 
-let timer: any = null;
 async function repeat() {
   let gas = await getNowGas();
   if (gas > 0) {

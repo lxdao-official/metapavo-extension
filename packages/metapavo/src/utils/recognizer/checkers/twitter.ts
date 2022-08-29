@@ -8,7 +8,7 @@ export async function checkTwitter(): Promise<{
 }> {
   if (window.location.host.indexOf("twitter.com") === -1)
     return {
-      status: CheckResultStatus.NOENTRY,
+      status: CheckResultStatus.NOCHECK,
     };
 
   const twitterPageDetail = await checkTwitterUser();

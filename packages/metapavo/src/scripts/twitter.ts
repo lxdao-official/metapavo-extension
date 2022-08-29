@@ -1,41 +1,4 @@
 export {};
-type opensea_collections = {
-  id: number;
-  status: number;
-  slug: string;
-  name: string;
-  contract_id: number;
-  contract_address: string;
-  description: string | null;
-  from_index: number;
-  end_index: number;
-  total_supply: number;
-  current_supply: number;
-  total_revealed: number;
-  banner_image_url: string;
-  image_url: string;
-  etherscan_url: string;
-  external_url: string;
-  wiki_url: string;
-  discord_url: string;
-  twitter_username: string;
-  instagram_username: string;
-  takerrelayerfee: number;
-  num_owners: number;
-  total_sales: number;
-  thirty_day_sales: number;
-  seven_day_sales: number;
-  one_day_sales: number;
-  one_day_volume: string;
-  seven_day_volume: string;
-  thirty_day_volume: string;
-  market_cap: string;
-  floor_price: string;
-  created_date: string;
-  token: string;
-  create_time: Date;
-  update_time: Date | null;
-};
 const match = async () => {
   const title = document.title;
 
