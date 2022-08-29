@@ -6,7 +6,7 @@ export async function checkTwitter(): Promise<{
   projectInfo?: IProject;
   status: CheckResultStatus;
 }> {
-  if (window.location.host.indexOf("twitter.com") == -1)
+  if (window.location.host.indexOf("twitter.com") === -1)
     return {
       status: CheckResultStatus.NOENTRY,
     };

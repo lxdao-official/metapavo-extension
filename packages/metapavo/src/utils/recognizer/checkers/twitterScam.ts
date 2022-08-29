@@ -1,7 +1,7 @@
 import { checkTwitterScam as _checkTwitterScam, checkTwitterUser } from "../twitter";
 let lastCheckTwitterId: string | null = null;
 export async function checkTwitterScam() {
-  if (window.location.host.indexOf("twitter.com") == -1) return undefined;
+  if (window.location.host.indexOf("twitter.com") === -1) return undefined;
 
   const twitterPageDetail = await checkTwitterUser();
   if (twitterPageDetail && twitterPageDetail.userId) {

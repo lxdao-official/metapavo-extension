@@ -31,7 +31,6 @@ export default function useWallet() {
       },
     });
     const json = await data.json();
-    const nonce = json.data.nonce;
     const message = json.data.signature_message;
     return message;
   };
@@ -76,7 +75,7 @@ export default function useWallet() {
 
       connector.on("connect", async (error, payload) => {
         // Get provided accounts and chainId
-        const { accounts, chainId } = payload.params[0];
+        const { accounts } = payload.params[0];
         if (accounts.length) {
           const _address = accounts[0];
           setAddress(_address);
@@ -101,14 +100,14 @@ export default function useWallet() {
           reject(new Error("connect empty address"));
         }
       });
-      connector.on("disconnect", async (error, payload) => {
+      connector.on("disconnect", async () => {
         // Delete connector
         reject(new Error("disconnect"));
       });
     });
   };
   const checkMetaMaskValid: () => Promise<boolean> = () => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
       const maskProvider = createMetaMaskProvider();
       console.log("maskProvider", maskProvider);
       maskProvider.on("error", () => {

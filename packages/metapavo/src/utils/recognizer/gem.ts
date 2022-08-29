@@ -1,5 +1,5 @@
 export async function recognizerGEM() {
-  if (window.location.host.indexOf("gem.xyz") == -1) return;
+  if (window.location.host.indexOf("gem.xyz") === -1) return;
   const matchResult = window.location.href.match(/gem\.xyz\/collection\/([a-zA-Z0-9_-]*)/);
   if (matchResult && matchResult[1]) {
     return {

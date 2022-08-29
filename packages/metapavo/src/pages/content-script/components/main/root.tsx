@@ -1,10 +1,7 @@
 import { useContext, useEffect } from "react";
-import styled from "styled-components";
 import { GlobalContext } from "../../context/useGlobal";
 import LoginPage from "./login";
 import AccordionPage from "./home/AccordionPage";
-import ClearIcon from "@mui/icons-material/Clear";
-import { Box } from "@mui/material";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { WalletContext } from "../../context/useWallet";
 import { MainRootElement } from "./styles";

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { WalletContext } from "../../context/useWallet";
 import ConnectWallet from "../wallet/ConnectWallet";
 // import createMetaMaskProvider from "metamask-extension-provider";
 

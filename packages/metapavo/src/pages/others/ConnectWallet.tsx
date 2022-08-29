@@ -8,7 +8,6 @@ import { WalletContext } from "../content-script/context/useWallet";
 //@ts-ignore
 window.process = {};
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
-const NETWORK = CHAIN_ID === "1" ? "mainnet" : "rinkeby";
 
 const ButtonStyle = styled.button`
   width: 202px;
@@ -26,14 +25,7 @@ const ButtonStyle = styled.button`
   }
 `;
 export default function ConnectWallet(props: { loginSuccess?: (access_token: string) => void }) {
-  const {
-    address,
-    setAddress,
-    loginedAddress,
-    setLoginedAddress,
-    fetchLoginInfo,
-    signinWithMetamask,
-  } = useContext(WalletContext);
+  const { signinWithMetamask } = useContext(WalletContext);
   const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
@@ -52,7 +44,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
   return (
     <>
       <ConnectButton.Custom>
-        {({ account, chain, openAccountModal, openChainModal, openConnectModal, mounted }) => {
+        {({ account, openConnectModal }) => {
           if (account && account.address) {
             login();
           }

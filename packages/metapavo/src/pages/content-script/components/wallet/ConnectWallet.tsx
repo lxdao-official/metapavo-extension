@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 import { WalletContext } from "../../context/useWallet";
 import styled from "styled-components";
 import { useSnackbar } from "notistack";
-import { useAccount, useProvider, useSigner, useSignMessage } from "wagmi";
 //@ts-ignore
 window.process = {};
 

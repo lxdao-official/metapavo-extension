@@ -1,5 +1,5 @@
 export async function recognizerOpenSea() {
-  if (window.location.host.indexOf("opensea.io") == -1) return;
+  if (window.location.host.indexOf("opensea.io") === -1) return;
   const matchResult = window.location.href.match(/opensea\.io\/collection\/([a-zA-Z0-9_-]*)/);
   if (matchResult && matchResult[1]) {
     return {

@@ -1,23 +1,18 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { getNftById, searchProjects } from "../../../../../../utils/apis/nft_api";
-import useGlobal, { GlobalContext } from "../../../../context/useGlobal";
+import { useState, useContext, useEffect } from "react";
+import { getNftById } from "../../../../../../utils/apis/nft_api";
+import { GlobalContext } from "../../../../context/useGlobal";
 import { Box, CircularProgress, IconButton } from "@mui/material";
-import useThrottle from "./useThrottle";
 import {
   Container,
   HeadSelect,
   HeadLogo,
-  SearchField,
   Head,
   ToolsHotContainer,
   HotTitle,
   ToolsItemContainer,
   TrendsHotContainer,
-  TrendsItemContainer,
   HistoryHotContainer,
-  HistoryHotItemContainer,
   HeadReturnContainer,
-  SearchItemContainer,
   ModalContainer,
 } from "./styleCom";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -32,7 +27,6 @@ import { useSnackbar } from "notistack";
 import TrendsALL, { TrendsItem } from "./comps/WatchListAll";
 import HistoryALL, { HistoryItem } from "./comps/historyListAll";
 import AlarmListPage from "./comps/AlarmListPage";
-import { Component1 } from "../../../assets/Svgs";
 import styled from "styled-components";
 import { SearchCom } from "./search";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
