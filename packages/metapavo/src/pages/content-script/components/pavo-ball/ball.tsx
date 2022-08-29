@@ -10,7 +10,7 @@ let inited = false;
 function App() {
   const [hide, setHide] = React.useState(false);
 
-  const rootRef = useRef<any>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const gasRef = useRef<HTMLDivElement>(null);
   const useG = useContext(GlobalContext);
 
@@ -28,9 +28,10 @@ function App() {
       if (new Date().getTime() - mousedownTimestamp < 300) {
         if (!useG.addRootClass) {
           useG.setShowMain(!useG.showMain);
-          closeDragElement();
         }
       }
+      closeDragElement();
+      rootRef.current?.classList.remove("notransition");
     };
 
     function dragMouseDown(e: MouseEvent) {
@@ -38,7 +39,7 @@ function App() {
       e = e || window.event;
       // e.preventDefault();
       mousedownTimestamp = Date.now();
-
+      rootRef.current?.classList.add("notransition");
       // get the mouse cursor position at startup:
       pos3 = window.innerWidth - e.clientX;
       pos4 = window.innerHeight - e.clientY;
@@ -56,15 +57,17 @@ function App() {
       pos2 = pos4 - nowPosY;
       pos3 = nowPosX;
       pos4 = nowPosY;
-      // set the element's new position:
-      rootRef.current.style.right =
-        Number(rootRef.current.style.right.replace(/[^\d]/g, "")) - pos1 + "px";
-      rootRef.current.style.bottom =
-        Number(rootRef.current.style.bottom.replace(/[^\d]/g, "")) - pos2 + "px";
-      localStorage.setItem(
-        "metapavo-pos",
-        [rootRef.current.style.right, rootRef.current.style.bottom].join("-"),
-      );
+      if (rootRef.current) {
+        // set the element's new position:
+        rootRef.current.style.right =
+          Number(rootRef.current.style.right.replace(/[^\d]/g, "")) - pos1 + "px";
+        rootRef.current.style.bottom =
+          Number(rootRef.current.style.bottom.replace(/[^\d]/g, "")) - pos2 + "px";
+        localStorage.setItem(
+          "metapavo-pos",
+          [rootRef.current.style.right, rootRef.current.style.bottom].join("-"),
+        );
+      }
     }
 
     function closeDragElement() {
@@ -76,16 +79,18 @@ function App() {
 
   function init() {
     useG.checkPlatform();
-    rootRef.current.style.right = "50px";
-    rootRef.current.style.bottom = "50px";
-    if (localStorage.getItem("metapavo-pos")) {
-      const pos = (localStorage.getItem("metapavo-pos") || "").split("-");
-      if (pos.length === 2) {
-        rootRef.current.style.right = pos[0];
-        rootRef.current.style.bottom = pos[1];
+    if (rootRef.current) {
+      rootRef.current.style.right = "50px";
+      rootRef.current.style.bottom = "50px";
+      if (localStorage.getItem("metapavo-pos")) {
+        const pos = (localStorage.getItem("metapavo-pos") || "").split("-");
+        if (pos.length === 2) {
+          rootRef.current.style.right = pos[0];
+          rootRef.current.style.bottom = pos[1];
+        }
       }
+      rootRef.current && dragElement();
     }
-    rootRef.current && dragElement();
 
     chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
       if (request.cmd === "gasUpdate") useG.setGas(request.value);

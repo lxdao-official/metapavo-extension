@@ -92,8 +92,8 @@ export const RootElement = styled.div`
   height: 50px;
   cursor: pointer;
   --background: rgb(96, 93, 236);
-  transition: all 0.5s ease-in-out;
   --blob: #fdfbfd;
+  transition: all 0.5s ease;
   // --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
   --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #7de2ac, inset -40px 10px 100px #9f50ff;
   --error-shades: inset 10px 0 40px #ff0000, inset -10px 0 20px #ff0000,
@@ -103,6 +103,9 @@ export const RootElement = styled.div`
   }
   :hover #metapavo-box-gas {
     opacity: 1;
+  }
+  &.notransition {
+    transition: none;
   }
   &.metapavo-main-show {
     bottom: -10px !important;
