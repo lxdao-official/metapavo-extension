@@ -7,6 +7,7 @@ import { GlobalContext } from "../../../../context/useGlobal";
 import copy from "clipboard-copy";
 import { addFavByProjectId, removeFavByProjectId } from "../../../../../../utils/apis/nft_api";
 import { css, LinkButton } from "./styles";
+import ReactMarkdown from "react-markdown";
 const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");
 const link3 = chrome.runtime.getURL("images/svgs/image-3.svg");
 const link4 = chrome.runtime.getURL("images/svgs/image-4.svg");
@@ -391,7 +392,7 @@ const ProjectTab = (props: MediaProps) => {
           </Box>
         </Box>
         <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>
-          {activeProject?.describe ? activeProject?.describe : ""}
+          <ReactMarkdown children={activeProject?.describe ? activeProject?.describe : ""} />
         </Box>
       </Box>
       <Box
