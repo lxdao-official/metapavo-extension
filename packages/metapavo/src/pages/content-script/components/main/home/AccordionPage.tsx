@@ -34,15 +34,15 @@ const AccordionContainer = styled.div`
   }
   @keyframes slideshow {
     0% {
-      margin-left: 10px;
+      margin-left: 5px;
     }
     to {
-      margin-left: -60px;
+      margin-left: -134.41px;
     }
   }
   .textScroll {
-    -webkit-animation: slideshow 5s linear infinite;
-    animation: slideshow 5s linear infinite;
+    -webkit-animation: slideshow 20s linear infinite;
+    animation: slideshow 20s linear infinite;
   }
   .Mui-expanded {
     margin: 0 !important;
@@ -301,9 +301,11 @@ const AccordionPage = () => {
             alignItems: "center",
             width: "calc(100% - 102px)",
             overflow: "hide",
+            flexWrap: "nowrap",
           }}
           className="textScroll"
         >
+          {scrollData.map((ii) => scrollView(ii))}
           {scrollData.map((ii) => scrollView(ii))}
           {scrollData.map((ii) => scrollView(ii))}
         </Box>
