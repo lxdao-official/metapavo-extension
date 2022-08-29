@@ -73,6 +73,12 @@ const AccordionContainer = styled.div`
   .MuiAccordionDetails-root {
     background: none !important;
   }
+  .MuiAccordionSummary-root {
+    background: #efefef !important;
+  }
+  .MuiAccordionDetails-root {
+    background: none !important;
+  }
 `;
 const AccordionPage = () => {
   const { activeProject, activeAccoidion, setActiveAccoidion, gas, refreshActiveProject } =
