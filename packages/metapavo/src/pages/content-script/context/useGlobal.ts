@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { createVisitHistory, getNftById } from "../../../utils/apis/nft_api";
 import { IProject } from "../../../utils/apis/types";
 import { ScamResult } from "../../../utils/detector/src";
+import { Checker } from "../../../utils/recognizer/checkers";
 import { checkMarketPlace } from "../../../utils/recognizer/checkers/marketplace";
 import { checkTwitter } from "../../../utils/recognizer/checkers/twitter";
 import { checkTwitterScam } from "../../../utils/recognizer/checkers/twitterScam";
@@ -30,11 +31,29 @@ export const GlobalContext = React.createContext<{
 function useGlobal() {
   const [showMain, _setShowMain] = React.useState(false);
   const [activeProject, setActiveProject] = React.useState<IProject | null>(null);
+
   const [detectStatus, setDetectStatus] = React.useState<RecognizerStatus>("none");
   const [addRootClass, setAddRootClass] = React.useState("");
   const [gas, setGas] = React.useState(0);
   const [activeAccoidion, setActiveAccoidion] = React.useState(0);
-
+  const checker = new Checker();
+  checker.on("changed", (projectInfo: IProject | null) => {
+    console.log("changed", projectInfo);
+    if (projectInfo) {
+      setDetectStatus("success");
+      setTimeout(() => {
+        showSuccess();
+      }, 1000);
+      setActiveProject(projectInfo);
+      createVisitHistory(projectInfo.id);
+    } else {
+      setDetectStatus("none");
+      setActiveProject(null);
+      // setTimeout(() => {
+      setAddRootClass("");
+      // }, 1000);
+    }
+  });
   function showSuccess() {
     setAddRootClass("metapavo-main-box-success");
   }
@@ -52,11 +71,8 @@ function useGlobal() {
     _setShowMain(_show);
   }
   async function checkPlatform() {
+    checker.check();
     setInterval(async () => {
-      let checkEntryResult: {
-        projectInfo?: IProject;
-        status: CheckResultStatus;
-      };
       let twitterScamInfo: ScamResult | undefined = undefined;
       twitterScamInfo = await checkTwitterScam();
       if (twitterScamInfo) {
@@ -64,47 +80,6 @@ function useGlobal() {
         setTimeout(() => {
           setAddRootClass("metapavo-main-box-danger");
         }, 1000);
-      } else {
-        if (window.location.host.indexOf("twitter.com") !== -1) {
-          checkEntryResult = await checkTwitter();
-        } else if (
-          [
-            "opensea.io",
-            "www.opensea.io",
-            "x2y2.io",
-            "www.x2y2.io",
-            "gem.xyz",
-            "www.gem.xyz",
-          ].indexOf(window.location.host) !== -1
-        ) {
-          checkEntryResult = await checkMarketPlace();
-        } else {
-          checkEntryResult = await checkWebsite();
-        }
-
-        if (checkEntryResult.status === CheckResultStatus.SUCCESS && checkEntryResult.projectInfo) {
-          setDetectStatus("success");
-          setTimeout(() => {
-            showSuccess();
-          }, 1000);
-          setActiveProject(checkEntryResult.projectInfo);
-          createVisitHistory(checkEntryResult.projectInfo.id);
-        }
-        if (checkEntryResult.status === CheckResultStatus.NOTINSERVER) {
-          setDetectStatus("none");
-          setActiveProject(null);
-          // setTimeout(() => {
-          setAddRootClass("");
-          // }, 1000);
-        }
-
-        if (checkEntryResult.status === CheckResultStatus.NOENTRY) {
-          setDetectStatus("none");
-          setActiveProject(null);
-          // setTimeout(() => {
-          setAddRootClass("");
-          // }, 1000);
-        }
       }
     }, 2000);
   }

@@ -89,7 +89,6 @@ export interface checkTwitterResult {
 }
 export const checkTwitterUser: () => Promise<PostDetail | null> = async () => {
   const pageDetails: PageDetail = getPageMeta();
-  console.log("pageDetails", pageDetails);
   // 确定是 twitter 主页
   if (pageDetails.metaHeads["og:type"] === "profile") {
     const postDetail: PostDetail = {
