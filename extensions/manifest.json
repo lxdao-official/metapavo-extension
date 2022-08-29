@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.1.1",
+  "version": "0.0.1",
   "name": "MetaPavo",
   "description": "MetaPavo links web3 information and functions into one box",
   "action": {
@@ -21,6 +21,7 @@
   "background": {
     "service_worker": "./dist/static/js/background.js"
   },
+  "options_page": "options.html",
   "permissions": ["storage", "alarms", "notifications"],
   "web_accessible_resources": [
     {

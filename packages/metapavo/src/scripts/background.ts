@@ -1,4 +1,4 @@
-import { addAlarmForUser, getUsersAlarms } from "../apis/nft_api";
+import { addAlarmForUser, getUsersAlarms } from "../utils/apis/nft_api";
 
 // eslint-disable-next-line no-console
 console.log("background script");
