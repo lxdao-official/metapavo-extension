@@ -117,15 +117,15 @@ const AccordionPage = () => {
 
   const scrollData = [
     {
-      icon: <Bottom_1 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />,
+      icon: <Bottom_1 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
       name: `${gas}gwei`,
     },
     {
-      icon: <Bottom_2 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />,
+      icon: <Bottom_2 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
       name: `${ethprice.toLocaleString()}`,
     },
     {
-      icon: <Bottom_3 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />,
+      icon: <Bottom_3 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
       name: `${btcprice.toLocaleString()}`,
     },
   ];
