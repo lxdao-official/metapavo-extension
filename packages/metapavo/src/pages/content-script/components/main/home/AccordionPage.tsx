@@ -34,15 +34,15 @@ const AccordionContainer = styled.div`
   }
   @keyframes slideshow {
     0% {
-      margin-left: 10px;
+      margin-left: 5px;
     }
     to {
-      margin-left: -60px;
+      margin-left: -281px;
     }
   }
   .textScroll {
-    -webkit-animation: slideshow 5s linear infinite;
-    animation: slideshow 5s linear infinite;
+    -webkit-animation: slideshow 20s linear infinite;
+    animation: slideshow 20s linear infinite;
   }
   .Mui-expanded {
     margin: 0 !important;
@@ -114,6 +114,47 @@ const AccordionPage = () => {
       setActiveAccoidion(1);
     }
   }, [activeProject]);
+
+  const scrollData = [
+    {
+      icon: <Bottom_1 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
+      name: `${gas}gwei`,
+      width: "53px",
+    },
+    {
+      icon: <Bottom_2 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
+      name: `${ethprice.toLocaleString()}`,
+      width: "68px",
+    },
+    {
+      icon: <Bottom_3 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
+      name: `${btcprice.toLocaleString()}`,
+      width: "73px",
+    },
+  ];
+  const scrollView = (item: any) => (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        mr: "10px",
+      }}
+    >
+      {item.icon}
+      <Box
+        sx={{
+          fontWeight: 500,
+          fontSize: "11px",
+          lineHeight: "120%",
+          color: "#616367",
+          width: item.width,
+        }}
+      >
+        {item.name}
+      </Box>
+    </Box>
+  );
+
   return (
     <AccordionContainer>
       <Accordion
@@ -271,45 +312,13 @@ const AccordionPage = () => {
             alignItems: "center",
             width: "calc(100% - 102px)",
             overflow: "hide",
+            flexWrap: "nowrap",
           }}
           className="textScroll"
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: "10px",
-            }}
-          >
-            <Bottom_1 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
-            <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
-              {gas}gwei
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: "10px",
-            }}
-          >
-            <Bottom_2 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
-            <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
-              ${ethprice.toLocaleString()}
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: "10px",
-            }}
-          >
-            <Bottom_3 sx={{ mr: "5px", fontSize: "inherit", marginTop: "-2px" }} />
-            <Box sx={{ fontWeight: 500, fontSize: "11px", lineHeight: "120%", color: "#616367" }}>
-              ${btcprice.toLocaleString()}
-            </Box>
-          </Box>
+          {scrollData.map((ii) => scrollView(ii))}
+          {scrollData.map((ii) => scrollView(ii))}
+          {scrollData.map((ii) => scrollView(ii))}
         </Box>
       </Box>
     </AccordionContainer>
