@@ -28,6 +28,7 @@ const RootElement = styled.div`
     padding-left: 20px;
     align-items: center;
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+    padding-right: 40px;
     img {
       width: 24px;
       height: 24px;
@@ -49,8 +50,8 @@ const RootElement = styled.div`
       font-size: 16px;
       line-height: 19px;
       display: flex;
-      align-items: center;
 
+      text-align: left;
       color: #252525;
     }
     .mp-success-verified {

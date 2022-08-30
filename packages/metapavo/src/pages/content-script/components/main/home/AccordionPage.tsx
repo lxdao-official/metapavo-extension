@@ -245,6 +245,7 @@ const AccordionPage = () => {
               alignItems: "center",
               fontWeight: 500,
               color: "#1C1B1D",
+              overflow: "hidden",
             }}
           >
             {activeProject?.image_url ? (
