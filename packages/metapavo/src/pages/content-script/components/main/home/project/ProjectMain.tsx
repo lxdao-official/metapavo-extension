@@ -2,12 +2,13 @@ import { useContext } from "react";
 import { Box, IconButton } from "@mui/material";
 import { useSnackbar } from "notistack";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { Shield_error, Component1, Btc } from "../../../assets/Svgs";
+import { Shield_error, Component1, Btc, Ellipsis } from "../../../assets/Svgs";
 import { GlobalContext } from "../../../../context/useGlobal";
 import copy from "clipboard-copy";
 import { addFavByProjectId, removeFavByProjectId } from "../../../../../../utils/apis/nft_api";
 import { css, LinkButton } from "./styles";
 import ReactMarkdown from "react-markdown";
+import React from "react";
 const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");
 const link3 = chrome.runtime.getURL("images/svgs/image-3.svg");
 const link4 = chrome.runtime.getURL("images/svgs/image-4.svg");
@@ -145,6 +146,7 @@ const ProjectTab = (props: MediaProps) => {
   const { loading = false } = props;
   const { activeProject, detectStatus, refreshActiveProject } = useContext(GlobalContext);
   const { enqueueSnackbar } = useSnackbar();
+  const [show, setShow] = React.useState(false);
   const copyContractAddress = () => {
     if (activeProject?.contract_address) {
       copy(activeProject.contract_address);
@@ -391,8 +393,30 @@ const ProjectTab = (props: MediaProps) => {
             </Box>
           </Box>
         </Box>
-        <Box sx={{ mt: 1.25, fontSize: "11px", lineHeight: "13px" }}>
+        <Box
+          sx={{
+            m: 0,
+            fontSize: "11px",
+            lineHeight: "13px",
+            maxHeight: show ? "auto" : "50px",
+            overflow: "hidden",
+            position: "relative",
+          }}
+          onClick={() => setShow(!show)}
+        >
           <ReactMarkdown children={activeProject?.describe ? activeProject?.describe : ""} />
+          {!show && (
+            <Ellipsis
+              sx={{
+                width: "16px",
+                height: "16px",
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                background: "#fff",
+              }}
+            />
+          )}
         </Box>
       </Box>
       <Box
