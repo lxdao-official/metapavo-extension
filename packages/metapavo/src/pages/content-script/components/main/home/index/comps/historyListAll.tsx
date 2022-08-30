@@ -64,8 +64,8 @@ const HistoryALL = (props: any) => {
                 item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
               } E`,
               links: [],
-              dayTime: moment(item.created_at).fromNow(),
-              hourTime: moment(item.created_at).format("mm:ss"),
+              dayTime: moment(item.updated_at).fromNow(),
+              hourTime: moment(item.updated_at).format("mm:ss"),
               project_id: item.project_id,
             };
           }),

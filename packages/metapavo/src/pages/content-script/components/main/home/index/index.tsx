@@ -133,11 +133,11 @@ const Pavo = () => {
               item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
             } E`,
             links: [],
-            dayTime: moment(item.created_at)
+            dayTime: moment(item.updated_at)
               .fromNow()
               .replace("minutes", "mins")
               .replace("seconds", "secs"),
-            hourTime: moment(item.created_at).format("mm:ss"),
+            hourTime: moment(item.updated_at).format("mm:ss"),
             project_id: item.project_id,
           };
         }),
