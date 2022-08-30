@@ -53,12 +53,12 @@ export async function findAllWebsite(): Promise<string[] | null> {
     }
     chrome.storage.local.get(["nft_website_all"], async function (data) {
       if (data.nft_website_all) {
-        return resolve(data.nft_website_all);
+        return resolve(data.nft_website_all.filter((item: string) => item));
       } else {
         const res = await fetchWrapped(`${config.baseURL}/nfts/websites/all`, {}, false);
         if (res && res.success) {
           chrome.storage.local.set({
-            nft_website_all: res.data,
+            nft_website_all: res.data.filter((item: string) => item),
           });
           return resolve(res.data);
         }
