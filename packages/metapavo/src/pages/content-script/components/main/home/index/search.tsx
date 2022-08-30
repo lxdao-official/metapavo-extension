@@ -3,6 +3,7 @@ import { useState } from "react";
 import { searchProjects } from "../../../../../../utils/apis/nft_api";
 import { Component1 } from "../../../assets/Svgs";
 import { SearchField, SearchItemContainer } from "./styleCom";
+import { useThrottle, useThrottleFn } from "ahooks";
 const enter = chrome.runtime.getURL("images/svgs/enter.svg");
 const flag = chrome.runtime.getURL("images/svgs/flag.svg");
 const userIcon = chrome.runtime.getURL("images/svgs/user_icon.svg");
@@ -39,50 +40,46 @@ const SearchItem = (props: any) => {
 export const SearchCom = (props: any) => {
   const [curValue, setCurValue] = useState<string>("");
   const [searchData, setSearchData] = useState<any[]>([]);
-  const search = async (keyword: string) => {
-    if (!keyword) {
-      setSearchData([]);
-      return;
-    }
-    // search project 请求逻辑
-    try {
-      const searchResult: any = await searchProjects(keyword);
-      if (searchResult.data) {
-        let searchData = searchResult.data;
-        searchData = searchData.map((item: any) => {
-          return {
-            ...item,
-            project_id: item.id,
-            user_icon: item.image_url,
-            user_name: item.name,
-            flag: flag,
-            contract_is_verified: item.contract_is_verified,
-            eth: `${item.floor_price ? Math.round(item.floor_price * 1000) / 1000 : 0} ETH`,
-          };
-        });
-        setSearchData(searchData);
-      }
-    } catch (e) {
-      setSearchData([]);
-    }
-  };
 
+  const { run, cancel, flush } = useThrottleFn(
+    async (keyword: string) => {
+      if (!keyword) {
+        setSearchData([]);
+        return;
+      }
+      // search project 请求逻辑
+      try {
+        const searchResult: any = await searchProjects(keyword);
+        if (searchResult.data) {
+          let searchData = searchResult.data;
+          searchData = searchData.map((item: any) => {
+            return {
+              ...item,
+              project_id: item.id,
+              user_icon: item.image_url,
+              user_name: item.name,
+              flag: flag,
+              contract_is_verified: item.contract_is_verified,
+              eth: `${item.floor_price ? Math.round(item.floor_price * 1000) / 1000 : 0} ETH`,
+            };
+          });
+          setSearchData(searchData);
+        }
+      } catch (e) {
+        setSearchData([]);
+      }
+    },
+    {
+      wait: 500,
+    },
+  );
   const searchChange = async (e: any) => {
     const curValue = e.target.value;
 
     setCurValue(curValue);
 
-    // if (!curValue) {
-    //   //   setStatus(0);
-    //   setSearchData([]);
-    //   return;
-    // }
-
-    search(curValue);
+    run(curValue);
   };
-  // if (status === 1) {
-  //   searchInputFocus();
-  // }
 
   return (
     <SearchField>
