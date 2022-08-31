@@ -14,11 +14,10 @@ rootElement.id = "metapavo-popop";
 
 document.body.appendChild(rootElement);
 const root = ReactDOM.createRoot(rootElement as HTMLElement);
-
+document.body.style.margin = "0";
 const RootElement = styled.div`
-  width: 400px;
-  height: 400px;
-  padding: 10px;
+  width: 303px;
+  height: 501px;
 `;
 interface TabPanelProps {
   children?: React.ReactNode;

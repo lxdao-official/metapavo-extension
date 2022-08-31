@@ -59,9 +59,9 @@ export const GasBox = styled.div`
   display: block;
   height: 50px;
   width: 50px;
-  background-color: var(--blob);
-  box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
-  background-size: 1600% 1600%;
+  background: var(--blob);
+  // box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
+  // background-size: 1600% 1600%;
   transform-origin: 50% 50%;
   transform-style: preserve-3d;
   transition: all 1s ease;
@@ -74,7 +74,7 @@ export const GasBox = styled.div`
     ${movement} 10s ease-in-out infinite both;
   animation: ${transform} 10s ease-in-out infinite both alternate,
     ${movement} 10s ease-in-out infinite both;
-  opacity: 0.6;
+  opacity: 0.75;
 `;
 export const RootElement = styled.div`
   position: fixed;
@@ -92,8 +92,9 @@ export const RootElement = styled.div`
   height: 50px;
   cursor: pointer;
   --background: rgb(96, 93, 236);
-  --blob: #fdfbfd;
+  --blob: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
   transition: all 0.5s ease;
+  //background: linear-gradient(91.75deg, #7DE2AC 0%, #389DFA 49.26%, #9F50FF 97.76%);
   // --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
   --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #7de2ac, inset -40px 10px 100px #9f50ff;
   --error-shades: inset 10px 0 40px #ff0000, inset -10px 0 20px #ff0000,
@@ -111,13 +112,13 @@ export const RootElement = styled.div`
     bottom: -10px !important;
   }
   &.metapavo-main-status-danger #metapavo-box-gas {
-    background-color: var(--blob);
+    background: var(--blob);
     box-shadow: var(--error-shades), 0 0 5px rgba(0, 0, 0, 0.4);
     opacity: 1;
   }
   &.metapavo-main-status-success #metapavo-box-gas {
-    background-color: var(--blob);
-    box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
+    background: var(--blob);
+    // box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
     opacity: 1;
   }
   // &.metapavo-main-box-success {

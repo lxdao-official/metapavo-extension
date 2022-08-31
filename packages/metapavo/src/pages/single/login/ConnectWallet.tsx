@@ -14,11 +14,10 @@ const ButtonStyle = styled.button`
   border-radius: 4px;
   color: #fff !important;
   font-size: 14px !important;
-  border: none !important;
   cursor: pointer;
   margin: 0 auto;
   border: 3px solid;
-  border-image: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+  border-image: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%) 1;
   background: linear-gradient(
     91.75deg,
     rgba(125, 226, 172, 0.1) 0%,
