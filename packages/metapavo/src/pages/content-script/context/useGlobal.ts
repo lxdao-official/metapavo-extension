@@ -94,8 +94,9 @@ function useGlobal() {
   }
   let navigate = useNavigate();
   async function showLogin() {
-    setShowMain(true);
-    navigate("/login");
+    setShowMain(false);
+    // navigate("/login");
+    chrome.tabs.create({ url: "/login.html" });
   }
   return {
     showMain,

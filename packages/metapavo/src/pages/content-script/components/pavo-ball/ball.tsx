@@ -94,10 +94,10 @@ function App() {
 
     chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
       if (request.cmd === "gasUpdate") useG.setGas(request.value);
-      if (request.cmd === "needlogin") {
-        console.log("needlogin");
-        useG.showLogin();
-      }
+      // if (request.cmd === "needlogin") {
+      //   console.log("needlogin");
+      //   useG.showLogin();
+      // }
       sendResponse("ok");
     });
     chrome.runtime.sendMessage(
@@ -174,7 +174,22 @@ function App() {
             }, 10000);
           }}
         >
-          <div id="metapavo-gas-text">{useG.gas}</div>
+          <div id="metapavo-gas-text">
+            {useG.gas}
+            <br />
+            <span
+              style={{
+                fontSize: "12px",
+                fontWeight: "400",
+                opacity: "0.8",
+                transform: "scale(0.7)",
+                display: "block",
+                marginTop: "4px",
+              }}
+            >
+              GAS
+            </span>
+          </div>
         </GasBox>
         <DangerPopup state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
         <SuccessPopup state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"} />

@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ConnectWallet from "../wallet/ConnectWallet";
+import { GlobalContext } from "../../context/useGlobal";
+const index_logo = chrome.runtime.getURL("images/index-logo.png");
 // import createMetaMaskProvider from "metamask-extension-provider";
 
 // chrome APIを使用するためdynamic importし、browser側でのみ読み込まれるようにする
@@ -43,15 +44,6 @@ const DescText = styled.div`
 
   color: #9e9aaf;
 `;
-const TitleText = styled.div`
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  width: 245px;
-  text-align: center;
-  margin: 20px auto;
-`;
 const ButtonContainer = styled.div`
       display: flex;
     position: absolute;
@@ -61,15 +53,62 @@ const ButtonContainer = styled.div`
     align-items: center;
 }
 `;
+
+const ButtonStyle = styled.button`
+  margin-top: 50px;
+  padding: 0 20px;
+  width: 276.57px;
+  height: 48px;
+  background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+  box-shadow: 0px 0px 0px #4216e7;
+  border-radius: 4px;
+  color: #fff !important;
+  font-size: 14px !important;
+  border: none !important;
+  cursor: pointer;
+  margin: 0 auto;
+  border: 3px solid linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+  background: linear-gradient(
+    91.75deg,
+    rgba(125, 226, 172, 0.1) 0%,
+    rgba(56, 157, 250, 0.1) 49.26%,
+    rgba(159, 80, 255, 0.1) 97.76%
+  );
+  box-shadow: 0px 0px 0px #4216e7;
+  border-radius: 4px;
+  color: #1c1b1d !important;
+  &:disabled {
+    opacity: 0.6;
+  }
+`;
+const TitleText = styled.div`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  width: 379px;
+  text-align: center;
+  margin: 20px auto;
+  display: flex;
+  width: 200px;
+  margin: 15.5px auto 14.8px auto;
+  align-items: center;
+
+  .logo {
+    width: 200px;
+  }
+`;
 const LoginPage = () => {
-  let navigate = useNavigate();
+  const useG = useContext(GlobalContext);
   useEffect(() => {}, []);
   const mainImage = chrome.runtime.getURL("images/main.jpg");
   return (
     <div style={{}}>
       <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} />
       <MainBody>
-        <TitleText>MetaPavo</TitleText>
+        <TitleText>
+          <img className="logo" src={index_logo} alt="" />
+        </TitleText>
         <DescText>
           Whether you are visiting Twitter, Opensea or Etherscan, MetaPavo can intelligently
           identify the main entry of the project behind, so that you can view the project background
@@ -77,11 +116,14 @@ const LoginPage = () => {
         </DescText>
       </MainBody>
       <ButtonContainer>
-        <ConnectWallet
-          loginSuccess={() => {
-            navigate("/index");
+        <ButtonStyle
+          onClick={() => {
+            chrome.runtime.sendMessage({ cmd: "open_login" });
+            useG.setShowMain(false);
           }}
-        />
+        >
+          Login
+        </ButtonStyle>
       </ButtonContainer>
     </div>
   );

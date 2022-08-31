@@ -1,10 +1,13 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { SnackbarProvider } from "notistack";
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
+import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import useWallet, { WalletContext } from "../content-script/context/useWallet";
 import AlarmList from "./alarmList";
 import FavList from "./favList";
+import NoLogin from "./NoLogin";
 
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-popop";
@@ -40,25 +43,47 @@ function TabPanel(props: TabPanelProps) {
 }
 function Page() {
   const [value, setValue] = React.useState(0);
-
+  const wallet = useWallet();
+  const navigate = useNavigate();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    (async () => {
+      if (!wallet.loginedAddress) {
+        try {
+          const address = await wallet.fetchLoginInfo();
+          if (!address) {
+            navigate("/login");
+          }
+        } catch (e) {
+          navigate("/login");
+        }
+      }
+    })();
+  }, []);
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Alarm List" />
-          <Tab label="Watch List" />
-        </Tabs>
+    <WalletContext.Provider value={wallet}>
+      <Box sx={{ width: "100%" }}>
+        {wallet.loginedAddress ? (
+          <>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                <Tab label="Alarm List" />
+                <Tab label="Watch List" />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+              {value === 0 ? <AlarmList /> : null}
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              {value === 1 ? <FavList /> : null}
+            </TabPanel>
+          </>
+        ) : null}
       </Box>
-      <TabPanel value={value} index={0}>
-        <AlarmList />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <FavList />
-      </TabPanel>
-    </Box>
+    </WalletContext.Provider>
   );
 }
 root.render(
@@ -70,9 +95,15 @@ root.render(
         horizontal: "center",
       }}
     >
-      <RootElement>
-        <Page />
-      </RootElement>
+      <MemoryRouter initialEntries={["/index"]}>
+        <RootElement>
+          <Routes>
+            <Route path="/login" element={<NoLogin />}></Route>
+            <Route path="/index" element={<Page />} />
+            {/* <Route path="/alarms" element={<AlarmListPage />} /> */}
+          </Routes>
+        </RootElement>
+      </MemoryRouter>
     </SnackbarProvider>
   </React.StrictMode>,
 );

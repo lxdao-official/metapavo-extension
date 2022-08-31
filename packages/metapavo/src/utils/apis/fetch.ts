@@ -1,3 +1,10 @@
+class NoAuthError extends Error {
+  code = 401;
+  constructor(message: string) {
+    super(message);
+    this.name = "NoAuthError";
+  }
+}
 export const fetchWrapped: (
   input: RequestInfo | URL,
   init?: RequestInit | undefined,
@@ -43,16 +50,17 @@ export const fetchWrapped: (
           // chrome.runtime.sendMessage({
           //   cmd: "needlogin",
           // });
-          chrome?.tabs &&
-            chrome.tabs.query({}, function (tabs) {
-              tabs.forEach((tab: any) => {
-                tab.active &&
-                  chrome.tabs.sendMessage(tab.id, {
-                    cmd: "needlogin",
-                  });
-              });
-            });
-          throw reject(new Error("user not login"));
+          // chrome?.tabs &&
+          //   chrome.tabs.query({}, function (tabs) {
+          //     tabs.forEach((tab: any) => {
+          //       tab.active &&
+          //         chrome.tabs.sendMessage(tab.id, {
+          //           cmd: "needlogin",
+          //         });
+          //     });
+          //   });
+          console.log("user not login");
+          throw reject(new NoAuthError("user not login"));
         } else if (init) {
           init.headers = {
             "Content-Type": "application/json",

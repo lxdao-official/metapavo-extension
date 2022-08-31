@@ -5,7 +5,7 @@ import React from "react";
 import { useEffect } from "react";
 import moment from "moment";
 import Typography from "@mui/material/Typography";
-import { getUsersAlarms } from "../../utils/apis/nft_api";
+import { getUsersAlarms, getUsersAlarmsNoLogin } from "../../utils/apis/nft_api";
 import { Box, CircularProgress } from "@mui/material";
 import { useSnackbar } from "notistack";
 
@@ -16,7 +16,7 @@ export default function AlarmList() {
   async function restoreAlarmsFromServer() {
     setLoading(true);
     try {
-      const _alarms = await getUsersAlarms();
+      const _alarms = await getUsersAlarmsNoLogin();
       if (_alarms) {
         setAlarms(_alarms);
       } else {

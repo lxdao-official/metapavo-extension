@@ -1,4 +1,4 @@
-import { addAlarmForUser, getUsersAlarms } from "../utils/apis/nft_api";
+import { addAlarmForUser, getUsersAlarms, getUsersAlarmsNoLogin } from "../utils/apis/nft_api";
 
 // eslint-disable-next-line no-console
 console.log("background script");
@@ -79,7 +79,7 @@ chrome.storage.local.get(["alarm_list"], function (data) {
 });
 
 async function restoreAlarmsFromServer() {
-  const alarms = await getUsersAlarms();
+  const alarms = await getUsersAlarmsNoLogin();
   if (alarms) {
     alarms.forEach((item: any) => {
       chrome.alarms.create(`time_alarm:${item.desc}`, {
@@ -98,6 +98,11 @@ chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) 
   if (request.cmd === "get_all_time_alarm") {
     chrome.alarms.getAll((alarms) => {
       sendResponse(alarms);
+    });
+  }
+  if (request.cmd === "open_login") {
+    chrome.tabs.create({
+      url: "login.html",
     });
   }
 });

@@ -196,6 +196,7 @@ module.exports = function (webpackEnv) {
       popup: paths.popup,
       background: paths.background,
       twitter: paths.twitter,
+      single_login: paths.single_login,
     },
     output: {
       // The build folder.

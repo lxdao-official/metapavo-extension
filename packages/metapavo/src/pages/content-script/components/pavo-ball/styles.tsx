@@ -147,7 +147,8 @@ export const RootElement = styled.div`
   //   box-shadow: none;
   // }
   #metapavo-gas-text {
-    line-height: 50px;
+    line-height: 13px;
+    margin-top: 13px;
     color: #fff !important;
   }
 `;
