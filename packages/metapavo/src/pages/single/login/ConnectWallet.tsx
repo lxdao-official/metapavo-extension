@@ -367,7 +367,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
           </defs>
         </svg>
 
-        {loadingWalletConnect ? "Connecting..." : "with WalletConnect"}
+        {loadingWalletConnect ? "Connecting..." : "With WalletConnect"}
       </ButtonStyleSec>
     </>
   );
