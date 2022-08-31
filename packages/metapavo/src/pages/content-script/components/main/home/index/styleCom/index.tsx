@@ -178,6 +178,7 @@ export const SearchItemContainer = styled.div`
     .user-name {
       max-width: 100px;
       height: 16px;
+      line-height: 16px;
       margin-right: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -395,6 +396,7 @@ export const HistoryHotItemContainer = styled.div`
       color: #353536;
       overflow: hidden;
       height: 18px;
+      line-height: 18px;
       text-overflow: ellipsis;
     }
     .user-eth {
