@@ -98,4 +98,5 @@ entry: {
 
 1. you should always use style-components to write style for components.
 2. you should always define font/color/backgroundColor in every element, otherwise it will be overwritten by some page's styles.
-3.
+3. you should never use mui components, because it will be overwritten by some page's styles.
+4. you should never define global style or normal className in components, because it will be overwritten by some page's styles.

@@ -18,6 +18,8 @@ function App() {
           const address = await wallet.fetchLoginInfo();
           if (!address) {
             navigate("/login");
+          } else {
+            navigate("/index");
           }
         } catch (e) {
           navigate("/login");

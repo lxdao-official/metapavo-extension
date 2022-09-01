@@ -53,6 +53,7 @@ const RootElement = styled.div`
 
       text-align: left;
       color: #252525;
+      overflow: hidden;
     }
     .mp-success-verified {
       margin-left: 8px;

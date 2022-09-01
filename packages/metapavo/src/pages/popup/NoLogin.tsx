@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
-const mainImage = chrome.runtime.getURL("images/main.jpg");
+const mainImage = chrome.runtime.getURL("images/popup-main.png");
 const MainBody = styled.div`
   margin-top: 50px;
   width: 100%;
   text-align: center;
   position: absolute;
-  bottom: 220px;
+  bottom: 140px;
   width: 100%;
   left: 0;
 `;
@@ -31,7 +31,7 @@ const DescText = styled.div`
 const ButtonContainer = styled.div`
     display: flex;
     position: absolute;
-    bottom: 120px;
+    bottom: 70px;
     width: 100%;
     flex-direction: column;
     align-items: center;
@@ -63,20 +63,20 @@ const TitleText = styled.div`
   text-align: center;
   margin: 20px auto;
   display: flex;
-  width: 200px;
+  width: 180px;
   margin: 15.5px auto 14.8px auto;
   align-items: center;
 
   .logo {
-    width: 200px;
+    width: 180px;
   }
 `;
 const LoginPage = () => {
   useEffect(() => {}, []);
 
   return (
-    <div>
-      {/* <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} /> */}
+    <div style={{ background: "#FCFCFC" }}>
+      <img src={mainImage} alt="" style={{ width: "100%" }} />
       <MainBody>
         <TitleText>
           <img className="logo" src={index_logo} alt="" />
