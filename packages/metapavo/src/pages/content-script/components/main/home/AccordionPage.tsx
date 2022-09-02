@@ -11,6 +11,7 @@ import { NoFound } from "./nofound";
 import { Bottom_1, Bottom_2, Bottom_3, MetaPavo } from "../../assets/Svgs";
 import Pavo from "./index/index";
 import styled from "styled-components";
+import Bottom from "./Bottom";
 
 const AccordionContainer = styled.div`
   div::-webkit-scrollbar {
@@ -71,89 +72,14 @@ const AccordionContainer = styled.div`
 const AccordionPage = () => {
   const { activeProject, activeAccoidion, setActiveAccoidion, gas, refreshActiveProject } =
     useContext(GlobalContext);
-  const [btcprice, setBtcprice] = React.useState(0);
-  const [ethprice, setEthprice] = React.useState(0);
-  let alreadyFetchPrice = false;
-  async function getPrice() {
-    if (alreadyFetchPrice) {
-      return;
-    }
-    alreadyFetchPrice = true;
-    const result = await fetch("https://data.messari.io/api/v1/assets/eth/metrics/market-data", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": "5b8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8f",
-      },
-    });
-
-    const data = await result.json();
-    if (data.data && data.data.market_data) {
-      const _ethprice = data.data.market_data.price_usd;
-      setEthprice(_ethprice);
-    }
-    const resbtc = await fetch("https://data.messari.io/api/v1/assets/btc/metrics/market-data", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": "5b8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8f",
-      },
-    });
-
-    const databtc = await resbtc.json();
-    if (databtc.data && databtc.data.market_data) {
-      const _btcprice = databtc.data.market_data.price_usd;
-      setBtcprice(_btcprice);
-    }
-  }
 
   useEffect(() => {
     console.log("Accordion effect");
-    getPrice();
+
     if (activeProject) {
       setActiveAccoidion(1);
     }
   }, [activeProject]);
-
-  const scrollData = [
-    {
-      icon: <Bottom_1 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
-      name: `${gas}gwei`,
-      width: "53px",
-    },
-    {
-      icon: <Bottom_2 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
-      name: `${ethprice.toLocaleString()}`,
-      width: "68px",
-    },
-    {
-      icon: <Bottom_3 sx={{ mr: "5px", width: "14px", height: "14px", marginTop: "-2px" }} />,
-      name: `${btcprice.toLocaleString()}`,
-      width: "73px",
-    },
-  ];
-  const scrollView = (item: any) => (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        mr: "10px",
-      }}
-    >
-      {item.icon}
-      <Box
-        sx={{
-          fontWeight: 500,
-          fontSize: "11px",
-          lineHeight: "120%",
-          color: "#616367",
-          width: item.width,
-        }}
-      >
-        {item.name}
-      </Box>
-    </Box>
-  );
 
   return (
     <AccordionContainer>
@@ -263,65 +189,7 @@ const AccordionPage = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Box
-        sx={{
-          position: "fixed",
-          display: "flex",
-          alignItems: "center",
-          bottom: 0,
-          width: "100%",
-          height: "32px",
-          background: "#EBEBEB",
-          overflow: "hidden",
-        }}
-      >
-        <Box
-          sx={{
-            p: "10px",
-            display: "flex",
-            alignItems: "center",
-            zIndex: 2,
-            background: "#EBEBEB",
-            height: "calc(100% - 1px)",
-          }}
-        >
-          <Box
-            sx={{
-              width: "12px",
-              height: "12px",
-              background: "#37CA12",
-              border: "1px solid #49BD4A",
-              borderRadius: "100px",
-              mr: "10px",
-            }}
-          />
-          <Box
-            sx={{
-              fontWeight: 500,
-              fontSize: "13px",
-              lineHeight: "16px",
-              color: "#1C1B1D",
-              mr: "10px",
-            }}
-          >
-            Ethereum
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            width: "calc(100% - 102px)",
-            overflow: "hide",
-            flexWrap: "nowrap",
-          }}
-          className="textScroll"
-        >
-          {scrollData.map((ii) => scrollView(ii))}
-          {scrollData.map((ii) => scrollView(ii))}
-          {scrollData.map((ii) => scrollView(ii))}
-        </Box>
-      </Box>
+      <Bottom />
     </AccordionContainer>
   );
 };

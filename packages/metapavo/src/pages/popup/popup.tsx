@@ -4,9 +4,11 @@ import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Bottom from "../content-script/components/main/home/Bottom";
 import useWallet, { WalletContext } from "../content-script/context/useWallet";
 import AlarmList from "./alarmList";
 import FavList from "./favList";
+import PopupMain from "./index";
 import NoLogin from "./NoLogin";
 
 const rootElement = document.createElement("div");
@@ -18,6 +20,9 @@ document.body.style.margin = "0";
 const RootElement = styled.div`
   width: 303px;
   height: 501px;
+  * {
+    box-sizing: border-box;
+  }
 `;
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,12 +46,8 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 function Page() {
-  const [value, setValue] = React.useState(0);
   const wallet = useWallet();
   const navigate = useNavigate();
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
 
   useEffect(() => {
     (async () => {
@@ -65,23 +66,13 @@ function Page() {
   return (
     <WalletContext.Provider value={wallet}>
       <Box sx={{ width: "100%" }}>
-        {wallet.loginedAddress ? (
-          <>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                <Tab label="Alarm List" />
-                <Tab label="Watch List" />
-              </Tabs>
-            </Box>
-            <TabPanel value={value} index={0}>
-              {value === 0 ? <AlarmList /> : null}
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              {value === 1 ? <FavList /> : null}
-            </TabPanel>
-          </>
-        ) : null}
+        <Routes>
+          <Route path="/login" element={<NoLogin />}></Route>
+          <Route path="/index" element={<PopupMain />} />
+          {/* <Route path="/alarms" element={<AlarmListPage />} /> */}
+        </Routes>
       </Box>
+      <Bottom />
     </WalletContext.Provider>
   );
 }
@@ -96,11 +87,7 @@ root.render(
     >
       <MemoryRouter initialEntries={["/index"]}>
         <RootElement>
-          <Routes>
-            <Route path="/login" element={<NoLogin />}></Route>
-            <Route path="/index" element={<Page />} />
-            {/* <Route path="/alarms" element={<AlarmListPage />} /> */}
-          </Routes>
+          <Page />
         </RootElement>
       </MemoryRouter>
     </SnackbarProvider>
