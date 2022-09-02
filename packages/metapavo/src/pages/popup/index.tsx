@@ -136,21 +136,33 @@ const PopupMain = () => {
   const MenuList = (props: any) => {
     return (
       <MenuListStyle>
-        <MenuItemStyle>
+        <MenuItemStyle
+          onClick={() => {
+            navigate("/watchlist");
+          }}
+        >
           <div className="menu-left">WatchList</div>
           <div className="menu-right">
             {counts.favCount ? <Badge>{counts.favCount}</Badge> : null}
             <GoIcon />
           </div>
         </MenuItemStyle>
-        <MenuItemStyle>
+        <MenuItemStyle
+          onClick={() => {
+            navigate("/history");
+          }}
+        >
           <div className="menu-left">History</div>
           <div className="menu-right">
             {counts.historyCount ? <Badge>{counts.historyCount}</Badge> : null}
             <GoIcon />
           </div>
         </MenuItemStyle>
-        <MenuItemStyle>
+        <MenuItemStyle
+          onClick={() => {
+            navigate("/alarms");
+          }}
+        >
           <div className="menu-left">AlarmReminder</div>
           <div className="menu-right">
             {counts.alarmCount ? <Badge>{counts.alarmCount}</Badge> : null}

@@ -6,6 +6,8 @@ import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Bottom from "../content-script/components/main/home/Bottom";
 import useWallet, { WalletContext } from "../content-script/context/useWallet";
+import HistoryListPage from "../content-script/plugins/watchlist/HistoryListPage";
+import WatchListPage from "../content-script/plugins/watchlist/WatchListPage";
 import AlarmList from "./alarmList";
 import FavList from "./favList";
 import PopupMain from "./index";
@@ -69,6 +71,9 @@ function Page() {
         <Routes>
           <Route path="/login" element={<NoLogin />}></Route>
           <Route path="/index" element={<PopupMain />} />
+          <Route path="/watchlist" element={<WatchListPage />} />
+          <Route path="/history" element={<HistoryListPage />} />
+          <Route path="/alarms" element={<AlarmList />} />
           {/* <Route path="/alarms" element={<AlarmListPage />} /> */}
         </Routes>
       </Box>

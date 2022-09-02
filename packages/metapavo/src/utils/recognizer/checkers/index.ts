@@ -4,6 +4,7 @@ import { checkMarketPlace } from "../../../utils/recognizer/checkers/marketplace
 import { checkTwitter } from "../../../utils/recognizer/checkers/twitter";
 import { checkWebsite } from "../../../utils/recognizer/checkers/website";
 import EventEmitter from "eventemitter3";
+import { checkEtherscan } from "./etherscan";
 
 export class Checker extends EventEmitter {
   lastCheckEntryResult?: {
@@ -29,6 +30,8 @@ export class Checker extends EventEmitter {
         ].indexOf(window.location.host) !== -1
       ) {
         checkEntryResult = await checkMarketPlace();
+      } else if (["etherscan.io"].indexOf(window.location.host) !== -1) {
+        checkEntryResult = await checkEtherscan();
       } else {
         checkEntryResult = await checkWebsite();
       }
