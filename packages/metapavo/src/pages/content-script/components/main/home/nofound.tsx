@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {useState} from 'react';
+import { useSnackbar } from "notistack";
 import { reportCreate } from "../../../../../utils/apis/nft_api";
 
 const NoFoundWrap = styled.div`
@@ -73,6 +74,7 @@ const NoFoundWrap = styled.div`
 export function NoFound() {
   const [type, setType] = useState<string>('NFT');
   const [name, setName] = useState<string>('');
+  const { enqueueSnackbar } = useSnackbar();
 
   const onBtnClick = async () =>{
     const reportResult = await reportCreate(
@@ -86,10 +88,13 @@ export function NoFound() {
       //   projectInfo,
       //   status: CheckResultStatus.SUCCESS,
       // };
+      clear()
+      enqueueSnackbar("Succeed", {});
     } else {
       // return {
       //   status: CheckResultStatus.NOTINSERVER,
       // };
+      enqueueSnackbar("Error", {});
     }
     
   }
@@ -98,6 +103,10 @@ export function NoFound() {
   }
   const onNameChange = (e:any) => {
     setName(e.target.value)
+  }
+  const clear = () => {
+    setType('NFT')
+    setName('')
   }
 
 
@@ -113,7 +122,7 @@ export function NoFound() {
           value={window.location.toString()}
         />
         <span className="form-title">Type</span>
-        <select className="form-select" onChange={onTypeChange} defaultValue={type}>
+        <select className="form-select" onChange={onTypeChange} value={type}>
           <option value="NFT">NFT</option>
           <option value="TOKEN">TOKEN</option>
           <option value="TWITTER">TWITTER</option>
@@ -123,6 +132,7 @@ export function NoFound() {
         <span className="form-title">Name</span>
         <input
           onChange={onNameChange}
+          value={name}
           className="form-input"
           type="text"
           placeholder="Name"
