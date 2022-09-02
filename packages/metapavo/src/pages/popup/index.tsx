@@ -9,6 +9,7 @@ import {
   ModalBG,
   MenuListStyle,
   MenuItemStyle,
+  Badge,
 } from "./styleCom";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import copy from "clipboard-copy";
@@ -18,6 +19,7 @@ import { useNavigate } from "react-router";
 import { useSnackbar } from "notistack";
 import styled from "styled-components";
 import { WalletContext } from "../content-script/context/useWallet";
+import { settingCounts } from "../../utils/apis/nft_api";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
@@ -26,6 +28,16 @@ const PopupMain = () => {
   const [showUserInfoModal, setShowUserInfoModal] = useState<boolean>(false);
 
   const { loginedAddress, logout } = useContext(WalletContext);
+
+  const [counts, setCounts] = useState<{
+    favCount: number;
+    alarmCount: number;
+    historyCount: number;
+  }>({
+    favCount: 0,
+    alarmCount: 0,
+    historyCount: 0,
+  });
 
   const navigate = useNavigate();
 
@@ -127,18 +139,21 @@ const PopupMain = () => {
         <MenuItemStyle>
           <div className="menu-left">WatchList</div>
           <div className="menu-right">
+            {counts.favCount ? <Badge>{counts.favCount}</Badge> : null}
             <GoIcon />
           </div>
         </MenuItemStyle>
         <MenuItemStyle>
           <div className="menu-left">History</div>
           <div className="menu-right">
+            {counts.historyCount ? <Badge>{counts.historyCount}</Badge> : null}
             <GoIcon />
           </div>
         </MenuItemStyle>
         <MenuItemStyle>
           <div className="menu-left">AlarmReminder</div>
           <div className="menu-right">
+            {counts.alarmCount ? <Badge>{counts.alarmCount}</Badge> : null}
             <GoIcon />
           </div>
         </MenuItemStyle>
@@ -151,9 +166,15 @@ const PopupMain = () => {
       </MenuListStyle>
     );
   };
-
+  const getCounts = async () => {
+    const _data = await settingCounts();
+    if (_data) {
+      setCounts(_data);
+    }
+  };
   useEffect(() => {
     console.log("init");
+    getCounts();
   }, []);
 
   return (

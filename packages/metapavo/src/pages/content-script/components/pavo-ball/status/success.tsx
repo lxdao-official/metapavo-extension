@@ -129,6 +129,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
     website: chrome.runtime.getURL("images/website.png"),
     looksrare: chrome.runtime.getURL("images/looksrare.png"),
     github: chrome.runtime.getURL("images/github.png"),
+    gem: chrome.runtime.getURL("images/gem.png"),
   };
   return (
     <RootElement className={[state === "show" ? "mp-success-show" : "mp-success-hide"].join(" ")}>
@@ -225,6 +226,15 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           {activeProject?.github ? (
             <a href={`${activeProject?.github}`} target="_blank" rel="noreferrer">
               <img src={linkImages.github} alt="" />{" "}
+            </a>
+          ) : null}
+          {activeProject?.id ? (
+            <a
+              href={`https://www.gem.xyz/collection/${activeProject?.id}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.gem} alt="" />{" "}
             </a>
           ) : null}
         </div>

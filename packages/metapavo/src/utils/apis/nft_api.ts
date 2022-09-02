@@ -182,3 +182,13 @@ export async function removeAlarmForUser(id: string) {
   }
   return null;
 }
+
+export async function settingCounts() {
+  const res = await fetchWrapped(`${config.baseURL}/users/me/setting_counts`, {
+    method: "GET",
+  });
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}

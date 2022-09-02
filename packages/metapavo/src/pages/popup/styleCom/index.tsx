@@ -122,8 +122,23 @@ export const MenuItemStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .item-left {
+  cursor: pointer;
+  .menu-left {
   }
-  .item-right {
+  .menu-right {
+    display: flex;
+    justify-content: flex-end;
   }
+`;
+
+export const Badge = styled.div`
+  text-align: center;
+  padding: 0 8px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 17px;
+  height: 17px;
+  background: #e14942;
+  border-radius: 19px;
+  margin-right: 8px;
 `;

@@ -62,10 +62,12 @@ function useGlobal() {
     if (_show) {
       setTimeout(() => {
         document.body.style.paddingRight = "303px";
+        document.body.style.boxSizing = "border-box";
       }, 600);
     } else {
       // setTimeout(() => {
       document.body.style.paddingRight = "0";
+      document.body.style.boxSizing = "inherit";
       // }, 800);
     }
     _setShowMain(_show);

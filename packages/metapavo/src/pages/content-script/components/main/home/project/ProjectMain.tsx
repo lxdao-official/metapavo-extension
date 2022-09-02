@@ -252,7 +252,7 @@ const ProjectTab = (props: MediaProps) => {
               img: link5,
             }
           : null,
-        activeProject?.contract_address
+        activeProject?.id
           ? {
               link: `https://www.gem.xyz/collection/${activeProject?.id}`,
               label: "Gem",
