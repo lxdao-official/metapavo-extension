@@ -108,3 +108,4 @@ sudoswap.xyz
 twitter.com
 官网
 etherscan.io
+looksrare.org
