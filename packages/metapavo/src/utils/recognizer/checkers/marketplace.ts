@@ -2,6 +2,7 @@ import { findNftByAddress, getNftById } from "../../apis/nft_api";
 import { IProject } from "../../apis/types";
 import { recognizerGEM } from "../gem";
 import { recognizerOpenSea } from "../opensea";
+import { recognizerSudoswap } from "../sudoswap";
 import { recognizerX2Y2 } from "../x2y2";
 import { CheckResultStatus } from "./types";
 let lastCheckId: string | undefined = undefined;
@@ -24,6 +25,11 @@ export async function checkMarketPlace(): Promise<{
       const resultGEM = await recognizerGEM();
       if (resultGEM && (resultGEM.contract || resultGEM.id)) {
         nowCheckedResult = resultGEM;
+      } else {
+        const resultSudoswap = await recognizerSudoswap();
+        if (resultSudoswap && resultSudoswap.contract) {
+          nowCheckedResult = resultSudoswap;
+        }
       }
     }
   }

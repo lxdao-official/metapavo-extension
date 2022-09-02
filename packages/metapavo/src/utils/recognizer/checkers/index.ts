@@ -27,6 +27,8 @@ export class Checker extends EventEmitter {
           "www.x2y2.io",
           "gem.xyz",
           "www.gem.xyz",
+          "sudoswap.xyz",
+          "www.sudoswap.xyz",
         ].indexOf(window.location.host) !== -1
       ) {
         checkEntryResult = await checkMarketPlace();

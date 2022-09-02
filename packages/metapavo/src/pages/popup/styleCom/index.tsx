@@ -142,3 +142,11 @@ export const Badge = styled.div`
   border-radius: 19px;
   margin-right: 8px;
 `;
+
+export const Version = styled.div`
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  line-height: 17px;
+  margin-top: 20px;
+`;

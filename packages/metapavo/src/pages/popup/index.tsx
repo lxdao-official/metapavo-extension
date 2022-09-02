@@ -10,6 +10,7 @@ import {
   MenuListStyle,
   MenuItemStyle,
   Badge,
+  Version,
 } from "./styleCom";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import copy from "clipboard-copy";
@@ -23,6 +24,7 @@ import { settingCounts } from "../../utils/apis/nft_api";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
+const manifestData = chrome.runtime.getManifest();
 
 const PopupMain = () => {
   const [showUserInfoModal, setShowUserInfoModal] = useState<boolean>(false);
@@ -175,6 +177,18 @@ const PopupMain = () => {
             <GoIcon />
           </div>
         </MenuItemStyle>
+        <MenuItemStyle
+          onClick={() => {
+            chrome.tabs.create({
+              url: "https://lxdao.io",
+            });
+          }}
+        >
+          <div className="menu-left">About LXDAO</div>
+          <div className="menu-right">
+            <GoIcon />
+          </div>
+        </MenuItemStyle>
       </MenuListStyle>
     );
   };
@@ -193,6 +207,7 @@ const PopupMain = () => {
     <Container>
       <HeadCom />
       <MenuList />
+      <Version>version: v{manifestData.version}</Version>
       {showUserInfoModal && <UserInfoModal />}
     </Container>
   );
