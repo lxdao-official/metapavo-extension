@@ -5,6 +5,7 @@ import AccordionPage from "./home/AccordionPage";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { WalletContext } from "../../context/useWallet";
 import { MainRootElement } from "./styles";
+import AlarmListPage from "../../plugins/alarmreminder/AlarmListPage";
 
 function App() {
   const useG = useContext(GlobalContext);
@@ -36,7 +37,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/index" element={<AccordionPage />} />
-          {/* <Route path="/alarms" element={<AlarmListPage />} /> */}
+          <Route path="/alarms" element={<AlarmListPage />} />
         </Routes>
       </div>
       {useG.showMain ? (

@@ -26,7 +26,6 @@ import { WalletContext } from "../../../../context/useWallet";
 import { useSnackbar } from "notistack";
 import TrendsALL, { TrendsItem } from "./comps/WatchListAll";
 import HistoryALL, { HistoryItem } from "./comps/historyListAll";
-import AlarmListPage from "./comps/AlarmListPage";
 import styled from "styled-components";
 import { SearchCom } from "./search";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
@@ -229,8 +228,8 @@ const Pavo = () => {
         <div className="hot-tool-list">
           <ToolsItemContainer
             onClick={() => {
-              // navigate("/alarms");
-              setStatus(5);
+              navigate("/alarms");
+              // setStatus(5);
             }}
           >
             <AlarmIcon />
@@ -436,9 +435,6 @@ const Pavo = () => {
 
           {/* 4 */}
           {status === 4 && <HistoryALL title={"History"} data={historyAll} />}
-
-          {/* 5 */}
-          {status === 5 && <AlarmListPage />}
         </DetailPage>
       )}
 

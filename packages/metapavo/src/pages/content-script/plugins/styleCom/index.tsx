@@ -444,7 +444,7 @@ export const HeadReturnContainer = styled.div`
   img {
     height: 14.166666984558105px;
     width: 16.666667938232422px;
-    margin: 0 11.67px 0 11.57px;
+    margin: 0 11.67px 0 0px;
     cursor: pointer;
   }
 

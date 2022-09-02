@@ -8,7 +8,7 @@ import Bottom from "../content-script/components/main/home/Bottom";
 import useWallet, { WalletContext } from "../content-script/context/useWallet";
 import HistoryListPage from "../content-script/plugins/watchlist/HistoryListPage";
 import WatchListPage from "../content-script/plugins/watchlist/WatchListPage";
-import AlarmList from "./alarmList";
+import AlarmList from "../content-script/plugins/alarmreminder/AlarmListPage";
 import FavList from "./favList";
 import PopupMain from "./index";
 import NoLogin from "./NoLogin";
