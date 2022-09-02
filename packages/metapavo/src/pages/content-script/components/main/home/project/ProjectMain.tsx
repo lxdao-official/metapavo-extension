@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Box, IconButton } from "@mui/material";
 import { useSnackbar } from "notistack";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { Shield_error, Component1, Btc, Ellipsis } from "../../../assets/Svgs";
+import { Shield_error, Component1, EthIcon, Ellipsis } from "../../../assets/Svgs";
 import { GlobalContext } from "../../../../context/useGlobal";
 import copy from "clipboard-copy";
 import { addFavByProjectId, removeFavByProjectId } from "../../../../../../utils/apis/nft_api";
@@ -159,7 +159,7 @@ const ProjectTab = (props: MediaProps) => {
       value: `${Number(twoDecimal(activeProject?.total_sales)).toLocaleString()}`,
       date: "24H",
       rate: 0,
-      icon: "$ ",
+      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
       label: "Holders",
@@ -175,21 +175,21 @@ const ProjectTab = (props: MediaProps) => {
       value: `${Number(twoDecimal(activeProject?.one_day_volume)).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
+      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
       label: "Volume (7D)",
       value: `${Number(twoDecimal(activeProject?.seven_day_volume)).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
+      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
       label: "Floor Price",
       value: `${Number(twoDecimal(activeProject?.floor_price)).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
+      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
   ];
 

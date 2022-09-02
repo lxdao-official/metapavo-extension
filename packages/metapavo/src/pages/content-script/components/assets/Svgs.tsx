@@ -268,7 +268,7 @@ function Ellipsis(props: SvgIconProps) {
     </SvgIcon>
   );
 }
-function Btc(props: SvgIconProps) {
+function EthIcon(props: SvgIconProps) {
   return (
     <SvgIcon
       width="8px"
@@ -535,7 +535,7 @@ export {
   Shield_error,
   Component1,
   Ellipsis,
-  Btc,
+  EthIcon,
   RightIcon,
   Bottom_1,
   Bottom_2,

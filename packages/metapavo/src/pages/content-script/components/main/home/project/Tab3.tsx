@@ -1,7 +1,7 @@
 import { Box, MenuItem } from "@mui/material";
 import React from "react";
 import { css } from "./styles";
-import { Btc, Fliter, Left_Icon } from "../../../assets/Svgs";
+import { EthIcon, Fliter, Left_Icon } from "../../../assets/Svgs";
 interface MediaProps {
   loading?: boolean;
 }
@@ -110,7 +110,7 @@ const line = (obj: any) => (
         alignItems: "center",
       }}
     >
-      <Btc sx={{ fontSize: "inherit" }} />
+      <EthIcon sx={{ fontSize: "inherit" }} />
       {obj.price}
     </Box>
   </Box>

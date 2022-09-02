@@ -1,7 +1,7 @@
 import { Box, Skeleton } from "@mui/material";
 import { css } from "./styles";
 import useGlobal from "../../../../context/useGlobal";
-import { Btc } from "../../../assets/Svgs";
+import { EthIcon } from "../../../assets/Svgs";
 const twoDecimal = (num: any) => {
   if (!num || num !== num || num == "NaN") return 0.0;
   const data = num + "".toLocaleString();
@@ -87,28 +87,28 @@ const MoonbirdsTab2 = () => {
       }`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
+      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
     },
     {
       label: "Volume(24H)",
       value: `${twoDecimal(activeProject?.one_day_volume)}`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
+      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
     },
     {
       label: "Volume(7D)",
       value: `${twoDecimal(activeProject?.seven_day_volume)}`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
+      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
     },
     {
       label: "Floor Price",
       value: `${twoDecimal(activeProject?.floor_price)}`,
       date: "24H",
       rate: 0,
-      icon: <Btc sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
+      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
     },
   ];
   return (
