@@ -1,6 +1,7 @@
 import { findNftByAddress, getNftById } from "../../apis/nft_api";
 import { IProject } from "../../apis/types";
 import { recognizerGEM } from "../gem";
+import { recognizerLooksrare } from "../looksrare";
 import { recognizerOpenSea } from "../opensea";
 import { recognizerSudoswap } from "../sudoswap";
 import { recognizerX2Y2 } from "../x2y2";
@@ -29,6 +30,11 @@ export async function checkMarketPlace(): Promise<{
         const resultSudoswap = await recognizerSudoswap();
         if (resultSudoswap && resultSudoswap.contract) {
           nowCheckedResult = resultSudoswap;
+        } else {
+          const resultLooksrare = await recognizerLooksrare();
+          if (resultLooksrare && resultLooksrare.contract) {
+            nowCheckedResult = resultLooksrare;
+          }
         }
       }
     }
