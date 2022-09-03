@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getNftById, getUsersFavs, getVisitHistories } from "../../../../utils/apis/nft_api";
 import { IFavs } from "../../../../utils/apis/types";
+import { linkImages } from "../../../../utils/linkImages";
 import { GlobalContext } from "../../context/useGlobal";
 import {
   HeadReturnContainer,
@@ -28,9 +29,9 @@ export const TrendsItem = (props: any) => {
       <div className="imgs-container">
         {links.map((link: any, index: number) => {
           return (
-            <div className="link-container" key={index}>
+            <a className="link-container" key={index} href={link.link} target="_blank">
               <img className="link-icon" src={link.img} alt="" />
-            </div>
+            </a>
           );
         })}
       </div>
@@ -60,31 +61,7 @@ const HisotryListPage = (props: any) => {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const getWatchList = async () => {
-    setLoading(true);
-    try {
-      const res = await getVisitHistories(page, 20);
-      if (res.data) {
-        setList(
-          res.data.map((item: IFavs) => {
-            return {
-              userIcon: item.project?.image_url,
-              useName: item.project?.name,
-              userEth: `Floor: ${
-                item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
-              } E`,
-              links: [],
-              dayTime: moment(item.updated_at).fromNow(),
-              hourTime: moment(item.updated_at).format("mm:ss"),
-              project_id: item.project_id,
-            };
-          }),
-        );
-      }
-    } catch (e) {
-      enqueueSnackbar("loading error");
-    }
-
-    setLoading(false);
+    getMoreWatchList(1);
   };
   const getMoreWatchList = async (_page: number) => {
     setLoading(true);
@@ -98,7 +75,35 @@ const HisotryListPage = (props: any) => {
             userEth: `Floor: ${
               item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
             } E`,
-            links: [],
+            links: [
+              item.project?.external_url
+                ? {
+                    link: item.project?.external_url,
+                    img: linkImages.website,
+                  }
+                : null,
+              item.project?.id
+                ? {
+                    link: `https://opensea.io/collection/${item.project?.id}`,
+                    label: "OpenSea",
+                    img: linkImages.opensea,
+                  }
+                : null,
+              item.project?.id
+                ? {
+                    link: `https://www.gem.xyz/collection/${item.project?.id}`,
+                    label: "Gem",
+                    img: linkImages.gem,
+                  }
+                : null,
+              item.project.twitter_username
+                ? {
+                    link: `https://twitter.com/${item.project.twitter_username}`,
+                    label: "Twitter",
+                    img: linkImages.twitter,
+                  }
+                : null,
+            ].filter((item) => item),
             dayTime: moment(item.updated_at).fromNow(),
             hourTime: moment(item.updated_at).format("mm:ss"),
             project_id: item.project_id,

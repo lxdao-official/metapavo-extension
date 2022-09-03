@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
+import { linkImages } from "../../../../../utils/linkImages";
 import { GlobalContext } from "../../../context/useGlobal";
 
 const RootElement = styled.div`
@@ -121,16 +122,6 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
   const useG = useContext(GlobalContext);
   const { activeProject, setAddRootClass } = useG;
 
-  const linkImages = {
-    etherscan: chrome.runtime.getURL("images/etherscan.png"),
-    twitter: chrome.runtime.getURL("images/twitter.png"),
-    opensea: chrome.runtime.getURL("images/opensea.png"),
-    x2y2: chrome.runtime.getURL("images/x2y2.png"),
-    website: chrome.runtime.getURL("images/website.png"),
-    looksrare: chrome.runtime.getURL("images/looksrare.png"),
-    github: chrome.runtime.getURL("images/github.png"),
-    gem: chrome.runtime.getURL("images/gem.png"),
-  };
   return (
     <RootElement className={[state === "show" ? "mp-success-show" : "mp-success-hide"].join(" ")}>
       <div className="mp-success-hd">
