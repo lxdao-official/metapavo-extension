@@ -179,6 +179,16 @@ const PopupMain = () => {
         </MenuItemStyle>
         <MenuItemStyle
           onClick={() => {
+            navigate("/report");
+          }}
+        >
+          <div className="menu-left">Submit a Project</div>
+          <div className="menu-right">
+            <GoIcon />
+          </div>
+        </MenuItemStyle>
+        <MenuItemStyle
+          onClick={() => {
             chrome.tabs.create({
               url: "https://lxdao.io",
             });

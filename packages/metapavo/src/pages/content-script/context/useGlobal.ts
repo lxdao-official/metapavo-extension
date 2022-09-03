@@ -31,7 +31,7 @@ export const GlobalContext = React.createContext<{
 function useGlobal() {
   const [showMain, _setShowMain] = React.useState(false);
   const [activeProject, setActiveProject] = React.useState<IProject | null>(null);
-
+  const [activeTokenId, setActiveTokenId] = React.useState<string | null>(null);
   const [detectStatus, setDetectStatus] = React.useState<RecognizerStatus>("none");
   const [addRootClass, setAddRootClass] = React.useState("");
   const [gas, setGas] = React.useState(0);
@@ -49,9 +49,7 @@ function useGlobal() {
     } else {
       setDetectStatus("none");
       setActiveProject(null);
-      // setTimeout(() => {
       setAddRootClass("");
-      // }, 1000);
     }
   });
   function showSuccess() {
@@ -117,6 +115,8 @@ function useGlobal() {
     setActiveAccoidion,
     setAddRootClass,
     refreshActiveProject,
+    activeTokenId,
+    setActiveTokenId,
   };
 }
 export default useGlobal;

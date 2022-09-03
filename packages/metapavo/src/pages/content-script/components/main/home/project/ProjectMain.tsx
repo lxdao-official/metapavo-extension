@@ -159,7 +159,7 @@ const ProjectTab = (props: MediaProps) => {
       value: `${Number(twoDecimal(activeProject?.total_sales)).toLocaleString()}`,
       date: "24H",
       rate: 0,
-      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
+      icon: <></>,
     },
     {
       label: "Holders",
@@ -369,16 +369,36 @@ const ProjectTab = (props: MediaProps) => {
                 <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
               </IconButton>
             </Box>
-            <Box sx={{ display: "flex", justifyContent: "flex-start", marginTop: "12px" }}>
-              <Box className="metapavo-boxText">{activeProject?.type === 1 ? "ERC20" : "NFT"}</Box>
+            <Box sx={{ display: "flex", justifyContent: "flex-start", marginTop: "10px" }}>
               {activeProject?.faved ? (
                 <button
                   className="metapavo-addwatch"
                   onClick={() => {
                     removeFav();
                   }}
+                  style={{
+                    background: "#F5F5F5",
+                    border: "1px solid #F5F5F5",
+                    boxShadow: "0px 0px 0px #4216E7",
+                    borderRadius: "4px",
+                  }}
                 >
-                  － WATCHING
+                  <svg
+                    width="12"
+                    height="13"
+                    viewBox="0 0 12 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ verticalAlign: "-2px", marginRight: "5px" }}
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M9.39556 0.687639C7.15706 0.437454 4.84294 0.437454 2.60444 0.687639C1.35524 0.827256 0.347427 1.81147 0.200744 3.06561C-0.0669147 5.35409 -0.0669147 7.66597 0.200744 9.95445C0.347427 11.2086 1.35524 12.1928 2.60444 12.3324C4.84294 12.5826 7.15705 12.5826 9.39556 12.3324C10.6448 12.1928 11.6526 11.2086 11.7993 9.95445C12.0669 7.66597 12.0669 5.35409 11.7993 3.06561C11.6526 1.81147 10.6448 0.827256 9.39556 0.687639ZM10.1814 4.2992C10.1814 4.16679 10.1288 4.03979 10.0353 3.94611C9.94163 3.85254 9.81459 3.79999 9.68221 3.79999C9.54977 3.79999 9.4228 3.85254 9.32913 3.94611L4.85228 8.42296L3.04022 6.6109C2.9455 6.52264 2.82023 6.47459 2.69079 6.47688C2.56135 6.47916 2.43784 6.5316 2.3463 6.62314C2.25475 6.71469 2.20231 6.83819 2.20003 6.96763C2.19775 7.09708 2.2458 7.22235 2.33405 7.31707L4.4992 9.48221C4.59288 9.57575 4.71987 9.62831 4.85228 9.62831C4.98469 9.62831 5.11168 9.57575 5.20537 9.48221L10.0353 4.65228C10.1288 4.55859 10.1814 4.4316 10.1814 4.2992Z"
+                      fill="#D1D0D6"
+                    />
+                  </svg>
+                  WATCHING
                 </button>
               ) : (
                 <button
@@ -387,7 +407,22 @@ const ProjectTab = (props: MediaProps) => {
                     addFav();
                   }}
                 >
-                  ＋ WATCH LIST
+                  <svg
+                    width="12"
+                    height="13"
+                    viewBox="0 0 12 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ verticalAlign: "-2px", marginRight: "5px" }}
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M2.60444 0.687639C4.84294 0.437454 7.15706 0.437454 9.39556 0.687639C10.6448 0.827256 11.6526 1.81147 11.7993 3.06561C12.0669 5.35409 12.0669 7.66597 11.7993 9.95445C11.6526 11.2086 10.6448 12.1928 9.39556 12.3324C7.15705 12.5826 4.84294 12.5826 2.60444 12.3324C1.35524 12.1928 0.347427 11.2086 0.200744 9.95445C-0.0669147 7.66597 -0.0669147 5.35409 0.200744 3.06561C0.347427 1.81147 1.35524 0.827256 2.60444 0.687639ZM6.00001 2.86855C6.30212 2.86855 6.54704 3.11347 6.54704 3.41558V5.963H9.09448C9.39659 5.963 9.6415 6.20791 9.6415 6.51003C9.6415 6.81214 9.39659 7.05705 9.09448 7.05705H6.54704V9.60447C6.54704 9.90658 6.30212 10.1515 6.00001 10.1515C5.6979 10.1515 5.45298 9.90658 5.45298 9.60447V7.05705H2.90558C2.60347 7.05705 2.35856 6.81214 2.35856 6.51003C2.35856 6.20791 2.60347 5.963 2.90558 5.963H5.45299V3.41558C5.45299 3.11347 5.6979 2.86855 6.00001 2.86855Z"
+                      fill="#1C1B1D"
+                    />
+                  </svg>
+                  Add to WATCHLIST
                 </button>
               )}
             </Box>
@@ -401,6 +436,7 @@ const ProjectTab = (props: MediaProps) => {
             maxHeight: show ? "auto" : "50px",
             overflow: "hidden",
             position: "relative",
+            marginTop: "10px",
           }}
           onClick={() => setShow(!show)}
         >

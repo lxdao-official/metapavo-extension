@@ -12,6 +12,7 @@ import AlarmList from "../content-script/plugins/alarmreminder/AlarmListPage";
 import FavList from "./favList";
 import PopupMain from "./index";
 import NoLogin from "./NoLogin";
+import { Report } from "../content-script/plugins/Report";
 
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-popop";
@@ -74,6 +75,7 @@ function Page() {
           <Route path="/watchlist" element={<WatchListPage />} />
           <Route path="/history" element={<HistoryListPage />} />
           <Route path="/alarms" element={<AlarmList />} />
+          <Route path="/report" element={<Report />} />
           {/* <Route path="/alarms" element={<AlarmListPage />} /> */}
         </Routes>
       </Box>

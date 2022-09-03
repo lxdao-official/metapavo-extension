@@ -54,16 +54,16 @@ export const css = `
       
     }
     .metapavo-addwatch{
-      height: 19px !important;
-    background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%) !important;
-    border-radius: 4px !important;
-    color: #fff !important;
-    font-size: 12px !important;
-    line-height: 18px !important;
-    border: none !important;
-    margin-left: 10px !important;
-    padding:0 10px 0 5px !important;
-    cursor:pointer !important;
+      height: 35px !important;
+      background: linear-gradient(91.75deg, rgba(125, 226, 172, 0.1) 0%, rgba(56, 157, 250, 0.1) 49.26%, rgba(159, 80, 255, 0.1) 97.76%);
+      box-shadow: 0px 0px 0px #4216E7;
+      border-radius: 4px;
+      border-width: 3px;
+      border-image-slice: 1;
+      padding-right:20px;
+      padding-left:10px;
+      font-size:12px;
+      border-image-source: linear-gradient(to left, #7DE2AC, #9F50FF);
     }
     .metapavo-ellipsis{
       width:16px;

@@ -78,7 +78,7 @@ const MoonbirdsTab2 = () => {
       value: `${twoDecimal(activeProject?.total_sales)}`,
       date: "24H",
       rate: 0,
-      icon: "$",
+      icon: <></>,
     },
     {
       label: "Holders",
