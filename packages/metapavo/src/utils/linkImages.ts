@@ -7,4 +7,5 @@ export const linkImages = {
   looksrare: chrome.runtime.getURL("images/looksrare.png"),
   github: chrome.runtime.getURL("images/github.png"),
   gem: chrome.runtime.getURL("images/gem.png"),
+  sudoswap: chrome.runtime.getURL("images/sudoswap.png"),
 };

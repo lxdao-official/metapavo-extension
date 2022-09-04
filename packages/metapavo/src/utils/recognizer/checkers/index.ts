@@ -11,11 +11,13 @@ export class Checker extends EventEmitter {
     projectInfo?: IProject;
     status: CheckResultStatus;
   };
+  lastCheckTokenId?: string = "";
   async check() {
     setInterval(async () => {
       let checkEntryResult: {
         projectInfo?: IProject;
         status: CheckResultStatus;
+        tokenId?: string;
       };
       if (window.location.host.indexOf("twitter.com") !== -1) {
         checkEntryResult = await checkTwitter();
@@ -54,7 +56,13 @@ export class Checker extends EventEmitter {
           this.emit("changed", null);
           this.lastCheckEntryResult = checkEntryResult;
         }
-      } else {
+      }
+
+      if (checkEntryResult.tokenId) {
+        if (this.lastCheckTokenId !== checkEntryResult.tokenId) {
+          this.emit("tokenIdChanged", checkEntryResult.tokenId);
+          this.lastCheckTokenId = checkEntryResult.tokenId;
+        }
       }
     }, 2000);
   }

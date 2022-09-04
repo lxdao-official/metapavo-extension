@@ -120,7 +120,7 @@ const RootElement = styled.div`
 `;
 export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
   const useG = useContext(GlobalContext);
-  const { activeProject, setAddRootClass } = useG;
+  const { activeProject, setAddRootClass, activeTokenId } = useG;
 
   return (
     <RootElement className={[state === "show" ? "mp-success-show" : "mp-success-hide"].join(" ")}>
@@ -187,7 +187,20 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               <img src={linkImages.website} alt="" />{" "}
             </a>
           ) : null}
-          {activeProject?.id ? (
+          {activeTokenId && activeProject?.contract_address ? (
+            <a
+              href={
+                "https://opensea.io/assets/ethereum/" +
+                activeProject?.contract_address +
+                "/" +
+                activeTokenId
+              }
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.opensea} alt="" />{" "}
+            </a>
+          ) : activeProject?.id ? (
             <a
               href={"https://opensea.io/collection/" + activeProject.id}
               target="_blank"
@@ -198,14 +211,24 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           ) : null}{" "}
           {activeProject?.id ? (
             <a
-              href={`https://looksrare.org/collections/${activeProject?.contract_address}`}
+              href={`https://looksrare.org/collections/${activeProject?.contract_address}/${
+                activeTokenId ? activeTokenId : ""
+              }`}
               target="_blank"
               rel="noreferrer"
             >
               <img src={linkImages.looksrare} alt="" />{" "}
             </a>
           ) : null}
-          {activeProject?.contract_address ? (
+          {activeTokenId && activeProject?.contract_address ? (
+            <a
+              href={"https://x2y2.io/eth/" + activeProject?.contract_address + "/" + activeTokenId}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.x2y2} alt="" />{" "}
+            </a>
+          ) : activeProject?.id ? (
             <a
               href={`https://x2y2.io/collection/${activeProject?.id}/items`}
               target="_blank"
@@ -213,13 +236,23 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
             >
               <img src={linkImages.x2y2} alt="" />{" "}
             </a>
-          ) : null}
-          {activeProject?.github ? (
+          ) : null}{" "}
+          {/* {activeProject?.github ? (
             <a href={`${activeProject?.github}`} target="_blank" rel="noreferrer">
               <img src={linkImages.github} alt="" />{" "}
             </a>
-          ) : null}
-          {activeProject?.id ? (
+          ) : null} */}
+          {activeTokenId && activeProject?.contract_address ? (
+            <a
+              href={
+                "https://www.gem.xyz/asset/" + activeProject?.contract_address + "/" + activeTokenId
+              }
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.gem} alt="" />{" "}
+            </a>
+          ) : activeProject?.id ? (
             <a
               href={`https://www.gem.xyz/collection/${activeProject?.id}`}
               target="_blank"
@@ -227,7 +260,29 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
             >
               <img src={linkImages.gem} alt="" />{" "}
             </a>
-          ) : null}
+          ) : null}{" "}
+          {activeTokenId && activeProject?.contract_address ? (
+            <a
+              href={
+                "https://sudoswap.xyz/#/item/" +
+                activeProject?.contract_address +
+                "/" +
+                activeTokenId
+              }
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.sudoswap} alt="" />{" "}
+            </a>
+          ) : activeProject?.contract_address ? (
+            <a
+              href={`https://sudoswap.xyz/#/browse/buy/${activeProject?.contract_address}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={linkImages.sudoswap} alt="" />{" "}
+            </a>
+          ) : null}{" "}
         </div>
         <button
           className=""

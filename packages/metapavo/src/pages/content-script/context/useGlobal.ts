@@ -14,6 +14,8 @@ export const GlobalContext = React.createContext<{
   showMain: boolean;
   setShowMain: (showMain: boolean) => void;
   activeProject: IProject | null;
+  activeTokenId: string | null;
+  setActiveTokenId: (tokenId: string) => void;
   setActiveProject: (activeProject: IProject | null) => void;
   detectStatus: RecognizerStatus;
   setDetectStatus: (detectStatus: RecognizerStatus) => void;
@@ -50,6 +52,13 @@ function useGlobal() {
       setDetectStatus("none");
       setActiveProject(null);
       setAddRootClass("");
+    }
+  });
+  checker.on("tokenIdChanged", (tokenId: string) => {
+    if (tokenId) {
+      setActiveTokenId(tokenId);
+    } else {
+      setActiveTokenId("");
     }
   });
   function showSuccess() {

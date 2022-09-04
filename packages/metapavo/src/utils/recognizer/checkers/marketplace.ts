@@ -10,11 +10,13 @@ let lastCheckId: string | undefined = undefined;
 export async function checkMarketPlace(): Promise<{
   projectInfo?: IProject;
   status: CheckResultStatus;
+  tokenId?: string;
 }> {
   const result = await recognizerOpenSea();
   let nowCheckedResult: {
     contract?: string;
     id?: string;
+    tokenId?: string;
   } | null = null;
   if (result && (result.contract || result.id)) {
     nowCheckedResult = result;
@@ -49,15 +51,18 @@ export async function checkMarketPlace(): Promise<{
       if (projectInfo) {
         return {
           projectInfo,
+          tokenId: nowCheckedResult.tokenId,
           status: CheckResultStatus.SUCCESS,
         };
       } else {
         return {
+          tokenId: nowCheckedResult.tokenId,
           status: CheckResultStatus.NOTINSERVER,
         };
       }
     } else {
       return {
+        tokenId: nowCheckedResult.tokenId,
         status: CheckResultStatus.NOCHANGE,
       };
     }
