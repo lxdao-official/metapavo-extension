@@ -503,4 +503,15 @@ export const ModalContainer = styled.div`
   }
 `;
 
-const SearchInput = styled.input``;
+export const AddNewAlarm = styled.div`
+  position: absolute;
+  right: 50px;
+  background: linear-gradient(91.75deg, rgba(125, 226, 172, 0.1) 0%, rgba(56, 157, 250, 0.1) 49.26%, rgba(159, 80, 255, 0.1) 97.76%);
+  box-shadow: 0px 0px 0px #4216E7;
+  border-radius: 4px;
+  border-width: 2px;
+  margin-bottom: 50px;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to left, #7DE2AC, #9F50FF);
+  font-size: 12px;
+`

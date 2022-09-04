@@ -6,13 +6,16 @@ import { useEffect } from "react";
 import moment from "moment";
 import { getUsersAlarmsNoLogin } from "../../../../utils/apis/nft_api";
 import { Box, CircularProgress } from "@mui/material";
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useSnackbar } from "notistack";
-import { HeadReturnContainer, TrendsHotContainer } from "../styleCom";
+import { HeadReturnContainer, TrendsHotContainer, AddNewAlarm } from "../styleCom";
 import { useNavigate } from "react-router-dom";
+import AlarmSetPage from "./AlarmSetPage";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 export default function AlarmListPage() {
   const [alarms, setAlarms] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const [showSetPage, toogleShow] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   async function restoreAlarmsFromServer() {
@@ -33,6 +36,10 @@ export default function AlarmListPage() {
     restoreAlarmsFromServer();
   }, []);
 
+  const toogleSetPage = () => {
+    toogleShow(!showSetPage)
+  }
+
   const HeadReturn = (props: any) => {
     const title = props.title;
 
@@ -46,6 +53,7 @@ export default function AlarmListPage() {
           alt=""
         />
         <span>{title}</span>
+        <AddNewAlarm onClick={toogleSetPage}><AddBoxIcon sx={{ fontSize: "12px" }} />Add New</AddNewAlarm>
       </HeadReturnContainer>
     );
   };
@@ -53,6 +61,7 @@ export default function AlarmListPage() {
     <>
       <TrendsHotContainer>
         <HeadReturn title={"alarmlist"} />
+        {showSetPage ? <AlarmSetPage /> : null}
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
             <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
