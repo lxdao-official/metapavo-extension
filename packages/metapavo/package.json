@@ -9,6 +9,8 @@
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
+    "@mui/x-date-pickers": "5.0.0",
+    "react-color": "2.19.3",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.4",
@@ -171,6 +173,7 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.25",
+    "@types/react-color": "3.0.6",
     "react-error-overlay": "6.0.9"
   },
   "resolutions": {
