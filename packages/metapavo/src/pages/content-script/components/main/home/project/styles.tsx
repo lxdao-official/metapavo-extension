@@ -54,16 +54,7 @@ export const css = `
       
     }
     .metapavo-addwatch{
-      height: 35px !important;
-      background: linear-gradient(91.75deg, rgba(125, 226, 172, 0.1) 0%, rgba(56, 157, 250, 0.1) 49.26%, rgba(159, 80, 255, 0.1) 97.76%);
-      box-shadow: 0px 0px 0px #4216E7;
-      border-radius: 4px;
-      border-width: 3px;
-      border-image-slice: 1;
-      padding-right:20px;
-      padding-left:10px;
-      font-size:12px;
-      border-image-source: linear-gradient(to left, #7DE2AC, #9F50FF);
+      
     }
     .metapavo-ellipsis{
       width:16px;
@@ -130,7 +121,23 @@ export const css = `
         backgroundColor:#F5F5F5;
     }
 `;
-
+export const AddWatchButton = styled.button`
+  height: 35px !important;
+  background: linear-gradient(
+    91.75deg,
+    rgba(125, 226, 172, 0.1) 0%,
+    rgba(56, 157, 250, 0.1) 49.26%,
+    rgba(159, 80, 255, 0.1) 97.76%
+  );
+  box-shadow: 0px 0px 0px #4216e7;
+  border-radius: 4px;
+  border-width: 3px;
+  border-image-slice: 1;
+  padding-right: 20px !important;
+  padding-left: 10px !important;
+  font-size: 12px !important;
+  border-image-source: linear-gradient(to left, #7de2ac, #9f50ff);
+`;
 export const LinkButton = styled.a`
   font-family: "Inter";
   font-style: normal;
@@ -143,6 +150,6 @@ export const LinkButton = styled.a`
   text-decoration: none;
   align-items: center;
 
-  color: #000000;
+  color: #000000 !important;
   cursor: pointer;
 `;
