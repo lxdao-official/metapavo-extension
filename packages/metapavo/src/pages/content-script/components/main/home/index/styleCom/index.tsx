@@ -146,7 +146,7 @@ export const SearchField = styled.div`
   }
 `;
 
-export const SearchItemContainer = styled.div`
+export const SearchItemContainer: any = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -163,6 +163,9 @@ export const SearchItemContainer = styled.div`
   white-space: nowrap;
   text-align: right;
   cursor: pointer;
+  ${ 
+    (props: any) => props.showEnter && 'background: rgba(239, 238, 241, 0.5);'
+  }
 
   .front {
     display: flex;
@@ -193,9 +196,9 @@ export const SearchItemContainer = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      align-items: end;
       width: 54px;
       height: 33px;
-      // margin-left: 23px;
       font-weight: 500;
       font-size: 12px;
       color: #a9a8af;

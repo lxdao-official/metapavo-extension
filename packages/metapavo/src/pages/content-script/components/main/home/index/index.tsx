@@ -422,7 +422,7 @@ const Pavo = () => {
 
       <WatchListHot data={trendsHot} title={"WATCHLIST"} />
 
-      <HistoryHot title={"HISTORY"} data={historyHot} />
+      <HistoryHot data={historyHot} title={"HISTORY"} />
 
       {/* 2 3 4 5 */}
       {(status === 2 || status === 3 || status === 4 || status === 5) && (

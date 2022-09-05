@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { searchProjects } from "../../../../../../utils/apis/nft_api";
 import { Component1 } from "../../../assets/Svgs";
 import { SearchField, SearchItemContainer } from "./styleCom";
 import { useThrottle, useThrottleFn } from "ahooks";
+import { AnyARecord } from "dns";
 const enter = chrome.runtime.getURL("images/svgs/enter.svg");
 const flag = chrome.runtime.getURL("images/svgs/flag.svg");
 const userIcon = chrome.runtime.getURL("images/svgs/user_icon.svg");
@@ -14,9 +15,10 @@ const enter_btn = chrome.runtime.getURL("images/svgs/enter_btn.svg");
 const SearchItem = (props: any) => {
   const item = props.itemData;
   const clickFn = props.onClick;
+  const showEnter = props.showEnter || false;
 
   return (
-    <SearchItemContainer onClick={clickFn}>
+    <SearchItemContainer onClick={clickFn} showEnter={showEnter}>
       <div className="front">
         <img className="user-icon" src={item.user_icon} alt="" />
         <span className="user-name">{item.user_name}</span>
@@ -30,7 +32,7 @@ const SearchItem = (props: any) => {
           <span className="num">{item.eth}</span>
           <span>Floor</span>
         </div>
-        <img className="enter" src={enter} alt="" />
+        { showEnter && <img className="enter" src={enter} alt="" /> }
       </div>
     </SearchItemContainer>
   );
@@ -40,6 +42,7 @@ const SearchItem = (props: any) => {
 export const SearchCom = (props: any) => {
   const [curValue, setCurValue] = useState<string>("");
   const [searchData, setSearchData] = useState<any[]>([]);
+  const [curIndex, setCurIndex] = useState<number>(0)
 
   const { run, cancel, flush } = useThrottleFn(
     async (keyword: string) => {
@@ -77,9 +80,39 @@ export const SearchCom = (props: any) => {
     const curValue = e.target.value;
 
     setCurValue(curValue);
-
     run(curValue);
   };
+
+  const keyBoardCheck = (e: any) => {
+    e.preventDefault();
+    if (e.stopPropagation) e.stopPropagation();
+    // ← 37 ↑ 38 → 39 ↓ 40 esc 27 enter 13
+    switch (e.keyCode) {
+      case 13:
+        props.goDetail(searchData[curIndex].project_id)
+        break
+      case 27:
+        setSearchData([]);
+        setCurValue('')
+        setCurIndex(0)
+        break;
+      case 38:
+        setCurIndex((curIndex - 1) <=0 ? 0 : curIndex - 1 )
+        break;
+      case 40:
+        setCurIndex(searchData.length !== 0 ? (curIndex + 1) % searchData.length : 0)
+        break;
+    }
+  }
+
+  useEffect(() => {
+
+    window.addEventListener('keyup', keyBoardCheck, true);
+
+    return () => {
+      window.removeEventListener('keyup', keyBoardCheck, true);
+    }
+  }, [searchData, curIndex])
 
   return (
     <SearchField>
@@ -101,6 +134,7 @@ export const SearchCom = (props: any) => {
                 <SearchItem
                   key={index}
                   itemData={item}
+                  showEnter={index === curIndex}
                   onClick={() => {
                     props.goDetail(item.project_id);
                     // setTimeout(() => {
