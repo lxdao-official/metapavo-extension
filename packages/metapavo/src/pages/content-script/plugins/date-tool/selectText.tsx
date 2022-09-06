@@ -52,9 +52,9 @@ const ButtonElement = styled.div`
   font-size: 14px;
   line-height: 30px;
   color: #000;
-  select {
-    border: none;
-    border-bottom: 1px dashed #aaa;
+  cursor: pointer;
+  &:hover {
+    color: #999;
   }
 `;
 

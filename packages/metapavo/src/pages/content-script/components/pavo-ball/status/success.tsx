@@ -173,6 +173,11 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               <img src={linkImages.etherscan} alt="" />{" "}
             </a>
           ) : null}
+          {activeProject?.external_url ? (
+            <a href={activeProject.external_url} target="_blank" rel="noreferrer">
+              <img src={linkImages.website} alt="" />{" "}
+            </a>
+          ) : null}
           {activeProject?.twitter_username ? (
             <a
               href={"https://twitter.com/" + activeProject.twitter_username}
@@ -180,11 +185,6 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               rel="noreferrer"
             >
               <img src={linkImages.twitter} alt="" />{" "}
-            </a>
-          ) : null}
-          {activeProject?.external_url ? (
-            <a href={activeProject.external_url} target="_blank" rel="noreferrer">
-              <img src={linkImages.website} alt="" />{" "}
             </a>
           ) : null}
           {activeTokenId && activeProject?.contract_address ? (
