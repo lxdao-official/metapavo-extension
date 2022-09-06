@@ -393,7 +393,7 @@ const Pavo = () => {
               navigate("/login");
             }}
           >
-            退出登录
+            Logout
           </div>
         </div>
         <div className="mask" />

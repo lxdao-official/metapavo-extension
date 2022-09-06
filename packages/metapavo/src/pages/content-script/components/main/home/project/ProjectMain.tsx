@@ -9,6 +9,7 @@ import { addFavByProjectId, removeFavByProjectId } from "../../../../../../utils
 import { AddWatchButton, css, LinkButton } from "./styles";
 import ReactMarkdown from "react-markdown";
 import React from "react";
+const placeholderImg = chrome.runtime.getURL("images/placeholder.png");
 const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");
 const link3 = chrome.runtime.getURL("images/svgs/image-3.svg");
 const link4 = chrome.runtime.getURL("images/svgs/image-4.svg");
@@ -323,7 +324,15 @@ const ProjectTab = (props: MediaProps) => {
       )}
       <Box sx={{ p: 2.25 }}>
         <Box sx={{ display: "flex" }}>
-          <Box component="img" src={activeProject?.image_url || ""} width={85} height={85} />
+          <Box
+            component="img"
+            src={activeProject?.image_url || ""}
+            width={85}
+            height={85}
+            style={{
+              background: `url(${placeholderImg}) no-repeat center center / cover`,
+            }}
+          />
           <Box
             component={"div"}
             sx={{

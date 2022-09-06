@@ -291,7 +291,7 @@ export const ToolsItemContainer = styled.div`
 `;
 
 export const TrendsHotContainer = styled.div`
-  margin: 17px auto 0 auto;
+  margin: 10px auto 0 auto;
   padding: 10px 20px;
   .hot-trend-list {
     width: 100%;
@@ -365,7 +365,7 @@ export const HistoryHotContainer = styled.div`
     margin-top: 12px;
   }
 `;
-
+const placeholderImg = chrome.runtime.getURL("images/placeholder.png");
 export const HistoryHotItemContainer = styled.div`
   display: flex;
   align-items: center;
@@ -375,8 +375,15 @@ export const HistoryHotItemContainer = styled.div`
   .user-icon {
     width: 40px;
     height: 40px;
-    margin-right: 19px;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    margin-right: 10px;
     border-radius: 50%;
+    border: 1px solid #f3f3f3;
+    box-sizing: border-box;
+    background: url(${placeholderImg}) no-repeat center center / cover;
   }
 
   .user-des {
@@ -385,7 +392,7 @@ export const HistoryHotItemContainer = styled.div`
     flex-direction: column;
     width: 105px;
     height: 32px;
-    padding: 0px 8px;
+    padding: 0px 0px;
     font-size: 12px;
 
     .user-name {
@@ -420,7 +427,7 @@ export const HistoryHotItemContainer = styled.div`
 
   .times {
     display: flex;
-    width: 80px;
+    width: 60px;
     flex-direction: column;
     font-weight: 500;
     font-size: 12px;

@@ -104,7 +104,7 @@ const TrendsALL = (props: any) => {
                   }
                 : null,
             ].filter((item) => item),
-            dayTime: moment(item.updated_at).fromNow(),
+            dayTime: moment(item.updated_at).format("MM-DD"),
             hourTime: moment(item.updated_at).format("mm:ss"),
             project_id: item.project_id,
           };
