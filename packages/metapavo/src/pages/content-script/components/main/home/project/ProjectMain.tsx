@@ -6,9 +6,10 @@ import { Shield_error, Component1, EthIcon, Ellipsis } from "../../../assets/Svg
 import { GlobalContext } from "../../../../context/useGlobal";
 import copy from "clipboard-copy";
 import { addFavByProjectId, removeFavByProjectId } from "../../../../../../utils/apis/nft_api";
-import { css, LinkButton } from "./styles";
+import { AddWatchButton, css, LinkButton } from "./styles";
 import ReactMarkdown from "react-markdown";
 import React from "react";
+const placeholderImg = chrome.runtime.getURL("images/placeholder.png");
 const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");
 const link3 = chrome.runtime.getURL("images/svgs/image-3.svg");
 const link4 = chrome.runtime.getURL("images/svgs/image-4.svg");
@@ -90,7 +91,7 @@ const info = (obj: any) => (
     {obj.array.filter((f: any) => {
       return f;
     }).length === 0 ? null : (
-      <Box sx={{ mb: 2.25, mx: 3, textAlign: "left" }}>
+      <Box sx={{ mb: 2.25, mx: 2, textAlign: "left" }}>
         <Box sx={{ fontWeight: 500, fontSize: "12px", lineHeight: "15px", mb: "14px" }}>
           {obj.name}
         </Box>
@@ -323,7 +324,15 @@ const ProjectTab = (props: MediaProps) => {
       )}
       <Box sx={{ p: 2.25 }}>
         <Box sx={{ display: "flex" }}>
-          <Box component="img" src={activeProject?.image_url || ""} width={85} height={85} />
+          <Box
+            component="img"
+            src={activeProject?.image_url || ""}
+            width={85}
+            height={85}
+            style={{
+              background: `url(${placeholderImg}) no-repeat center center / cover`,
+            }}
+          />
           <Box
             component={"div"}
             sx={{
@@ -371,8 +380,7 @@ const ProjectTab = (props: MediaProps) => {
             </Box>
             <Box sx={{ display: "flex", justifyContent: "flex-start", marginTop: "10px" }}>
               {activeProject?.faved ? (
-                <button
-                  className="metapavo-addwatch"
+                <AddWatchButton
                   onClick={() => {
                     removeFav();
                   }}
@@ -399,10 +407,9 @@ const ProjectTab = (props: MediaProps) => {
                     />
                   </svg>
                   WATCHING
-                </button>
+                </AddWatchButton>
               ) : (
-                <button
-                  className="metapavo-addwatch"
+                <AddWatchButton
                   onClick={() => {
                     addFav();
                   }}
@@ -423,7 +430,7 @@ const ProjectTab = (props: MediaProps) => {
                     />
                   </svg>
                   Add to WATCHLIST
-                </button>
+                </AddWatchButton>
               )}
             </Box>
           </Box>

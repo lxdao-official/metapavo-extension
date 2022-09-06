@@ -157,6 +157,20 @@ export async function getUsersAlarmsNoLogin() {
   }
   return null;
 }
+
+export async function getUsersAlarmsList() {
+  const res = await fetchWrapped(
+    `${config.baseURL}/alarms/list`,
+    {
+      method: "GET",
+    },
+    false,
+  );
+  if (res && res.success) {
+    return res.data;
+  }
+  return null;
+}
 export async function addAlarmForUser(alarm_at: Date, desc: string) {
   const res = await fetchWrapped(`${config.baseURL}/alarms`, {
     method: "POST",

@@ -4,7 +4,7 @@ import ListItemText from "@mui/material/ListItemText";
 import React from "react";
 import { useEffect } from "react";
 import moment from "moment";
-import { getUsersAlarmsNoLogin } from "../../../../utils/apis/nft_api";
+import { getUsersAlarmsList, getUsersAlarmsNoLogin } from "../../../../utils/apis/nft_api";
 import { Box, CircularProgress } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useSnackbar } from "notistack";
@@ -21,9 +21,9 @@ export default function AlarmListPage() {
   async function restoreAlarmsFromServer() {
     setLoading(true);
     try {
-      const _alarms = await getUsersAlarmsNoLogin();
-      if (_alarms) {
-        setAlarms(_alarms);
+      const _alarms = await getUsersAlarmsList();
+      if (_alarms && _alarms.data) {
+        setAlarms(_alarms.data);
       } else {
         setAlarms([]);
       }

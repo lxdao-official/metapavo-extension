@@ -27,7 +27,7 @@ const NoFoundWrap = styled.div`
   .form-wrap {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
     line-height: 30px;
   }
 

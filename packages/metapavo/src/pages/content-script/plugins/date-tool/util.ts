@@ -10,7 +10,12 @@ export function smartParseDate(str: string) {
       timestamp += 12 * 60 * 60 * 1000;
     }
 
-    return new Date(timestamp);
+    const date = new Date(timestamp);
+    if (!date.getTime()) {
+      return null;
+    } else {
+      return date;
+    }
   } catch (e) {
     return null;
   }

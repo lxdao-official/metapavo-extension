@@ -59,10 +59,12 @@ export class Checker extends EventEmitter {
       }
 
       if (checkEntryResult.tokenId) {
-        if (this.lastCheckTokenId !== checkEntryResult.tokenId) {
-          this.emit("tokenIdChanged", checkEntryResult.tokenId);
-          this.lastCheckTokenId = checkEntryResult.tokenId;
-        }
+        // if (this.lastCheckTokenId !== checkEntryResult.tokenId) {
+        this.emit("tokenIdChanged", checkEntryResult.tokenId);
+        // this.lastCheckTokenId = checkEntryResult.tokenId;
+        // }
+      } else {
+        this.emit("tokenIdChanged", null);
       }
     }, 2000);
   }

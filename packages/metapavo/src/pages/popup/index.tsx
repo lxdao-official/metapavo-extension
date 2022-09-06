@@ -21,16 +21,10 @@ import { useSnackbar } from "notistack";
 import styled from "styled-components";
 import { WalletContext } from "../content-script/context/useWallet";
 import { settingCounts } from "../../utils/apis/nft_api";
-const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
-const index_logo = chrome.runtime.getURL("images/index-logo.png");
-const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
+
 const manifestData = chrome.runtime.getManifest();
 
 const PopupMain = () => {
-  const [showUserInfoModal, setShowUserInfoModal] = useState<boolean>(false);
-
-  const { loginedAddress, logout } = useContext(WalletContext);
-
   const [counts, setCounts] = useState<{
     favCount: number;
     alarmCount: number;
@@ -43,79 +37,6 @@ const PopupMain = () => {
 
   const navigate = useNavigate();
 
-  function formatAddress(address: string) {
-    // ens
-    if (address.includes(".")) {
-      return address;
-    }
-    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-  }
-  // 头部组件
-  const HeadCom = (props: any) => {
-    return (
-      <Head>
-        <HeadLogo>
-          <img className="logo" src={index_logo} alt="" />
-        </HeadLogo>
-        <HeadSelect onClick={() => setShowUserInfoModal(!showUserInfoModal)}>
-          <span>{loginedAddress ? formatAddress(loginedAddress) : ""}</span>
-          <img src={arrow_down} alt="" />
-        </HeadSelect>
-      </Head>
-    );
-  };
-
-  const { enqueueSnackbar } = useSnackbar();
-  const copyContractAddress = () => {
-    copy(loginedAddress);
-    enqueueSnackbar("Copied", {});
-  };
-  const UserInfoModal = (props: any) => {
-    return (
-      <>
-        <ModalBG
-          onClick={() => {
-            setShowUserInfoModal(false);
-          }}
-        ></ModalBG>
-        <ModalContainer>
-          <div className="user-des">
-            <div className="user-topLine">
-              <div className="user-name">
-                <span className="user-code">{formatAddress(loginedAddress)}</span>
-                <IconButton
-                  onClick={() => {
-                    copyContractAddress();
-                  }}
-                  sx={{ ml: 0.5, height: "17px", width: "17px" }}
-                >
-                  <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
-                </IconButton>
-              </div>
-              {/* <div className="user-eth">Value: 1213.22 USDC</div> */}
-            </div>
-            <ClearIcon
-              sx={{ height: "24px", width: "24px", color: "#D1D0D6", cursor: "pointer" }}
-              onClick={() => setShowUserInfoModal(!showUserInfoModal)}
-            />
-          </div>
-          <div className="op-list">
-            {/* <div className="metaPavo-pp">系统设置</div> */}
-            <div
-              className="metaPavo-pp"
-              onClick={async () => {
-                await logout();
-                navigate("/login");
-              }}
-            >
-              退出登录
-            </div>
-          </div>
-          <div className="mask" />
-        </ModalContainer>
-      </>
-    );
-  };
   const GoIcon = () => (
     <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -215,10 +136,8 @@ const PopupMain = () => {
 
   return (
     <Container>
-      <HeadCom />
       <MenuList />
       <Version>version: v{manifestData.version}</Version>
-      {showUserInfoModal && <UserInfoModal />}
     </Container>
   );
 };
