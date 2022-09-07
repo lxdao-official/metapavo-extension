@@ -24,66 +24,15 @@ import moment from "moment";
 import { useNavigate } from "react-router";
 import { WalletContext } from "../../../../context/useWallet";
 import { useSnackbar } from "notistack";
-import TrendsALL, { TrendsItem } from "./comps/WatchListAll";
-import HistoryALL, { HistoryItem } from "./comps/historyListAll";
 import styled from "styled-components";
 import { SearchCom } from "./search";
+import { AlarmIcon, HistoryIcon, SwapIcon, WatchlistIcon } from "./icons/icons";
+import { TrendsItem } from "../../../../plugins/watchlist/HistoryListPage";
+import { linkImages } from "../../../../../../utils/linkImages";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
-function AlarmIcon() {
-  return (
-    <div
-      style={{
-        background: "#6EDFA3",
-        borderRadius: "6px",
-        width: "60px",
-        height: "60px",
-        justifyContent: "center",
-        alignItems: "center",
-        alignContent: "center",
-        display: "flex",
-      }}
-    >
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M16.0001 29.5557C22.7502 29.5557 28.2223 24.0836 28.2223 17.3335C28.2223 10.5833 22.7502 5.11121 16.0001 5.11121C9.24988 5.11121 3.77783 10.5833 3.77783 17.3335C3.77783 24.0836 9.24988 29.5557 16.0001 29.5557Z"
-          fill="white"
-          stroke="white"
-          strokeWidth="2.66667"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M15.8392 10.2357L15.8384 17.5749L21.0199 22.7565"
-          stroke="#6EDFA3"
-          strokeWidth="2.66667"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M2.6665 5.99996L7.33317 2.66663"
-          stroke="white"
-          strokeWidth="2.66667"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M29.3332 5.99996L24.6665 2.66663"
-          stroke="white"
-          strokeWidth="2.66667"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
-  );
-}
+
 const DetailPage = styled.div`
   position: absolute;
   left: 0;
@@ -131,11 +80,36 @@ const Pavo = () => {
             userEth: `Floor: ${
               item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
             } E`,
-            links: [],
-            dayTime: moment(item.updated_at)
-              .fromNow()
-              .replace("minutes", "mins")
-              .replace("seconds", "secs"),
+            links: [
+              item.project?.external_url
+                ? {
+                    link: item.project?.external_url,
+                    img: linkImages.website,
+                  }
+                : null,
+              item.project?.id
+                ? {
+                    link: `https://opensea.io/collection/${item.project?.id}`,
+                    label: "OpenSea",
+                    img: linkImages.opensea,
+                  }
+                : null,
+              item.project?.id
+                ? {
+                    link: `https://www.gem.xyz/collection/${item.project?.id}`,
+                    label: "Gem",
+                    img: linkImages.gem,
+                  }
+                : null,
+              item.project.twitter_username
+                ? {
+                    link: `https://twitter.com/${item.project.twitter_username}`,
+                    label: "Twitter",
+                    img: linkImages.twitter,
+                  }
+                : null,
+            ].filter((item) => item),
+            dayTime: moment(item.updated_at).format("MM-DD"),
             hourTime: moment(item.updated_at).format("mm:ss"),
             project_id: item.project_id,
           };
@@ -144,25 +118,25 @@ const Pavo = () => {
     }
     setGetHistoryLoading(false);
   }
-  async function getFavs() {
-    setWatchListLoading(true);
-    const res = await getUsersFavs(1, 6);
-    if (res.data) {
-      setTrendsHot(
-        res.data.map((item: IFavs) => {
-          return {
-            img: item.project?.image_url,
-            name: item.project?.name,
-            eth: `Floor: ${
-              item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
-            } E`,
-            project_id: item.project_id,
-          };
-        }),
-      );
-    }
-    setWatchListLoading(false);
-  }
+  // async function getFavs() {
+  //   setWatchListLoading(true);
+  //   const res = await getUsersFavs(1, 6);
+  //   if (res.data) {
+  //     setTrendsHot(
+  //       res.data.map((item: IFavs) => {
+  //         return {
+  //           img: item.project?.image_url,
+  //           name: item.project?.name,
+  //           eth: `Floor: ${
+  //             item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
+  //           } E`,
+  //           project_id: item.project_id,
+  //         };
+  //       }),
+  //     );
+  //   }
+  //   setWatchListLoading(false);
+  // }
   const goDetail = async (project_id: string) => {
     const project = await getNftById(project_id);
     if (project) {
@@ -228,12 +202,39 @@ const Pavo = () => {
         <div className="hot-tool-list">
           <ToolsItemContainer
             onClick={() => {
+              navigate("/watchlist");
+              // setStatus(5);
+            }}
+          >
+            <WatchlistIcon />
+            <span>Watch List</span>
+          </ToolsItemContainer>
+          <ToolsItemContainer
+            onClick={() => {
               navigate("/alarms");
               // setStatus(5);
             }}
           >
             <AlarmIcon />
             <span>Alarm Reminder</span>
+          </ToolsItemContainer>
+          <ToolsItemContainer
+            onClick={() => {
+              navigate("/history");
+              // setStatus(5);
+            }}
+          >
+            <HistoryIcon />
+            <span>History</span>
+          </ToolsItemContainer>
+          <ToolsItemContainer
+            onClick={() => {
+              navigate("/swap");
+              // setStatus(5);
+            }}
+          >
+            <SwapIcon />
+            <span>Swap</span>
           </ToolsItemContainer>
         </div>
       </ToolsHotContainer>
@@ -281,36 +282,36 @@ const Pavo = () => {
       </div>
     );
   };
-  const WatchListHot = (props: any) => {
-    const data = props.data;
-    const title = props.title;
+  // const WatchListHot = (props: any) => {
+  //   const data = props.data;
+  //   const title = props.title;
 
-    return (
-      <TrendsHotContainer>
-        <TitleOfHot title={title} />
-        {watchListLoading ? (
-          <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-            <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
-          </Box>
-        ) : data.length === 0 ? (
-          <Empty />
-        ) : null}
-        <div className="hot-trend-list">
-          {data.map((item: any, index: number) => {
-            return (
-              <TrendsItem
-                key={index}
-                itemData={item}
-                onClick={() => {
-                  goDetail(item.project_id);
-                }}
-              />
-            );
-          })}
-        </div>
-      </TrendsHotContainer>
-    );
-  };
+  //   return (
+  //     <TrendsHotContainer>
+  //       <TitleOfHot title={title} />
+  //       {watchListLoading ? (
+  //         <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
+  //           <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
+  //         </Box>
+  //       ) : data.length === 0 ? (
+  //         <Empty />
+  //       ) : null}
+  //       <div className="hot-trend-list">
+  //         {data.map((item: any, index: number) => {
+  //           return (
+  //             <TrendsItem
+  //               key={index}
+  //               itemData={item}
+  //               onClick={() => {
+  //                 goDetail(item.project_id);
+  //               }}
+  //             />
+  //           );
+  //         })}
+  //       </div>
+  //     </TrendsHotContainer>
+  //   );
+  // };
 
   const HistoryHot = (props: any) => {
     const data = props.data;
@@ -331,7 +332,7 @@ const Pavo = () => {
 
           {data.map((item: any, index: number) => {
             return (
-              <HistoryItem
+              <TrendsItem
                 key={index}
                 itemData={item}
                 onClick={() => {
@@ -408,7 +409,7 @@ const Pavo = () => {
   useEffect(() => {
     console.log("init");
     getHistories();
-    getFavs();
+    // getFavs();
   }, []);
 
   return (
@@ -420,23 +421,21 @@ const Pavo = () => {
 
       <ToolsHot data={toolsHot} title={"TOOLS"} />
 
-      <WatchListHot data={trendsHot} title={"WATCHLIST"} />
+      {/* <WatchListHot data={trendsHot} title={"WATCHLIST"} /> */}
 
       <HistoryHot data={historyHot} title={"HISTORY"} />
 
       {/* 2 3 4 5 */}
-      {(status === 2 || status === 3 || status === 4 || status === 5) && (
+      {/* {(status === 2 || status === 3 || status === 4 || status === 5) && (
         <DetailPage>
           <HeadReturn title={mapStatus[status]} />
           {status === 2 && <ToolsAll data={toolsAll} />}
 
-          {/* 3 */}
           {status === 3 && <TrendsALL data={trendsAll} />}
 
-          {/* 4 */}
           {status === 4 && <HistoryALL title={"History"} data={historyAll} />}
         </DetailPage>
-      )}
+      )} */}
 
       {selectMenu && <LoginModal />}
     </Container>

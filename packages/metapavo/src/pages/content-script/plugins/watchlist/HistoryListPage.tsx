@@ -8,6 +8,7 @@ import { getNftById, getUsersFavs, getVisitHistories } from "../../../../utils/a
 import { IFavs } from "../../../../utils/apis/types";
 import { linkImages } from "../../../../utils/linkImages";
 import { GlobalContext } from "../../context/useGlobal";
+import { HeadReturn } from "../common/HeadReturn";
 import {
   HeadReturnContainer,
   HistoryHotItemContainer,
@@ -129,22 +130,6 @@ const HisotryListPage = (props: any) => {
     setPage(page + 1);
   };
 
-  const HeadReturn = (props: any) => {
-    const title = props.title;
-
-    return (
-      <HeadReturnContainer>
-        <img
-          onClick={() => {
-            navigate("/index");
-          }}
-          src={returnImg}
-          alt=""
-        />
-        <span>{title}</span>
-      </HeadReturnContainer>
-    );
-  };
   useEffect(() => {
     setPage(1);
     getWatchList();

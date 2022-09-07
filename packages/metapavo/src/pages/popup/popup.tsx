@@ -1,7 +1,7 @@
 import { Box, IconButton, Tab, Tabs } from "@mui/material";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import React, { useContext, useEffect, useState } from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Bottom from "../content-script/components/main/home/Bottom";
@@ -25,7 +25,7 @@ const rootElement = document.createElement("div");
 rootElement.id = "metapavo-popop";
 
 document.body.appendChild(rootElement);
-const root = ReactDOM.createRoot(rootElement as HTMLElement);
+// const root = ReactDOM.createRoot(rootElement as HTMLElement);
 document.body.style.margin = "0";
 const RootElement = styled.div`
   width: 303px;
@@ -170,7 +170,7 @@ function Page() {
     </WalletContext.Provider>
   );
 }
-root.render(
+ReactDOM.render(
   <React.StrictMode>
     <SnackbarProvider
       maxSnack={1}
@@ -186,4 +186,5 @@ root.render(
       </MemoryRouter>
     </SnackbarProvider>
   </React.StrictMode>,
+  rootElement,
 );

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/useGlobal";
 import LoginPage from "./login";
 import AccordionPage from "./home/AccordionPage";
@@ -6,11 +6,15 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { WalletContext } from "../../context/useWallet";
 import { MainRootElement } from "./styles";
 import AlarmListPage from "../../plugins/alarmreminder/AlarmListPage";
+import HisotryListPage from "../../plugins/watchlist/HistoryListPage";
+import WatchListPage from "../../plugins/watchlist/WatchListPage";
+import Uniswap from "../../plugins/swap/uniswap";
 
 function App() {
   const useG = useContext(GlobalContext);
 
   const wallet = useContext(WalletContext);
+
   let navigate = useNavigate();
   useEffect(() => {
     (async function () {
@@ -20,7 +24,7 @@ function App() {
           if (!address) {
             navigate("/login");
           } else {
-            navigate("/index");
+            // navigate("/index");
           }
         } catch (e) {
           navigate("/login");
@@ -33,11 +37,13 @@ function App() {
     <MainRootElement className={useG.showMain ? "metapavo-main-show" : "metapavo-main-hide"}>
       <div>
         {/* <AccordionPage /> */}
-
         <Routes>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/index" element={<AccordionPage />} />
           <Route path="/alarms" element={<AlarmListPage />} />
+          <Route path="/history" element={<HisotryListPage />} />
+          <Route path="/watchlist" element={<WatchListPage />} />
+          <Route path="/swap" element={<Uniswap />} />
         </Routes>
       </div>
       {useG.showMain ? (

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -70,7 +70,7 @@ const AccordionContainer = styled.div`
   }
 `;
 const AccordionPage = () => {
-  const { activeProject, activeAccoidion, setActiveAccoidion, gas, refreshActiveProject } =
+  const { activeProject, activeAccoidion, setActiveAccoidion, refreshActiveProject } =
     useContext(GlobalContext);
 
   useEffect(() => {

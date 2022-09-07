@@ -1,19 +1,19 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { GlobalContext } from "../../context/useGlobal";
 import DangerPopup from "./status/danger";
 import SuccessPopup from "./status/success";
-import Main from "../main/root";
+
 import { GasBox, RootElement } from "./styles";
 
 let inited = false;
-function App() {
+function Ball() {
   const [hide, setHide] = React.useState(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const gasRef = useRef<HTMLDivElement>(null);
   const useG = useContext(GlobalContext);
-
+  const [gas, setGas] = useState(0);
   function dragElement() {
     if (!gasRef.current) return;
     var pos1 = 0,
@@ -93,7 +93,7 @@ function App() {
     }
 
     chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
-      if (request.cmd === "gasUpdate") useG.setGas(request.value);
+      if (request.cmd === "gasUpdate") setGas(request.value);
       // if (request.cmd === "needlogin") {
       //   console.log("needlogin");
       //   useG.showLogin();
@@ -106,7 +106,7 @@ function App() {
       },
       function (response) {
         if (!chrome.runtime.lastError) {
-          useG.setGas(response);
+          setGas(response);
         } else {
         }
       },
@@ -175,7 +175,7 @@ function App() {
           }}
         >
           <div id="metapavo-gas-text">
-            {useG.gas}
+            {gas}
             <br />
             <span
               style={{
@@ -194,9 +194,8 @@ function App() {
         <DangerPopup state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
         <SuccessPopup state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"} />
       </RootElement>
-      {useG.showMain ? <Main /> : null}
     </>
   );
 }
 
-export default App;
+export default Ball;

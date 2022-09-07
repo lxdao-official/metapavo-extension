@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { SnackbarProvider } from "notistack";
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
 import styled from "styled-components";
 import useWallet, { WalletContext } from "../content-script/context/useWallet";
@@ -11,7 +11,6 @@ const rootElement = document.createElement("div");
 rootElement.id = "metapavo-login";
 
 document.body.appendChild(rootElement);
-const root = ReactDOM.createRoot(rootElement as HTMLElement);
 
 const RootElement = styled.div`
   width: 100%;
@@ -26,7 +25,7 @@ function Root() {
     </WalletContext.Provider>
   );
 }
-root.render(
+ReactDOM.render(
   <React.StrictMode>
     <SnackbarProvider
       maxSnack={1}
@@ -40,4 +39,5 @@ root.render(
       </RootElement>
     </SnackbarProvider>
   </React.StrictMode>,
+  rootElement,
 );

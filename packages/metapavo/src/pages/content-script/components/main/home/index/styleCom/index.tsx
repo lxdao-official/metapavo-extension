@@ -163,9 +163,7 @@ export const SearchItemContainer: any = styled.div`
   white-space: nowrap;
   text-align: right;
   cursor: pointer;
-  ${ 
-    (props: any) => props.showEnter && 'background: rgba(239, 238, 241, 0.5);'
-  }
+  ${(props: any) => props.showEnter && "background: rgba(239, 238, 241, 0.5);"}
 
   .front {
     display: flex;
@@ -222,21 +220,18 @@ export const Head = styled.div`
 
 export const ToolsHotContainer = styled.div`
   width: 272px;
-  height: 137px;
-  margin: 28px auto 0 auto;
+  margin: 30px auto 0 auto;
 
   .hot-tool-list {
     width: 100%;
-    height: 96px;
     display: flex;
     justify-content: space-between;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     overflow: hidden;
   }
 
   .tool-list {
     width: 100%;
-    height: 96px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -250,7 +245,7 @@ export const HotTitle = styled.div`
   align-items: center;
   width: 100%;
   height: 29px;
-  padding: 6px 10px 18px 10px;
+  padding: 6px 10px 28px 10px;
   font-weight: 500;
 
   .title {
@@ -283,6 +278,7 @@ export const ToolsItemContainer = styled.div`
 
   span {
     width: 70px;
+    margin-top: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
@@ -390,7 +386,7 @@ export const HistoryHotItemContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 105px;
-    height: 32px;
+    height: 36px;
     padding: 0px 8px;
     font-size: 12px;
 

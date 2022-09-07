@@ -6,6 +6,7 @@ import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
 export const WalletContext = React.createContext<{
   address: string;
+  maskProvider: any;
   setAddress: (address: string) => void;
   loginedAddress: string;
   setLoginedAddress: (loginedAddress: string) => void;
@@ -18,10 +19,12 @@ const connector = new WalletConnect({
   bridge: "https://bridge.walletconnect.org", // Required
   qrcodeModal: QRCodeModal,
 });
+
 export default function useWallet() {
   const [address, setAddress] = useState("");
   const [loginedAddress, setLoginedAddress] = useState("");
-
+  const maskProvider = createMetaMaskProvider();
+  maskProvider.key = "metapavo";
   const getNonce = async (_address: string) => {
     const data = await fetch(config.baseURL + "/users/nonce/" + _address, {
       method: "GET",
@@ -108,7 +111,6 @@ export default function useWallet() {
   };
   const checkMetaMaskValid: () => Promise<boolean> = () => {
     return new Promise(async (resolve) => {
-      const maskProvider = createMetaMaskProvider();
       console.log("maskProvider", maskProvider);
       maskProvider.on("error", () => {
         console.log("maskProvider error");
@@ -119,7 +121,6 @@ export default function useWallet() {
   const signinWithMetamask: () => Promise<string> = () => {
     return new Promise(async (resolve, reject) => {
       let addresses: string[] = [];
-      const maskProvider = createMetaMaskProvider();
       console.log("maskProvider", maskProvider);
       maskProvider.on("error", () => {
         reject(new Error("metamask connect error"));
@@ -132,7 +133,6 @@ export default function useWallet() {
       } catch (e: any) {
         reject(e);
       }
-
       const _address = addresses[0];
       if (_address) {
         setAddress(address);
@@ -180,5 +180,6 @@ export default function useWallet() {
     signinWithWalletConnect,
     logout,
     checkMetaMaskValid,
+    maskProvider,
   };
 }

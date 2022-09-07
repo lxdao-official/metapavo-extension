@@ -42,14 +42,14 @@ const PopupMain = () => {
       <path
         d="M4.66666 11.8333L11.3333 5.16663"
         stroke="#D1D0D6"
-        stroke-width="1.33333"
+        strokeWidth="1.33333"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M4.66666 5.16663H11.3333V11.8333"
         stroke="#D1D0D6"
-        stroke-width="1.33333"
+        strokeWidth="1.33333"
         stroke-linecap="round"
         stroke-linejoin="round"
       />

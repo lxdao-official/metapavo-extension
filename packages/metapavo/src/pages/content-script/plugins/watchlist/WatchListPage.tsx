@@ -53,7 +53,7 @@ const MoreButton = styled.button`
   border: none;
   cursor: pointer;
 `;
-const TrendsALL = (props: any) => {
+const WatchListPage = (props: any) => {
   const [list, setList] = useState<any[]>([]);
   const [watchLoading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -177,4 +177,4 @@ const TrendsALL = (props: any) => {
   );
 };
 
-export default TrendsALL;
+export default WatchListPage;
