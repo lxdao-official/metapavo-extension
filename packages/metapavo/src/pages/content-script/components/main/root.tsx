@@ -9,25 +9,24 @@ import AlarmListPage from "../../plugins/alarmreminder/AlarmListPage";
 import HisotryListPage from "../../plugins/watchlist/HistoryListPage";
 import WatchListPage from "../../plugins/watchlist/WatchListPage";
 import Uniswap from "../../plugins/swap/uniswap";
+import Bottom from "./home/Bottom";
 
 function App() {
   const useG = useContext(GlobalContext);
-
   const wallet = useContext(WalletContext);
 
-  let navigate = useNavigate();
   useEffect(() => {
     (async function () {
       if (useG.showMain) {
         try {
           const address = await wallet.fetchLoginInfo();
           if (!address) {
-            navigate("/login");
+            useG.setShowLogin(true);
           } else {
             // navigate("/index");
           }
         } catch (e) {
-          navigate("/login");
+          useG.setShowLogin(true);
         }
       }
     })();
@@ -36,15 +35,8 @@ function App() {
   return (
     <MainRootElement className={useG.showMain ? "metapavo-main-show" : "metapavo-main-hide"}>
       <div>
-        {/* <AccordionPage /> */}
-        <Routes>
-          <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/index" element={<AccordionPage />} />
-          <Route path="/alarms" element={<AlarmListPage />} />
-          <Route path="/history" element={<HisotryListPage />} />
-          <Route path="/watchlist" element={<WatchListPage />} />
-          <Route path="/swap" element={<Uniswap />} />
-        </Routes>
+        {useG.showLogin ? <LoginPage /> : <AccordionPage />}
+        <Bottom />
       </div>
       {useG.showMain ? (
         <div
