@@ -42,25 +42,29 @@ export default function useWallet() {
     _signature: string,
   ) => {
     return new Promise(async (resolve, reject) => {
-      const data2 = await fetch(config.baseURL + "/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          address: _address,
-          signature: _signature,
-        }),
-      });
-      const json2 = await data2.json();
-      if (json2.success) {
-        const access_token = json2.data.access_token;
-        chrome.storage.local.set({ access_token: access_token }, function () {});
-        fetchLoginInfo();
-        resolve(access_token);
-      } else {
-        reject(new Error("login fail"));
+      try {
+        const data2 = await fetch(config.baseURL + "/auth/signin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            address: _address,
+            signature: _signature,
+          }),
+        });
+        const json2 = await data2.json();
+        if (json2.success && json2.data && json2.data.access_token) {
+          const access_token = json2.data.access_token;
+          chrome.storage.local.set({ access_token: access_token }, function () {});
+          fetchLoginInfo();
+          resolve(access_token);
+        } else {
+          reject(new Error(json2.message || "login fail"));
+        }
+      } catch (e) {
+        reject(e);
       }
     });
   };
@@ -136,14 +140,19 @@ export default function useWallet() {
       const _address = addresses[0];
       if (_address) {
         setAddress(address);
-        const message = await getNonce(_address);
+        try {
+          const message = await getNonce(_address);
 
-        const signature = (await maskProvider?.request({
-          method: "personal_sign",
-          params: [_address, message],
-        })) as string;
-        const access_token = await signIn(_address, signature);
-        resolve(access_token);
+          const signature = (await maskProvider?.request({
+            method: "personal_sign",
+            params: [_address, message],
+          })) as string;
+
+          const access_token = await signIn(_address, signature);
+          resolve(access_token);
+        } catch (e) {
+          reject(e);
+        }
       } else {
         reject(new Error("connect empty address"));
       }

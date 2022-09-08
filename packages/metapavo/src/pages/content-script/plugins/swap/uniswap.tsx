@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { HeadReturn } from "../common/HeadReturn";
 import { tokenList } from "./tokenList";
 import { WalletContext } from "../../context/useWallet";
+import { PageContainer as PageContainer } from "../styleCom";
 
 const Uniswap = () => {
   const wallet = useContext(WalletContext);
@@ -18,18 +19,12 @@ const Uniswap = () => {
       console.error(e);
     }
   };
-  console.log("Uniswap");
   useEffect(() => {
     init();
-    console.log("uniswap init");
   }, []);
-  const [defaultInputToken, setDefaultInputToken] = useState<Currency | undefined>(undefined);
-  const [defaultOutputToken, setDefaultOutputToken] = useState<Currency | undefined>(undefined);
-  const [defaultInputAmount, setDefaultInputAmount] = useState<string | undefined>("");
-  const [defaultOutputAmount, setDefaultOutputAmount] = useState<string | undefined>("");
   return (
-    <div className="uniswap" style={{ padding: "10px 20px" }}>
-      <HeadReturn title="swap" />
+    <PageContainer>
+      <HeadReturn title={"Swap"} />
       <div
         style={{
           display: "flex",
@@ -44,40 +39,13 @@ const Uniswap = () => {
             width="300"
             defaultChainId={1}
             tokenList={tokenList}
-            // defaultInputTokenAddress={defaultInputToken?.isToken ? defaultInputToken.address : ""}
-            // defaultOutputTokenAddress={
-            //   defaultOutputToken?.isToken ? defaultOutputToken.address : ""
-            // }
-            // defaultOutputAmount={defaultOutputAmount}
-            // defaultInputAmount={defaultInputAmount}
-            // onTokenChange={(field, token) => {
-            //   if (token.isToken) {
-            //     if (field === Field.INPUT) {
-            //       setDefaultInputToken(token);
-            //     } else {
-            //       setDefaultOutputToken(token);
-            //     }
-            //   }
-            // }}
-            // onAmountChange={(field, amount) => {
-            //   if (field === Field.INPUT) {
-            //     setDefaultInputAmount(amount);
-            //   } else {
-            //     setDefaultOutputAmount(amount);
-            //   }
-            // }}
-            // onSwitchTokens={() => {
-            //   const token = defaultInputToken;
-            //   setDefaultInputToken(defaultOutputToken);
-            //   setDefaultOutputToken(token);
-            // }}
             jsonRpcUrlMap={{
               1: "https://mainnet.infura.io/v3/f4dd6db18a6f4ea98151892c0fa8e074",
             }}
           />
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 };
 

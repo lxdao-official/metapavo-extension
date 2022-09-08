@@ -1,27 +1,19 @@
 import { Box, CircularProgress } from "@mui/material";
 import moment from "moment";
-import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import styled from "styled-components";
-import { getNftById, getUsersFavs, getVisitHistories } from "../../../../utils/apis/nft_api";
+import { getNftById, getVisitHistories } from "../../../../utils/apis/nft_api";
 import { IFavs } from "../../../../utils/apis/types";
 import { linkImages } from "../../../../utils/linkImages";
 import { GlobalContext } from "../../context/useGlobal";
 import { HeadReturn } from "../common/HeadReturn";
-import {
-  HeadReturnContainer,
-  HistoryHotItemContainer,
-  TrendsHotContainer,
-  TrendsItemContainer,
-} from "../styleCom";
-const RectangleTool = chrome.runtime.getURL("images/svgs/RectangleTool.svg");
-const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
-export const TrendsItem = (props: any) => {
+import { ItemContainer, PageContainer } from "../styleCom";
+export const Item = (props: any) => {
   const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
 
   return (
-    <HistoryHotItemContainer onClick={props.onClick}>
+    <ItemContainer onClick={props.onClick}>
       <img className="user-icon" src={userIcon} alt="" />
       <div className="user-des">
         <span className="user-name">{useName}</span>
@@ -40,7 +32,7 @@ export const TrendsItem = (props: any) => {
         <span className="day-time">{dayTime}</span>
         <span className="hour-time">{hourTime}</span>
       </div>
-    </HistoryHotItemContainer>
+    </ItemContainer>
   );
 };
 const MoreButton = styled.button`
@@ -57,10 +49,8 @@ const MoreButton = styled.button`
 const HisotryListPage = (props: any) => {
   const [list, setList] = useState<any[]>([]);
   const [watchLoading, setLoading] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
   const { setActiveProject } = useContext(GlobalContext);
   const [page, setPage] = useState(1);
-  const navigate = useNavigate();
   const getWatchList = async () => {
     getMoreWatchList(1);
   };
@@ -113,7 +103,7 @@ const HisotryListPage = (props: any) => {
         setList([...list, ...newList]);
       }
     } catch (e) {
-      enqueueSnackbar("loading error");
+      toast.error("loading error");
     }
 
     setLoading(false);
@@ -135,12 +125,12 @@ const HisotryListPage = (props: any) => {
     getWatchList();
   }, []);
   return (
-    <TrendsHotContainer>
+    <PageContainer>
       <HeadReturn title={"history"} />
       <div className="trend-list">
         {list.map((item: any, index: number) => {
           return (
-            <TrendsItem
+            <Item
               key={index}
               itemData={item}
               onClick={() => {
@@ -158,7 +148,7 @@ const HisotryListPage = (props: any) => {
       <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
         <MoreButton onClick={nextPage}>more</MoreButton>
       </Box>
-    </TrendsHotContainer>
+    </PageContainer>
   );
 };
 

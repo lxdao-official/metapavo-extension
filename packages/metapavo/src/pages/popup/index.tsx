@@ -1,25 +1,6 @@
-import { useState, useContext, useEffect } from "react";
-import { Box, CircularProgress, IconButton } from "@mui/material";
-import {
-  Container,
-  HeadSelect,
-  HeadLogo,
-  Head,
-  ModalContainer,
-  ModalBG,
-  MenuListStyle,
-  MenuItemStyle,
-  Badge,
-  Version,
-} from "./styleCom";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import copy from "clipboard-copy";
-import ClearIcon from "@mui/icons-material/Clear";
-import moment from "moment";
+import { useState, useEffect } from "react";
+import { Container, MenuListStyle, MenuItemStyle, Badge, Version } from "./styleCom";
 import { useNavigate } from "react-router";
-import { useSnackbar } from "notistack";
-import styled from "styled-components";
-import { WalletContext } from "../content-script/context/useWallet";
 import { settingCounts } from "../../utils/apis/nft_api";
 
 const manifestData = chrome.runtime.getManifest();

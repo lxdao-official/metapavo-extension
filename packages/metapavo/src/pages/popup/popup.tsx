@@ -1,5 +1,4 @@
 import { Box, IconButton, Tab, Tabs } from "@mui/material";
-import { SnackbarProvider, useSnackbar } from "notistack";
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { MemoryRouter, Route, Routes, useNavigate } from "react-router-dom";
@@ -17,6 +16,7 @@ import { Head, HeadLogo, HeadSelect, ModalBG, ModalContainer } from "./styleCom"
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import copy from "clipboard-copy";
 import ClearIcon from "@mui/icons-material/Clear";
+import toast, { Toaster } from "react-hot-toast";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
@@ -69,10 +69,9 @@ const HeadCom = (props: any) => {
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
   }
 
-  const { enqueueSnackbar } = useSnackbar();
   const copyContractAddress = () => {
     copy(loginedAddress);
-    enqueueSnackbar("Copied", {});
+    toast.success("Copied");
   };
   const navigate = useNavigate();
   const UserInfoModal = (props: any) => {
@@ -172,19 +171,12 @@ function Page() {
 }
 ReactDOM.render(
   <React.StrictMode>
-    <SnackbarProvider
-      maxSnack={1}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-    >
-      <MemoryRouter initialEntries={["/index"]}>
-        <RootElement>
-          <Page />
-        </RootElement>
-      </MemoryRouter>
-    </SnackbarProvider>
+    <MemoryRouter initialEntries={["/index"]}>
+      <RootElement>
+        <Page />
+      </RootElement>
+    </MemoryRouter>
+    <Toaster />
   </React.StrictMode>,
   rootElement,
 );

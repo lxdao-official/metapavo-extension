@@ -69,8 +69,8 @@ export const WatchlistIcon = function () {
         stroke-linejoin="round"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M21.9999 18.6665C24.209 18.6665 25.9999 20.4574 25.9999 22.6665L25.9999 41.3332C25.9999 39.1241 24.209 37.3332 21.9999 37.3332C19.7907 37.3332 17.9999 39.1241 17.9999 41.3332C17.9999 41.3332 17.9999 41.3332 17.9999 41.3332L17.9999 22.6665C17.9999 20.4574 19.7907 18.6665 21.9999 18.6665Z"
         fill="white"
       />
@@ -79,8 +79,8 @@ export const WatchlistIcon = function () {
         fill="white"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M37.9999 18.6665C40.209 18.6665 41.9999 20.4574 41.9999 22.6665V41.3304C41.9984 39.1226 40.2081 37.3332 37.9999 37.3332C35.7907 37.3332 33.9999 39.1241 33.9999 41.3332C33.9999 41.3332 33.9999 41.3332 33.9999 41.3332V22.6665C33.9999 20.4574 35.7907 18.6665 37.9999 18.6665Z"
         fill="white"
       />

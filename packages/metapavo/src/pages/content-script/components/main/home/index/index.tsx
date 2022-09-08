@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { getNftById } from "../../../../../../utils/apis/nft_api";
 import { GlobalContext } from "../../../../context/useGlobal";
 import { Box, CircularProgress, IconButton } from "@mui/material";
+import toast, { Toaster } from "react-hot-toast";
 import {
   Container,
   HeadSelect,
@@ -10,7 +11,6 @@ import {
   ToolsHotContainer,
   HotTitle,
   ToolsItemContainer,
-  TrendsHotContainer,
   HistoryHotContainer,
   HeadReturnContainer,
   ModalContainer,
@@ -18,16 +18,15 @@ import {
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import copy from "clipboard-copy";
 import ClearIcon from "@mui/icons-material/Clear";
-import { getUsersFavs, getVisitHistories } from "../../../../../../utils/apis/nft_api";
-import { IVisitHistory, IFavs } from "../../../../../../utils/apis/types";
+import { getVisitHistories } from "../../../../../../utils/apis/nft_api";
+import { IVisitHistory } from "../../../../../../utils/apis/types";
 import moment from "moment";
 import { useNavigate } from "react-router";
 import { WalletContext } from "../../../../context/useWallet";
-import { useSnackbar } from "notistack";
 import styled from "styled-components";
 import { SearchCom } from "./search";
 import { AlarmIcon, HistoryIcon, SwapIcon, WatchlistIcon } from "./icons/icons";
-import { TrendsItem } from "../../../../plugins/watchlist/HistoryListPage";
+import { Item } from "../../../../plugins/watchlist/HistoryListPage";
 import { linkImages } from "../../../../../../utils/linkImages";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
@@ -54,7 +53,7 @@ const Pavo = () => {
   const [historyHot, setHistoryHot] = useState<any[]>([]);
   const [historyAll, setHistoryAll] = useState<any[]>([]);
 
-  const { refreshActiveProject, setActiveProject } = useContext(GlobalContext);
+  const { setShowLogin, setActiveProject } = useContext(GlobalContext);
   const { loginedAddress, logout } = useContext(WalletContext);
 
   const navigate = useNavigate();
@@ -332,7 +331,7 @@ const Pavo = () => {
 
           {data.map((item: any, index: number) => {
             return (
-              <TrendsItem
+              <Item
                 key={index}
                 itemData={item}
                 onClick={() => {
@@ -357,10 +356,9 @@ const Pavo = () => {
     );
   };
 
-  const { enqueueSnackbar } = useSnackbar();
   const copyContractAddress = () => {
     copy(loginedAddress);
-    enqueueSnackbar("Copied", {});
+    toast.success("Copied");
   };
   const LoginModal = (props: any) => {
     return (
@@ -391,7 +389,7 @@ const Pavo = () => {
             className="metaPavo-pp"
             onClick={async () => {
               await logout();
-              navigate("/login");
+              setShowLogin(true);
             }}
           >
             Logout

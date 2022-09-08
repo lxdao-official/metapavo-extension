@@ -2,13 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/useGlobal";
 import LoginPage from "./login";
 import AccordionPage from "./home/AccordionPage";
-import { Routes, Route, useNavigate } from "react-router-dom";
 import { WalletContext } from "../../context/useWallet";
 import { MainRootElement } from "./styles";
-import AlarmListPage from "../../plugins/alarmreminder/AlarmListPage";
-import HisotryListPage from "../../plugins/watchlist/HistoryListPage";
-import WatchListPage from "../../plugins/watchlist/WatchListPage";
-import Uniswap from "../../plugins/swap/uniswap";
 import Bottom from "./home/Bottom";
 
 function App() {

@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import _ from "lodash";
 import { smartParseDate } from "./util";
-import { useSnackbar } from "notistack";
 import Dialog from "@mui/material/Dialog";
+import toast from "react-hot-toast";
 import {
   Button,
   DialogActions,
@@ -86,7 +86,6 @@ export default function SelectText() {
     y: -100,
   });
   const [isInPopup, setIsInPopup] = React.useState(false);
-  const { enqueueSnackbar } = useSnackbar();
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const bindEvents = () => {
     if (binded) return;
@@ -192,12 +191,7 @@ export default function SelectText() {
         },
       });
 
-      enqueueSnackbar("add success", {
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "center",
-        },
-      });
+      toast.success("add success", {});
       setAddAlarmConfirmShow(false);
     }
   };

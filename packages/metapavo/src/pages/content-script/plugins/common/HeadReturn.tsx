@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import {
   HeadReturnContainer,
-  HistoryHotItemContainer,
-  TrendsHotContainer,
+  ItemContainer,
+  PageContainer,
   TrendsItemContainer,
 } from "../styleCom";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");

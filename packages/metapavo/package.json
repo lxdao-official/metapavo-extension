@@ -52,7 +52,6 @@
     "metamask-extension-provider": "^3.0.6",
     "mini-css-extract-plugin": "^2.4.5",
     "moment": "^2.29.4",
-    "notistack": "^2.0.5",
     "parse-domain": "3.0.3",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
@@ -89,7 +88,8 @@
     "workbox-webpack-plugin": "^6.4.1",
     "react-markdown": "*",
     "ahooks": "^3.7.0",
-    "uniswap-widgets-for-extension": "2.7.0"
+    "uniswap-widgets-for-extension": "2.7.0",
+    "react-hot-toast": "*"
   },
   "scripts": {
     "start": "BUILD_PATH=../../extensions/dist/ node scripts/start.js",

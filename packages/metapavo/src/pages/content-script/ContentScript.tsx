@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
 import Ball from "./components/pavo-ball/ball";
 import SelectText from "./plugins/date-tool/selectText";
-import { SnackbarProvider } from "notistack";
 import useGlobal, { GlobalContext } from "./context/useGlobal";
 import useWallet, { WalletContext } from "./context/useWallet";
 import Main from "./components/main/root";
+import toast, { Toaster } from "react-hot-toast";
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-root";
 Object.assign(rootElement.style, {
@@ -35,26 +35,11 @@ function Root() {
 }
 ReactDOM.render(
   <React.StrictMode>
-    <SnackbarProvider
-      maxSnack={1}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-    >
-      <MemoryRouter initialEntries={["/index"]}>
-        <Root />
-      </MemoryRouter>
-    </SnackbarProvider>
-    <SnackbarProvider
-      maxSnack={1}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-    >
-      <SelectText />
-    </SnackbarProvider>
+    <MemoryRouter initialEntries={["/index"]}>
+      <Root />
+    </MemoryRouter>
+    <SelectText />
+    <Toaster />
   </React.StrictMode>,
   rootElement,
 );
