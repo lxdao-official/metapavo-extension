@@ -68,7 +68,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
         throw new Error("access_token is empty");
       }
       props.loginSuccess && props.loginSuccess(access_token);
-      toast.success("login success");
+      toast.success("login success, this window will close in 3 seconds", {});
     } catch (e: any) {
       console.error(e);
       toast.error("login fail: " + e.message);
@@ -83,7 +83,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
         throw new Error("access_token is empty");
       }
       props.loginSuccess && props.loginSuccess(access_token);
-      toast.success("login success", {});
+      toast.success("login success, this window will close in 3 seconds", {});
     } catch (e: any) {
       toast.error("login fail: " + e.message);
     }
