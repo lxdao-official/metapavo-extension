@@ -8,7 +8,7 @@ import { getUsersAlarmsList } from "../../../../utils/apis/nft_api";
 import { Box, CircularProgress } from "@mui/material";
 import toast from "react-hot-toast";
 import { PageContainer } from "../styleCom";
-import { HeadReturn } from "../common/HeadReturn";
+// import { HeadReturn } from "../common/HeadReturn";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { HeadReturnContainer, AddNewAlarm } from "../styleCom";
 import { useNavigate } from "react-router-dom";

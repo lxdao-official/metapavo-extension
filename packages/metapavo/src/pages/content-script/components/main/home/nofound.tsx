@@ -97,7 +97,6 @@ export function NoFound() {
 
   const onBtnClick = async () => {
     const reportResult = await reportCreate(window.location.toString(), type, name);
-    console.log("heisan-->", reportResult);
     if (reportResult) {
       clear();
       toast.success("Succeed");

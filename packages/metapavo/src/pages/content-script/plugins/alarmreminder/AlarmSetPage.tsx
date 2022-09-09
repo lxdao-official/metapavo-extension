@@ -8,11 +8,14 @@ import TextField from '@mui/material/TextField';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { CirclePicker } from 'react-color';
+import { suggestionCollector } from "cspell-trie-lib";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 
 export default function AlarmSetPage() {
     const [date, setDate] = React.useState(moment());
     const [time, setTime] = React.useState(moment());
+    const [desc, setDesc] = React.useState('');
+    const [color,setColor] = React.useState(null)
     const AlarmSetFormWrap = styled.div`
         display: flex;
         flex-direction: column;
@@ -57,7 +60,7 @@ export default function AlarmSetPage() {
     }, []);
 
     const onBtnClick = () => {
-
+        console.log('heissan--->', date,time,desc,color)
     }
 
 
@@ -67,6 +70,12 @@ export default function AlarmSetPage() {
     const handleTimeChange = (time: any) => {
         setTime(time);
     };
+    const handleDescChange = (e: any) => {
+        setDesc(e.target.value)
+    }
+    const handleColorChange = (color: any) => {
+        setColor(color)
+    }
 
 
     return (
@@ -87,11 +96,11 @@ export default function AlarmSetPage() {
                 />
                 <span className="form-title">Description</span>
                 <input
-                    // onChange={onNameChange}
-                    // value={name}
                     className="form-input"
                     type="text"
                     placeholder="Description"
+                    onChange={handleDescChange}
+                    value={desc}
                 />
                 <span className="form-title">URL</span>
                 <input
@@ -101,7 +110,7 @@ export default function AlarmSetPage() {
                     value={window.location.toString()}
                 />
                 <span className="form-title">Color</span>
-                <CirclePicker colors={['#416AFC', '#E14942', '#00D502', '#FA00F0', '#252525']} />
+                <CirclePicker colors={['#416AFC', '#E14942', '#00D502', '#FA00F0', '#252525']} onChange={handleColorChange}/>
                 <button className="submit-btn" type="button" onClick={onBtnClick}>Create Reminder</button>
 
             </AlarmSetFormWrap>
