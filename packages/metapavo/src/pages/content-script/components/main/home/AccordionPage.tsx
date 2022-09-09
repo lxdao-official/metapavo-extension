@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -8,10 +8,14 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Extention from "./project/ProjectContainer";
 import { GlobalContext } from "../../../context/useGlobal";
 import { NoFound } from "./nofound";
-import { Bottom_1, Bottom_2, Bottom_3, MetaPavo } from "../../assets/Svgs";
+import { MetaPavo } from "../../assets/Svgs";
 import Pavo from "./index/index";
 import styled from "styled-components";
-import Bottom from "./Bottom";
+import { Route, Routes } from "react-router-dom";
+import AlarmListPage from "../../../plugins/alarmreminder/AlarmListPage";
+import HisotryListPage from "../../../plugins/watchlist/HistoryListPage";
+import WatchListPage from "../../../plugins/watchlist/WatchListPage";
+import Uniswap from "../../../plugins/swap/uniswap";
 
 const AccordionContainer = styled.div`
   div::-webkit-scrollbar {
@@ -70,7 +74,7 @@ const AccordionContainer = styled.div`
   }
 `;
 const AccordionPage = () => {
-  const { activeProject, activeAccoidion, setActiveAccoidion, gas, refreshActiveProject } =
+  const { activeProject, activeAccoidion, setActiveAccoidion, refreshActiveProject } =
     useContext(GlobalContext);
 
   useEffect(() => {
@@ -134,7 +138,17 @@ const AccordionPage = () => {
             padding: 0,
           }}
         >
-          <div>{activeAccoidion === 0 ? <Pavo /> : null}</div>
+          {activeAccoidion === 0 ? (
+            <div>
+              <Routes>
+                <Route path="/index" element={<Pavo />} />
+                <Route path="/alarms" element={<AlarmListPage />} />
+                <Route path="/history" element={<HisotryListPage />} />
+                <Route path="/watchlist" element={<WatchListPage />} />
+                <Route path="/swap" element={<Uniswap />} />
+              </Routes>
+            </div>
+          ) : null}
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -188,8 +202,6 @@ const AccordionPage = () => {
           {activeAccoidion === 1 ? activeProject ? <Extention /> : <NoFound /> : null}
         </AccordionDetails>
       </Accordion>
-
-      <Bottom />
     </AccordionContainer>
   );
 };

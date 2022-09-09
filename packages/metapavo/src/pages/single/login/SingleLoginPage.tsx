@@ -76,7 +76,7 @@ const SingleLoginPage = () => {
           <ButtonContainer>
             <ConnectWallet
               loginSuccess={() => {
-                window.close();
+                setTimeout(() => window.close(), 2000);
               }}
             />
           </ButtonContainer>

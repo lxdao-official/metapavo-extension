@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { WalletContext } from "../../context/useWallet";
 import styled from "styled-components";
-import { useSnackbar } from "notistack";
+import toast from "react-hot-toast";
 //@ts-ignore
 window.process = {};
 
@@ -38,7 +38,6 @@ const ButtonStyleSec = styled.button`
 `;
 export default function ConnectWallet(props: { loginSuccess?: (access_token: string) => void }) {
   const { signinWithMetamask, signinWithWalletConnect } = useContext(WalletContext);
-  const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
   const [loadingWalletConnect, setLoadingWalletConnect] = useState(false);
   async function login() {
@@ -46,9 +45,9 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
       setLoading(true);
       const access_token = (await signinWithMetamask()) as string;
       props.loginSuccess && props.loginSuccess(access_token);
-      enqueueSnackbar("login success", {});
+      toast.success("login success", {});
     } catch (e: any) {
-      enqueueSnackbar("login fail: " + e.message);
+      toast.error("login fail: " + e.message);
     }
     setLoading(false);
   }
@@ -57,9 +56,9 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
       setLoadingWalletConnect(true);
       const access_token = (await signinWithWalletConnect()) as string;
       props.loginSuccess && props.loginSuccess(access_token);
-      enqueueSnackbar("login success", {});
+      toast.success("login success", {});
     } catch (e: any) {
-      enqueueSnackbar("login fail: " + e.message);
+      toast.error("login fail: " + e.message);
     }
     setLoadingWalletConnect(false);
   }

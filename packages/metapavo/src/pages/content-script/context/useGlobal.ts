@@ -22,13 +22,13 @@ export const GlobalContext = React.createContext<{
   checkPlatform: () => void;
   addRootClass: string;
   showSuccess: () => void;
-  gas: number;
-  setGas: (gas: number) => void;
   activeAccoidion: number;
   setActiveAccoidion: (activeAccoidion: number) => void;
   setAddRootClass: (addRootClass: string) => void;
   refreshActiveProject: () => void;
-  showLogin: () => void;
+  goLogin: () => void;
+  showLogin: boolean;
+  setShowLogin: (showLogin: boolean) => void;
 }>({} as any);
 function useGlobal() {
   const [showMain, _setShowMain] = React.useState(false);
@@ -36,7 +36,6 @@ function useGlobal() {
   const [activeTokenId, setActiveTokenId] = React.useState<string | null>(null);
   const [detectStatus, setDetectStatus] = React.useState<RecognizerStatus>("none");
   const [addRootClass, setAddRootClass] = React.useState("");
-  const [gas, setGas] = React.useState(0);
   const [activeAccoidion, setActiveAccoidion] = React.useState(0);
   const checker = new Checker();
   checker.on("changed", (projectInfo: IProject | null) => {
@@ -102,15 +101,19 @@ function useGlobal() {
     }
   }
   let navigate = useNavigate();
-  async function showLogin() {
+  async function goLogin() {
     setShowMain(false);
     // navigate("/login");
     chrome.tabs.create({ url: "/login.html" });
   }
+
+  const [showLogin, setShowLogin] = React.useState(false);
   return {
     showMain,
     setShowMain,
+    goLogin,
     showLogin,
+    setShowLogin,
     activeProject,
     setActiveProject,
     detectStatus,
@@ -118,8 +121,6 @@ function useGlobal() {
     checkPlatform,
     addRootClass,
     showSuccess,
-    gas,
-    setGas,
     activeAccoidion,
     setActiveAccoidion,
     setAddRootClass,

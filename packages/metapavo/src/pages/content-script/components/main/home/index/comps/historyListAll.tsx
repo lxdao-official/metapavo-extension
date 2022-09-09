@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import moment from "moment";
-import { useSnackbar } from "notistack";
+import toast from "react-hot-toast";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { getNftById, getVisitHistories } from "../../../../../../../utils/apis/nft_api";
@@ -47,7 +47,6 @@ export const HistoryItem = (props: any) => {
 const HistoryALL = (props: any) => {
   const [list, setList] = useState<any[]>([]);
   const [watchLoading, setLoading] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
   const { setActiveProject } = useContext(GlobalContext);
   const [page, setPage] = useState(1);
   const getWatchList = async () => {
@@ -72,7 +71,7 @@ const HistoryALL = (props: any) => {
         );
       }
     } catch (e) {
-      enqueueSnackbar("loading error");
+      toast.error("loading error");
     }
     setLoading(false);
   };
@@ -97,7 +96,7 @@ const HistoryALL = (props: any) => {
         setList([...list, ...newList]);
       }
     } catch (e) {
-      enqueueSnackbar("loading error");
+      toast.error("loading error");
     }
 
     setLoading(false);

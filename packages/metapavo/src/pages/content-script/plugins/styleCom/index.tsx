@@ -290,7 +290,7 @@ export const ToolsItemContainer = styled.div`
   }
 `;
 
-export const TrendsHotContainer = styled.div`
+export const PageContainer = styled.div`
   margin: 10px auto 0 auto;
   padding: 10px 20px;
   .hot-trend-list {
@@ -366,7 +366,7 @@ export const HistoryHotContainer = styled.div`
   }
 `;
 const placeholderImg = chrome.runtime.getURL("images/placeholder.png");
-export const HistoryHotItemContainer = styled.div`
+export const ItemContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
@@ -391,7 +391,7 @@ export const HistoryHotItemContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 105px;
-    height: 32px;
+    height: 36px;
     padding: 0px 0px;
     font-size: 12px;
 

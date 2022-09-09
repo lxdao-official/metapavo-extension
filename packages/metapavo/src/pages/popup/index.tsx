@@ -1,25 +1,6 @@
-import { useState, useContext, useEffect } from "react";
-import { Box, CircularProgress, IconButton } from "@mui/material";
-import {
-  Container,
-  HeadSelect,
-  HeadLogo,
-  Head,
-  ModalContainer,
-  ModalBG,
-  MenuListStyle,
-  MenuItemStyle,
-  Badge,
-  Version,
-} from "./styleCom";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import copy from "clipboard-copy";
-import ClearIcon from "@mui/icons-material/Clear";
-import moment from "moment";
+import { useState, useEffect } from "react";
+import { Container, MenuListStyle, MenuItemStyle, Badge, Version } from "./styleCom";
 import { useNavigate } from "react-router";
-import { useSnackbar } from "notistack";
-import styled from "styled-components";
-import { WalletContext } from "../content-script/context/useWallet";
 import { settingCounts } from "../../utils/apis/nft_api";
 
 const manifestData = chrome.runtime.getManifest();
@@ -42,14 +23,14 @@ const PopupMain = () => {
       <path
         d="M4.66666 11.8333L11.3333 5.16663"
         stroke="#D1D0D6"
-        stroke-width="1.33333"
+        strokeWidth="1.33333"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M4.66666 5.16663H11.3333V11.8333"
         stroke="#D1D0D6"
-        stroke-width="1.33333"
+        strokeWidth="1.33333"
         stroke-linecap="round"
         stroke-linejoin="round"
       />

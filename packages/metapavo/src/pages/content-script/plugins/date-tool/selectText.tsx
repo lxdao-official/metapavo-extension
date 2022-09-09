@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import _ from "lodash";
 import { smartParseDate } from "./util";
-import { useSnackbar } from "notistack";
 import Dialog from "@mui/material/Dialog";
+import toast from "react-hot-toast";
 import {
   Button,
   DialogActions,
@@ -52,9 +52,9 @@ const ButtonElement = styled.div`
   font-size: 14px;
   line-height: 30px;
   color: #000;
-  select {
-    border: none;
-    border-bottom: 1px dashed #aaa;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
   }
 `;
 
@@ -86,7 +86,6 @@ export default function SelectText() {
     y: -100,
   });
   const [isInPopup, setIsInPopup] = React.useState(false);
-  const { enqueueSnackbar } = useSnackbar();
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const bindEvents = () => {
     if (binded) return;
@@ -192,12 +191,7 @@ export default function SelectText() {
         },
       });
 
-      enqueueSnackbar("add success", {
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "center",
-        },
-      });
+      toast.success("add success", {});
       setAddAlarmConfirmShow(false);
     }
   };
@@ -262,27 +256,27 @@ export default function SelectText() {
                 d="M7.99979 14.7778C11.3749 14.7778 14.1109 12.0417 14.1109 8.66667C14.1109 5.29157 11.3749 2.55554 7.99979 2.55554C4.6247 2.55554 1.88867 5.29157 1.88867 8.66667C1.88867 12.0417 4.6247 14.7778 7.99979 14.7778Z"
                 fill="black"
                 stroke="black"
-                stroke-width="1.33333"
+                strokeWidth="1.33333"
                 stroke-linejoin="round"
               />
               <path
                 d="M7.91935 5.1178L7.91895 8.7874L10.5097 11.3782"
                 stroke="white"
-                stroke-width="1.33333"
+                strokeWidth="1.33333"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M1.33301 2.99992L3.66634 1.33325"
                 stroke="black"
-                stroke-width="1.33333"
+                strokeWidth="1.33333"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M14.6663 2.99992L12.333 1.33325"
                 stroke="black"
-                stroke-width="1.33333"
+                strokeWidth="1.33333"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />

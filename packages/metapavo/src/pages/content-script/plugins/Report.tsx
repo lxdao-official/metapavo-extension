@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { useSnackbar } from "notistack";
 import { reportCreate } from "../../../utils/apis/nft_api";
-import { HeadReturnContainer, TrendsHotContainer } from "./styleCom";
+import { HeadReturnContainer, PageContainer } from "./styleCom";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 const NoFoundWrap = styled.div`
   display: flex;
@@ -83,7 +83,6 @@ const NoFoundWrap = styled.div`
 export function Report() {
   const [type, setType] = useState<string>("NFT");
   const [name, setName] = useState<string>("");
-  const { enqueueSnackbar } = useSnackbar();
 
   const onBtnClick = async () => {
     const reportResult = await reportCreate(window.location.toString(), type, name);
@@ -94,12 +93,12 @@ export function Report() {
       //   status: CheckResultStatus.SUCCESS,
       // };
       clear();
-      enqueueSnackbar("Succeed", {});
+      toast.success("Succeed", {});
     } else {
       // return {
       //   status: CheckResultStatus.NOTINSERVER,
       // };
-      enqueueSnackbar("Error", {});
+      toast.error("Error", {});
     }
   };
   const onTypeChange = (e: any) => {
@@ -130,7 +129,7 @@ export function Report() {
     );
   };
   return (
-    <TrendsHotContainer>
+    <PageContainer>
       <HeadReturn title={"submit a project"} />
       <NoFoundWrap>
         <div className="form-wrap">
@@ -162,6 +161,6 @@ export function Report() {
           </button>
         </div>
       </NoFoundWrap>
-    </TrendsHotContainer>
+    </PageContainer>
   );
 }

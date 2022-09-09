@@ -1,23 +1,7 @@
 import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { GlobalContext } from "../../context/useGlobal";
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
-// import createMetaMaskProvider from "metamask-extension-provider";
-
-// chrome APIを使用するためdynamic importし、browser側でのみ読み込まれるようにする
-// const Button = dynamic(
-//   async () => {
-//     const module = await import("src/components/Button");
-//     return module.Button;
-//   },
-//   {
-//     ssr: false,
-//     loading: () => {
-//       return <div className="w-10 h-4 bg-gray-100 rounded border animate-pulse"></div>;
-//     },
-//   },
-// );
 const MainBody = styled.div`
   margin-top: 50px;
   width: 100%;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useState } from 'react';
-import { useSnackbar } from "notistack";
+import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { reportCreate } from "../../../../../utils/apis/nft_api";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -9,7 +9,7 @@ const NoFoundWrap = styled.div`
   flex-direction: column;
   align-items: center;
 
-  .main-title{
+  .main-title {
     text-align: center;
     width: 100%;
     margin-top: 30px;
@@ -36,14 +36,14 @@ const NoFoundWrap = styled.div`
     cursor: pointer;
   }
 
-  .form-wrap{
+  .form-wrap {
     display: flex;
     flex-direction: column;
     width: 90%;
     line-height: 30px;
   }
-  
-  .form-title{
+
+  .form-title {
     text-align: left;
     width: 100%;
     font-family: "Inter";
@@ -55,64 +55,57 @@ const NoFoundWrap = styled.div`
     color: #000000;
   }
 
-  .form-input{
+  .form-input {
     height: 36px;
     line-height: 36px;
-    border: 1px solid #E5E3E6;
+    border: 1px solid #e5e3e6;
     border-radius: 6px;
     padding: 12px 16px;
     margin-bottom: 20px;
   }
-  .disable{
-    background: #EFEEF1;
+  .disable {
+    background: #efeef1;
   }
-  .form-select{
+  .form-select {
     height: 45px;
-    border: 1px solid #E5E3E6;
+    border: 1px solid #e5e3e6;
     border-radius: 6px;
     padding: 0 16px;
     margin-bottom: 20px;
   }
 
-  button{
-    background: linear-gradient(91.75deg, rgba(125, 226, 172, 0.1) 0%, rgba(56, 157, 250, 0.1) 49.26%, rgba(159, 80, 255, 0.1) 97.76%);
-    box-shadow: 0px 0px 0px #4216E7;
+  button {
+    background: linear-gradient(
+      91.75deg,
+      rgba(125, 226, 172, 0.1) 0%,
+      rgba(56, 157, 250, 0.1) 49.26%,
+      rgba(159, 80, 255, 0.1) 97.76%
+    );
+    box-shadow: 0px 0px 0px #4216e7;
     border-radius: 4px;
     border-width: 3px;
     margin-bottom: 50px;
     border-image-slice: 1;
-    border-image-source: linear-gradient(to left, #7DE2AC, #9F50FF);
+    border-image-source: linear-gradient(to left, #7de2ac, #9f50ff);
   }
-`
+`;
 
 export function NoFound() {
   const [type, setType] = useState<string>('NFT');
   const [name, setName] = useState<string>('');
   const [show, setShow] = useState<boolean>(true);
-  const { enqueueSnackbar } = useSnackbar();
 
   const onBtnClick = async () => {
-    const reportResult = await reportCreate(
-      window.location.toString(),
-      type,
-      name
-    )
-    console.log('heisan-->', reportResult)
+    const reportResult = await reportCreate(window.location.toString(), type, name);
+    console.log("heisan-->", reportResult);
     if (reportResult) {
-      // return {
-      //   projectInfo,
-      //   status: CheckResultStatus.SUCCESS,
-      // };
-      clear()
-      enqueueSnackbar("Succeed", {});
+      clear();
+      toast.success("Succeed");
     } else {
-      // return {
-      //   status: CheckResultStatus.NOTINSERVER,
-      // };
-      enqueueSnackbar("Error", {});
+      toast.error("Error");
     }
-
   }
+  
   const onTypeChange = (e: any) => {
     setType(e.target.value)
   }
@@ -123,10 +116,9 @@ export function NoFound() {
     setShow(!show)
   }
   const clear = () => {
-    setType('NFT')
-    setName('')
+    setType("NFT");
+    setName("");
   }
-
 
 
   return (

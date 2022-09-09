@@ -4,20 +4,23 @@ import ListItemText from "@mui/material/ListItemText";
 import React from "react";
 import { useEffect } from "react";
 import moment from "moment";
-import { getUsersAlarmsList, getUsersAlarmsNoLogin } from "../../../../utils/apis/nft_api";
+import { getUsersAlarmsList } from "../../../../utils/apis/nft_api";
 import { Box, CircularProgress } from "@mui/material";
+import toast from "react-hot-toast";
+import { PageContainer } from "../styleCom";
+import { HeadReturn } from "../common/HeadReturn";
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { useSnackbar } from "notistack";
-import { HeadReturnContainer, TrendsHotContainer, AddNewAlarm } from "../styleCom";
+import { HeadReturnContainer, AddNewAlarm } from "../styleCom";
 import { useNavigate } from "react-router-dom";
 import AlarmSetPage from "./AlarmSetPage";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
+
 export default function AlarmListPage() {
   const [alarms, setAlarms] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [showSetPage, toogleShow] = React.useState(false);
-  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+
   async function restoreAlarmsFromServer() {
     setLoading(true);
     try {
@@ -28,7 +31,7 @@ export default function AlarmListPage() {
         setAlarms([]);
       }
     } catch (e: any) {
-      enqueueSnackbar(e.message);
+      toast.error(e.message);
     }
     setLoading(false);
   }
@@ -57,10 +60,16 @@ export default function AlarmListPage() {
       </HeadReturnContainer>
     );
   };
+  // return (
+  //   <>
+  //     <TrendsHotContainer>
+  //       <HeadReturn title={"Alarm Reminder"} />
+        
+  
   return (
     <>
-      <TrendsHotContainer>
-        <HeadReturn title={"alarmlist"} />
+      <PageContainer>
+        <HeadReturn title={"Alarm Reminder"} />
         {showSetPage ? <AlarmSetPage /> : null}
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
@@ -91,7 +100,7 @@ export default function AlarmListPage() {
             })}
           </div>
         )}
-      </TrendsHotContainer>
+      </PageContainer>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
-import { useSnackbar } from "notistack";
+import toast, { Toaster } from "react-hot-toast";
 import { WalletContext } from "../../content-script/context/useWallet";
 //@ts-ignore
 window.process = {};
@@ -58,17 +58,20 @@ const ButtonStyleSec = styled.button`
 `;
 export default function ConnectWallet(props: { loginSuccess?: (access_token: string) => void }) {
   const { signinWithMetamask, signinWithWalletConnect } = useContext(WalletContext);
-  const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
   const [loadingWalletConnect, setLoadingWalletConnect] = useState(false);
   async function login() {
     try {
       setLoading(true);
       const access_token = (await signinWithMetamask()) as string;
+      if (!access_token) {
+        throw new Error("access_token is empty");
+      }
       props.loginSuccess && props.loginSuccess(access_token);
-      enqueueSnackbar("login success", {});
+      toast.success("login success, this window will close in 3 seconds", {});
     } catch (e: any) {
-      enqueueSnackbar("login fail: " + e.message);
+      console.error(e);
+      toast.error("login fail: " + e.message);
     }
     setLoading(false);
   }
@@ -76,10 +79,13 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
     try {
       setLoadingWalletConnect(true);
       const access_token = (await signinWithWalletConnect()) as string;
+      if (!access_token) {
+        throw new Error("access_token is empty");
+      }
       props.loginSuccess && props.loginSuccess(access_token);
-      enqueueSnackbar("login success", {});
+      toast.success("login success, this window will close in 3 seconds", {});
     } catch (e: any) {
-      enqueueSnackbar("login fail: " + e.message);
+      toast.error("login fail: " + e.message);
     }
     setLoadingWalletConnect(false);
   }
@@ -103,7 +109,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M2.06583 1L10.4925 7.25167L8.92749 3.56333L2.06583 1Z"
             fill="#E17726"
             stroke="#E17726"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -111,7 +117,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M21.4992 1L13.1492 7.31083L14.6375 3.56333L21.4992 1Z"
             fill="#E27625"
             stroke="#E27625"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -119,7 +125,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M5.095 15.4925L7.33667 18.9275L2.54 20.2467L1.16917 15.5683L5.095 15.4925Z"
             fill="#E27625"
             stroke="#E27625"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -127,7 +133,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M22.3875 15.5683L21.025 20.2467L16.2283 18.9275L18.4617 15.4925L22.3875 15.5683Z"
             fill="#E27625"
             stroke="#E27625"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -135,7 +141,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M16.4908 9.68834L17.8275 11.7108L13.0725 11.9225L13.2333 6.80334L16.4908 9.68834Z"
             fill="#E27625"
             stroke="#E27625"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -143,7 +149,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M7.07416 9.68831L10.3825 6.74414L10.4925 11.9225L5.73749 11.7108L7.07416 9.68831Z"
             fill="#E27625"
             stroke="#E27625"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -151,7 +157,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M16.2283 18.9275L13.36 17.5308L15.8308 15.6025L16.2283 18.9275Z"
             fill="#E27625"
             stroke="#E27625"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -159,7 +165,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M10.205 17.5308L7.33665 18.9275L7.73415 15.6025L10.205 17.5308Z"
             fill="#E27625"
             stroke="#E27625"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -167,7 +173,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M7.33665 18.9275L10.205 17.5308L9.97665 19.4008L10.0017 20.1875L7.33665 18.9275Z"
             fill="#D5BFB2"
             stroke="#D5BFB2"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -175,7 +181,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M16.2283 18.9275L13.5633 20.1875L13.58 19.4008L13.36 17.5308L16.2283 18.9275Z"
             fill="#D5BFB2"
             stroke="#D5BFB2"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -183,7 +189,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M13.5125 14.3667L15.8983 13.665L14.215 12.895L13.5125 14.3667Z"
             fill="#233447"
             stroke="#233447"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -191,7 +197,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M10.0525 14.3667L9.34999 12.895L7.65832 13.665L10.0525 14.3667Z"
             fill="#233447"
             stroke="#233447"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -199,7 +205,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M16.2283 18.9275L15.8142 15.4925L18.4617 15.5683L16.2283 18.9275Z"
             fill="#CC6228"
             stroke="#CC6228"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -207,7 +213,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M7.75082 15.4925L7.33666 18.9275L5.09499 15.5683L7.75082 15.4925Z"
             fill="#CC6228"
             stroke="#CC6228"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -215,7 +221,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M5.73749 11.7108L10.4925 11.9225L10.0525 14.3666L9.34999 12.895L7.65833 13.665L5.73749 11.7108Z"
             fill="#CC6228"
             stroke="#CC6228"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -223,7 +229,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M15.8983 13.665L14.215 12.895L13.5125 14.3666L13.0725 11.9225L17.8275 11.7108L15.8983 13.665Z"
             fill="#CC6228"
             stroke="#CC6228"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -231,7 +237,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M17.8275 11.7108L15.8308 15.6025L15.8983 13.665L17.8275 11.7108Z"
             fill="#E27525"
             stroke="#E27525"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -239,7 +245,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M7.65833 13.665L7.73416 15.6025L5.7375 11.7108L7.65833 13.665Z"
             fill="#E27525"
             stroke="#E27525"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -247,7 +253,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M13.0725 11.9225L13.5125 14.3667L12.9541 17.2517L12.8358 13.4533L13.0725 11.9225Z"
             fill="#E27525"
             stroke="#E27525"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -255,7 +261,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M10.4925 11.9225L10.7208 13.445L10.6108 17.2517L10.0525 14.3667L10.4925 11.9225Z"
             fill="#E27525"
             stroke="#E27525"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -263,7 +269,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M10.0525 14.3666L10.6108 17.2516L10.205 17.5308L7.73417 15.6025L7.65834 13.665L10.0525 14.3666Z"
             fill="#F5841F"
             stroke="#F5841F"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -271,7 +277,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M15.8983 13.665L15.8308 15.6025L13.36 17.5308L12.9541 17.2516L13.5125 14.3666L15.8983 13.665Z"
             fill="#F5841F"
             stroke="#F5841F"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -279,7 +285,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M10.0017 20.1875L9.97666 19.4008L10.1875 19.215H13.3775L13.58 19.4008L13.5633 20.1875L16.2283 18.9275L15.2975 19.6883L13.4025 21H10.1625L8.2675 19.6883L7.33667 18.9275L10.0017 20.1875Z"
             fill="#C0AC9D"
             stroke="#C0AC9D"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -287,7 +293,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M10.205 17.5308L10.6108 17.2516H12.9542L13.36 17.5308L13.58 19.4008L13.3775 19.215H10.1875L9.97665 19.4008L10.205 17.5308Z"
             fill="#161616"
             stroke="#161616"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -295,7 +301,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M1.71082 7.65833L0.999985 4.20667L2.06582 1L10.205 7.04083L7.07415 9.68833L2.64999 10.9833L1.67665 9.84083L2.09999 9.53667L1.42332 8.91833L1.93915 8.5125L1.26248 7.99667L1.71082 7.65833Z"
             fill="#763E1A"
             stroke="#763E1A"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -303,7 +309,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M22.565 4.20667L21.8458 7.65833L22.3025 7.99667L21.6258 8.5125L22.1417 8.91833L21.465 9.53667L21.8883 9.84083L20.915 10.9833L16.4908 9.68833L13.36 7.04083L21.4992 1L22.565 4.20667Z"
             fill="#763E1A"
             stroke="#763E1A"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -311,7 +317,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M2.65 10.9834L7.07416 9.68835L5.7375 11.7109L7.73416 15.6025L5.095 15.5684H1.16916L2.65 10.9834Z"
             fill="#F5841F"
             stroke="#F5841F"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -319,7 +325,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M16.4908 9.68835L20.915 10.9834L22.3875 15.5684H18.4617L15.8308 15.6025L17.8275 11.7109L16.4908 9.68835Z"
             fill="#F5841F"
             stroke="#F5841F"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -327,7 +333,7 @@ export default function ConnectWallet(props: { loginSuccess?: (access_token: str
             d="M10.4925 11.9225L10.205 7.04085L8.92751 3.56335H14.6375L13.36 7.04085L13.0725 11.9225L12.9625 13.4617L12.9542 17.2517H10.6108L10.6025 13.4617L10.4925 11.9225Z"
             fill="#F5841F"
             stroke="#F5841F"
-            stroke-width="0.0833333"
+            strokeWidth="0.0833333"
             stroke-linecap="round"
             stroke-linejoin="round"
           />

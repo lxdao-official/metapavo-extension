@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
-import { useSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import toast from "react-hot-toast";
 import { getNftById, getUsersFavs } from "../../../../../../../utils/apis/nft_api";
 import { IFavs } from "../../../../../../../utils/apis/types";
 import { GlobalContext } from "../../../../../context/useGlobal";
@@ -37,7 +37,6 @@ const MoreButton = styled.button`
 const TrendsALL = (props: any) => {
   const [list, setList] = useState<any[]>([]);
   const [watchLoading, setLoading] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
   const { setActiveProject } = useContext(GlobalContext);
   const [page, setPage] = useState(1);
   const getWatchList = async () => {
@@ -59,7 +58,7 @@ const TrendsALL = (props: any) => {
         );
       }
     } catch (e) {
-      enqueueSnackbar("loading error");
+      toast.error("loading error");
     }
 
     setLoading(false);
@@ -82,7 +81,7 @@ const TrendsALL = (props: any) => {
         setList([...list, ...newList]);
       }
     } catch (e) {
-      enqueueSnackbar("loading error");
+      toast.error("loading error");
     }
 
     setLoading(false);

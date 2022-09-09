@@ -1,29 +1,27 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/useGlobal";
 import LoginPage from "./login";
 import AccordionPage from "./home/AccordionPage";
-import { Routes, Route, useNavigate } from "react-router-dom";
 import { WalletContext } from "../../context/useWallet";
 import { MainRootElement } from "./styles";
-import AlarmListPage from "../../plugins/alarmreminder/AlarmListPage";
+import Bottom from "./home/Bottom";
 
 function App() {
   const useG = useContext(GlobalContext);
-
   const wallet = useContext(WalletContext);
-  let navigate = useNavigate();
+
   useEffect(() => {
     (async function () {
       if (useG.showMain) {
         try {
           const address = await wallet.fetchLoginInfo();
           if (!address) {
-            navigate("/login");
+            useG.setShowLogin(true);
           } else {
-            navigate("/index");
+            // navigate("/index");
           }
         } catch (e) {
-          navigate("/login");
+          useG.setShowLogin(true);
         }
       }
     })();
@@ -32,13 +30,8 @@ function App() {
   return (
     <MainRootElement className={useG.showMain ? "metapavo-main-show" : "metapavo-main-hide"}>
       <div>
-        {/* <AccordionPage /> */}
-
-        <Routes>
-          <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/index" element={<AccordionPage />} />
-          <Route path="/alarms" element={<AlarmListPage />} />
-        </Routes>
+        {useG.showLogin ? <LoginPage /> : <AccordionPage />}
+        <Bottom />
       </div>
       {useG.showMain ? (
         <div
