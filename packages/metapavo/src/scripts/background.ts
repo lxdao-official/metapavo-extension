@@ -38,7 +38,6 @@ function sendMessageToContentScript(message: any, callback: any) {
   });
 }
 async function addAlarm(timestamp: number, content: string, url?: string, color?: string) {
-  await addAlarmForUser(new Date(timestamp), content, url, color);
   chrome.alarms.create(`time_alarm:${content}`, {
     when: timestamp,
   });
