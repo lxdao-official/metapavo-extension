@@ -13,6 +13,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import { addAlarmForUser } from "../../../../utils/apis/nft_api";
 const RootElement = styled.div`
   position: fixed;
   background: #fff;
@@ -179,17 +180,22 @@ export default function SelectText() {
     setAddAlarmConfirmShow(false);
   };
 
-  const submit = function (e: any) {
+  const submit = async function (e: any) {
     if (convertResult) {
       const timestramp = convertResult.getTime();
-
-      chrome.runtime.sendMessage({
-        cmd: "add_time_alarm",
-        value: {
-          timestamp: timestramp,
-          content: addAlarmConfirmContent,
+      await addAlarmForUser(new Date(timestramp), addAlarmConfirmContent, "", "");
+      chrome.runtime.sendMessage(
+        {
+          cmd: "add_time_alarm",
+          value: {
+            alarm_at: timestramp,
+            desc: addAlarmConfirmContent,
+            url: "",
+            color: "",
+          },
         },
-      });
+        () => {},
+      );
 
       toast.success("add success", {});
       setAddAlarmConfirmShow(false);

@@ -37,53 +37,31 @@ function sendMessageToContentScript(message: any, callback: any) {
     });
   });
 }
-async function addAlarm(timestamp: number, content: string) {
-  // chrome.storage.local.get(["alarm_list"], function (data) {
-  //   if (data && data.alarm_list) {
-  //     data.alarm_list.push({
-  //       timestamp: timestamp,
-  //       content: content,
-  //     });
-  //     chrome.storage.local.set({
-  //       alarm_list: data.alarm_list.filter((item: any) => item.timestamp > Date.now()),
-  //     });
-  //   } else {
-  //     chrome.storage.local.set({
-  //       alarm_list: [
-  //         {
-  //           timestamp: timestamp,
-  //           content: content,
-  //         },
-  //       ],
-  //     });
-  //   }
-  // });
-
-  await addAlarmForUser(new Date(timestamp), content);
+async function addAlarm(timestamp: number, content: string, url?: string, color?: string) {
   chrome.alarms.create(`time_alarm:${content}`, {
     when: timestamp,
   });
   restoreAlarmsFromServer();
 }
 // 恢复闹钟list
-chrome.storage.local.get(["alarm_list"], function (data) {
-  if (data && data.alarm_list) {
-    const list = data.alarm_list.filter((item: any) => item.timestamp > Date.now());
-    list.forEach((item: any) => {
-      chrome.alarms.create(`time_alarm:${item.content}`, {
-        when: new Date(item.timestamp).getTime(),
-      });
-    });
-  } else {
-  }
-});
+// chrome.storage.local.get(["alarm_list"], function (data) {
+//   if (data && data.alarm_list) {
+//     const list = data.alarm_list.filter((item: any) => item.timestamp > Date.now());
+//     list.forEach((item: any) => {
+//       chrome.alarms.create(`time_alarm:${item.content}`, {
+//         when: new Date(item.timestamp).getTime(),
+//       });
+//     });
+//   } else {
+//   }
+// });
 
 async function restoreAlarmsFromServer() {
   const alarms = await getUsersAlarmsNoLogin();
   if (alarms) {
     alarms.forEach((item: any) => {
       chrome.alarms.create(`time_alarm:${item.desc}`, {
-        when: item.timestamp,
+        when: item.alarm_at,
       });
     });
   }
@@ -93,7 +71,7 @@ restoreAlarmsFromServer();
 chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.cmd === "getGas") sendResponse(nowGas);
   if (request.cmd === "add_time_alarm") {
-    addAlarm(request.value.timestamp, request.value.content);
+    addAlarm(request.value.alarm_at, request.value.desc, request.value.url, request.value.color);
   }
   if (request.cmd === "get_all_time_alarm") {
     chrome.alarms.getAll((alarms) => {
@@ -121,7 +99,7 @@ repeat();
 chrome.alarms.clearAll();
 
 chrome.alarms.create("gasupdate", { delayInMinutes: 0.2 });
-
+const logoIcon = chrome.runtime.getURL("images/logo-128.png");
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === "gasupdate") {
     repeat();
@@ -130,7 +108,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     chrome.notifications.create(alarm.name, {
       type: "basic",
       title: "Time Alarm",
-      iconUrl: "../../../logo-128.png",
+      iconUrl: logoIcon,
       requireInteraction: true,
       message: `you have a time alarm at this time [${alarm.name.replace("time_alarm:", "")}]`,
     });

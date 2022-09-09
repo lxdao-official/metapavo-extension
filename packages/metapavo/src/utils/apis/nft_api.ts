@@ -171,12 +171,14 @@ export async function getUsersAlarmsList() {
   }
   return null;
 }
-export async function addAlarmForUser(alarm_at: Date, desc: string) {
+export async function addAlarmForUser(alarm_at: Date, desc: string, url?: string, color?: string) {
   const res = await fetchWrapped(`${config.baseURL}/alarms`, {
     method: "POST",
     body: JSON.stringify({
       alarm_at,
       desc,
+      color,
+      url,
     }),
   });
   if (res && res.success) {
