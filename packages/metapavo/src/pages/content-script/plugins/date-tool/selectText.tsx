@@ -205,7 +205,7 @@ export default function SelectText() {
     <>
       {text && (
         <RootElement
-          style={{ left: pos.x + 10 + "px", top: pos.y + "px" }}
+          style={{ left: pos.x + 10 + "px", top: pos.y + (text && convertResult ? -30 : 0) + "px" }}
           onMouseEnter={() => {
             setIsInPopup(true);
           }}
