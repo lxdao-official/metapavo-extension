@@ -242,7 +242,7 @@ export default function SelectText() {
                 />
               </defs>
             </svg>
-            Convert Timezone
+            Convert Timezone (beta)
           </ButtonElement>
           <Line></Line>
           {text && convertResult ? (

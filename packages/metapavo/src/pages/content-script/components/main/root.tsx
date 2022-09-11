@@ -9,7 +9,6 @@ import Bottom from "./home/Bottom";
 function App() {
   const useG = useContext(GlobalContext);
   const wallet = useContext(WalletContext);
-
   useEffect(() => {
     (async function () {
       if (useG.showMain) {
@@ -18,14 +17,14 @@ function App() {
           if (!address) {
             useG.setShowLogin(true);
           } else {
-            // navigate("/index");
+            useG.setShowLogin(false);
           }
         } catch (e) {
           useG.setShowLogin(true);
         }
       }
     })();
-  }, []);
+  }, [useG.showMain]);
 
   return (
     <MainRootElement className={useG.showMain ? "metapavo-main-show" : "metapavo-main-hide"}>

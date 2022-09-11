@@ -137,8 +137,8 @@ export function Report() {
           <input
             className="form-input disable"
             type="text"
-            disabled={true}
-            value={window.location.toString()}
+            // disabled={true}
+            value={window.location.toString().startsWith("http") ? window.location.toString() : ""}
           />
           <span className="form-title">Type</span>
           <select className="form-select" onChange={onTypeChange} value={type}>

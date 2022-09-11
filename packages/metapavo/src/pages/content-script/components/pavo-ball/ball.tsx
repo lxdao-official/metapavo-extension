@@ -114,16 +114,6 @@ function Ball() {
     inited = true;
   }, []);
 
-  // useEffect(() => {
-  //   if (!!useG.addRootClass && useG.detectStatus === "success") {
-  //     setTimeout(() => {
-  //       if (rootRef.current.getAttribute("mouseIsOver") !== "1") {
-  //         useG.setAddRootClass("");
-  //       }
-  //     }, 5000);
-  //   }
-  // }, [useG.addRootClass]);
-
   return (
     <>
       <RootElement

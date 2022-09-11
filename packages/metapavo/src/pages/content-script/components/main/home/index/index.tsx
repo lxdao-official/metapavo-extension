@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { getNftById } from "../../../../../../utils/apis/nft_api";
 import { GlobalContext } from "../../../../context/useGlobal";
 import { Box, CircularProgress, IconButton } from "@mui/material";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   Container,
   HeadSelect,
@@ -14,6 +14,7 @@ import {
   HistoryHotContainer,
   HeadReturnContainer,
   ModalContainer,
+  ModalBG,
 } from "./styleCom";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import copy from "clipboard-copy";
@@ -23,35 +24,19 @@ import { IVisitHistory } from "../../../../../../utils/apis/types";
 import moment from "moment";
 import { useNavigate } from "react-router";
 import { WalletContext } from "../../../../context/useWallet";
-import styled from "styled-components";
 import { SearchCom } from "./search";
 import { AlarmIcon, HistoryIcon, SwapIcon, WatchlistIcon } from "./icons/icons";
 import { Item } from "../../../../plugins/watchlist/HistoryListPage";
 import { linkImages } from "../../../../../../utils/linkImages";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
-const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
-
-const DetailPage = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: #fff;
-  width: 100%;
-  height: 100%;
-`;
 
 const Pavo = () => {
   const [status, setStatus] = useState<number>(0);
 
   const [selectMenu, setSelectMenu] = useState<boolean>(false);
 
-  const [toolsHot, setToolsHot] = useState<any[]>([]);
-  const [toolsAll, setToolsAll] = useState<any[]>([]);
-  const [trendsHot, setTrendsHot] = useState<any[]>([]);
-  const [trendsAll, setTrendsAll] = useState<any[]>([]);
   const [historyHot, setHistoryHot] = useState<any[]>([]);
-  const [historyAll, setHistoryAll] = useState<any[]>([]);
 
   const { setShowLogin, setActiveProject } = useContext(GlobalContext);
   const { loginedAddress, logout } = useContext(WalletContext);
@@ -65,7 +50,7 @@ const Pavo = () => {
   mapStatus[(mapStatus[4] = "HISTORY")] = 4;
   mapStatus[(mapStatus[5] = "Alarm List")] = 5;
   mapStatus[(mapStatus[6] = "Seting")] = 6;
-  const [watchListLoading, setWatchListLoading] = useState(false);
+
   const [getHistoryLoading, setGetHistoryLoading] = useState(false);
   async function getHistories() {
     setGetHistoryLoading(true);
@@ -117,25 +102,7 @@ const Pavo = () => {
     }
     setGetHistoryLoading(false);
   }
-  // async function getFavs() {
-  //   setWatchListLoading(true);
-  //   const res = await getUsersFavs(1, 6);
-  //   if (res.data) {
-  //     setTrendsHot(
-  //       res.data.map((item: IFavs) => {
-  //         return {
-  //           img: item.project?.image_url,
-  //           name: item.project?.name,
-  //           eth: `Floor: ${
-  //             item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
-  //           } E`,
-  //           project_id: item.project_id,
-  //         };
-  //       }),
-  //     );
-  //   }
-  //   setWatchListLoading(false);
-  // }
+
   const goDetail = async (project_id: string) => {
     const project = await getNftById(project_id);
     if (project) {
@@ -165,17 +132,6 @@ const Pavo = () => {
     );
   };
 
-  const ToolsItem = (props: any) => {
-    const item = props.itemData;
-
-    return (
-      <ToolsItemContainer>
-        <img src={item.img} />
-        <span>{item.name}</span>
-      </ToolsItemContainer>
-    );
-  };
-
   const TitleOfHot = (props: any) => {
     const title = props.title;
 
@@ -190,7 +146,6 @@ const Pavo = () => {
   };
 
   const ToolsHot = (props: any) => {
-    const data = props.data;
     const title = props.title;
     return (
       <ToolsHotContainer>
@@ -240,19 +195,6 @@ const Pavo = () => {
     );
   };
 
-  const ToolsAll = (props: any) => {
-    const data = props.data;
-
-    return (
-      <ToolsHotContainer>
-        <div className="tool-list">
-          {data.map((item: any, index: number) => {
-            return <ToolsItem key={index} itemData={item} />;
-          })}
-        </div>
-      </ToolsHotContainer>
-    );
-  };
   const Empty = () => {
     return (
       <div
@@ -281,36 +223,6 @@ const Pavo = () => {
       </div>
     );
   };
-  // const WatchListHot = (props: any) => {
-  //   const data = props.data;
-  //   const title = props.title;
-
-  //   return (
-  //     <TrendsHotContainer>
-  //       <TitleOfHot title={title} />
-  //       {watchListLoading ? (
-  //         <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-  //           <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
-  //         </Box>
-  //       ) : data.length === 0 ? (
-  //         <Empty />
-  //       ) : null}
-  //       <div className="hot-trend-list">
-  //         {data.map((item: any, index: number) => {
-  //           return (
-  //             <TrendsItem
-  //               key={index}
-  //               itemData={item}
-  //               onClick={() => {
-  //                 goDetail(item.project_id);
-  //               }}
-  //             />
-  //           );
-  //         })}
-  //       </div>
-  //     </TrendsHotContainer>
-  //   );
-  // };
 
   const HistoryHot = (props: any) => {
     const data = props.data;
@@ -345,58 +257,54 @@ const Pavo = () => {
     );
   };
 
-  const HeadReturn = (props: any) => {
-    const title = props.title;
-
-    return (
-      <HeadReturnContainer>
-        <img onClick={() => opMoreClick("Hall")} src={returnImg} alt="" />
-        <span>{title}</span>
-      </HeadReturnContainer>
-    );
-  };
-
   const copyContractAddress = () => {
     copy(loginedAddress);
     toast.success("Copied");
   };
   const LoginModal = (props: any) => {
     return (
-      <ModalContainer>
-        <div className="user-des">
-          <div className="user-topLine">
-            <div className="user-name">
-              <span className="user-code">{formatAddress(loginedAddress)}</span>
-              <IconButton
-                onClick={() => {
-                  copyContractAddress();
-                }}
-                sx={{ ml: 0.5, height: "17px", width: "17px" }}
-              >
-                <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
-              </IconButton>
+      <>
+        <ModalBG
+          onClick={() => {
+            setSelectMenu(false);
+          }}
+        ></ModalBG>
+        <ModalContainer>
+          <div className="user-des">
+            <div className="user-topLine">
+              <div className="user-name">
+                <span className="user-code">{formatAddress(loginedAddress)}</span>
+                <IconButton
+                  onClick={() => {
+                    copyContractAddress();
+                  }}
+                  sx={{ ml: 0.5, height: "17px", width: "17px" }}
+                >
+                  <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
+                </IconButton>
+              </div>
+              {/* <div className="user-eth">Value: 1213.22 USDC</div> */}
             </div>
-            {/* <div className="user-eth">Value: 1213.22 USDC</div> */}
+            <ClearIcon
+              sx={{ height: "24px", width: "24px", color: "#D1D0D6", cursor: "pointer" }}
+              onClick={() => setSelectMenu(!selectMenu)}
+            />
           </div>
-          <ClearIcon
-            sx={{ height: "24px", width: "24px", color: "#D1D0D6", cursor: "pointer" }}
-            onClick={() => setSelectMenu(!selectMenu)}
-          />
-        </div>
-        <div className="op-list">
-          {/* <div className="metaPavo-pp">系统设置</div> */}
-          <div
-            className="metaPavo-pp"
-            onClick={async () => {
-              await logout();
-              setShowLogin(true);
-            }}
-          >
-            Logout
+          <div className="op-list">
+            {/* <div className="metaPavo-pp">系统设置</div> */}
+            <div
+              className="metaPavo-pp"
+              onClick={async () => {
+                await logout();
+                setShowLogin(true);
+              }}
+            >
+              Logout
+            </div>
           </div>
-        </div>
-        <div className="mask" />
-      </ModalContainer>
+          <div className="mask" />
+        </ModalContainer>
+      </>
     );
   };
 
@@ -417,7 +325,7 @@ const Pavo = () => {
       {/* 0 1 */}
       <SearchCom goDetail={goDetail} />
 
-      <ToolsHot data={toolsHot} title={"TOOLS"} />
+      <ToolsHot title={"TOOLS"} />
 
       {/* <WatchListHot data={trendsHot} title={"WATCHLIST"} /> */}
 

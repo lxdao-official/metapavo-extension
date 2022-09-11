@@ -374,6 +374,7 @@ export const HistoryHotItemContainer = styled.div`
   width: 100%;
   margin-bottom: 12px;
   cursor: pointer;
+
   .user-icon {
     width: 40px;
     height: 40px;
@@ -459,6 +460,7 @@ export const HeadReturnContainer = styled.div`
 
 export const ModalContainer = styled.div`
   position: absolute;
+  z-index: 1000;
   top: 35px;
   left: 13px;
   display: flex;
@@ -506,3 +508,14 @@ export const ModalContainer = styled.div`
 `;
 
 const SearchInput = styled.input``;
+
+export const ModalBG = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  right: 0;
+  width: 302px;
+`;

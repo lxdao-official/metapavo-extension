@@ -51,17 +51,7 @@ const PopupMain = () => {
             <GoIcon />
           </div>
         </MenuItemStyle>
-        <MenuItemStyle
-          onClick={() => {
-            navigate("/history");
-          }}
-        >
-          <div className="menu-left">History</div>
-          <div className="menu-right">
-            {counts.historyCount ? <Badge>{counts.historyCount}</Badge> : null}
-            <GoIcon />
-          </div>
-        </MenuItemStyle>
+
         <MenuItemStyle
           onClick={() => {
             navigate("/alarms");
@@ -73,12 +63,23 @@ const PopupMain = () => {
             <GoIcon />
           </div>
         </MenuItemStyle>
-        <MenuItemStyle>
+        <MenuItemStyle
+          onClick={() => {
+            navigate("/history");
+          }}
+        >
+          <div className="menu-left">History</div>
+          <div className="menu-right">
+            {/* {counts.historyCount ? <Badge>{counts.historyCount}</Badge> : null} */}
+            <GoIcon />
+          </div>
+        </MenuItemStyle>
+        {/* <MenuItemStyle>
           <div className="menu-left">Timezone Tool</div>
           <div className="menu-right">
             <GoIcon />
           </div>
-        </MenuItemStyle>
+        </MenuItemStyle> */}
         <MenuItemStyle
           onClick={() => {
             navigate("/report");
