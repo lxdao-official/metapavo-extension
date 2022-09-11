@@ -107,11 +107,8 @@ export async function addFavByProjectId(project_id: string) {
   return null;
 }
 export async function removeFavByProjectId(project_id: string) {
-  const res = await fetchWrapped(`${config.baseURL}/favs/delete`, {
+  const res = await fetchWrapped(`${config.baseURL}/favs/delete/${project_id}`, {
     method: "DELETE",
-    body: JSON.stringify({
-      project_id,
-    }),
   });
   if (res && res.success) {
     return res.data;
