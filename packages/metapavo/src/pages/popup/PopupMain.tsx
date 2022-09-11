@@ -82,10 +82,10 @@ const PopupMain = () => {
         </MenuItemStyle> */}
         <MenuItemStyle
           onClick={() => {
-            navigate("/report");
+            navigate("/report-scam");
           }}
         >
-          <div className="menu-left">Submit a Project</div>
+          <div className="menu-left">Report Scam</div>
           <div className="menu-right">
             <GoIcon />
           </div>

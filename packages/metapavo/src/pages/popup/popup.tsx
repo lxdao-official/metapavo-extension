@@ -10,9 +10,10 @@ import WatchListPage from "../content-script/plugins/watchlist/WatchListPage";
 import AlarmList from "../content-script/plugins/alarmreminder/AlarmListPage";
 import PopupMain from "./PopupMain";
 import NoLogin from "./NoLogin";
-import { Report } from "../content-script/plugins/Report";
+import { Report } from "../content-script/plugins/report/ReportProject";
 import { Toaster } from "react-hot-toast";
 import { HeadCom } from "./styleCom/HeadCom";
+import { ReportScam } from "../content-script/plugins/report/ReportScam";
 
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-popop";
@@ -96,6 +97,14 @@ function Page() {
             element={
               <HavNavPage>
                 <Report />
+              </HavNavPage>
+            }
+          />
+          <Route
+            path="/report-scam"
+            element={
+              <HavNavPage>
+                <ReportScam />
               </HavNavPage>
             }
           />

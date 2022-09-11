@@ -206,13 +206,19 @@ export async function settingCounts() {
   return null;
 }
 
-export async function reportCreate(url: string, project_type: string, project_name: string) {
+export async function reportCreate(
+  url: string,
+  project_type: string,
+  project_name: string,
+  is_scam = false,
+) {
   const res = await fetchWrapped(`${config.baseURL}/reports`, {
     method: "POST",
     body: JSON.stringify({
       url,
       project_type,
       project_name,
+      is_scam,
     }),
   });
   if (res && res.success) {

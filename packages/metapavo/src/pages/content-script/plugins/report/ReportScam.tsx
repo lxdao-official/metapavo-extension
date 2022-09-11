@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { reportCreate } from "../../../utils/apis/nft_api";
-import { HeadReturnContainer, PageContainer } from "./styleCom";
+import { useEffect, useState } from "react";
+import { reportCreate } from "../../../../utils/apis/nft_api";
+import { HeadReturnContainer, PageContainer } from "../styleCom";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
@@ -80,24 +80,16 @@ const NoFoundWrap = styled.div`
   }
 `;
 
-export function Report() {
+export function ReportScam() {
   const [type, setType] = useState<string>("NFT");
   const [name, setName] = useState<string>("");
 
   const onBtnClick = async () => {
-    const reportResult = await reportCreate(window.location.toString(), type, name);
-    console.log("heisan-->", reportResult);
+    const reportResult = await reportCreate(url, type, name, true);
     if (reportResult) {
-      // return {
-      //   projectInfo,
-      //   status: CheckResultStatus.SUCCESS,
-      // };
       clear();
-      toast.success("Succeed", {});
+      toast.success("submit success. thank you.", {});
     } else {
-      // return {
-      //   status: CheckResultStatus.NOTINSERVER,
-      // };
       toast.error("Error", {});
     }
   };
@@ -111,6 +103,18 @@ export function Report() {
     setType("NFT");
     setName("");
   };
+  const [url, seturl] = useState("");
+  useEffect(() => {
+    chrome.tabs?.query({ active: true, lastFocusedWindow: true }, function (tabs) {
+      console.log(tabs);
+
+      for (let i = 0; i < tabs.length; i++) {
+        if (tabs[i].url && tabs[i].url?.startsWith("http")) {
+          seturl(tabs[i].url || "");
+        }
+      }
+    });
+  }, []);
   const navigate = useNavigate();
   const HeadReturn = (props: any) => {
     const title = props.title;
@@ -130,7 +134,7 @@ export function Report() {
   };
   return (
     <PageContainer>
-      <HeadReturn title={"submit a project"} />
+      <HeadReturn title={"Report Scam"} />
       <NoFoundWrap>
         <div className="form-wrap">
           <span className="form-title">URL</span>
@@ -138,7 +142,10 @@ export function Report() {
             className="form-input disable"
             type="text"
             // disabled={true}
-            value={window.location.toString().startsWith("http") ? window.location.toString() : ""}
+            onChange={(e) => {
+              seturl(e.target.value);
+            }}
+            value={url}
           />
           <span className="form-title">Type</span>
           <select className="form-select" onChange={onTypeChange} value={type}>

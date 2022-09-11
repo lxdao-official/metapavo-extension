@@ -22,7 +22,7 @@
     "service_worker": "./dist/static/js/background.js"
   },
   "options_page": "options.html",
-  "permissions": ["storage", "alarms", "notifications"],
+  "permissions": ["storage", "alarms", "notifications", "tabs"],
   "web_accessible_resources": [
     {
       "resources": ["images/*.jpg", "images/*.png", "images/svgs/*.svg", "logo-128.png"],
