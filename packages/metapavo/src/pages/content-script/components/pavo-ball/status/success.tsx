@@ -110,6 +110,7 @@ const RootElement = styled.div`
     width: 190px;
     overflow-x: auto;
     position: relative;
+    bahavior: smooth;
     ::-webkit-scrollbar {
       display: none;
     }
@@ -129,6 +130,8 @@ const RootElement = styled.div`
     line-height: 40px;
     a {
       margin: 0 3px;
+      width: 20px;
+      height: 20px;
       img {
         width: 20px;
         height: 20px;
@@ -314,7 +317,10 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               >
                 <img src={linkImages.sudoswap} alt="" />{" "}
               </a>
-            ) : null}{" "}
+            ) : null}
+            <a>
+              <img src="" alt="" style={{ opacity: 0 }} />{" "}
+            </a>
           </div>
         </div>
         <button
