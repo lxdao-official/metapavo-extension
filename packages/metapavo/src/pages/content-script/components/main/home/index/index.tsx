@@ -246,9 +246,9 @@ const Pavo = () => {
               <Item
                 key={index}
                 itemData={item}
-                // onClick={() => {
-                //   goDetail(item.project_id);
-                // }}
+                onClick={() => {
+                  goDetail(item.project_id);
+                }}
               />
             );
           })}

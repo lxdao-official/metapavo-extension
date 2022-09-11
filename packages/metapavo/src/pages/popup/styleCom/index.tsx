@@ -47,8 +47,12 @@ export const HeadLogo = styled.div`
 export const Head = styled.div`
   width: 100%;
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
   justify-content: space-between;
   height: 53px;
+  z-index: 100;
   background: #f2f2f5;
   border-bottom: 1px solid #e9eaf3;
   padding: 13px 15px 0 15px;
