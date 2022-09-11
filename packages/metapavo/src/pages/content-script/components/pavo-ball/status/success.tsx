@@ -22,6 +22,7 @@ const RootElement = styled.div`
     opacity: 0;
     transform: scale(0);
   }
+
   .mp-success-hd {
     display: flex;
     justify-content: flex-start;
@@ -91,6 +92,7 @@ const RootElement = styled.div`
   }
   .mp-success-links {
     display: flex;
+    position: relative;
     justify-content: space-between;
     margin: 0px 20px;
     button {
@@ -105,16 +107,38 @@ const RootElement = styled.div`
     }
   }
   .mp-success-links-left {
+    width: 190px;
+    overflow-x: auto;
+    position: relative;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .mp-links-shape {
+    position: absolute;
+    width: 25px;
+    height: 40px;
+    left: 166px;
+    top: 0px;
+    background: linear-gradient(270deg, #ffffff 38.92%, rgba(255, 255, 255, 0.03) 97.37%);
+    z-index: 10;
+  }
+  .mp-success-links-left-inner {
     display: flex;
     justify-content: flex-start;
     line-height: 40px;
     a {
-      margin-right: 6px;
+      margin: 0 3px;
       img {
         width: 20px;
         height: 20px;
         vertical-align: 5px;
       }
+    }
+    .dividor {
+      border: 0.5px solid #979797;
+      margin-top: 7px;
+      height: 10px;
     }
   }
 `;
@@ -163,126 +187,135 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
         </div>
       </div>
       <div className="mp-success-links">
+        <div className="mp-links-shape"> </div>
         <div className="mp-success-links-left">
-          {activeProject?.contract_address ? (
-            <a
-              href={"https://etherscan.io/address/" + activeProject.contract_address}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.etherscan} alt="" />{" "}
-            </a>
-          ) : null}
-          {activeProject?.external_url ? (
-            <a href={activeProject.external_url} target="_blank" rel="noreferrer">
-              <img src={linkImages.website} alt="" />{" "}
-            </a>
-          ) : null}
-          {activeProject?.twitter_username ? (
-            <a
-              href={"https://twitter.com/" + activeProject.twitter_username}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.twitter} alt="" />{" "}
-            </a>
-          ) : null}
-          {activeTokenId && activeProject?.contract_address ? (
-            <a
-              href={
-                "https://opensea.io/assets/ethereum/" +
-                activeProject?.contract_address +
-                "/" +
-                activeTokenId
-              }
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.opensea} alt="" />{" "}
-            </a>
-          ) : activeProject?.id ? (
-            <a
-              href={"https://opensea.io/collection/" + activeProject.id}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.opensea} alt="" />{" "}
-            </a>
-          ) : null}{" "}
-          {activeProject?.id ? (
-            <a
-              href={`https://looksrare.org/collections/${activeProject?.contract_address}/${
-                activeTokenId ? activeTokenId : ""
-              }`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.looksrare} alt="" />{" "}
-            </a>
-          ) : null}
-          {activeTokenId && activeProject?.contract_address ? (
-            <a
-              href={"https://x2y2.io/eth/" + activeProject?.contract_address + "/" + activeTokenId}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.x2y2} alt="" />{" "}
-            </a>
-          ) : activeProject?.id ? (
-            <a
-              href={`https://x2y2.io/collection/${activeProject?.id}/items`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.x2y2} alt="" />{" "}
-            </a>
-          ) : null}{" "}
-          {/* {activeProject?.github ? (
+          <div className="mp-success-links-left-inner">
+            {activeProject?.twitter_username ? (
+              <a
+                href={"https://twitter.com/" + activeProject.twitter_username}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.twitter} alt="" />{" "}
+              </a>
+            ) : null}
+            {activeProject?.external_url ? (
+              <a href={activeProject.external_url} target="_blank" rel="noreferrer">
+                <img src={linkImages.website} alt="" />{" "}
+              </a>
+            ) : null}
+            {activeProject?.contract_address ? (
+              <a
+                href={"https://etherscan.io/address/" + activeProject.contract_address}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.etherscan} alt="" />{" "}
+              </a>
+            ) : null}
+            <a className="dividor"></a>
+            {activeTokenId && activeProject?.contract_address ? (
+              <a
+                href={
+                  "https://opensea.io/assets/ethereum/" +
+                  activeProject?.contract_address +
+                  "/" +
+                  activeTokenId
+                }
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.opensea} alt="" />{" "}
+              </a>
+            ) : activeProject?.id ? (
+              <a
+                href={"https://opensea.io/collection/" + activeProject.id}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.opensea} alt="" />{" "}
+              </a>
+            ) : null}{" "}
+            {activeProject?.id ? (
+              <a
+                href={`https://looksrare.org/collections/${activeProject?.contract_address}/${
+                  activeTokenId ? activeTokenId : ""
+                }`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.looksrare} alt="" />{" "}
+              </a>
+            ) : null}
+            {activeTokenId && activeProject?.contract_address ? (
+              <a
+                href={
+                  "https://x2y2.io/eth/" + activeProject?.contract_address + "/" + activeTokenId
+                }
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.x2y2} alt="" />{" "}
+              </a>
+            ) : activeProject?.id ? (
+              <a
+                href={`https://x2y2.io/collection/${activeProject?.id}/items`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.x2y2} alt="" />{" "}
+              </a>
+            ) : null}{" "}
+            {/* {activeProject?.github ? (
             <a href={`${activeProject?.github}`} target="_blank" rel="noreferrer">
               <img src={linkImages.github} alt="" />{" "}
             </a>
           ) : null} */}
-          {activeTokenId && activeProject?.contract_address ? (
-            <a
-              href={
-                "https://www.gem.xyz/asset/" + activeProject?.contract_address + "/" + activeTokenId
-              }
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.gem} alt="" />{" "}
-            </a>
-          ) : activeProject?.id ? (
-            <a
-              href={`https://www.gem.xyz/collection/${activeProject?.id}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.gem} alt="" />{" "}
-            </a>
-          ) : null}{" "}
-          {activeTokenId && activeProject?.contract_address ? (
-            <a
-              href={
-                "https://sudoswap.xyz/#/item/" +
-                activeProject?.contract_address +
-                "/" +
-                activeTokenId
-              }
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.sudoswap} alt="" />{" "}
-            </a>
-          ) : activeProject?.contract_address ? (
-            <a
-              href={`https://sudoswap.xyz/#/browse/buy/${activeProject?.contract_address}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src={linkImages.sudoswap} alt="" />{" "}
-            </a>
-          ) : null}{" "}
+            {activeTokenId && activeProject?.contract_address ? (
+              <a
+                href={
+                  "https://www.gem.xyz/asset/" +
+                  activeProject?.contract_address +
+                  "/" +
+                  activeTokenId
+                }
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.gem} alt="" />{" "}
+              </a>
+            ) : activeProject?.id ? (
+              <a
+                href={`https://www.gem.xyz/collection/${activeProject?.id}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.gem} alt="" />{" "}
+              </a>
+            ) : null}{" "}
+            {activeTokenId && activeProject?.contract_address ? (
+              <a
+                href={
+                  "https://sudoswap.xyz/#/item/" +
+                  activeProject?.contract_address +
+                  "/" +
+                  activeTokenId
+                }
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.sudoswap} alt="" />{" "}
+              </a>
+            ) : activeProject?.contract_address ? (
+              <a
+                href={`https://sudoswap.xyz/#/browse/buy/${activeProject?.contract_address}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={linkImages.sudoswap} alt="" />{" "}
+              </a>
+            ) : null}{" "}
+          </div>
         </div>
         <button
           className=""
