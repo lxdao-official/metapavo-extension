@@ -10,7 +10,7 @@ const rootElement = document.createElement("div");
 rootElement.id = "metapavo-login";
 
 document.body.appendChild(rootElement);
-
+document.body.style.margin = "0";
 const RootElement = styled.div`
   width: 100%;
 `;
