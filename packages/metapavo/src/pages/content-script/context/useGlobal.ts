@@ -69,7 +69,7 @@ function useGlobal() {
       setTimeout(() => {
         document.body.style.paddingRight = "303px";
         document.body.style.boxSizing = "border-box";
-      }, 600);
+      }, 1000);
     } else {
       // setTimeout(() => {
       document.body.style.paddingRight = "0";

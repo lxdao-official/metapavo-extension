@@ -31,12 +31,12 @@ export const MainRootElement = styled.div`
   border-left: 1px solid #e8e8e8;
   &.metapavo-main-show {
     right: -303px;
-    animation: ${show} 0.6s ease-in-out 0s;
+    animation: ${show} 0.6s ease-in-out 0.3s;
     animation-fill-mode: forwards;
   }
 
   &.metapavo-main-hide {
-    animation: ${hide} 0.6s ease-in-out 0s;
+    animation: ${hide} 0.6s ease-in-out 0.3s;
     animation-fill-mode: forwards;
   }
 `;

@@ -93,7 +93,7 @@ export const RootElement = styled.div`
   cursor: pointer;
   --background: rgb(96, 93, 236);
   --blob: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
-  transition: all 0.5s ease;
+  transition: all 0.6s ease-in;
   //background: linear-gradient(91.75deg, #7DE2AC 0%, #389DFA 49.26%, #9F50FF 97.76%);
   // --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
   --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #7de2ac, inset -40px 10px 100px #9f50ff;
@@ -109,7 +109,7 @@ export const RootElement = styled.div`
     transition: none;
   }
   &.metapavo-main-show {
-    bottom: -10px !important;
+    bottom: -200px !important;
   }
   &.metapavo-main-status-danger #metapavo-box-gas {
     background: var(--blob);
