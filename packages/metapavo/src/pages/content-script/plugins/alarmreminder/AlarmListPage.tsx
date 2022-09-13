@@ -1,14 +1,14 @@
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { CalendarPicker } from '@mui/x-date-pickers';
+import { CalendarPicker, CalendarPickerProps } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import React from "react";
 import { useEffect } from "react";
 import moment, { Moment } from "moment";
 import { getUsersAlarmsList } from "../../../../utils/apis/nft_api";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, styled } from "@mui/material";
 import toast from "react-hot-toast";
 import { PageContainer } from "../styleCom";
 // import { HeadReturn } from "../common/HeadReturn";
@@ -69,6 +69,11 @@ export default function AlarmListPage() {
   //     <TrendsHotContainer>
   //       <HeadReturn title={"Alarm Reminder"} />
   
+  const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
+    margin: 0;
+    width: 100%;
+  `;
+
   const alarmList = loading ? (
     <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
       <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
@@ -76,7 +81,13 @@ export default function AlarmListPage() {
   ) : (
     <div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)} />
+      <Box
+        sx={(theme) => ({
+          width: "280px"
+        })}
+      >
+        <CustomCalendarPicker date={date} onChange={(newDate) => setDate(newDate)} showDaysOutsideCurrentMonth />
+      </Box> 
       </LocalizationProvider>
       {alarms.map((alarm) => {
         return (
