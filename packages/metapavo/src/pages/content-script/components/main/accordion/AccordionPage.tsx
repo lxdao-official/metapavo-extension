@@ -5,11 +5,11 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import Extention from "./project/ProjectContainer";
+import ProjectContainer from "../project/ProjectContainer";
 import { GlobalContext } from "../../../context/useGlobal";
-import { NoFound } from "./nofound";
+import { NoFound } from "./NoFound";
 import { MetaPavo } from "../../assets/Svgs";
-import Pavo from "./index/index";
+import Pavo from "../index/index";
 import styled from "styled-components";
 import { Route, Routes } from "react-router-dom";
 import AlarmListPage from "../../../plugins/alarmreminder/AlarmListPage";
@@ -199,7 +199,7 @@ const AccordionPage = () => {
           </Box>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0, backgroundColor: "#fcfcfc", boxShadow: "none" }}>
-          {activeAccoidion === 1 ? activeProject ? <Extention /> : <NoFound /> : null}
+          {activeAccoidion === 1 ? activeProject ? <ProjectContainer /> : <NoFound /> : null}
         </AccordionDetails>
       </Accordion>
     </AccordionContainer>

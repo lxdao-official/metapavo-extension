@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useState, useEffect, useCallback } from "react";
-import { searchProjects } from "../../../../../../utils/apis/nft_api";
-import { Component1 } from "../../../assets/Svgs";
+import { searchProjects } from "../../../../../utils/apis/nft_api";
+import { Component1 } from "../../assets/Svgs";
 import { SearchField, SearchItemContainer } from "./styleCom";
 import { useThrottle, useThrottleFn } from "ahooks";
 import { AnyARecord } from "dns";
@@ -32,7 +32,7 @@ const SearchItem = (props: any) => {
           <span className="num">{item.eth}</span>
           <span>Floor</span>
         </div>
-        { showEnter && <img className="enter" src={enter} alt="" /> }
+        {showEnter && <img className="enter" src={enter} alt="" />}
       </div>
     </SearchItemContainer>
   );
@@ -42,7 +42,7 @@ const SearchItem = (props: any) => {
 export const SearchCom = (props: any) => {
   const [curValue, setCurValue] = useState<string>("");
   const [searchData, setSearchData] = useState<any[]>([]);
-  const [curIndex, setCurIndex] = useState<number>(0)
+  const [curIndex, setCurIndex] = useState<number>(0);
 
   const { run, cancel, flush } = useThrottleFn(
     async (keyword: string) => {
@@ -89,30 +89,29 @@ export const SearchCom = (props: any) => {
     // ← 37 ↑ 38 → 39 ↓ 40 esc 27 enter 13
     switch (e.keyCode) {
       case 13:
-        props.goDetail(searchData[curIndex].project_id)
-        break
+        props.goDetail(searchData[curIndex].project_id);
+        break;
       case 27:
         setSearchData([]);
-        setCurValue('')
-        setCurIndex(0)
+        setCurValue("");
+        setCurIndex(0);
         break;
       case 38:
-        setCurIndex((curIndex - 1) <=0 ? 0 : curIndex - 1 )
+        setCurIndex(curIndex - 1 <= 0 ? 0 : curIndex - 1);
         break;
       case 40:
-        setCurIndex(searchData.length !== 0 ? (curIndex + 1) % searchData.length : 0)
+        setCurIndex(searchData.length !== 0 ? (curIndex + 1) % searchData.length : 0);
         break;
     }
-  }
+  };
 
   useEffect(() => {
-
-    window.addEventListener('keyup', keyBoardCheck, true);
+    window.addEventListener("keyup", keyBoardCheck, true);
 
     return () => {
-      window.removeEventListener('keyup', keyBoardCheck, true);
-    }
-  }, [searchData, curIndex])
+      window.removeEventListener("keyup", keyBoardCheck, true);
+    };
+  }, [searchData, curIndex]);
 
   return (
     <SearchField>

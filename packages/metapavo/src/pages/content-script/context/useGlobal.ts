@@ -4,11 +4,7 @@ import { createVisitHistory, getNftById } from "../../../utils/apis/nft_api";
 import { IProject } from "../../../utils/apis/types";
 import { ScamResult } from "../../../utils/detector/src";
 import { Checker } from "../../../utils/recognizer/checkers";
-import { checkMarketPlace } from "../../../utils/recognizer/checkers/marketplace";
-import { checkTwitter } from "../../../utils/recognizer/checkers/twitter";
 import { checkTwitterScam } from "../../../utils/recognizer/checkers/twitterScam";
-import { CheckResultStatus } from "../../../utils/recognizer/checkers/types";
-import { checkWebsite } from "../../../utils/recognizer/checkers/website";
 type RecognizerStatus = "danger" | "warning" | "success" | "none";
 export const GlobalContext = React.createContext<{
   showMain: boolean;

@@ -129,22 +129,6 @@ function Ball() {
         style={{
           display: !hide ? "block" : "none",
         }}
-        // onMouseEnter={() => {
-        //   if (useG.detectStatus === "success") {
-        //     useG.showSuccess();
-        //   }
-        //   rootRef.current.setAttribute("mouseIsOver", "1");
-        // }}
-        // onMouseLeave={() => {
-        //   rootRef.current.setAttribute("mouseIsOver", "0");
-        //   if (useG.detectStatus === "success") {
-        //     setTimeout(() => {
-        //       if (rootRef.current.getAttribute("mouseIsOver") !== "1") {
-        //         useG.setAddRootClass("");
-        //       }
-        //     }, 1000);
-        //   }
-        // }}
       >
         <GasBox
           id="metapavo-box-gas"

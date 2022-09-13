@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import styled from "styled-components";
-import { GlobalContext } from "../../context/useGlobal";
+import { GlobalContext } from "../../../context/useGlobal";
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
 const MainBody = styled.div`
   margin-top: 50px;

@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/useGlobal";
-import LoginPage from "./login";
-import AccordionPage from "./home/AccordionPage";
+import LoginPage from "./accordion/Login";
+import AccordionPage from "./accordion/AccordionPage";
 import { WalletContext } from "../../context/useWallet";
 import { MainRootElement } from "./styles";
-import Bottom from "./home/Bottom";
+import Bottom from "./accordion/Bottom";
 
 function App() {
   const useG = useContext(GlobalContext);

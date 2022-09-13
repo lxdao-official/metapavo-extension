@@ -1,7 +1,7 @@
 import { Box, MenuItem } from "@mui/material";
 import React from "react";
+import { Left_Icon, EthIcon, Fliter } from "../../assets/Svgs";
 import { css } from "./styles";
-import { EthIcon, Fliter, Left_Icon } from "../../../assets/Svgs";
 interface MediaProps {
   loading?: boolean;
 }

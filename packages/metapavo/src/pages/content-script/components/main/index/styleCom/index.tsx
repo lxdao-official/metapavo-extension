@@ -270,6 +270,7 @@ export const ToolsItemContainer = styled.div`
   justify-content: space-between;
   margin-bottom: 18px;
   align-items: center;
+  cursor: pointer;
 
   img {
     width: 70px;

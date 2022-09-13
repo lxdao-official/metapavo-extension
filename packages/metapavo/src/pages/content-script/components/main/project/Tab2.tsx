@@ -1,7 +1,7 @@
 import { Box, Skeleton } from "@mui/material";
+import useGlobal from "../../../context/useGlobal";
+import { EthIcon } from "../../assets/Svgs";
 import { css } from "./styles";
-import useGlobal from "../../../../context/useGlobal";
-import { EthIcon } from "../../../assets/Svgs";
 const twoDecimal = (num: any) => {
   if (!num || num !== num || num == "NaN") return 0.0;
   const data = num + "".toLocaleString();

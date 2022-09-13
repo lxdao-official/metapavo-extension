@@ -68,11 +68,11 @@ module.exports = {
   appTsBuildInfoFile: resolveApp("node_modules/.cache/tsconfig.tsbuildinfo"),
   swSrc: resolveModule(resolveApp, "src/service-worker"),
   publicUrlOrPath: resolveApp(publicUrlOrPath),
-  content: resolveApp("./src/pages/content-script/ContentScript.tsx"),
-  popup: resolveApp("./src/pages/popup/popup.tsx"),
+  content: resolveApp("./src/pages/content-script/App.tsx"),
+  popup: resolveApp("./src/pages/popup/App.tsx"),
   background: resolveApp("./src/scripts/background.ts"),
   twitter: resolveApp("./src/scripts/twitter.ts"),
-  single_login: resolveApp("./src/pages/single/login.tsx"),
+  single_login: resolveApp("./src/pages/login/App.tsx"),
 };
 
 module.exports.moduleFileExtensions = moduleFileExtensions;
