@@ -5,7 +5,7 @@ import Ball from "./components/pavo-ball/ball";
 import SelectText from "./plugins/date-tool/selectText";
 import useGlobal, { GlobalContext } from "./context/useGlobal";
 import useWallet, { WalletContext } from "./context/useWallet";
-import Main from "./components/main";
+import Main from "./components/side-panel";
 import toast, { Toaster } from "react-hot-toast";
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-root";

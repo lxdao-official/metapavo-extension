@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { MemoryRouter, Route, Routes, useNavigate, useMatch } from "react-router-dom";
 import styled from "styled-components";
-import Bottom from "../content-script/components/main/accordion/Bottom";
+import Bottom from "../content-script/components/side-panel/accordion/Bottom";
 import useWallet, { WalletContext } from "../content-script/context/useWallet";
 import HistoryListPage from "../content-script/plugins/watchlist/HistoryListPage";
 import WatchListPage from "../content-script/plugins/watchlist/WatchListPage";
