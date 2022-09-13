@@ -9,6 +9,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { CirclePicker } from 'react-color';
 import { suggestionCollector } from "cspell-trie-lib";
 import { addAlarmForUser } from "../../../../utils/apis/nft_api";
+import zIndex from "@mui/material/styles/zIndex";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 
 const AlarmSetFormWrap = styled.div`
@@ -96,6 +97,9 @@ export default function AlarmSetPage(props:any) {
             <AlarmSetFormWrap>
                 <span className="form-title">Time</span>
                 <DateTimePicker
+                    PopperProps={{
+                        style: {zIndex: 100000000001}                    
+                    }}
                     value={time}
                     onChange={handleTimeChange}
                     renderInput={(params) => <TextField {...params} size="small" />}
