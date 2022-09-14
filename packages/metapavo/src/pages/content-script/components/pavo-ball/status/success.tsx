@@ -128,14 +128,18 @@ const RootElement = styled.div`
     display: flex;
     justify-content: flex-start;
     line-height: 40px;
+    gap: 6px 6px;
     a {
-      margin: 0 3px;
       width: 20px;
       height: 20px;
+      box-sizing: content-box;
+      display: block;
       img {
         width: 20px;
         height: 20px;
+        max-width: 20px;
         vertical-align: 5px;
+        display: block;
       }
     }
     .dividor {
