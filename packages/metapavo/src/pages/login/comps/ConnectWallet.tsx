@@ -9,7 +9,6 @@ const ButtonStyle = styled.button`
   padding: 0 20px;
   width: 276.57px;
   height: 48px;
-  background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
   box-shadow: 0px 0px 0px #4216e7;
   border-radius: 4px;
   color: #fff !important;
@@ -27,6 +26,7 @@ const ButtonStyle = styled.button`
   box-shadow: 0px 0px 0px #4216e7;
   border-radius: 4px;
   color: #1c1b1d !important;
+  cursor: pointer;
   &:disabled {
     opacity: 0.6;
   }

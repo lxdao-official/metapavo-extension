@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { WatchlistIcon, AlarmIcon, HistoryIcon, SwapIcon } from "../icons/icons";
-import { ToolsHotContainer, HotTitle, ToolsItemContainer } from "../styleCom";
+import { ToolsHotContainer, HotTitle, ToolsItemContainer } from "../styles";
 
 export const ToolsHot = (props: any) => {
   const title = props.title;

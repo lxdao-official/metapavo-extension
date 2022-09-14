@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Item } from "../../../../plugins/watchlist/HistoryListPage";
-import { HistoryHotContainer, HotTitle } from "../styleCom";
+import { HistoryHotContainer, HotTitle } from "../styles";
 import { Empty } from "./Empty";
 import { linkImages } from "../../../../../../utils/linkImages";
 import { getVisitHistories } from "../../../../../../utils/apis/nft_api";

@@ -17,6 +17,7 @@ const TextScrollStyle = styled.div`
   align-items: center;
   width: calc(100% - 102px);
   overflow: hide;
+
   flex-wrap: nowrap;
   -webkit-animation: slideshow 20s linear infinite;
   animation: slideshow 20s linear infinite;
@@ -122,7 +123,7 @@ export default function Bottom() {
         bottom: 0,
         width: "100%",
         height: "32px",
-        background: "#EBEBEB",
+        background: "#f2f2f2",
         overflow: "hidden",
       }}
     >

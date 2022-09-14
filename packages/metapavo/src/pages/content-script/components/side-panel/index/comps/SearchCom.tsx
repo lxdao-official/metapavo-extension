@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import { useState, useEffect, useCallback } from "react";
-import { searchProjects } from "../../../../../utils/apis/nft_api";
-import { Component1 } from "../../assets/Svgs";
-import { SearchField, SearchItemContainer } from "./styleCom";
+import { searchProjects } from "../../../../../../utils/apis/nft_api";
+import { Component1 } from "../../../assets/Svgs";
+import { SearchField, SearchItemContainer } from "../styles";
 import { useThrottle, useThrottleFn } from "ahooks";
 import { AnyARecord } from "dns";
 const enter = chrome.runtime.getURL("images/svgs/enter.svg");
@@ -123,7 +123,6 @@ export const SearchCom = (props: any) => {
           value={curValue}
           placeholder="Search collection/address/.."
         />
-        {/* {status !== 1 && <div>/</div>} */}
       </div>
 
       <div className="metapavo-search-data">
@@ -136,11 +135,6 @@ export const SearchCom = (props: any) => {
                   showEnter={index === curIndex}
                   onClick={() => {
                     props.goDetail(item.project_id);
-                    // setTimeout(() => {
-                    //   setStatus(0);
-                    //   setSearchData([]);
-                    //   setCurValue("");
-                    // }, 1000);
                   }}
                 />
               );
