@@ -25,7 +25,7 @@ function Ball() {
     gasRef.current.onmousedown = dragMouseDown;
     gasRef.current.onmouseup = (e) => {
       e.stopPropagation();
-      if (new Date().getTime() - mousedownTimestamp < 300) {
+      if (new Date().getTime() - mousedownTimestamp < 200) {
         if (!useG.addRootClass) {
           useG.setShowMain(!useG.showMain);
         }
