@@ -138,6 +138,7 @@ const RootElement = styled.div`
         width: 20px;
         height: 20px;
         max-width: 20px;
+        min-width: 20px;
         vertical-align: 5px;
         display: block;
       }
