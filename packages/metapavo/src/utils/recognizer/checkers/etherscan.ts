@@ -1,11 +1,12 @@
 import { findNftByAddress, findNftByURL } from "../../apis/nft_api";
-import { IProject } from "../../apis/types";
+import { findNftByAddressV2 } from "../../apis/nft_api_v2";
+import { IProject, IProjectV2 } from "../../apis/types";
 import { recognizerEtherscan } from "../etherscan";
 import { recognizerWebsite } from "../website";
 import { CheckResultStatus } from "./types";
 let lastCheckId: string | undefined = undefined;
 export async function checkEtherscan(): Promise<{
-  projectInfo?: IProject;
+  projectInfo?: IProjectV2;
   status: CheckResultStatus;
 }> {
   const result = await recognizerEtherscan();
@@ -16,7 +17,7 @@ export async function checkEtherscan(): Promise<{
       };
     }
     lastCheckId = result.contract;
-    const projectInfo = await findNftByAddress(result.contract);
+    const projectInfo = await findNftByAddressV2(result.contract);
     if (projectInfo) {
       return {
         projectInfo,

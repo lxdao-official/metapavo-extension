@@ -5,6 +5,7 @@ import { Component1 } from "../../../assets/Svgs";
 import { SearchField, SearchItemContainer } from "../styles";
 import { useThrottle, useThrottleFn } from "ahooks";
 import { AnyARecord } from "dns";
+import { searchProjectsV2 } from "../../../../../../utils/apis/nft_api_v2";
 const enter = chrome.runtime.getURL("images/svgs/enter.svg");
 const flag = chrome.runtime.getURL("images/svgs/flag.svg");
 const userIcon = chrome.runtime.getURL("images/svgs/user_icon.svg");
@@ -52,18 +53,22 @@ export const SearchCom = (props: any) => {
       }
       // search project 请求逻辑
       try {
-        const searchResult: any = await searchProjects(keyword);
-        if (searchResult.data) {
-          let searchData = searchResult.data;
-          searchData = searchData.map((item: any) => {
+        const searchResult = await searchProjectsV2(keyword);
+        if (searchResult?.records) {
+          let searchData = searchResult.records;
+          searchData = searchData.map((item) => {
             return {
               ...item,
-              project_id: item.id,
-              user_icon: item.image_url,
+              project_id: item.symbol,
+              user_icon: item.imageUrl,
               user_name: item.name,
               flag: flag,
-              contract_is_verified: item.contract_is_verified,
-              eth: `${item.floor_price ? Math.round(item.floor_price * 1000) / 1000 : 0} ETH`,
+              contract_is_verified: item.contractData.isVerified,
+              eth: `${
+                item.nftProjectInfo.stats[0]?.floorPrice
+                  ? Math.round(Number(item.nftProjectInfo.stats[0]?.floorPrice) * 1000) / 1000
+                  : 0
+              } ETH`,
             };
           });
           setSearchData(searchData);

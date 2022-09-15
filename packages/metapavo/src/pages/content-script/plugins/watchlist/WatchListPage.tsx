@@ -10,6 +10,7 @@ import { linkImages } from "../../../../utils/linkImages";
 import { GlobalContext } from "../../context/useGlobal";
 import { HeadReturn } from "../common/HeadReturn";
 import { ItemContainer, PageContainer } from "../styleCom";
+import { getNftByIdV2 } from "../../../../utils/apis/nft_api_v2";
 export const Item = (props: any) => {
   const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
 
@@ -111,7 +112,7 @@ const WatchListPage = (props: any) => {
     setLoading(false);
   };
   const goDetail = async (project_id: string) => {
-    const project = await getNftById(project_id);
+    const project = await getNftByIdV2(project_id);
     if (project) {
       setActiveProject(project);
     }

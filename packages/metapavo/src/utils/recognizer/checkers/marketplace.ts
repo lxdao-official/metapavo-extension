@@ -1,5 +1,6 @@
 import { findNftByAddress, getNftById } from "../../apis/nft_api";
-import { IProject } from "../../apis/types";
+import { findNftByAddressV2, getNftByIdV2 } from "../../apis/nft_api_v2";
+import { IProject, IProjectV2 } from "../../apis/types";
 import { recognizerGEM } from "../gem";
 import { recognizerLooksrare } from "../looksrare";
 import { recognizerOpenSea } from "../opensea";
@@ -8,7 +9,7 @@ import { recognizerX2Y2 } from "../x2y2";
 import { CheckResultStatus } from "./types";
 let lastCheckId: string | undefined = undefined;
 export async function checkMarketPlace(): Promise<{
-  projectInfo?: IProject;
+  projectInfo?: IProjectV2;
   status: CheckResultStatus;
   tokenId?: string;
 }> {
@@ -46,8 +47,8 @@ export async function checkMarketPlace(): Promise<{
     if (lastCheckId !== nowCheckedId) {
       lastCheckId = nowCheckedResult.contract || nowCheckedResult.id;
       const projectInfo = nowCheckedResult.id
-        ? await getNftById(nowCheckedResult.id)
-        : await findNftByAddress(nowCheckedResult.contract!);
+        ? await getNftByIdV2(nowCheckedResult.id)
+        : await findNftByAddressV2(nowCheckedResult.contract!);
       if (projectInfo) {
         return {
           projectInfo,

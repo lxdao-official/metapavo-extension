@@ -1,9 +1,9 @@
-import { IProject } from "../../apis/types";
+import { IProject, IProjectV2 } from "../../apis/types";
 import { checkTwitterUser, detectProjectByTwitterId } from "../twitter";
 import { CheckResultStatus } from "./types";
 let lastCheckTwitterId: string | null = null;
 export async function checkTwitter(): Promise<{
-  projectInfo?: IProject;
+  projectInfo?: IProjectV2;
   status: CheckResultStatus;
 }> {
   const twitterPageDetail = await checkTwitterUser();

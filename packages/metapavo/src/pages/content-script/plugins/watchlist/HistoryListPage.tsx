@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import styled from "styled-components";
 import { getNftById, getVisitHistories } from "../../../../utils/apis/nft_api";
+import { getNftByIdV2 } from "../../../../utils/apis/nft_api_v2";
 import { IFavs } from "../../../../utils/apis/types";
 import { linkImages } from "../../../../utils/linkImages";
 import { GlobalContext } from "../../context/useGlobal";
@@ -109,7 +110,7 @@ const HisotryListPage = (props: any) => {
     setLoading(false);
   };
   const goDetail = async (project_id: string) => {
-    const project = await getNftById(project_id);
+    const project = await getNftByIdV2(project_id);
     if (project) {
       setActiveProject(project);
     }

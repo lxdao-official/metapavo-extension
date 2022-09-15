@@ -189,10 +189,10 @@ const AccordionPage = () => {
               overflow: "hidden",
             }}
           >
-            {activeProject?.image_url ? (
+            {activeProject?.imageUrl ? (
               <Box
                 component="img"
-                src={activeProject?.image_url}
+                src={activeProject?.imageUrl}
                 sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
               />
             ) : null}

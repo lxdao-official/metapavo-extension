@@ -147,6 +147,7 @@ const RootElement = styled.div`
       border: 0.5px solid #979797;
       margin-top: 7px;
       height: 10px;
+      width: 0px;
     }
   }
 `;
@@ -157,9 +158,9 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
   return (
     <RootElement className={[state === "show" ? "mp-success-show" : "mp-success-hide"].join(" ")}>
       <div className="mp-success-hd">
-        <img src={activeProject?.image_url as string} alt={activeProject?.name} />
+        <img src={activeProject?.imageUrl as string} alt={activeProject?.name} />
         <div className="mp-success-title">{activeProject?.name}</div>
-        {activeProject?.contract_is_verified ? (
+        {activeProject?.contractData.isVerified ? (
           <svg
             width="16"
             height="16"
@@ -181,40 +182,53 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
       </div>
       <div className="mp-success-bd">
         <div className="mp-success-bd-price">
-          Floor: {activeProject?.floor_price ? Number(activeProject.floor_price).toFixed(2) : "-"}Ξ
+          Floor:{" "}
+          {activeProject?.nftProjectInfo.stats[0]?.floorPrice
+            ? Number(activeProject.nftProjectInfo.stats[0].floorPrice).toFixed(2)
+            : "-"}
+          Ξ
         </div>
         <div className="mp-success-bd-price">
           Volume(24h):{" "}
-          {activeProject?.one_day_volume ? Number(activeProject.one_day_volume).toFixed(2) : "-"}Ξ
+          {activeProject?.nftProjectInfo.stats[0]?.oneDayVolume
+            ? Number(activeProject.nftProjectInfo.stats[0]?.oneDayVolume).toFixed(2)
+            : "-"}
+          Ξ
         </div>
         <div className="mp-success-bd-price">
-          Supply: {activeProject?.one_day_volume ? activeProject.total_supply : "-"}
+          Supply:{" "}
+          {activeProject?.nftProjectInfo.stats[0]?.totalSupply
+            ? activeProject.nftProjectInfo.stats[0].totalSupply
+            : "-"}
         </div>
         <div className="mp-success-bd-price">
-          Holders: {activeProject?.one_day_volume ? activeProject.num_owners : "-"}
+          Holders:{" "}
+          {activeProject?.nftProjectInfo.stats[0]?.numOwners
+            ? activeProject.nftProjectInfo.stats[0].numOwners
+            : "-"}
         </div>
       </div>
       <div className="mp-success-links">
         <div className="mp-links-shape"> </div>
         <div className="mp-success-links-left">
           <div className="mp-success-links-left-inner">
-            {activeProject?.twitter_username ? (
+            {activeProject?.twitterUserName ? (
               <a
-                href={"https://twitter.com/" + activeProject.twitter_username}
+                href={"https://twitter.com/" + activeProject.twitterUserName}
                 target="_blank"
                 rel="noreferrer"
               >
                 <img src={linkImages.twitter} alt="" />{" "}
               </a>
             ) : null}
-            {activeProject?.external_url ? (
-              <a href={activeProject.external_url} target="_blank" rel="noreferrer">
+            {activeProject?.externalUrl ? (
+              <a href={activeProject.externalUrl} target="_blank" rel="noreferrer">
                 <img src={linkImages.website} alt="" />{" "}
               </a>
             ) : null}
-            {activeProject?.contract_address ? (
+            {activeProject?.contractAddress ? (
               <a
-                href={"https://etherscan.io/address/" + activeProject.contract_address}
+                href={"https://etherscan.io/address/" + activeProject.contractAddress}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -222,11 +236,11 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               </a>
             ) : null}
             <a className="dividor"></a>
-            {activeTokenId && activeProject?.contract_address ? (
+            {activeTokenId && activeProject?.contractAddress ? (
               <a
                 href={
                   "https://opensea.io/assets/ethereum/" +
-                  activeProject?.contract_address +
+                  activeProject?.contractAddress +
                   "/" +
                   activeTokenId
                 }
@@ -246,7 +260,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
             ) : null}{" "}
             {activeProject?.id ? (
               <a
-                href={`https://looksrare.org/collections/${activeProject?.contract_address}/${
+                href={`https://looksrare.org/collections/${activeProject?.contractAddress}/${
                   activeTokenId ? activeTokenId : ""
                 }`}
                 target="_blank"
@@ -255,11 +269,9 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
                 <img src={linkImages.looksrare} alt="" />{" "}
               </a>
             ) : null}
-            {activeTokenId && activeProject?.contract_address ? (
+            {activeTokenId && activeProject?.contractAddress ? (
               <a
-                href={
-                  "https://x2y2.io/eth/" + activeProject?.contract_address + "/" + activeTokenId
-                }
+                href={"https://x2y2.io/eth/" + activeProject?.contractAddress + "/" + activeTokenId}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -279,11 +291,11 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               <img src={linkImages.github} alt="" />{" "}
             </a>
           ) : null} */}
-            {activeTokenId && activeProject?.contract_address ? (
+            {activeTokenId && activeProject?.contractAddress ? (
               <a
                 href={
                   "https://www.gem.xyz/asset/" +
-                  activeProject?.contract_address +
+                  activeProject?.contractAddress +
                   "/" +
                   activeTokenId
                 }
@@ -301,11 +313,11 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
                 <img src={linkImages.gem} alt="" />{" "}
               </a>
             ) : null}{" "}
-            {activeTokenId && activeProject?.contract_address ? (
+            {activeTokenId && activeProject?.contractAddress ? (
               <a
                 href={
                   "https://sudoswap.xyz/#/item/" +
-                  activeProject?.contract_address +
+                  activeProject?.contractAddress +
                   "/" +
                   activeTokenId
                 }
@@ -314,9 +326,9 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               >
                 <img src={linkImages.sudoswap} alt="" />{" "}
               </a>
-            ) : activeProject?.contract_address ? (
+            ) : activeProject?.contractAddress ? (
               <a
-                href={`https://sudoswap.xyz/#/browse/buy/${activeProject?.contract_address}`}
+                href={`https://sudoswap.xyz/#/browse/buy/${activeProject?.contractAddress}`}
                 target="_blank"
                 rel="noreferrer"
               >
