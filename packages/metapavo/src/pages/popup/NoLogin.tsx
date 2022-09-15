@@ -108,7 +108,7 @@ const LoginPage = () => {
               fill="white"
             />
           </svg>
-          Connect Wallet
+          Login
         </ButtonStyle>
       </ButtonContainer>
     </div>

@@ -1,3 +1,4 @@
+import { Tooltip } from "@mui/material";
 import { useEffect } from "react";
 import styled from "styled-components";
 import ConnectWallet from "./ConnectWallet";
@@ -57,6 +58,17 @@ const ButtonContainer = styled.div`
 }
 `;
 
+const SecurityLink = styled.a`
+  diplsay: block;
+  text-align: center;
+  text-decoration: underline;
+
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+  margin-top: 70px;
+`;
+
 const SingleLoginPage = () => {
   useEffect(() => {}, []);
   const mainImage = chrome.runtime.getURL("images/login-banner.png");
@@ -80,6 +92,14 @@ const SingleLoginPage = () => {
               }}
             />
           </ButtonContainer>
+          <Tooltip title="We do not need your wallet to send any transactions, and only one plaintext signature is required to connect the wallet, which is only used to verify that you have control over the wallet">
+            <SecurityLink
+              href="https://www.notion.so/lxdao/User-Security-Manual-fda56105aa4a4960932f854a7f907f9f"
+              target={"_blank"}
+            >
+              User Security Manual
+            </SecurityLink>
+          </Tooltip>
         </MainBody>
       </div>
     </Page>
