@@ -4,6 +4,7 @@ import { reportCreate } from "../../../../utils/apis/nft_api";
 import { HeadReturnContainer, PageContainer } from "../styleCom";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { getLang } from "../../../../utils/lang";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 const NoFoundWrap = styled.div`
   display: flex;
@@ -77,6 +78,11 @@ const NoFoundWrap = styled.div`
     border-image-slice: 1;
     cursor: pointer;
     border-image-source: linear-gradient(to left, #7de2ac, #9f50ff);
+
+    border: 3px solid transparent;
+    background-image: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+    background-origin: border-box;
+    box-shadow: inset 0 1000px 1px #f5f6f7;
   }
 `;
 
@@ -134,7 +140,7 @@ export function ReportScam() {
   };
   return (
     <PageContainer>
-      <HeadReturn title={"Report Scam"} />
+      <HeadReturn title={getLang("Report_Scam")} />
       <NoFoundWrap>
         <div className="form-wrap">
           <span className="form-title">URL</span>
@@ -155,7 +161,7 @@ export function ReportScam() {
             <option value="DAO">DAO</option>
             <option value="OTHERS">OTHERS</option>
           </select>
-          <span className="form-title">Name</span>
+          <span className="form-title">Desc</span>
           <input
             onChange={onNameChange}
             value={name}

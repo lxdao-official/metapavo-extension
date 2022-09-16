@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Box, IconButton } from "@mui/material";
 import toast from "react-hot-toast";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -6,9 +6,15 @@ import copy from "clipboard-copy";
 import { AddWatchButton, css, LinkButton } from "./styles";
 import ReactMarkdown from "react-markdown";
 import React from "react";
-import { addFavByProjectId, removeFavByProjectId } from "../../../../../utils/apis/nft_api";
+import {
+  addFavByProjectId,
+  isFaved,
+  removeFavByProjectId,
+} from "../../../../../utils/apis/nft_api";
 import { GlobalContext } from "../../../context/useGlobal";
 import { EthIcon, Shield_error, Component1, Ellipsis } from "../../assets/Svgs";
+import { getLang } from "../../../../../utils/lang";
+import { linkImages } from "../../../../../utils/linkImages";
 const placeholderImg = chrome.runtime.getURL("images/placeholder.png");
 const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");
 const link3 = chrome.runtime.getURL("images/svgs/image-3.svg");
@@ -148,45 +154,77 @@ const ProjectTab = (props: MediaProps) => {
   const { activeProject, detectStatus, refreshActiveProject } = useContext(GlobalContext);
   const [show, setShow] = React.useState(false);
   const copyContractAddress = () => {
-    if (activeProject?.contract_address) {
-      copy(activeProject.contract_address);
+    if (activeProject?.contractAddress) {
+      copy(activeProject.contractAddress);
       toast.success("Copied", {});
     }
   };
+  const [faved, setFaved] = React.useState(false);
+
+  const refreshFavedStatus = async () => {
+    if (activeProject?.symbol) {
+      const _isFaved = await isFaved(activeProject?.symbol);
+      console.log("is faved", _isFaved);
+      setFaved(_isFaved);
+    }
+  };
+  useEffect(() => {
+    refreshFavedStatus();
+  }, [activeProject?.symbol]);
   const mookData = [
     {
       label: "Total Sales",
-      value: `${Number(twoDecimal(activeProject?.total_sales)).toLocaleString()}`,
+      value: `${Number(
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.totalSales),
+      ).toLocaleString()}`,
       date: "24H",
       rate: 0,
       icon: <></>,
     },
     {
       label: "Holders",
-      value: `${activeProject?.num_owners?.toLocaleString() || "-"}/${
-        activeProject?.total_supply ? parseInt(activeProject?.total_supply).toLocaleString() : "-"
+      value: `${activeProject?.nftProjectInfo?.stats[0]?.numOwners.toLocaleString() || "-"}/${
+        activeProject?.nftProjectInfo?.stats[0]?.totalSupply
+          ? parseInt(activeProject?.nftProjectInfo.stats[0]?.totalSupply).toLocaleString()
+          : "-"
       }`,
       date: "24H",
       rate: 0,
       icon: <></>,
     },
+
+    {
+      label: "Volume (total)",
+      value: `${Number(
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0].totalVolume),
+      ).toLocaleString()} Ξ`,
+      date: "24H",
+      rate: 0,
+      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
+    },
     {
       label: "Volume (24H)",
-      value: `${Number(twoDecimal(activeProject?.one_day_volume)).toLocaleString()} Ξ`,
+      value: `${Number(
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0].oneDayVolume),
+      ).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
       icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
       label: "Volume (7D)",
-      value: `${Number(twoDecimal(activeProject?.seven_day_volume)).toLocaleString()} Ξ`,
+      value: `${Number(
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0].sevenDayVolume),
+      ).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
       icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
       label: "Floor Price",
-      value: `${Number(twoDecimal(activeProject?.floor_price)).toLocaleString()} Ξ`,
+      value: `${Number(
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.floorPrice),
+      ).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
       icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
@@ -195,15 +233,15 @@ const ProjectTab = (props: MediaProps) => {
 
   const moreDataInfo = [
     {
-      name: "More Data",
+      name: getLang("more_data"),
       array: [
         {
-          link: `https://nfteye.io/collections/${activeProject?.id}`,
+          link: activeProject?.links?.nfteye,
           label: "NFTEye",
           img: link8,
         },
         {
-          link: `https://nftnerds.ai/collection/${activeProject?.contract_address}/liveview`,
+          link: activeProject?.links?.nftnerds,
           label: "NFTNerds",
           img: link9,
         },
@@ -212,84 +250,76 @@ const ProjectTab = (props: MediaProps) => {
   ];
   const linksInfo = [
     {
-      name: "Collection info",
+      name: getLang("Collection_info"),
       array: [
-        // { icon: "", label: "onchainroyale.xyz" },
         {
-          link: `https://etherscan.io/address/${activeProject?.contract_address}`,
+          link: activeProject?.links?.etherscan,
           label: "Etherscan",
           img: link2,
         },
-        activeProject?.external_url
-          ? { link: `${activeProject?.external_url}`, label: "Website", img: icon_website }
+        activeProject?.links?.website
+          ? { link: activeProject?.links?.website, label: "Website", img: icon_website }
           : null,
-        activeProject?.github
-          ? { link: `${activeProject?.github}`, label: "Github", img: icon_github }
-          : null,
+        // activeProject?.
+        //   ? { link: `${activeProject?.github}`, label: "Github", img: icon_github }
+        //   : null,
       ],
     },
     {
-      name: "Buy now",
+      name: getLang("Buy_now"),
       array: [
-        activeProject?.id
-          ? {
-              link: `https://opensea.io/collection/${activeProject?.id}`,
-              label: "OpenSea",
-              img: link3,
-            }
-          : null,
-        activeProject?.contract_address
-          ? {
-              link: `https://looksrare.org/collections/${activeProject?.contract_address}`,
-              label: "Looksrare",
-              img: link4,
-            }
-          : null,
-        activeProject?.contract_address
-          ? {
-              link: `https://x2y2.io/collection/${activeProject?.id}/items`,
-              label: "X2Y2",
-              img: link5,
-            }
-          : null,
-        activeProject?.id
-          ? {
-              link: `https://www.gem.xyz/collection/${activeProject?.id}`,
-              label: "Gem",
-              img: icon_gem,
-            }
-          : null,
-      ],
+        {
+          link: activeProject?.links?.opensea,
+          label: "OpenSea",
+          img: link3,
+        },
+        {
+          link: activeProject?.links?.looksrare,
+          label: "Looksrare",
+          img: link4,
+        },
+        {
+          link: activeProject?.links?.x2y2,
+          label: "X2Y2",
+          img: link5,
+        },
+        {
+          link: activeProject?.links?.gem,
+          label: "Gem",
+          img: icon_gem,
+        },
+        {
+          link: activeProject?.links?.sudoswap,
+          label: "Sudoswap",
+          img: linkImages.sudoswap,
+        },
+      ].filter((i) => i.link),
     },
     {
-      name: "Soicial Media",
+      name: getLang("Soicial_Media"),
       array: [
-        activeProject?.twitter_username
-          ? {
-              link: `https://twitter.com/${activeProject?.twitter_username}`,
-              label: "Twitter",
-              img: link6,
-            }
-          : null,
-        activeProject?.discord_url
-          ? { link: `${activeProject?.discord_url}`, label: "Discord", img: icon_discord }
-          : null,
-        activeProject?.instagram_username
-          ? {
-              link: `https://t.me/${activeProject?.instagram_username}`,
-              label: "Instagram",
-              img: link7,
-            }
-          : null,
-      ],
+        {
+          link: activeProject?.links?.twitter,
+          label: "Twitter",
+          img: link6,
+        },
+        { link: activeProject?.links?.discord, label: "Discord", img: icon_discord },
+        // activeProject?
+        //   ? {
+        //       link: `https://t.me/${activeProject?.instagram_username}`,
+        //       label: "Instagram",
+        //       img: link7,
+        //     }
+        //   : null,
+      ].filter((i) => i.link),
     },
   ];
   async function addFav() {
     if (activeProject) {
       try {
-        await addFavByProjectId(activeProject.id);
+        await addFavByProjectId(activeProject.symbol);
         toast.success("Add to favorite successfully");
-        refreshActiveProject();
+        refreshFavedStatus();
       } catch (e: any) {
         toast.error(e.message);
       }
@@ -300,9 +330,9 @@ const ProjectTab = (props: MediaProps) => {
   async function removeFav() {
     if (activeProject) {
       try {
-        await removeFavByProjectId(activeProject.id);
+        await removeFavByProjectId(activeProject.symbol);
         toast.success("Remove from favorite successfully");
-        refreshActiveProject();
+        refreshFavedStatus();
       } catch (e: any) {
         toast.error(e.message);
       }
@@ -314,18 +344,18 @@ const ProjectTab = (props: MediaProps) => {
     <div className="metapavo-tabInner">
       <style type="text/css">{css}</style>
 
-      {detectStatus === "danger" && (
+      {/* {detectStatus === "danger" && (
         <div className="metapavo-message">
           <Shield_error className="metapavo-icon" />
           There are risks in this project. It may be a copy of a well-known project. Make sure you
           have a full understanding of the project!
         </div>
-      )}
+      )} */}
       <Box sx={{ p: 2.25 }}>
         <Box sx={{ display: "flex" }}>
           <Box
             component="img"
-            src={activeProject?.image_url || ""}
+            src={activeProject?.imageUrl || ""}
             width={85}
             height={85}
             style={{
@@ -351,7 +381,7 @@ const ProjectTab = (props: MediaProps) => {
               }}
             >
               {activeProject?.name}
-              {activeProject?.contract_is_verified ? (
+              {activeProject?.contractData?.isVerified ? (
                 <Component1 sx={{ ml: 0.5, width: "16px", height: "16px" }} />
               ) : null}
             </Box>
@@ -365,9 +395,7 @@ const ProjectTab = (props: MediaProps) => {
                 display: "flex",
               }}
             >
-              {activeProject?.contract_address
-                ? formatAddress(activeProject?.contract_address)
-                : ""}
+              {activeProject?.contractAddress ? formatAddress(activeProject?.contractAddress) : ""}
               <IconButton
                 onClick={() => {
                   copyContractAddress();
@@ -378,7 +406,7 @@ const ProjectTab = (props: MediaProps) => {
               </IconButton>
             </Box>
             <Box sx={{ display: "flex", justifyContent: "flex-start", marginTop: "10px" }}>
-              {activeProject?.faved ? (
+              {faved ? (
                 <AddWatchButton
                   onClick={() => {
                     removeFav();
@@ -405,7 +433,7 @@ const ProjectTab = (props: MediaProps) => {
                       fill="#D1D0D6"
                     />
                   </svg>
-                  WATCHING
+                  {getLang("WATCHING")}
                 </AddWatchButton>
               ) : (
                 <AddWatchButton
@@ -428,7 +456,7 @@ const ProjectTab = (props: MediaProps) => {
                       fill="#1C1B1D"
                     />
                   </svg>
-                  Add to WATCHLIST
+                  {getLang("Add_to_WATCHLIST")}
                 </AddWatchButton>
               )}
             </Box>

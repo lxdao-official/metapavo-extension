@@ -72,44 +72,44 @@ const card = (obj: any) => (
 );
 const MoonbirdsTab2 = () => {
   const { activeProject, detectStatus } = useGlobal();
-  const mookData = [
-    {
-      label: "Total Sales",
-      value: `${twoDecimal(activeProject?.total_sales)}`,
-      date: "24H",
-      rate: 0,
-      icon: <></>,
-    },
-    {
-      label: "Holders",
-      value: `${activeProject?.num_owners?.toLocaleString() || "-"}/${
-        activeProject?.total_supply ? parseInt(activeProject?.total_supply) : "-"
-      }`,
-      date: "24H",
-      rate: 0,
-      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
-    },
-    {
-      label: "Volume(24H)",
-      value: `${twoDecimal(activeProject?.one_day_volume)}`,
-      date: "24H",
-      rate: 0,
-      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
-    },
-    {
-      label: "Volume(7D)",
-      value: `${twoDecimal(activeProject?.seven_day_volume)}`,
-      date: "24H",
-      rate: 0,
-      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
-    },
-    {
-      label: "Floor Price",
-      value: `${twoDecimal(activeProject?.floor_price)}`,
-      date: "24H",
-      rate: 0,
-      icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
-    },
+  const mookData: any = [
+    // {
+    //   label: "Total Sales",
+    //   value: `${twoDecimal(activeProject?.total_sales)}`,
+    //   date: "24H",
+    //   rate: 0,
+    //   icon: <></>,
+    // },
+    // {
+    //   label: "Holders",
+    //   value: `${activeProject?.num_owners?.toLocaleString() || "-"}/${
+    //     activeProject?.total_supply ? parseInt(activeProject?.total_supply) : "-"
+    //   }`,
+    //   date: "24H",
+    //   rate: 0,
+    //   icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
+    // },
+    // {
+    //   label: "Volume(24H)",
+    //   value: `${twoDecimal(activeProject?.one_day_volume)}`,
+    //   date: "24H",
+    //   rate: 0,
+    //   icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
+    // },
+    // {
+    //   label: "Volume(7D)",
+    //   value: `${twoDecimal(activeProject?.seven_day_volume)}`,
+    //   date: "24H",
+    //   rate: 0,
+    //   icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
+    // },
+    // {
+    //   label: "Floor Price",
+    //   value: `${twoDecimal(activeProject?.floor_price)}`,
+    //   date: "24H",
+    //   rate: 0,
+    //   icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px" }} />,
+    // },
   ];
   return (
     <div>
@@ -125,7 +125,7 @@ const MoonbirdsTab2 = () => {
           textAlign: "left",
         }}
       >
-        {mookData.map((ii) => card(ii))}
+        {mookData.map((ii: any) => card(ii))}
       </Box>
       <Box sx={{ mb: 1, px: 2 }}>
         <Box sx={{ p: "10px", display: "flex", justifyContent: "space-between" }}>

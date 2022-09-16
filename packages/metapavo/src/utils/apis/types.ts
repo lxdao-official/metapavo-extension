@@ -57,3 +57,84 @@ export type IFavs = {
   updated_at: Date | null;
   project: IProject;
 };
+
+export interface IProjectV2 {
+  id: number;
+  status: number;
+  name: string;
+  symbol: string;
+  describe: string;
+  imageUrl: string;
+  externalUrl: string;
+  type: number;
+  discordUrl: string;
+  twitterUserName: string;
+  facebookUserName: string;
+  contractAddress: string;
+  nftProjectInfo?: NftProjectInfo;
+  contractData?: ContractData;
+  createTime: string;
+  updateTime: string;
+  links?: Links;
+}
+export interface Links {
+  etherscan?: string;
+  website?: string;
+  opensea?: string;
+  gem?: string;
+  looksrare?: string;
+  x2y2?: string;
+  sudoswap?: string;
+  twitter?: string;
+  discord?: string;
+  telegram?: string;
+  nfteye?: string;
+  nftnerds?: string;
+  rss3?: string;
+}
+export interface NftProjectInfo {
+  id: number;
+  name: string;
+  slug: string;
+  traits: string;
+  createdDate: string;
+  stats: Stat[];
+  contractAddress: string;
+  createTime: string;
+  updateTime: string;
+}
+
+export interface Stat {
+  source: number;
+  numOwners: number;
+  oneDayVolume: string;
+  oneDaySales: number;
+  thirtyDayVolume: string;
+  thirtyDaySales: number;
+  sevenDayVolume: string;
+  sevenDaySales: number;
+  totalVolume: string;
+  totalSales: number;
+  totalSupply: string;
+  marketCap: string;
+  floorPrice: string;
+  sellerFees: number;
+  openseaFees: number;
+}
+
+export interface ContractData {
+  id: number;
+  address: string;
+  isVerified: number;
+  type: number;
+  source: number;
+  createdDate: string;
+  createTime: string;
+  updateTime: string;
+}
+export interface PagedDto<T> {
+  current: number;
+  size: number;
+  records?: T[];
+  total?: number;
+}

@@ -4,7 +4,9 @@ import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import styled from "styled-components";
 import { getNftById, getVisitHistories } from "../../../../utils/apis/nft_api";
+import { getNftByIdV2 } from "../../../../utils/apis/nft_api_v2";
 import { IFavs } from "../../../../utils/apis/types";
+import { getLang } from "../../../../utils/lang";
 import { linkImages } from "../../../../utils/linkImages";
 import { GlobalContext } from "../../context/useGlobal";
 import { HeadReturn } from "../common/HeadReturn";
@@ -87,7 +89,7 @@ const HisotryListPage = (props: any) => {
                     img: linkImages.gem,
                   }
                 : null,
-              item.project.twitter_username
+              item.project?.twitter_username
                 ? {
                     link: `https://twitter.com/${item.project.twitter_username}`,
                     label: "Twitter",
@@ -109,7 +111,7 @@ const HisotryListPage = (props: any) => {
     setLoading(false);
   };
   const goDetail = async (project_id: string) => {
-    const project = await getNftById(project_id);
+    const project = await getNftByIdV2(project_id);
     if (project) {
       setActiveProject(project);
     }
@@ -126,7 +128,7 @@ const HisotryListPage = (props: any) => {
   }, []);
   return (
     <PageContainer>
-      <HeadReturn title={"history"} />
+      <HeadReturn title={getLang("History")} />
       <div className="trend-list">
         {list.map((item: any, index: number) => {
           return (

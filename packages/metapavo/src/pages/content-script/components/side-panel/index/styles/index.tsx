@@ -57,7 +57,9 @@ export const SearchField = styled.div`
   border: 1px solid #e5e3e6;
   border-radius: 6px;
   color: #d7d7d7;
-
+  &:hover {
+    border: 1px solid #ccc !important;
+  }
   .metapavo-search {
     display: flex;
     width: 100%;
@@ -69,11 +71,12 @@ export const SearchField = styled.div`
       border: 0 !important;
       outline: 0 !important;
       background: none !important;
-      color: #d7d7d7 !important;
+      color: #333 !important;
     }
     input::placeholder {
       color: #d7d7d7 !important;
     }
+
     div {
       box-sizing: border-box;
       width: 25px;

@@ -21,7 +21,7 @@ export const fetchWrapped: (
       return;
     }
     chrome.storage.local.get(["access_token"], function (data) {
-      if (data && data.access_token) {
+      if (needLogin && data && data.access_token) {
         const access_token = data.access_token;
         if (init && init?.headers) {
           init.headers = {
@@ -47,18 +47,6 @@ export const fetchWrapped: (
         }
       } else {
         if (needLogin) {
-          // chrome.runtime.sendMessage({
-          //   cmd: "needlogin",
-          // });
-          // chrome?.tabs &&
-          //   chrome.tabs.query({}, function (tabs) {
-          //     tabs.forEach((tab: any) => {
-          //       tab.active &&
-          //         chrome.tabs.sendMessage(tab.id, {
-          //           cmd: "needlogin",
-          //         });
-          //     });
-          //   });
           console.log("user not login");
           throw reject(new NoAuthError("user not login"));
         } else if (init) {

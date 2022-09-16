@@ -1,13 +1,14 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Item } from "../../../../plugins/watchlist/HistoryListPage";
-import { HistoryHotContainer, HotTitle } from "../styleCom";
+import { HistoryHotContainer, HotTitle } from "../styles";
 import { Empty } from "./Empty";
 import { linkImages } from "../../../../../../utils/linkImages";
 import { getVisitHistories } from "../../../../../../utils/apis/nft_api";
 import { IVisitHistory } from "../../../../../../utils/apis/types";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { getLang } from "../../../../../../utils/lang";
 export const HistoryHotTitle = (props: any) => {
   const title = props.title;
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export const HistoryHotTitle = (props: any) => {
           navigate("/history");
         }}
       >
-        More
+        {getLang("More")}
       </span>
     </HotTitle>
   );
@@ -62,7 +63,7 @@ export const HistoryHot = (props: any) => {
                     img: linkImages.gem,
                   }
                 : null,
-              item.project.twitter_username
+              item.project?.twitter_username
                 ? {
                     link: `https://twitter.com/${item.project.twitter_username}`,
                     label: "Twitter",

@@ -1,0 +1,68 @@
+{
+  "More": {
+    "message": "更多"
+  },
+  "Login": {
+    "message": "去登录"
+  },
+  "LoginDesc": {
+    "message": "无论您是访问 Twitter、Opensea、Etherscan 还是其他 Web3 网站，MetaPavo 都能智能识别背后的项目信息，并为您呈现其相关内容，让您以集中沉浸式的方式快速了解项目背景"
+  },
+  "User_Security_Manual": {
+    "message": "用户安全手册"
+  },
+  "security_desc": {
+    "message": "我们不需要你的钱包发送任何交易，连接钱包只需要一个明文签名，仅用于验证你对钱包有控制权，点击了解更多"
+  },
+  "About": {
+    "message": "关于"
+  },
+  "Report_Scam": {
+    "message": "上报问题项目"
+  },
+  "History": {
+    "message": "历史记录"
+  },
+  "AlarmReminder": {
+    "message": "闹钟提醒"
+  },
+  "WatchList": {
+    "message": "关注列表"
+  },
+  "Swap": {
+    "message": "兑换"
+  },
+  "Tools": {
+    "message": "工具"
+  },
+  "UNKOWN": {
+    "message": "未知项目"
+  },
+  "danger_desc": {
+    "message": "该项目存在一定的风险。它可能是一个知名项目的仿冒品，或其他安全问题。请注意相关风险！"
+  },
+  "Very_risky": {
+    "message": "风险提示"
+  },
+  "Add_to_WATCHLIST": {
+    "message": "关注项目"
+  },
+  "WATCHING": {
+    "message": "关注中"
+  },
+  "Collection_info": {
+    "message": "链接"
+  },
+  "Buy_now": {
+    "message": "立即交易"
+  },
+  "Soicial_Media": {
+    "message": "社交媒体"
+  },
+  "more_data": {
+    "message": "更多"
+  },
+  "Logout": {
+    "message": "退出登录"
+  }
+}

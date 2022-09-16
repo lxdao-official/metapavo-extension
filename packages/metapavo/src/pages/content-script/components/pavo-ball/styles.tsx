@@ -109,7 +109,7 @@ export const RootElement = styled.div`
     transition: none;
   }
   &.metapavo-main-show {
-    bottom: -200px !important;
+    bottom: -230px !important;
   }
   &.metapavo-main-status-danger #metapavo-box-gas {
     background: var(--blob);

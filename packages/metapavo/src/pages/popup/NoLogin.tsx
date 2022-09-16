@@ -1,5 +1,7 @@
+import { Tooltip } from "@mui/material";
 import { useEffect } from "react";
 import styled from "styled-components";
+import { getLang } from "../../utils/lang";
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
 const mainImage = chrome.runtime.getURL("images/popup-main.png");
 const MainBody = styled.div`
@@ -31,7 +33,7 @@ const DescText = styled.div`
 const ButtonContainer = styled.div`
     display: flex;
     position: absolute;
-    bottom: 70px;
+    bottom: 60px;
     width: 100%;
     flex-direction: column;
     align-items: center;
@@ -71,6 +73,18 @@ const TitleText = styled.div`
     width: 180px;
   }
 `;
+
+const SecurityLink = styled.a`
+  diplsay: block;
+  text-align: center;
+  text-decoration: underline;
+
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+  margin-top: 15px;
+`;
+
 const LoginPage = () => {
   useEffect(() => {}, []);
 
@@ -81,11 +95,7 @@ const LoginPage = () => {
         <TitleText>
           <img className="logo" src={index_logo} alt="" />
         </TitleText>
-        <DescText>
-          Whether you are visiting Twitter, Opensea or Etherscan, MetaPavo can intelligently
-          identify the main entry of the project behind, so that you can view the project background
-          in a centralized and immersive way
-        </DescText>
+        <DescText>{getLang("LoginDesc")}</DescText>
       </MainBody>
       <ButtonContainer>
         <ButtonStyle
@@ -108,8 +118,16 @@ const LoginPage = () => {
               fill="white"
             />
           </svg>
-          Connect Wallet
+          {getLang("Login")}
         </ButtonStyle>
+        <Tooltip title={getLang("security_desc")}>
+          <SecurityLink
+            href="https://www.notion.so/lxdao/User-Security-Manual-fda56105aa4a4960932f854a7f907f9f"
+            target={"_blank"}
+          >
+            {getLang("User_Security_Manual")}
+          </SecurityLink>
+        </Tooltip>
       </ButtonContainer>
     </div>
   );

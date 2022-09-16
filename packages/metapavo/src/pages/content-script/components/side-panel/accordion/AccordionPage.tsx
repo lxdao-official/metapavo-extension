@@ -16,6 +16,7 @@ import AlarmListPage from "../../../plugins/alarmreminder/AlarmListPage";
 import HisotryListPage from "../../../plugins/watchlist/HistoryListPage";
 import WatchListPage from "../../../plugins/watchlist/WatchListPage";
 import Uniswap from "../../../plugins/swap/uniswap";
+import { getLang } from "../../../../../utils/lang";
 
 const AccordionContainer = styled.div`
   div::-webkit-scrollbar {
@@ -136,6 +137,7 @@ const AccordionPage = () => {
             overflowY: "auto",
             height: "calc(100vh - 108px)",
             padding: 0,
+            borderTop: "1px solid #E8E8E8",
           }}
         >
           {activeAccoidion === 0 ? (
@@ -188,17 +190,25 @@ const AccordionPage = () => {
               overflow: "hidden",
             }}
           >
-            {activeProject?.image_url ? (
+            {activeProject?.imageUrl ? (
               <Box
                 component="img"
-                src={activeProject?.image_url}
+                src={activeProject?.imageUrl}
                 sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
               />
             ) : null}
-            <Box sx={{ color: "#1C1B1D" }}>{activeProject?.name || "UNKOWN"}</Box>
+            <Box sx={{ color: "#1C1B1D" }}>{activeProject?.name || getLang("UNKOWN")}</Box>
           </Box>
         </AccordionSummary>
-        <AccordionDetails sx={{ p: 0, backgroundColor: "#fcfcfc", boxShadow: "none" }}>
+        <AccordionDetails
+          sx={{
+            p: 0,
+            backgroundColor: "#fcfcfc",
+            boxShadow: "none",
+            height: "calc(100vh - 108px)",
+            overflowY: "auto",
+          }}
+        >
           {activeAccoidion === 1 ? activeProject ? <ProjectContainer /> : <NoFound /> : null}
         </AccordionDetails>
       </Accordion>

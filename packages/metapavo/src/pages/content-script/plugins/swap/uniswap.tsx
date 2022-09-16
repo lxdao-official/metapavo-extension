@@ -5,6 +5,7 @@ import { HeadReturn } from "../common/HeadReturn";
 import { tokenList } from "./tokenList";
 import { WalletContext } from "../../context/useWallet";
 import { PageContainer as PageContainer } from "../styleCom";
+import { getLang } from "../../../../utils/lang";
 
 const Uniswap = () => {
   const wallet = useContext(WalletContext);
@@ -24,7 +25,7 @@ const Uniswap = () => {
   }, []);
   return (
     <PageContainer>
-      <HeadReturn title={"Swap"} />
+      <HeadReturn title={getLang("Swap")} />
       <div
         style={{
           display: "flex",

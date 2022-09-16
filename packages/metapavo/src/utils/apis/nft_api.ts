@@ -94,6 +94,15 @@ export async function getVisitHistories(pageIndex = 1, pageSize = 10) {
   return null;
 }
 
+export async function isFaved(project_id: string) {
+  const res = await fetchWrapped(`${config.baseURL}/favs/is_faved/${project_id}`, {
+    method: "GET",
+  });
+  if (res && res.success) {
+    return res.data.faved;
+  }
+  return null;
+}
 export async function addFavByProjectId(project_id: string) {
   const res = await fetchWrapped(`${config.baseURL}/favs/create`, {
     method: "POST",

@@ -354,12 +354,12 @@ async function _detectScam(
     });
 
     const projectsWithDomain: { project: Project; domain: DomainDetail }[] = [];
-    const scoreLimit = 10;
+    const scoreLimit = 1.5;
     const similarProjects = allProjects
       .map((_) => {
         let score = 0;
         let matchItems = [];
-        let simLimit = 0.5;
+        let simLimit = 0.6;
 
         const projectName = _.name;
         // const projectDomain = _.externalUrl && getDomain(_.externalUrl);
@@ -431,12 +431,15 @@ async function _detectScam(
         for (let index = 0; index < compareItems.length; index++) {
           const [string1, string2, type] = compareItems[index];
           const sim = (string1 && string2 && compareTwoStrings(string1, string2)) || 0;
-          score += sim > simLimit ? 5 : 0;
-          if (sim > simLimit && simLimit <= 1)
+
+          if (sim > simLimit && simLimit <= 1) {
+            score += sim;
             matchItems.push({
               item: compareItems[index],
               sim,
             });
+          }
+
           if (type == 2) hasSimLink = true;
         }
         return {
@@ -451,6 +454,7 @@ async function _detectScam(
         return _.score >= scoreLimit;
       })
       .sort((a, b) => b.score - a.score);
+    console.log(similarProjects);
     if (similarProjects.length && (fuzzyTwitterCheck || options.onlyLink)) {
       matchProject = similarProjects[0].project;
       matchType = "check_by_sim";

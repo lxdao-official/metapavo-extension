@@ -1,41 +1,39 @@
 import { IconButton } from "@mui/material";
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { WalletContext } from "../../content-script/context/useWallet";
-import { Head, HeadLogo, HeadSelect, ModalBG, ModalContainer } from ".";
+import { GlobalContext } from "../../../../context/useGlobal";
+import { WalletContext } from "../../../../context/useWallet";
+import { Head, HeadSelect, HeadLogo, ModalBG, ModalContainer } from "../styles";
+import toast from "react-hot-toast";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import copy from "clipboard-copy";
 import ClearIcon from "@mui/icons-material/Clear";
-import toast, { Toaster } from "react-hot-toast";
-import { getLang } from "../../../utils/lang";
+import { getLang } from "../../../../../../utils/lang";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
-const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
+
+function formatAddress(address: string) {
+  // ens
+  if (address.includes(".")) {
+    return address;
+  }
+  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+}
 // 头部组件
 export const HeadCom = (props: any) => {
-  const [showUserInfoModal, setShowUserInfoModal] = useState<boolean>(false);
-
+  const [selectMenu, setSelectMenu] = useState<boolean>(false);
+  const { setShowLogin } = useContext(GlobalContext);
   const { loginedAddress, logout } = useContext(WalletContext);
-
-  function formatAddress(address: string) {
-    // ens
-    if (address.includes(".")) {
-      return address;
-    }
-    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-  }
 
   const copyContractAddress = () => {
     copy(loginedAddress);
     toast.success("Copied");
   };
-  const navigate = useNavigate();
-  const UserInfoModal = (props: any) => {
+  const LoginModal = (props: any) => {
     return (
       <>
         <ModalBG
           onClick={() => {
-            setShowUserInfoModal(false);
+            setSelectMenu(false);
           }}
         ></ModalBG>
         <ModalContainer>
@@ -56,7 +54,7 @@ export const HeadCom = (props: any) => {
             </div>
             <ClearIcon
               sx={{ height: "24px", width: "24px", color: "#D1D0D6", cursor: "pointer" }}
-              onClick={() => setShowUserInfoModal(!showUserInfoModal)}
+              onClick={() => setSelectMenu(!selectMenu)}
             />
           </div>
           <div className="op-list">
@@ -64,9 +62,8 @@ export const HeadCom = (props: any) => {
             <div
               className="metaPavo-pp"
               onClick={async () => {
-                setShowUserInfoModal(false);
                 await logout();
-                navigate("/login");
+                setShowLogin(true);
               }}
             >
               {getLang("Logout")}
@@ -77,16 +74,18 @@ export const HeadCom = (props: any) => {
       </>
     );
   };
+
   return (
     <Head>
+      <HeadSelect onClick={() => setSelectMenu(!selectMenu)}>
+        <span>{formatAddress(loginedAddress)}</span>
+        <img src={arrow_down} alt="" />
+      </HeadSelect>
+
       <HeadLogo>
         <img className="logo" src={index_logo} alt="" />
       </HeadLogo>
-      <HeadSelect onClick={() => setShowUserInfoModal(!showUserInfoModal)}>
-        <span>{loginedAddress ? formatAddress(loginedAddress) : ""}</span>
-        <img src={arrow_down} alt="" />
-      </HeadSelect>
-      {showUserInfoModal && <UserInfoModal />}
+      {selectMenu && <LoginModal />}
     </Head>
   );
 };

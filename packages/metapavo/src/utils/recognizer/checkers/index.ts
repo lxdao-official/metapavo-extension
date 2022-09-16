@@ -1,4 +1,4 @@
-import { IProject } from "../../apis/types";
+import { IProject, IProjectV2 } from "../../apis/types";
 import { CheckResultStatus } from "./types";
 import { checkMarketPlace } from "../../../utils/recognizer/checkers/marketplace";
 import { checkTwitter } from "../../../utils/recognizer/checkers/twitter";
@@ -8,14 +8,14 @@ import { checkEtherscan } from "./etherscan";
 
 export class Checker extends EventEmitter {
   lastCheckEntryResult?: {
-    projectInfo?: IProject;
+    projectInfo?: IProjectV2;
     status: CheckResultStatus;
   };
   lastCheckTokenId?: string = "";
   async check() {
     setInterval(async () => {
       let checkEntryResult: {
-        projectInfo?: IProject;
+        projectInfo?: IProjectV2;
         status: CheckResultStatus;
         tokenId?: string;
       };

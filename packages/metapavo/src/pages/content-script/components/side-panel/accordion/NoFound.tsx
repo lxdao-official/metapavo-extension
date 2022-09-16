@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { reportCreate } from "../../../../../utils/apis/nft_api";
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 const NoFoundWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,7 +24,7 @@ const NoFoundWrap = styled.div`
     color: #000000;
   }
 
-  .sub-title{
+  .sub-title {
     text-align: center;
     width: 100%;
     margin-bottom: 30px;
@@ -84,15 +84,22 @@ const NoFoundWrap = styled.div`
     box-shadow: 0px 0px 0px #4216e7;
     border-radius: 4px;
     border-width: 3px;
-    margin-bottom: 50px;
+    height: 45px;
+    margin-bottom: 20px;
     border-image-slice: 1;
+    cursor: pointer;
     border-image-source: linear-gradient(to left, #7de2ac, #9f50ff);
+
+    border: 3px solid transparent;
+    background-image: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+    background-origin: border-box;
+    box-shadow: inset 0 1000px 1px #f5f6f7;
   }
 `;
 
 export function NoFound() {
-  const [type, setType] = useState<string>('NFT');
-  const [name, setName] = useState<string>('');
+  const [type, setType] = useState<string>("NFT");
+  const [name, setName] = useState<string>("");
   const [show, setShow] = useState<boolean>(true);
 
   const onBtnClick = async () => {
@@ -103,22 +110,21 @@ export function NoFound() {
     } else {
       toast.error("Error");
     }
-  }
-  
+  };
+
   const onTypeChange = (e: any) => {
-    setType(e.target.value)
-  }
+    setType(e.target.value);
+  };
   const onNameChange = (e: any) => {
-    setName(e.target.value)
-  }
+    setName(e.target.value);
+  };
   const ToggleForm = () => {
-    setShow(!show)
-  }
+    setShow(!show);
+  };
   const clear = () => {
     setType("NFT");
     setName("");
-  }
-
+  };
 
   return (
     <NoFoundWrap>
@@ -301,8 +307,15 @@ export function NoFound() {
         </defs>
       </svg>
       <div className="main-title">Unable to identify the project</div>
-      <div className="sub-title" onClick={ToggleForm}>Submit the project information {show ? <KeyboardArrowUpIcon sx={{ fontSize: "14px" }} /> : <KeyboardArrowDownIcon sx={{ fontSize: "14px" }} />}</div>
-      {show ?
+      <div className="sub-title" onClick={ToggleForm}>
+        Submit the project information{" "}
+        {show ? (
+          <KeyboardArrowUpIcon sx={{ fontSize: "14px" }} />
+        ) : (
+          <KeyboardArrowDownIcon sx={{ fontSize: "14px" }} />
+        )}
+      </div>
+      {show ? (
         <div className="form-wrap">
           <span className="form-title">URL</span>
           <input
@@ -319,7 +332,7 @@ export function NoFound() {
             <option value="DAO">DAO</option>
             <option value="OTHERS">OTHERS</option>
           </select>
-          <span className="form-title">Name</span>
+          <span className="form-title">Desc</span>
           <input
             onChange={onNameChange}
             value={name}
@@ -327,9 +340,11 @@ export function NoFound() {
             type="text"
             placeholder="Name"
           />
-          <button type="button" onClick={onBtnClick}>Submit</button>
+          <button type="button" onClick={onBtnClick}>
+            Submit
+          </button>
         </div>
-        : null}
+      ) : null}
     </NoFoundWrap>
   );
 }
