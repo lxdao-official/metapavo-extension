@@ -9,6 +9,7 @@ import { IVisitHistory } from "../../../../../../utils/apis/types";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { getLang } from "../../../../../../utils/lang";
+import { ItemSkeleton } from "../../../common/ItemSkeleton";
 export const HistoryHotTitle = (props: any) => {
   const title = props.title;
   const navigate = useNavigate();
@@ -91,8 +92,12 @@ export const HistoryHot = (props: any) => {
 
       <div className="hot-history-list">
         {getHistoryLoading ? (
-          <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-            <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
+          <Box>
+            <ItemSkeleton />
+            <ItemSkeleton />
+            <ItemSkeleton />
+            <ItemSkeleton />
+            <ItemSkeleton />
           </Box>
         ) : historyHot.length === 0 ? (
           <Empty />

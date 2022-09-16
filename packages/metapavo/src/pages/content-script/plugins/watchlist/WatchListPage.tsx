@@ -12,6 +12,7 @@ import { HeadReturn } from "../common/HeadReturn";
 import { ItemContainer, PageContainer } from "../styleCom";
 import { getNftByIdV2 } from "../../../../utils/apis/nft_api_v2";
 import { getLang } from "../../../../utils/lang";
+import { ItemSkeleton } from "../../components/common/ItemSkeleton";
 export const Item = (props: any) => {
   const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
 
@@ -145,8 +146,12 @@ const WatchListPage = (props: any) => {
         })}
       </div>
       {watchLoading ? (
-        <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-          <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
+        <Box>
+          <ItemSkeleton />
+          <ItemSkeleton />
+          <ItemSkeleton />
+          <ItemSkeleton />
+          <ItemSkeleton />
         </Box>
       ) : null}
       <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>

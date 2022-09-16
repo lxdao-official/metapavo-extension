@@ -1,9 +1,9 @@
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { CalendarPicker } from '@mui/x-date-pickers';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { CalendarPicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React from "react";
 import { useEffect } from "react";
 import moment, { Moment } from "moment";
@@ -12,10 +12,11 @@ import { Box, CircularProgress } from "@mui/material";
 import toast from "react-hot-toast";
 import { PageContainer } from "../styleCom";
 // import { HeadReturn } from "../common/HeadReturn";
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import { HeadReturnContainer, AddNewAlarm } from "../styleCom";
 import { useNavigate } from "react-router-dom";
 import AlarmSetPage from "./AlarmSetPage";
+import { ItemSkeleton } from "../../components/common/ItemSkeleton";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 
 export default function AlarmListPage() {
@@ -44,8 +45,8 @@ export default function AlarmListPage() {
   }, []);
 
   const toogleSetPage = () => {
-    toogleShow(!showSetPage)
-  }
+    toogleShow(!showSetPage);
+  };
 
   const HeadReturn = (props: any) => {
     const title = props.title;
@@ -60,7 +61,10 @@ export default function AlarmListPage() {
           alt=""
         />
         <span>{title}</span>
-        <AddNewAlarm onClick={toogleSetPage}><AddBoxIcon sx={{ fontSize: "12px" }} />Add New</AddNewAlarm>
+        <AddNewAlarm onClick={toogleSetPage}>
+          <AddBoxIcon sx={{ fontSize: "12px" }} />
+          Add New
+        </AddNewAlarm>
       </HeadReturnContainer>
     );
   };
@@ -68,10 +72,16 @@ export default function AlarmListPage() {
   //   <>
   //     <TrendsHotContainer>
   //       <HeadReturn title={"Alarm Reminder"} />
-  
+
   const alarmList = loading ? (
     <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
+      <Box>
+        <ItemSkeleton />
+        <ItemSkeleton />
+        <ItemSkeleton />
+        <ItemSkeleton />
+        <ItemSkeleton />
+      </Box>
     </Box>
   ) : (
     <div>
@@ -87,10 +97,7 @@ export default function AlarmListPage() {
                 secondary={
                   "Alarm After: " +
                   moment
-                    .duration(
-                      (new Date(alarm.alarm_at).getTime() - Date.now()) / 1000,
-                      "seconds",
-                    )
+                    .duration((new Date(alarm.alarm_at).getTime() - Date.now()) / 1000, "seconds")
                     .locale("en")
                     .humanize()
                 }
@@ -100,8 +107,8 @@ export default function AlarmListPage() {
         );
       })}
     </div>
-  )
-  
+  );
+
   return (
     <>
       <PageContainer>
