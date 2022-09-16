@@ -63,10 +63,10 @@ export const SearchCom = (props: any) => {
               user_icon: item.imageUrl,
               user_name: item.name,
               flag: flag,
-              contract_is_verified: item.contractData.isVerified,
+              contract_is_verified: item.contractData?.isVerified,
               eth: `${
-                item.nftProjectInfo.stats[0]?.floorPrice
-                  ? Math.round(Number(item.nftProjectInfo.stats[0]?.floorPrice) * 1000) / 1000
+                item.nftProjectInfo?.stats[0]?.floorPrice
+                  ? Math.round(Number(item.nftProjectInfo?.stats[0]?.floorPrice) * 1000) / 1000
                   : 0
               } ETH`,
             };

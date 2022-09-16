@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
+import { getLang } from "../../../../../utils/lang";
 import { GlobalContext } from "../../../context/useGlobal";
 
 const RootElement = styled.div`
@@ -167,12 +168,9 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           />
         </svg>
 
-        <div className="mp-success-title">Very risky</div>
+        <div className="mp-success-title">{getLang("Very_risky")}</div>
       </div>
-      <div className="mp-success-bd">
-        There are certain risks in this project. It may be a copy of a well-known project, or other
-        problems. Make sure you have a full understanding of the project!
-      </div>
+      <div className="mp-success-bd">{getLang("danger_desc")}</div>
       <div className="mp-success-links"></div>
       <div
         onClick={(e) => {

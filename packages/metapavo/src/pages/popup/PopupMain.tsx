@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Container, MenuListStyle, MenuItemStyle, Badge, Version } from "./styleCom";
 import { useNavigate } from "react-router";
 import { settingCounts } from "../../utils/apis/nft_api";
+import { getLang } from "../../utils/lang";
 
 const manifestData = chrome.runtime.getManifest();
 
@@ -45,7 +46,7 @@ const PopupMain = () => {
             navigate("/watchlist");
           }}
         >
-          <div className="menu-left">WatchList</div>
+          <div className="menu-left">{getLang("WatchList")}</div>
           <div className="menu-right">
             {counts.favCount ? <Badge>{counts.favCount}</Badge> : null}
             <GoIcon />
@@ -57,7 +58,7 @@ const PopupMain = () => {
             navigate("/alarms");
           }}
         >
-          <div className="menu-left">AlarmReminder</div>
+          <div className="menu-left">{getLang("AlarmReminder")}</div>
           <div className="menu-right">
             {counts.alarmCount ? <Badge>{counts.alarmCount}</Badge> : null}
             <GoIcon />
@@ -68,7 +69,7 @@ const PopupMain = () => {
             navigate("/history");
           }}
         >
-          <div className="menu-left">History</div>
+          <div className="menu-left">{getLang("History")}</div>
           <div className="menu-right">
             {/* {counts.historyCount ? <Badge>{counts.historyCount}</Badge> : null} */}
             <GoIcon />
@@ -85,7 +86,7 @@ const PopupMain = () => {
             navigate("/report-scam");
           }}
         >
-          <div className="menu-left">Report Scam</div>
+          <div className="menu-left">{getLang("Report_Scam")}</div>
           <div className="menu-right">
             <GoIcon />
           </div>
@@ -97,7 +98,7 @@ const PopupMain = () => {
             });
           }}
         >
-          <div className="menu-left">About LXDAO</div>
+          <div className="menu-left">{getLang("About")} LXDAO</div>
           <div className="menu-right">
             <GoIcon />
           </div>

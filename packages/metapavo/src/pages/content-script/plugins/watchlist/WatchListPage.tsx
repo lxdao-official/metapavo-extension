@@ -11,6 +11,7 @@ import { GlobalContext } from "../../context/useGlobal";
 import { HeadReturn } from "../common/HeadReturn";
 import { ItemContainer, PageContainer } from "../styleCom";
 import { getNftByIdV2 } from "../../../../utils/apis/nft_api_v2";
+import { getLang } from "../../../../utils/lang";
 export const Item = (props: any) => {
   const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
 
@@ -90,7 +91,7 @@ const WatchListPage = (props: any) => {
                     img: linkImages.gem,
                   }
                 : null,
-              item.project.twitter_username
+              item.project?.twitter_username
                 ? {
                     link: `https://twitter.com/${item.project.twitter_username}`,
                     label: "Twitter",
@@ -129,7 +130,7 @@ const WatchListPage = (props: any) => {
   }, []);
   return (
     <PageContainer>
-      <HeadReturn title={"Watch List"} />
+      <HeadReturn title={getLang("WatchList")} />
       <div className="trend-list">
         {list.map((item: any, index: number) => {
           return (

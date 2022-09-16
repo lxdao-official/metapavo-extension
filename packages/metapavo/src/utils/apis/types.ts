@@ -71,12 +71,27 @@ export interface IProjectV2 {
   twitterUserName: string;
   facebookUserName: string;
   contractAddress: string;
-  nftProjectInfo: NftProjectInfo;
-  contractData: ContractData;
+  nftProjectInfo?: NftProjectInfo;
+  contractData?: ContractData;
   createTime: string;
   updateTime: string;
+  links?: Links;
 }
-
+export interface Links {
+  etherscan?: string;
+  website?: string;
+  opensea?: string;
+  gem?: string;
+  looksrare?: string;
+  x2y2?: string;
+  sudoswap?: string;
+  twitter?: string;
+  discord?: string;
+  telegram?: string;
+  nfteye?: string;
+  nftnerds?: string;
+  rss3?: string;
+}
 export interface NftProjectInfo {
   id: number;
   name: string;

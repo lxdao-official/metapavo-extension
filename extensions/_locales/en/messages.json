@@ -1,0 +1,68 @@
+{
+  "More": {
+    "message": "More"
+  },
+  "Login": {
+    "message": "Login"
+  },
+  "LoginDesc": {
+    "message": "Whether you are visiting Twitter, Opensea, Etherscan or other Web3 website, MetaPavo can intelligently identify the main entry of the project behind, so that you can view the project background in a centralized and immersive way"
+  },
+  "User_Security_Manual": {
+    "message": "User Security Manual"
+  },
+  "security_desc": {
+    "message": "We do not need your wallet to send any transactions, and only one plaintext signature is required to connect the wallet, which is only used to verify that you have control over the wallet"
+  },
+  "About": {
+    "message": "About"
+  },
+  "Report_Scam": {
+    "message": "Report Scam"
+  },
+  "History": {
+    "message": "History"
+  },
+  "AlarmReminder": {
+    "message": "AlarmReminder"
+  },
+  "WatchList": {
+    "message": "WatchList"
+  },
+  "Swap": {
+    "message": "Swap"
+  },
+  "Tools": {
+    "message": "Tools"
+  },
+  "UNKOWN": {
+    "message": "UNKOWN"
+  },
+  "danger_desc": {
+    "message": "There are certain risks in this project. It may be a copy of a well-known project, or other problems. Make sure you have a full understanding of the project!"
+  },
+  "Very_risky": {
+    "message": "Very risky"
+  },
+  "Add_to_WATCHLIST": {
+    "message": "Add to WATCHLIST"
+  },
+  "WATCHING": {
+    "message": "WATCHING"
+  },
+  "Collection_info": {
+    "message": "Collection info"
+  },
+  "Buy_now": {
+    "message": "Buy now"
+  },
+  "Soicial_Media": {
+    "message": "Soicial Media"
+  },
+  "more_data": {
+    "message": "More"
+  },
+  "Logout": {
+    "message": "Logout"
+  }
+}

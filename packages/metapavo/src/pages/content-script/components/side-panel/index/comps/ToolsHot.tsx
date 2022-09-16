@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { getLang } from "../../../../../../utils/lang";
 import { WatchlistIcon, AlarmIcon, HistoryIcon, SwapIcon } from "../icons/icons";
 import { ToolsHotContainer, HotTitle, ToolsItemContainer } from "../styles";
 
@@ -19,7 +20,7 @@ export const ToolsHot = (props: any) => {
           }}
         >
           <WatchlistIcon />
-          <span>Watch List</span>
+          <span>{getLang("WatchList")}</span>
         </ToolsItemContainer>
         <ToolsItemContainer
           onClick={() => {
@@ -28,7 +29,7 @@ export const ToolsHot = (props: any) => {
           }}
         >
           <AlarmIcon />
-          <span>Alarm Reminder</span>
+          <span>{getLang("AlarmReminder")}</span>
         </ToolsItemContainer>
         <ToolsItemContainer
           onClick={() => {
@@ -37,7 +38,7 @@ export const ToolsHot = (props: any) => {
           }}
         >
           <HistoryIcon />
-          <span>History</span>
+          <span>{getLang("History")}</span>
         </ToolsItemContainer>
         <ToolsItemContainer
           onClick={() => {
@@ -46,7 +47,7 @@ export const ToolsHot = (props: any) => {
           }}
         >
           <SwapIcon />
-          <span>Swap</span>
+          <span>{getLang("Swap")}</span>
         </ToolsItemContainer>
       </div>
     </ToolsHotContainer>

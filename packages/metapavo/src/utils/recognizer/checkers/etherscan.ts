@@ -18,7 +18,7 @@ export async function checkEtherscan(): Promise<{
     }
     lastCheckId = result.contract;
     const projectInfo = await findNftByAddressV2(result.contract);
-    if (projectInfo) {
+    if (projectInfo && projectInfo.id) {
       return {
         projectInfo,
         status: CheckResultStatus.SUCCESS,

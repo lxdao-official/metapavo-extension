@@ -21,6 +21,7 @@
   "background": {
     "service_worker": "./dist/static/js/background.js"
   },
+  "default_locale": "en",
   "options_page": "options.html",
   "permissions": ["storage", "alarms", "notifications", "tabs"],
   "web_accessible_resources": [

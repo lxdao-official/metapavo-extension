@@ -49,7 +49,7 @@ export async function checkMarketPlace(): Promise<{
       const projectInfo = nowCheckedResult.id
         ? await getNftByIdV2(nowCheckedResult.id)
         : await findNftByAddressV2(nowCheckedResult.contract!);
-      if (projectInfo) {
+      if (projectInfo && projectInfo.id) {
         return {
           projectInfo,
           tokenId: nowCheckedResult.tokenId,

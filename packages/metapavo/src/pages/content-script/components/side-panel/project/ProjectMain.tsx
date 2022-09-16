@@ -13,6 +13,8 @@ import {
 } from "../../../../../utils/apis/nft_api";
 import { GlobalContext } from "../../../context/useGlobal";
 import { EthIcon, Shield_error, Component1, Ellipsis } from "../../assets/Svgs";
+import { getLang } from "../../../../../utils/lang";
+import { linkImages } from "../../../../../utils/linkImages";
 const placeholderImg = chrome.runtime.getURL("images/placeholder.png");
 const link2 = chrome.runtime.getURL("images/svgs/image-2.svg");
 const link3 = chrome.runtime.getURL("images/svgs/image-3.svg");
@@ -173,7 +175,7 @@ const ProjectTab = (props: MediaProps) => {
     {
       label: "Total Sales",
       value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo.stats[0]?.totalSales),
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.totalSales),
       ).toLocaleString()}`,
       date: "24H",
       rate: 0,
@@ -181,8 +183,8 @@ const ProjectTab = (props: MediaProps) => {
     },
     {
       label: "Holders",
-      value: `${activeProject?.nftProjectInfo.stats[0]?.numOwners.toLocaleString() || "-"}/${
-        activeProject?.nftProjectInfo.stats[0]?.totalSupply
+      value: `${activeProject?.nftProjectInfo?.stats[0]?.numOwners.toLocaleString() || "-"}/${
+        activeProject?.nftProjectInfo?.stats[0]?.totalSupply
           ? parseInt(activeProject?.nftProjectInfo.stats[0]?.totalSupply).toLocaleString()
           : "-"
       }`,
@@ -194,7 +196,7 @@ const ProjectTab = (props: MediaProps) => {
     {
       label: "Volume (total)",
       value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo.stats[0].totalVolume),
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0].totalVolume),
       ).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
@@ -203,7 +205,7 @@ const ProjectTab = (props: MediaProps) => {
     {
       label: "Volume (24H)",
       value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo.stats[0].oneDayVolume),
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0].oneDayVolume),
       ).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
@@ -212,7 +214,7 @@ const ProjectTab = (props: MediaProps) => {
     {
       label: "Volume (7D)",
       value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo.stats[0].sevenDayVolume),
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0].sevenDayVolume),
       ).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
@@ -221,7 +223,7 @@ const ProjectTab = (props: MediaProps) => {
     {
       label: "Floor Price",
       value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo.stats[0]?.floorPrice),
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.floorPrice),
       ).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
@@ -231,15 +233,15 @@ const ProjectTab = (props: MediaProps) => {
 
   const moreDataInfo = [
     {
-      name: "More Data",
+      name: getLang("more_data"),
       array: [
         {
-          link: `https://nfteye.io/collections/${activeProject?.id}`,
+          link: activeProject?.links?.nfteye,
           label: "NFTEye",
           img: link8,
         },
         {
-          link: `https://nftnerds.ai/collection/${activeProject?.contractAddress}/liveview`,
+          link: activeProject?.links?.nftnerds,
           label: "NFTNerds",
           img: link9,
         },
@@ -248,16 +250,15 @@ const ProjectTab = (props: MediaProps) => {
   ];
   const linksInfo = [
     {
-      name: "Collection info",
+      name: getLang("Collection_info"),
       array: [
-        // { icon: "", label: "onchainroyale.xyz" },
         {
-          link: `https://etherscan.io/address/${activeProject?.contractAddress}`,
+          link: activeProject?.links?.etherscan,
           label: "Etherscan",
           img: link2,
         },
-        activeProject?.externalUrl
-          ? { link: `${activeProject?.externalUrl}`, label: "Website", img: icon_website }
+        activeProject?.links?.website
+          ? { link: activeProject?.links?.website, label: "Website", img: icon_website }
           : null,
         // activeProject?.
         //   ? { link: `${activeProject?.github}`, label: "Github", img: icon_github }
@@ -265,51 +266,44 @@ const ProjectTab = (props: MediaProps) => {
       ],
     },
     {
-      name: "Buy now",
+      name: getLang("Buy_now"),
       array: [
-        activeProject?.id
-          ? {
-              link: `https://opensea.io/collection/${activeProject?.id}`,
-              label: "OpenSea",
-              img: link3,
-            }
-          : null,
-        activeProject?.contractAddress
-          ? {
-              link: `https://looksrare.org/collections/${activeProject?.contractAddress}`,
-              label: "Looksrare",
-              img: link4,
-            }
-          : null,
-        activeProject?.contractAddress
-          ? {
-              link: `https://x2y2.io/collection/${activeProject?.id}/items`,
-              label: "X2Y2",
-              img: link5,
-            }
-          : null,
-        activeProject?.id
-          ? {
-              link: `https://www.gem.xyz/collection/${activeProject?.id}`,
-              label: "Gem",
-              img: icon_gem,
-            }
-          : null,
-      ],
+        {
+          link: activeProject?.links?.opensea,
+          label: "OpenSea",
+          img: link3,
+        },
+        {
+          link: activeProject?.links?.looksrare,
+          label: "Looksrare",
+          img: link4,
+        },
+        {
+          link: activeProject?.links?.x2y2,
+          label: "X2Y2",
+          img: link5,
+        },
+        {
+          link: activeProject?.links?.gem,
+          label: "Gem",
+          img: icon_gem,
+        },
+        {
+          link: activeProject?.links?.sudoswap,
+          label: "Sudoswap",
+          img: linkImages.sudoswap,
+        },
+      ].filter((i) => i.link),
     },
     {
-      name: "Soicial Media",
+      name: getLang("Soicial_Media"),
       array: [
-        activeProject?.twitterUserName
-          ? {
-              link: `https://twitter.com/${activeProject?.twitterUserName}`,
-              label: "Twitter",
-              img: link6,
-            }
-          : null,
-        activeProject?.discordUrl
-          ? { link: `${activeProject?.discordUrl}`, label: "Discord", img: icon_discord }
-          : null,
+        {
+          link: activeProject?.links?.twitter,
+          label: "Twitter",
+          img: link6,
+        },
+        { link: activeProject?.links?.discord, label: "Discord", img: icon_discord },
         // activeProject?
         //   ? {
         //       link: `https://t.me/${activeProject?.instagram_username}`,
@@ -317,7 +311,7 @@ const ProjectTab = (props: MediaProps) => {
         //       img: link7,
         //     }
         //   : null,
-      ],
+      ].filter((i) => i.link),
     },
   ];
   async function addFav() {
@@ -350,13 +344,13 @@ const ProjectTab = (props: MediaProps) => {
     <div className="metapavo-tabInner">
       <style type="text/css">{css}</style>
 
-      {detectStatus === "danger" && (
+      {/* {detectStatus === "danger" && (
         <div className="metapavo-message">
           <Shield_error className="metapavo-icon" />
           There are risks in this project. It may be a copy of a well-known project. Make sure you
           have a full understanding of the project!
         </div>
-      )}
+      )} */}
       <Box sx={{ p: 2.25 }}>
         <Box sx={{ display: "flex" }}>
           <Box
@@ -387,7 +381,7 @@ const ProjectTab = (props: MediaProps) => {
               }}
             >
               {activeProject?.name}
-              {activeProject?.contractData.isVerified ? (
+              {activeProject?.contractData?.isVerified ? (
                 <Component1 sx={{ ml: 0.5, width: "16px", height: "16px" }} />
               ) : null}
             </Box>
@@ -439,7 +433,7 @@ const ProjectTab = (props: MediaProps) => {
                       fill="#D1D0D6"
                     />
                   </svg>
-                  WATCHING
+                  {getLang("WATCHING")}
                 </AddWatchButton>
               ) : (
                 <AddWatchButton
@@ -462,7 +456,7 @@ const ProjectTab = (props: MediaProps) => {
                       fill="#1C1B1D"
                     />
                   </svg>
-                  Add to WATCHLIST
+                  {getLang("Add_to_WATCHLIST")}
                 </AddWatchButton>
               )}
             </Box>

@@ -16,6 +16,7 @@ import AlarmListPage from "../../../plugins/alarmreminder/AlarmListPage";
 import HisotryListPage from "../../../plugins/watchlist/HistoryListPage";
 import WatchListPage from "../../../plugins/watchlist/WatchListPage";
 import Uniswap from "../../../plugins/swap/uniswap";
+import { getLang } from "../../../../../utils/lang";
 
 const AccordionContainer = styled.div`
   div::-webkit-scrollbar {
@@ -196,7 +197,7 @@ const AccordionPage = () => {
                 sx={{ mr: 0.5, fontSize: "20px", height: "20px", width: "20px" }}
               />
             ) : null}
-            <Box sx={{ color: "#1C1B1D" }}>{activeProject?.name || "UNKOWN"}</Box>
+            <Box sx={{ color: "#1C1B1D" }}>{activeProject?.name || getLang("UNKOWN")}</Box>
           </Box>
         </AccordionSummary>
         <AccordionDetails

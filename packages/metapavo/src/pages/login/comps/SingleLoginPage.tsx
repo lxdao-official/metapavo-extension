@@ -1,6 +1,7 @@
 import { Tooltip } from "@mui/material";
 import { useEffect } from "react";
 import styled from "styled-components";
+import { getLang } from "../../../utils/lang";
 import ConnectWallet from "./ConnectWallet";
 const Page = styled.div`
   width: 100%;
@@ -80,11 +81,7 @@ const SingleLoginPage = () => {
           <TitleText>
             <img className="logo" src={index_logo} alt="" />
           </TitleText>
-          <DescText>
-            Whether you are visiting Twitter, Opensea or Etherscan, MetaPavo can intelligently
-            identify the main entry of the project behind, so that you can view the project
-            background in a centralized and immersive way
-          </DescText>
+          <DescText>{getLang("LoginDesc")}</DescText>
           <ButtonContainer>
             <ConnectWallet
               loginSuccess={() => {
@@ -92,12 +89,12 @@ const SingleLoginPage = () => {
               }}
             />
           </ButtonContainer>
-          <Tooltip title="We do not need your wallet to send any transactions, and only one plaintext signature is required to connect the wallet, which is only used to verify that you have control over the wallet">
+          <Tooltip title={getLang("security_desc")}>
             <SecurityLink
               href="https://www.notion.so/lxdao/User-Security-Manual-fda56105aa4a4960932f854a7f907f9f"
               target={"_blank"}
             >
-              User Security Manual
+              {getLang("User_Security_Manual")}
             </SecurityLink>
           </Tooltip>
         </MainBody>

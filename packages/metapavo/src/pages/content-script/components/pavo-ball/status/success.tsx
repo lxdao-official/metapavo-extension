@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
+import { getLang } from "../../../../../utils/lang";
 import { linkImages } from "../../../../../utils/linkImages";
 import { GlobalContext } from "../../../context/useGlobal";
 
@@ -154,13 +155,53 @@ const RootElement = styled.div`
 export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
   const useG = useContext(GlobalContext);
   const { activeProject, setAddRootClass, activeTokenId } = useG;
+  const mainLinks = [
+    {
+      link: activeProject?.links?.twitter,
+      img: linkImages.twitter,
+    },
+    {
+      link: activeProject?.links?.website,
+      img: linkImages.website,
+    },
+    {
+      link: activeProject?.links?.etherscan,
+      img: linkImages.etherscan,
+    },
+  ].filter((i) => {
+    return i.link;
+  });
+  const links = [
+    {
+      link: activeProject?.links?.opensea,
+      img: linkImages.opensea,
+    },
+    {
+      link: activeProject?.links?.gem,
+      img: linkImages.gem,
+    },
+    {
+      link: activeProject?.links?.looksrare,
+      img: linkImages.looksrare,
+    },
+    {
+      link: activeProject?.links?.x2y2,
+      img: linkImages.x2y2,
+    },
 
+    {
+      link: activeProject?.links?.sudoswap,
+      img: linkImages.sudoswap,
+    },
+  ].filter((i) => {
+    return i.link;
+  });
   return (
     <RootElement className={[state === "show" ? "mp-success-show" : "mp-success-hide"].join(" ")}>
       <div className="mp-success-hd">
         <img src={activeProject?.imageUrl as string} alt={activeProject?.name} />
         <div className="mp-success-title">{activeProject?.name}</div>
-        {activeProject?.contractData.isVerified ? (
+        {activeProject?.contractData?.isVerified ? (
           <svg
             width="16"
             height="16"
@@ -183,27 +224,27 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
       <div className="mp-success-bd">
         <div className="mp-success-bd-price">
           Floor:{" "}
-          {activeProject?.nftProjectInfo.stats[0]?.floorPrice
+          {activeProject?.nftProjectInfo?.stats[0]?.floorPrice
             ? Number(activeProject.nftProjectInfo.stats[0].floorPrice).toFixed(2)
             : "-"}
           Ξ
         </div>
         <div className="mp-success-bd-price">
           Volume(24h):{" "}
-          {activeProject?.nftProjectInfo.stats[0]?.oneDayVolume
+          {activeProject?.nftProjectInfo?.stats[0]?.oneDayVolume
             ? Number(activeProject.nftProjectInfo.stats[0]?.oneDayVolume).toFixed(2)
             : "-"}
           Ξ
         </div>
         <div className="mp-success-bd-price">
           Supply:{" "}
-          {activeProject?.nftProjectInfo.stats[0]?.totalSupply
+          {activeProject?.nftProjectInfo?.stats[0]?.totalSupply
             ? activeProject.nftProjectInfo.stats[0].totalSupply
             : "-"}
         </div>
         <div className="mp-success-bd-price">
           Holders:{" "}
-          {activeProject?.nftProjectInfo.stats[0]?.numOwners
+          {activeProject?.nftProjectInfo?.stats[0]?.numOwners
             ? activeProject.nftProjectInfo.stats[0].numOwners
             : "-"}
         </div>
@@ -212,129 +253,17 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
         <div className="mp-links-shape"> </div>
         <div className="mp-success-links-left">
           <div className="mp-success-links-left-inner">
-            {activeProject?.twitterUserName ? (
-              <a
-                href={"https://twitter.com/" + activeProject.twitterUserName}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.twitter} alt="" />{" "}
+            {mainLinks.map((link, index) => (
+              <a href={link.link} target="_blank" rel="noreferrer">
+                <img src={link.img} alt="" />
               </a>
-            ) : null}
-            {activeProject?.externalUrl ? (
-              <a href={activeProject.externalUrl} target="_blank" rel="noreferrer">
-                <img src={linkImages.website} alt="" />{" "}
-              </a>
-            ) : null}
-            {activeProject?.contractAddress ? (
-              <a
-                href={"https://etherscan.io/address/" + activeProject.contractAddress}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.etherscan} alt="" />{" "}
-              </a>
-            ) : null}
+            ))}
             <a className="dividor"></a>
-            {activeTokenId && activeProject?.contractAddress ? (
-              <a
-                href={
-                  "https://opensea.io/assets/ethereum/" +
-                  activeProject?.contractAddress +
-                  "/" +
-                  activeTokenId
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.opensea} alt="" />{" "}
+            {links.map((link, index) => (
+              <a href={link.link} target="_blank" rel="noreferrer">
+                <img src={link.img} alt="" />
               </a>
-            ) : activeProject?.id ? (
-              <a
-                href={"https://opensea.io/collection/" + activeProject.id}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.opensea} alt="" />{" "}
-              </a>
-            ) : null}{" "}
-            {activeProject?.id ? (
-              <a
-                href={`https://looksrare.org/collections/${activeProject?.contractAddress}/${
-                  activeTokenId ? activeTokenId : ""
-                }`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.looksrare} alt="" />{" "}
-              </a>
-            ) : null}
-            {activeTokenId && activeProject?.contractAddress ? (
-              <a
-                href={"https://x2y2.io/eth/" + activeProject?.contractAddress + "/" + activeTokenId}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.x2y2} alt="" />{" "}
-              </a>
-            ) : activeProject?.id ? (
-              <a
-                href={`https://x2y2.io/collection/${activeProject?.id}/items`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.x2y2} alt="" />{" "}
-              </a>
-            ) : null}{" "}
-            {/* {activeProject?.github ? (
-            <a href={`${activeProject?.github}`} target="_blank" rel="noreferrer">
-              <img src={linkImages.github} alt="" />{" "}
-            </a>
-          ) : null} */}
-            {activeTokenId && activeProject?.contractAddress ? (
-              <a
-                href={
-                  "https://www.gem.xyz/asset/" +
-                  activeProject?.contractAddress +
-                  "/" +
-                  activeTokenId
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.gem} alt="" />{" "}
-              </a>
-            ) : activeProject?.id ? (
-              <a
-                href={`https://www.gem.xyz/collection/${activeProject?.id}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.gem} alt="" />{" "}
-              </a>
-            ) : null}{" "}
-            {activeTokenId && activeProject?.contractAddress ? (
-              <a
-                href={
-                  "https://sudoswap.xyz/#/item/" +
-                  activeProject?.contractAddress +
-                  "/" +
-                  activeTokenId
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.sudoswap} alt="" />{" "}
-              </a>
-            ) : activeProject?.contractAddress ? (
-              <a
-                href={`https://sudoswap.xyz/#/browse/buy/${activeProject?.contractAddress}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src={linkImages.sudoswap} alt="" />{" "}
-              </a>
-            ) : null}
+            ))}
             <a>
               <img src="" alt="" style={{ opacity: 0 }} />{" "}
             </a>
@@ -347,7 +276,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
             useG.setShowMain(!useG.showMain);
           }}
         >
-          More
+          {getLang("More")}
         </button>
       </div>
       <div

@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { createVisitHistory, getNftById } from "../../../utils/apis/nft_api";
 import { getNftByIdV2 } from "../../../utils/apis/nft_api_v2";
+import { projectLinksWrapper } from "../../../utils/apis/project_wrapper";
 import { IProject, IProjectV2 } from "../../../utils/apis/types";
 import { ScamResult } from "../../../utils/detector/src";
 import { Checker } from "../../../utils/recognizer/checkers";
@@ -29,12 +30,19 @@ export const GlobalContext = React.createContext<{
 }>({} as any);
 function useGlobal() {
   const [showMain, _setShowMain] = React.useState(false);
-  const [activeProject, setActiveProject] = React.useState<IProjectV2 | null>(null);
+  const [activeProject, _setActiveProject] = React.useState<IProjectV2 | null>(null);
   const [activeTokenId, setActiveTokenId] = React.useState<string | null>(null);
   const [detectStatus, setDetectStatus] = React.useState<RecognizerStatus>("none");
   const [addRootClass, setAddRootClass] = React.useState("");
   const [activeAccoidion, setActiveAccoidion] = React.useState(0);
   const checker = new Checker();
+  const setActiveProject = (_project: IProjectV2 | null) => {
+    if (_project) {
+      _setActiveProject(projectLinksWrapper(_project));
+    } else {
+      _setActiveProject(_project);
+    }
+  };
   checker.on("changed", (projectInfo: IProjectV2 | null) => {
     console.log("changed", projectInfo);
     if (projectInfo) {

@@ -8,6 +8,7 @@ import { HistoryHot } from "./comps/HistoryHot";
 import { ToolsHot } from "./comps/ToolsHot";
 import { HeadCom } from "./comps/Head";
 import { getNftByIdV2 } from "../../../../../utils/apis/nft_api_v2";
+import { getLang } from "../../../../../utils/lang";
 
 const Pavo = () => {
   const { setActiveProject } = useContext(GlobalContext);
@@ -24,9 +25,9 @@ const Pavo = () => {
 
       <SearchCom goDetail={goDetail} />
 
-      <ToolsHot title={"TOOLS"} />
+      <ToolsHot title={getLang("Tools")} />
 
-      <HistoryHot title={"HISTORY"} goDetail={goDetail} />
+      <HistoryHot title={getLang("History")} goDetail={goDetail} />
     </Container>
   );
 };

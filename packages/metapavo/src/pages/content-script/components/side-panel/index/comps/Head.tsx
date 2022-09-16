@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import copy from "clipboard-copy";
 import ClearIcon from "@mui/icons-material/Clear";
+import { getLang } from "../../../../../../utils/lang";
 const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
 const index_logo = chrome.runtime.getURL("images/index-logo.png");
 
@@ -65,7 +66,7 @@ export const HeadCom = (props: any) => {
                 setShowLogin(true);
               }}
             >
-              Logout
+              {getLang("Logout")}
             </div>
           </div>
           <div className="mask" />
