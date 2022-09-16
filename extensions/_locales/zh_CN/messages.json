@@ -9,7 +9,7 @@
     "message": "无论您是访问 Twitter、Opensea、Etherscan 还是其他 Web3 网站，MetaPavo 都能智能识别背后的项目信息，并为您呈现其相关内容，让您以集中沉浸式的方式快速了解项目背景"
   },
   "User_Security_Manual": {
-    "message": "用户安全手册"
+    "message": "用户安全说明"
   },
   "security_desc": {
     "message": "我们不需要你的钱包发送任何交易，连接钱包只需要一个明文签名，仅用于验证你对钱包有控制权，点击了解更多"
@@ -64,5 +64,29 @@
   },
   "Logout": {
     "message": "退出登录"
+  },
+  "Floor": {
+    "message": "地板价"
+  },
+  "Volume": {
+    "message": "成交量"
+  },
+  "Supply": {
+    "message": "供应量"
+  },
+  "Holders": {
+    "message": "持有人"
+  },
+  "Total_Sales": {
+    "message": "总销售"
+  },
+  "nofound_desc": {
+    "message": "未找到相关项目"
+  },
+  "nofound_desc2": {
+    "message": "上报项目信息"
+  },
+  "search_placeholder": {
+    "message": "输入合约地址或项目名称..."
   }
 }

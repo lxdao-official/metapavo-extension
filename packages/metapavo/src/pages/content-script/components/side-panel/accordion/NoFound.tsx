@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { reportCreate } from "../../../../../utils/apis/nft_api";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { getLang } from "../../../../../utils/lang";
 const NoFoundWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,6 +63,10 @@ const NoFoundWrap = styled.div`
     border-radius: 6px;
     padding: 12px 16px;
     margin-bottom: 20px;
+  }
+  textarea {
+    height: 100px !important;
+    line-height: 20px !important;
   }
   .disable {
     background: #efeef1;
@@ -306,9 +311,9 @@ export function NoFound() {
           </linearGradient>
         </defs>
       </svg>
-      <div className="main-title">Unable to identify the project</div>
+      <div className="main-title">{getLang("nofound_desc")}</div>
       <div className="sub-title" onClick={ToggleForm}>
-        Submit the project information{" "}
+        {getLang("nofound_desc2")}{" "}
         {show ? (
           <KeyboardArrowUpIcon sx={{ fontSize: "14px" }} />
         ) : (
@@ -333,12 +338,11 @@ export function NoFound() {
             <option value="OTHERS">OTHERS</option>
           </select>
           <span className="form-title">Desc</span>
-          <input
+          <textarea
             onChange={onNameChange}
             value={name}
             className="form-input"
-            type="text"
-            placeholder="Name"
+            placeholder="desc"
           />
           <button type="button" onClick={onBtnClick}>
             Submit

@@ -6,6 +6,7 @@ import { SearchField, SearchItemContainer } from "../styles";
 import { useThrottle, useThrottleFn } from "ahooks";
 import { AnyARecord } from "dns";
 import { searchProjectsV2 } from "../../../../../../utils/apis/nft_api_v2";
+import { getLang } from "../../../../../../utils/lang";
 const enter = chrome.runtime.getURL("images/svgs/enter.svg");
 const flag = chrome.runtime.getURL("images/svgs/flag.svg");
 const userIcon = chrome.runtime.getURL("images/svgs/user_icon.svg");
@@ -126,7 +127,7 @@ export const SearchCom = (props: any) => {
           onChange={searchChange}
           onPaste={searchChange}
           value={curValue}
-          placeholder="Search collection/address/.."
+          placeholder={getLang("search_placeholder")}
         />
       </div>
 

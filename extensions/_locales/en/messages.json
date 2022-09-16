@@ -64,5 +64,29 @@
   },
   "Logout": {
     "message": "Logout"
+  },
+  "Floor": {
+    "message": "Floor"
+  },
+  "Volume": {
+    "message": "Volume"
+  },
+  "Supply": {
+    "message": "Supply"
+  },
+  "Holders": {
+    "message": "Holders"
+  },
+  "Total_Sales": {
+    "message": "Total Sales"
+  },
+  "nofound_desc": {
+    "message": "Unable to identify the project"
+  },
+  "nofound_desc2": {
+    "message": "Submit the project information"
+  },
+  "search_placeholder": {
+    "message": "Search collection/address/.."
   }
 }

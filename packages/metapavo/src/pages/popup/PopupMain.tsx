@@ -94,6 +94,18 @@ const PopupMain = () => {
         <MenuItemStyle
           onClick={() => {
             chrome.tabs.create({
+              url: "https://www.notion.so/lxdao/User-Security-Manual-fda56105aa4a4960932f854a7f907f9f",
+            });
+          }}
+        >
+          <div className="menu-left">{getLang("User_Security_Manual")}</div>
+          <div className="menu-right">
+            <GoIcon />
+          </div>
+        </MenuItemStyle>
+        <MenuItemStyle
+          onClick={() => {
+            chrome.tabs.create({
               url: "https://lxdao.io",
             });
           }}

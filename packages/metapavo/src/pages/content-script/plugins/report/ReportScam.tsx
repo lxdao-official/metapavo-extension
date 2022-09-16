@@ -52,6 +52,10 @@ const NoFoundWrap = styled.div`
     padding: 12px 16px;
     margin-bottom: 20px;
   }
+  textarea {
+    height: 100px !important;
+    line-height: 20px !important;
+  }
   .disable {
     background: #efeef1;
   }
@@ -162,12 +166,11 @@ export function ReportScam() {
             <option value="OTHERS">OTHERS</option>
           </select>
           <span className="form-title">Desc</span>
-          <input
+          <textarea
             onChange={onNameChange}
             value={name}
             className="form-input"
-            type="text"
-            placeholder="Name"
+            placeholder="Desc"
           />
           <button type="button" onClick={onBtnClick}>
             Submit
