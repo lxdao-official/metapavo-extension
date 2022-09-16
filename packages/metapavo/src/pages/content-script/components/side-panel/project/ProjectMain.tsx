@@ -173,7 +173,7 @@ const ProjectTab = (props: MediaProps) => {
   }, [activeProject?.symbol]);
   const mookData = [
     {
-      label: "Total Sales",
+      label: getLang("Total_Sales"),
       value: `${Number(
         twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.totalSales),
       ).toLocaleString()}`,
@@ -182,7 +182,7 @@ const ProjectTab = (props: MediaProps) => {
       icon: <></>,
     },
     {
-      label: "Holders",
+      label: getLang("Holders"),
       value: `${activeProject?.nftProjectInfo?.stats[0]?.numOwners.toLocaleString() || "-"}/${
         activeProject?.nftProjectInfo?.stats[0]?.totalSupply
           ? parseInt(activeProject?.nftProjectInfo.stats[0]?.totalSupply).toLocaleString()
@@ -194,7 +194,7 @@ const ProjectTab = (props: MediaProps) => {
     },
 
     {
-      label: "Volume (total)",
+      label: getLang("Volume") + " (total)",
       value: `${Number(
         twoDecimal(activeProject?.nftProjectInfo?.stats[0].totalVolume),
       ).toLocaleString()} Ξ`,
@@ -203,7 +203,7 @@ const ProjectTab = (props: MediaProps) => {
       icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
-      label: "Volume (24H)",
+      label: getLang("Volume") + " (24H)",
       value: `${Number(
         twoDecimal(activeProject?.nftProjectInfo?.stats[0].oneDayVolume),
       ).toLocaleString()} Ξ`,
@@ -212,7 +212,7 @@ const ProjectTab = (props: MediaProps) => {
       icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
-      label: "Volume (7D)",
+      label: getLang("Volume") + " (7D)",
       value: `${Number(
         twoDecimal(activeProject?.nftProjectInfo?.stats[0].sevenDayVolume),
       ).toLocaleString()} Ξ`,
@@ -221,7 +221,7 @@ const ProjectTab = (props: MediaProps) => {
       icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
-      label: "Floor Price",
+      label: getLang("Floor"),
       value: `${Number(
         twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.floorPrice),
       ).toLocaleString()} Ξ`,

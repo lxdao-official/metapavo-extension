@@ -223,27 +223,27 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
       </div>
       <div className="mp-success-bd">
         <div className="mp-success-bd-price">
-          Floor:{" "}
+          {getLang("Floor")}:{" "}
           {activeProject?.nftProjectInfo?.stats[0]?.floorPrice
             ? Number(activeProject.nftProjectInfo.stats[0].floorPrice).toFixed(2)
             : "-"}
           Ξ
         </div>
         <div className="mp-success-bd-price">
-          Volume(24h):{" "}
+          {getLang("Volume")}(24h):{" "}
           {activeProject?.nftProjectInfo?.stats[0]?.oneDayVolume
             ? Number(activeProject.nftProjectInfo.stats[0]?.oneDayVolume).toFixed(2)
             : "-"}
           Ξ
         </div>
         <div className="mp-success-bd-price">
-          Supply:{" "}
+          {getLang("Supply")}:{" "}
           {activeProject?.nftProjectInfo?.stats[0]?.totalSupply
             ? activeProject.nftProjectInfo.stats[0].totalSupply
             : "-"}
         </div>
         <div className="mp-success-bd-price">
-          Holders:{" "}
+          {getLang("Holders")}:{" "}
           {activeProject?.nftProjectInfo?.stats[0]?.numOwners
             ? activeProject.nftProjectInfo.stats[0].numOwners
             : "-"}

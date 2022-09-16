@@ -165,13 +165,9 @@ export async function getUsersAlarmsNoLogin() {
 }
 
 export async function getUsersAlarmsList() {
-  const res = await fetchWrapped(
-    `${config.baseURL}/alarms/list`,
-    {
-      method: "GET",
-    },
-    false,
-  );
+  const res = await fetchWrapped(`${config.baseURL}/alarms/list`, {
+    method: "GET",
+  });
   if (res && res.success) {
     return res.data;
   }
