@@ -17,10 +17,11 @@ import { Box, CircularProgress, styled } from "@mui/material";
 import toast from "react-hot-toast";
 import { PageContainer } from "../styleCom";
 // import { HeadReturn } from "../common/HeadReturn";
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import { HeadReturnContainer, AddNewAlarm } from "../styleCom";
 import { useNavigate } from "react-router-dom";
 import AlarmSetPage from "./AlarmSetPage";
+import { ItemSkeleton } from "../../components/common/ItemSkeleton";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 
 export default function AlarmListPage() {
@@ -49,8 +50,8 @@ export default function AlarmListPage() {
   }, [date]);
 
   const toogleSetPage = () => {
-    toogleShow(!showSetPage)
-  }
+    toogleShow(!showSetPage);
+  };
 
   const handleDeleteIcon = async (id: string) => {
     try {
@@ -76,7 +77,10 @@ export default function AlarmListPage() {
           alt=""
         />
         <span>{title}</span>
-        <AddNewAlarm onClick={toogleSetPage}><AddBoxIcon sx={{ fontSize: "12px" }} />Add New</AddNewAlarm>
+        <AddNewAlarm onClick={toogleSetPage}>
+          <AddBoxIcon sx={{ fontSize: "12px" }} />
+          Add New
+        </AddNewAlarm>
       </HeadReturnContainer>
     );
   };
@@ -84,7 +88,7 @@ export default function AlarmListPage() {
   //   <>
   //     <TrendsHotContainer>
   //       <HeadReturn title={"Alarm Reminder"} />
-  
+
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
     width: 100%;
@@ -92,7 +96,13 @@ export default function AlarmListPage() {
 
   const alarmList = loading ? (
     <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <CircularProgress style={{ color: "#b721ff", width: "20px", height: "20px" }} />
+      <Box>
+        <ItemSkeleton />
+        <ItemSkeleton />
+        <ItemSkeleton />
+        <ItemSkeleton />
+        <ItemSkeleton />
+      </Box>
     </Box>
   ) : (
     <div>
@@ -114,10 +124,7 @@ export default function AlarmListPage() {
                 secondary={
                   "Alarm After: " +
                   moment
-                    .duration(
-                      (new Date(alarm.alarm_at).getTime() - Date.now()) / 1000,
-                      "seconds",
-                    )
+                    .duration((new Date(alarm.alarm_at).getTime() - Date.now()) / 1000, "seconds")
                     .locale("en")
                     .humanize()
                 }
@@ -139,8 +146,8 @@ export default function AlarmListPage() {
         );
       })}
     </div>
-  )
-  
+  );
+
   return (
     <>
       <PageContainer>
