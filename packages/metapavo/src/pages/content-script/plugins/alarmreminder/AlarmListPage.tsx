@@ -1,8 +1,7 @@
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -143,9 +142,12 @@ export default function AlarmListPage() {
               <ListItemAvatar>
                 <ListItemText primary={dayjs(alarm.alarm_at).format('ddd')} secondary={dayjs(alarm.alarm_at).format('DD')} sx={{textAlign: 'center'}}/>
               </ListItemAvatar>
-              <ListItemIcon sx={{justifyContent: 'center'}}>
-                  <AccessAlarmsIcon sx={{ color: alarm.color}} />
-              </ListItemIcon>
+              <ListItemAvatar>
+                <Avatar variant="rounded" sx={{ bgcolor: alarm.color, opacity: 0.5}}> {alarm.desc.slice(0,1)}</Avatar>
+              </ListItemAvatar>
+              {/* <ListItemIcon sx={{justifyContent: 'center'}}>
+                <AccessAlarmsIcon sx={{ color: alarm.color}} />
+              </ListItemIcon> */}
               <ListItemText primary={alarm.desc} secondary={dayjs(alarm.alarm_at).format('HH:mm a')} />
             </ListItem>
           </List>
