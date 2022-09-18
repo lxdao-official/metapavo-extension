@@ -48,6 +48,10 @@ const AlarmSetFormWrap = styled.div`
         border-image-slice: 1;
         border-image-source: linear-gradient(to left, #7DE2AC, #9F50FF);
     }
+    legend{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.23);
+        line-height: 0;
+    }
 `
 
 export default function AlarmSetPage(props:any) {
@@ -62,9 +66,6 @@ export default function AlarmSetPage(props:any) {
     }, []);
 
     const onBtnClick = async () => {
-        // console.log('heissan--->', time,desc,color, props)
-
-
       await addAlarmForUser(time.toDate(), desc, window.location.toString(), color);
       chrome.runtime.sendMessage(
         {
@@ -78,6 +79,7 @@ export default function AlarmSetPage(props:any) {
         },
         () => {},
       );
+      props.restoreAlarmsFromServer()
       props.toogleSetPage()
     }
 

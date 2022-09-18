@@ -5,6 +5,7 @@ import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { CalendarPicker, CalendarPickerProps } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -78,8 +79,8 @@ export default function AlarmListPage() {
         />
         <span>{title}</span>
         <AddNewAlarm onClick={toogleSetPage}>
-          <AddBoxIcon sx={{ fontSize: "12px" }} />
-          Add New
+          {/* <AddBoxIcon sx={{ fontSize: "12px", }} /> */}
+          + Add New
         </AddNewAlarm>
       </HeadReturnContainer>
     );
@@ -105,15 +106,15 @@ export default function AlarmListPage() {
       </Box>
     </Box>
   ) : (
-    <div>
+    <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box
-        sx={(theme) => ({
-          width: "283px"
-        })}
-      >
-        <CustomCalendarPicker date={date} onChange={(newDate) => setDate(newDate)} showDaysOutsideCurrentMonth disablePast />
-      </Box> 
+        <Box
+          sx={(theme) => ({
+            width: "283px"
+          })}
+        >
+          <CustomCalendarPicker date={date} onChange={(newDate) => setDate(newDate)} showDaysOutsideCurrentMonth disablePast />
+        </Box> 
       </LocalizationProvider>
       {alarms.map((alarm) => {
         return (
@@ -131,28 +132,33 @@ export default function AlarmListPage() {
               />
             </ListItem> */}
             <ListItem 
+              divider={true} 
+              disablePadding={true}
               secondaryAction={
                 <IconButton edge="end" aria-label="delete" onClick={()=>{handleDeleteIcon(alarm.id)}}>
                   <DeleteIcon />
                 </IconButton>
               }
             >
-              <ListItemIcon>
-                  <AccessAlarmsIcon sx={{ color: alarm.color }} />
+              <ListItemAvatar>
+                <ListItemText primary={dayjs(alarm.alarm_at).format('ddd')} secondary={dayjs(alarm.alarm_at).format('DD')} sx={{textAlign: 'center'}}/>
+              </ListItemAvatar>
+              <ListItemIcon sx={{justifyContent: 'center'}}>
+                  <AccessAlarmsIcon sx={{ color: alarm.color}} />
               </ListItemIcon>
-              <ListItemText primary={alarm.desc} secondary={dayjs(alarm.alarm_at).format('MM-DD HH:mm')} />
+              <ListItemText primary={alarm.desc} secondary={dayjs(alarm.alarm_at).format('HH:mm a')} />
             </ListItem>
           </List>
         );
       })}
-    </div>
+    </>
   );
 
   return (
     <>
       <PageContainer>
         <HeadReturn title={"Alarm Reminder"} />
-        {showSetPage ? <AlarmSetPage toogleSetPage={toogleSetPage} /> : alarmList}
+        {showSetPage ? <AlarmSetPage toogleSetPage={toogleSetPage} restoreAlarmsFromServer={restoreAlarmsFromServer} /> : alarmList}
       </PageContainer>
     </>
   );
