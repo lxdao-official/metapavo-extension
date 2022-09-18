@@ -1,17 +1,17 @@
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import { CalendarPicker, CalendarPickerProps } from '@mui/x-date-pickers';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import { CalendarPicker, CalendarPickerProps } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React from "react";
 import { useEffect } from "react";
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from "dayjs";
 // import moment, { Moment } from "moment";
 import { getUsersAlarmsList, removeAlarmForUser } from "../../../../utils/apis/nft_api";
 import { Box, CircularProgress, styled } from "@mui/material";
@@ -58,12 +58,12 @@ export default function AlarmListPage() {
     try {
       const _remove = await removeAlarmForUser(id);
       if (_remove) {
-        restoreAlarmsFromServer()
+        restoreAlarmsFromServer();
       }
     } catch (e: any) {
       toast.error(e.message);
     }
-  }
+  };
 
   const HeadReturn = (props: any) => {
     const title = props.title;
@@ -79,8 +79,7 @@ export default function AlarmListPage() {
         />
         <span>{title}</span>
         <AddNewAlarm onClick={toogleSetPage}>
-          {/* <AddBoxIcon sx={{ fontSize: "12px", }} /> */}
-          + Add New
+          {/* <AddBoxIcon sx={{ fontSize: "12px", }} /> */}+ Add New
         </AddNewAlarm>
       </HeadReturnContainer>
     );
@@ -97,24 +96,23 @@ export default function AlarmListPage() {
 
   const alarmList = loading ? (
     <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
-      <Box>
-        <ItemSkeleton />
-        <ItemSkeleton />
-        <ItemSkeleton />
-        <ItemSkeleton />
-        <ItemSkeleton />
-      </Box>
+      <CircularProgress size={20} />
     </Box>
   ) : (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Box
           sx={(theme) => ({
-            width: "283px"
+            width: "283px",
           })}
         >
-          <CustomCalendarPicker date={date} onChange={(newDate) => setDate(newDate)} showDaysOutsideCurrentMonth disablePast />
-        </Box> 
+          <CustomCalendarPicker
+            date={date}
+            onChange={(newDate) => setDate(newDate)}
+            showDaysOutsideCurrentMonth
+            disablePast
+          />
+        </Box>
       </LocalizationProvider>
       {alarms.map((alarm) => {
         return (
@@ -131,22 +129,35 @@ export default function AlarmListPage() {
                 }
               />
             </ListItem> */}
-            <ListItem 
-              divider={true} 
+            <ListItem
+              divider={true}
               disablePadding={true}
               secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={()=>{handleDeleteIcon(alarm.id)}}>
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => {
+                    handleDeleteIcon(alarm.id);
+                  }}
+                >
                   <DeleteIcon />
                 </IconButton>
               }
             >
               <ListItemAvatar>
-                <ListItemText primary={dayjs(alarm.alarm_at).format('ddd')} secondary={dayjs(alarm.alarm_at).format('DD')} sx={{textAlign: 'center'}}/>
+                <ListItemText
+                  primary={dayjs(alarm.alarm_at).format("ddd")}
+                  secondary={dayjs(alarm.alarm_at).format("DD")}
+                  sx={{ textAlign: "center" }}
+                />
               </ListItemAvatar>
-              <ListItemIcon sx={{justifyContent: 'center'}}>
-                  <AccessAlarmsIcon sx={{ color: alarm.color}} />
+              <ListItemIcon sx={{ justifyContent: "center" }}>
+                <AccessAlarmsIcon sx={{ color: alarm.color }} />
               </ListItemIcon>
-              <ListItemText primary={alarm.desc} secondary={dayjs(alarm.alarm_at).format('HH:mm a')} />
+              <ListItemText
+                primary={alarm.desc}
+                secondary={dayjs(alarm.alarm_at).format("HH:mm a")}
+              />
             </ListItem>
           </List>
         );
@@ -158,7 +169,14 @@ export default function AlarmListPage() {
     <>
       <PageContainer>
         <HeadReturn title={"Alarm Reminder"} />
-        {showSetPage ? <AlarmSetPage toogleSetPage={toogleSetPage} restoreAlarmsFromServer={restoreAlarmsFromServer} /> : alarmList}
+        {showSetPage ? (
+          <AlarmSetPage
+            toogleSetPage={toogleSetPage}
+            restoreAlarmsFromServer={restoreAlarmsFromServer}
+          />
+        ) : (
+          alarmList
+        )}
       </PageContainer>
     </>
   );

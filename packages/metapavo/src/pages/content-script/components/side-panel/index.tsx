@@ -53,7 +53,7 @@ function App() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <rect width="36" height="36" fill="#EFEFEF" fillOpacity="0.64" />
+            <rect width="36" height="36" fill="#EFEFEF" fillOpacity="1" />
             <path
               d="M13 13L23 23"
               stroke="#D1D0D6"
