@@ -70,6 +70,7 @@ export const HistoryHot = (props: any) => {
             dayTime: moment(item.updated_at).format("MM-DD"),
             hourTime: moment(item.updated_at).format("mm:ss"),
             project_id: item.project_id,
+            symbol: item.project?.symbol,
           };
         }),
       );
@@ -104,7 +105,7 @@ export const HistoryHot = (props: any) => {
               key={index}
               itemData={item}
               onClick={() => {
-                props.goDetail(item.project_id);
+                props.goDetail(item.symbol);
               }}
             />
           );

@@ -650,7 +650,7 @@ export class Detector {
   databaseUrl: string;
   fetching: boolean;
 
-  constructor({ onlyBuiltIn = true, databaseUrl = null }) {
+  constructor({ onlyBuiltIn = true, databaseUrl = "" }) {
     this.onlyBuiltIn = onlyBuiltIn;
     this.database = builtInDatabase;
     this.databaseUrl = databaseUrl || remoteDatabase;

@@ -98,6 +98,7 @@ const WatchListPage = (props: any) => {
             dayTime: moment(item.updated_at).format("MM-DD"),
             hourTime: moment(item.updated_at).format("mm:ss"),
             project_id: item.project_id,
+            symbol: item.project?.symbol,
           };
         });
         setList([...list, ...newList]);
@@ -108,8 +109,8 @@ const WatchListPage = (props: any) => {
 
     setLoading(false);
   };
-  const goDetail = async (project_id: string) => {
-    const project = await getNftByIdV2(project_id);
+  const goDetail = async (symbol: string) => {
+    const project = await getNftByIdV2(symbol);
     if (project) {
       setActiveProject(project);
     }
@@ -134,7 +135,7 @@ const WatchListPage = (props: any) => {
               key={index}
               itemData={item}
               onClick={() => {
-                goDetail(item.project_id);
+                goDetail(item.symbol);
               }}
             />
           );

@@ -1,3 +1,4 @@
+import config from "../../config";
 import { findNftByAddress, getNftById, getNftByTwitterId } from "../apis/nft_api";
 import { findNftByAddressV2, getNftByIdV2, getNftByTwitterIdV2 } from "../apis/nft_api_v2";
 import { IProject, IProjectV2 } from "../apis/types";
@@ -9,6 +10,7 @@ function initDetector() {
   if (detector === null) {
     detector = new Detector({
       onlyBuiltIn: false,
+      databaseUrl: `${config.baseURL}/nfts/projects/all`,
     });
     detector.update();
   }

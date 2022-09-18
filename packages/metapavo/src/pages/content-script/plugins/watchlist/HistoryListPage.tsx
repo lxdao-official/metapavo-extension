@@ -96,6 +96,7 @@ const HisotryListPage = (props: any) => {
             dayTime: moment(item.updated_at).format("MM-DD"),
             hourTime: moment(item.updated_at).format("mm:ss"),
             project_id: item.project_id,
+            symbol: item.project?.symbol,
           };
         });
         setList([...list, ...newList]);
@@ -132,7 +133,7 @@ const HisotryListPage = (props: any) => {
               key={index}
               itemData={item}
               onClick={() => {
-                goDetail(item.project_id);
+                goDetail(item.symbol);
               }}
             />
           );
