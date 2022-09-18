@@ -131,7 +131,8 @@ export default function SelectText() {
         const selection = document.getSelection();
         if (selection && selection.type === "Range") {
           const selectionText = selection.toString();
-          if (selectionText.length >= 10) {
+          const matches = selectionText.match(/\d/g);
+          if (selectionText.length >= 10 && matches && matches.length > 8) {
             setText(selectionText);
             const oRange = selection.getRangeAt(0); //get the text range
             const oRect = oRange.getBoundingClientRect();

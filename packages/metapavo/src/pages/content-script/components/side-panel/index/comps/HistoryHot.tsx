@@ -5,11 +5,12 @@ import { HistoryHotContainer, HotTitle } from "../styles";
 import { Empty } from "./Empty";
 import { linkImages } from "../../../../../../utils/linkImages";
 import { getVisitHistories } from "../../../../../../utils/apis/nft_api";
-import { IVisitHistory } from "../../../../../../utils/apis/types";
+import { IVisitHistory, visit_histories } from "../../../../../../utils/apis/types";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { getLang } from "../../../../../../utils/lang";
 import { ItemSkeleton } from "../../../common/ItemSkeleton";
+import { projectLinksWrapper } from "../../../../../../utils/apis/project_wrapper";
 export const HistoryHotTitle = (props: any) => {
   const title = props.title;
   const navigate = useNavigate();
@@ -34,44 +35,38 @@ export const HistoryHot = (props: any) => {
   async function getHistories() {
     setGetHistoryLoading(true);
     const res = await getVisitHistories(1, 10);
-    if (res.data) {
+    if (res?.data) {
       setHistoryHot(
-        res.data.map((item: IVisitHistory) => {
+        res.data.map((item: visit_histories) => {
+          if (item.project) {
+            item.project = projectLinksWrapper(item.project);
+          }
           return {
-            userIcon: item.project?.image_url,
+            userIcon: item.project?.imageUrl,
             useName: item.project?.name,
             userEth: `Floor: ${
-              item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
+              item.project?.nftProjectInfo?.stats[0]?.floorPrice
+                ? Number(item.project.nftProjectInfo.stats[0].floorPrice).toFixed(2)
+                : "-"
             } E`,
             links: [
-              item.project?.external_url
-                ? {
-                    link: item.project?.external_url,
-                    img: linkImages.website,
-                  }
-                : null,
-              item.project?.id
-                ? {
-                    link: `https://opensea.io/collection/${item.project?.id}`,
-                    label: "OpenSea",
-                    img: linkImages.opensea,
-                  }
-                : null,
-              item.project?.id
-                ? {
-                    link: `https://www.gem.xyz/collection/${item.project?.id}`,
-                    label: "Gem",
-                    img: linkImages.gem,
-                  }
-                : null,
-              item.project?.twitter_username
-                ? {
-                    link: `https://twitter.com/${item.project.twitter_username}`,
-                    label: "Twitter",
-                    img: linkImages.twitter,
-                  }
-                : null,
-            ].filter((item) => item),
+              {
+                link: item.project?.externalUrl,
+                img: linkImages.website,
+              },
+              {
+                link: item.project?.links?.opensea,
+                img: linkImages.opensea,
+              },
+              {
+                link: item.project?.links?.gem,
+                img: linkImages.gem,
+              },
+              {
+                link: item.project?.links?.twitter,
+                img: linkImages.twitter,
+              },
+            ].filter((item) => item.link),
             dayTime: moment(item.updated_at).format("MM-DD"),
             hourTime: moment(item.updated_at).format("mm:ss"),
             project_id: item.project_id,

@@ -73,22 +73,6 @@ const card = (obj: any) => (
       <Box sx={{ fontSize: "14px" }}>{obj.icon}</Box>
       {obj.value}
     </Box>
-    {/* <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        fontWeight: 500,
-        fontSize: "9px",
-        lineHeight: "11px",
-      }}
-    >
-      <Box component="span" className="metapavo-roundT">
-        {obj.date}
-      </Box>
-      <Box component="span" sx={{ color: obj.rate > 0 ? "#07A333" : "#FF1159" }}>
-        {obj.rate}%
-      </Box>
-    </Box> */}
   </Box>
 );
 
@@ -161,16 +145,9 @@ const ProjectTab = (props: MediaProps) => {
   };
   const [faved, setFaved] = React.useState(false);
 
-  const refreshFavedStatus = async () => {
-    if (activeProject?.symbol) {
-      const _isFaved = await isFaved(activeProject?.symbol);
-      console.log("is faved", _isFaved);
-      setFaved(_isFaved);
-    }
-  };
   useEffect(() => {
     refreshFavedStatus();
-  }, [activeProject?.symbol]);
+  }, [activeProject?.id]);
   const mookData = [
     {
       label: getLang("Total_Sales"),
@@ -314,10 +291,17 @@ const ProjectTab = (props: MediaProps) => {
       ].filter((i) => i.link),
     },
   ];
+  const refreshFavedStatus = async () => {
+    if (activeProject?.id) {
+      const _isFaved = await isFaved(activeProject?.id);
+      console.log("is faved", _isFaved);
+      setFaved(_isFaved);
+    }
+  };
   async function addFav() {
     if (activeProject) {
       try {
-        await addFavByProjectId(activeProject.symbol);
+        await addFavByProjectId(activeProject.id);
         toast.success("Add to favorite successfully");
         refreshFavedStatus();
       } catch (e: any) {
@@ -330,7 +314,7 @@ const ProjectTab = (props: MediaProps) => {
   async function removeFav() {
     if (activeProject) {
       try {
-        await removeFavByProjectId(activeProject.symbol);
+        await removeFavByProjectId(activeProject.id);
         toast.success("Remove from favorite successfully");
         refreshFavedStatus();
       } catch (e: any) {

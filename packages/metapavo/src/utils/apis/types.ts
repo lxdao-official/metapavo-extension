@@ -135,6 +135,25 @@ export interface ContractData {
 export interface PagedDto<T> {
   current: number;
   size: number;
+  data?: T[];
   records?: T[];
   total?: number;
 }
+export type favs = {
+  id: string;
+  user_id: string;
+  created_at: Date;
+  updated_at: Date | null;
+  project_id: number;
+  project_type: number | null;
+  project?: IProjectV2;
+};
+export type visit_histories = {
+  id: string;
+  user_id: string;
+  project_id: number;
+  project_type: number | null;
+  created_at: Date;
+  updated_at: Date | null;
+  project?: IProjectV2;
+};

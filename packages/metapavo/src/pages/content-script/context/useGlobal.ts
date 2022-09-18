@@ -51,7 +51,7 @@ function useGlobal() {
         showSuccess();
       }, 1000);
       setActiveProject(projectInfo);
-      createVisitHistory(projectInfo.symbol);
+      createVisitHistory(projectInfo.id);
     } else {
       setDetectStatus("none");
       setActiveProject(null);

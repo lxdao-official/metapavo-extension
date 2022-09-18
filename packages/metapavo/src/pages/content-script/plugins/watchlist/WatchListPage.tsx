@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getNftById, getUsersFavs } from "../../../../utils/apis/nft_api";
-import { IFavs } from "../../../../utils/apis/types";
+import { favs, IFavs } from "../../../../utils/apis/types";
 import { linkImages } from "../../../../utils/linkImages";
 import { GlobalContext } from "../../context/useGlobal";
 import { HeadReturn } from "../common/HeadReturn";
@@ -13,6 +13,7 @@ import { ItemContainer, PageContainer } from "../styleCom";
 import { getNftByIdV2 } from "../../../../utils/apis/nft_api_v2";
 import { getLang } from "../../../../utils/lang";
 import { ItemSkeleton } from "../../components/common/ItemSkeleton";
+import { projectLinksWrapper } from "../../../../utils/apis/project_wrapper";
 export const Item = (props: any) => {
   const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
 
@@ -63,42 +64,36 @@ const WatchListPage = (props: any) => {
     setLoading(true);
     try {
       const res = await getUsersFavs(_page, 20);
-      if (res.data) {
-        const newList: any[] = res.data.map((item: IFavs) => {
+      if (res?.data) {
+        const newList: any[] = res.data.map((item: favs) => {
+          if (item.project) {
+            item.project = projectLinksWrapper(item.project);
+          }
           return {
-            userIcon: item.project?.image_url,
+            userIcon: item.project?.imageUrl,
             useName: item.project?.name,
             userEth: `Floor: ${
-              item.project?.floor_price ? Number(item.project.floor_price).toFixed(2) : "-"
+              item.project?.nftProjectInfo?.stats[0]?.floorPrice
+                ? Number(item.project.nftProjectInfo.stats[0].floorPrice).toFixed(2)
+                : "-"
             } E`,
             links: [
-              item.project?.external_url
-                ? {
-                    link: item.project?.external_url,
-                    img: linkImages.website,
-                  }
-                : null,
-              item.project?.id
-                ? {
-                    link: `https://opensea.io/collection/${item.project?.id}`,
-                    label: "OpenSea",
-                    img: linkImages.opensea,
-                  }
-                : null,
-              item.project?.id
-                ? {
-                    link: `https://www.gem.xyz/collection/${item.project?.id}`,
-                    label: "Gem",
-                    img: linkImages.gem,
-                  }
-                : null,
-              item.project?.twitter_username
-                ? {
-                    link: `https://twitter.com/${item.project.twitter_username}`,
-                    label: "Twitter",
-                    img: linkImages.twitter,
-                  }
-                : null,
+              {
+                link: item.project?.externalUrl,
+                img: linkImages.website,
+              },
+              {
+                link: item.project?.links?.opensea,
+                img: linkImages.opensea,
+              },
+              {
+                link: item.project?.links?.gem,
+                img: linkImages.gem,
+              },
+              {
+                link: item.project?.links?.twitter,
+                img: linkImages.twitter,
+              },
             ].filter((item) => item),
             dayTime: moment(item.updated_at).format("MM-DD"),
             hourTime: moment(item.updated_at).format("mm:ss"),

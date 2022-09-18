@@ -1,6 +1,6 @@
 import config from "../../config";
 import { fetchWrapped } from "./fetch";
-import { IProject } from "./types";
+import { favs, IProject, IProjectV2, PagedDto, visit_histories } from "./types";
 
 export async function getNftByTwitterId(twitterId: string): Promise<IProject | null> {
   const res = await fetchWrapped(`${config.baseURL}/nfts/by_twitter/${twitterId}`, {}, false);
@@ -68,7 +68,7 @@ export async function findAllWebsite(): Promise<string[] | null> {
   });
 }
 
-export async function createVisitHistory(project_id: string) {
+export async function createVisitHistory(project_id: number) {
   const res = await fetchWrapped(`${config.baseURL}/visit-histories/create`, {
     method: "POST",
     body: JSON.stringify({
@@ -81,7 +81,10 @@ export async function createVisitHistory(project_id: string) {
   return null;
 }
 
-export async function getVisitHistories(pageIndex = 1, pageSize = 10) {
+export async function getVisitHistories(
+  pageIndex = 1,
+  pageSize = 10,
+): Promise<PagedDto<visit_histories> | null> {
   const res = await fetchWrapped(
     `${config.baseURL}/visit-histories/users/list?pageIndex=${pageIndex}&pageSize=${pageSize}`,
     {
@@ -94,7 +97,7 @@ export async function getVisitHistories(pageIndex = 1, pageSize = 10) {
   return null;
 }
 
-export async function isFaved(project_id: string) {
+export async function isFaved(project_id: number) {
   const res = await fetchWrapped(`${config.baseURL}/favs/is_faved/${project_id}`, {
     method: "GET",
   });
@@ -103,7 +106,7 @@ export async function isFaved(project_id: string) {
   }
   return null;
 }
-export async function addFavByProjectId(project_id: string) {
+export async function addFavByProjectId(project_id: number) {
   const res = await fetchWrapped(`${config.baseURL}/favs/create`, {
     method: "POST",
     body: JSON.stringify({
@@ -115,7 +118,7 @@ export async function addFavByProjectId(project_id: string) {
   }
   return null;
 }
-export async function removeFavByProjectId(project_id: string) {
+export async function removeFavByProjectId(project_id: number) {
   const res = await fetchWrapped(`${config.baseURL}/favs/delete/${project_id}`, {
     method: "DELETE",
   });
@@ -128,7 +131,10 @@ export async function removeFavByProjectId(project_id: string) {
  * 获取用户的收藏列表
  * @returns
  */
-export async function getUsersFavs(pageIndex: number = 1, pageSize: number = 20) {
+export async function getUsersFavs(
+  pageIndex: number = 1,
+  pageSize: number = 20,
+): Promise<PagedDto<favs> | null> {
   const res = await fetchWrapped(
     `${config.baseURL}/favs/user/list?pageIndex=${pageIndex}&pageSize=${pageSize}`,
     {
