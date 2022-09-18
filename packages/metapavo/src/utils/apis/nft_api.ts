@@ -170,8 +170,8 @@ export async function getUsersAlarmsNoLogin() {
   return null;
 }
 
-export async function getUsersAlarmsList() {
-  const res = await fetchWrapped(`${config.baseURL}/alarms/list`, {
+export async function getUsersAlarmsList(timestamp: number) {
+  const res = await fetchWrapped(`${config.baseURL}/alarms/fromnow/list/${timestamp}`, {
     method: "GET",
   });
   if (res && res.success) {

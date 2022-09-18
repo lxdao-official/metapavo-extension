@@ -526,4 +526,9 @@ export const AddNewAlarm = styled.div`
   border-image-slice: 1;
   border-image-source: linear-gradient(to left, #7de2ac, #9f50ff);
   font-size: 12px;
+  cursor: pointer;
+  border-style: solid;
+  height: 24px;
+  line-height: 15px;
+  padding: 4px; 
 `;

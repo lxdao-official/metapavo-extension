@@ -9,6 +9,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { CirclePicker } from 'react-color';
 import { suggestionCollector } from "cspell-trie-lib";
 import { addAlarmForUser } from "../../../../utils/apis/nft_api";
+import zIndex from "@mui/material/styles/zIndex";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 
 const AlarmSetFormWrap = styled.div`
@@ -47,6 +48,10 @@ const AlarmSetFormWrap = styled.div`
         border-image-slice: 1;
         border-image-source: linear-gradient(to left, #7DE2AC, #9F50FF);
     }
+    legend{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.23);
+        line-height: 0;
+    }
 `
 
 export default function AlarmSetPage(props:any) {
@@ -61,9 +66,6 @@ export default function AlarmSetPage(props:any) {
     }, []);
 
     const onBtnClick = async () => {
-        // console.log('heissan--->', time,desc,color, props)
-
-
       await addAlarmForUser(time.toDate(), desc, window.location.toString(), color);
       chrome.runtime.sendMessage(
         {
@@ -77,6 +79,7 @@ export default function AlarmSetPage(props:any) {
         },
         () => {},
       );
+      props.restoreAlarmsFromServer()
       props.toogleSetPage()
     }
 
@@ -96,6 +99,9 @@ export default function AlarmSetPage(props:any) {
             <AlarmSetFormWrap>
                 <span className="form-title">Time</span>
                 <DateTimePicker
+                    PopperProps={{
+                        style: {zIndex: 100000000001}                    
+                    }}
                     value={time}
                     onChange={handleTimeChange}
                     renderInput={(params) => <TextField {...params} size="small" />}
