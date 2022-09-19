@@ -91,6 +91,8 @@ export const ModalContainer = styled.div`
     .user-eth {
       font-weight: 500;
       color: #d1d0d6;
+      line-height: 18px;
+      height: 18px;
     }
   }
   .op-list {

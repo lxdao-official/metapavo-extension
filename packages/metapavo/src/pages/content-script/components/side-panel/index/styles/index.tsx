@@ -406,6 +406,8 @@ export const HistoryHotItemContainer = styled.div`
     .user-eth {
       font-weight: 500;
       color: #a9a8af;
+      line-height: 18px;
+      height: 18px;
     }
   }
 
@@ -416,11 +418,16 @@ export const HistoryHotItemContainer = styled.div`
 
     .link-container {
       width: 12px;
+      max-width: 12px;
+      min-width: 12px;
       height: 18px;
+      display: inline-block;
 
       .link-icon {
         width: 18px;
+        max-width: 18px;
         cursor: pointer;
+        display: inline-block;
       }
     }
   }
@@ -495,6 +502,8 @@ export const ModalContainer = styled.div`
     .user-eth {
       font-weight: 500;
       color: #d1d0d6;
+      line-height: 18px;
+      height: 18px;
     }
   }
   .op-list {

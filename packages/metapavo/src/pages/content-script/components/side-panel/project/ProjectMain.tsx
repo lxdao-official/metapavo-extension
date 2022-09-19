@@ -408,7 +408,7 @@ const ProjectTab = (props: MediaProps) => {
                     viewBox="0 0 12 13"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    style={{ verticalAlign: "-2px", marginRight: "5px" }}
+                    style={{ verticalAlign: "-2px", marginRight: "5px", display: "inline-block" }}
                   >
                     <path
                       fillRule="evenodd"
@@ -431,7 +431,7 @@ const ProjectTab = (props: MediaProps) => {
                     viewBox="0 0 12 13"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    style={{ verticalAlign: "-2px", marginRight: "5px" }}
+                    style={{ verticalAlign: "-2px", marginRight: "5px", display: "inline-block" }}
                   >
                     <path
                       fillRule="evenodd"

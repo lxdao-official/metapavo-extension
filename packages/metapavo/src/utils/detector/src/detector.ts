@@ -672,12 +672,26 @@ export class Detector {
       }
     }
   }
-
+  getDatabaseFromLocal(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      chrome.storage.local.get(["projects_database"], function (data) {
+        if (data && data.projects_database) {
+          resolve(data.projects_database);
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
   async update() {
     if (this.fetching) return;
-    if (this.lastFetch) {
-      const timeLeft = Date.now() - this.lastFetch;
+    const localData = await this.getDatabaseFromLocal();
+
+    if (localData && localData.genTime) {
+      const timeLeft = Date.now() - localData.genTime;
       if (timeLeft < 1000 * 60 * 5) {
+        this.database = localData;
+        await this.buildIndex();
         return;
       }
     }
@@ -687,7 +701,8 @@ export class Detector {
     try {
       const req = await fetch(this.databaseUrl);
       const remoteData = await req.json();
-      this.database = remoteData;
+      this.database = remoteData.data;
+      chrome.storage.local.set({ projects_database: remoteData.data });
       await this.buildIndex();
     } catch (e) {
       console.error("fetch from remote failed", e);
@@ -699,7 +714,7 @@ export class Detector {
 
   async detectScam(post: PostDetail, options: any = {}): Promise<ScamResult | null> {
     try {
-      if (!this.onlyBuiltIn) this.update();
+      if (!this.onlyBuiltIn) await this.update();
       return await _detectScam(post, this.database, options);
     } catch (e) {
       console.error("error", e);
