@@ -19,7 +19,7 @@ import { PageContainer } from "../styleCom";
 // import { HeadReturn } from "../common/HeadReturn";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { HeadReturnContainer, AddNewAlarm } from "../styleCom";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AlarmSetPage from "./AlarmSetPage";
 import { ItemSkeleton } from "../../components/common/ItemSkeleton";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
@@ -29,7 +29,13 @@ export default function AlarmListPage() {
   const [loading, setLoading] = React.useState(false);
   const [showSetPage, toogleShow] = React.useState(false);
   const [date, setDate] = React.useState(dayjs());
+  const [timestamp, setTimestamp] = React.useState(0);
   const navigate = useNavigate();
+  function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+  }
+  let query = useQuery();
 
   async function restoreAlarmsFromServer() {
     setLoading(true);
@@ -47,6 +53,11 @@ export default function AlarmListPage() {
   }
   useEffect(() => {
     restoreAlarmsFromServer();
+    const queryTime = query.get("timestamp");
+    if (queryTime) {
+      setTimestamp(Number(queryTime));
+      toogleShow(true);
+    }
   }, [date]);
 
   const toogleSetPage = () => {
@@ -176,6 +187,7 @@ export default function AlarmListPage() {
         <HeadReturn title={"Alarm Reminder"} />
         {showSetPage ? (
           <AlarmSetPage
+            timestamp={timestamp}
             toogleSetPage={toogleSetPage}
             restoreAlarmsFromServer={restoreAlarmsFromServer}
           />

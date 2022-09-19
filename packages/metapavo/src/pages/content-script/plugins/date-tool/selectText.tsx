@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
 import _ from "lodash";
@@ -14,6 +14,8 @@ import {
   TextField,
 } from "@mui/material";
 import { addAlarmForUser } from "../../../../utils/apis/nft_api";
+import { GlobalContext } from "../../context/useGlobal";
+import { useNavigate } from "react-router-dom";
 const RootElement = styled.div`
   position: fixed;
   background: #fff;
@@ -86,6 +88,7 @@ export default function SelectText() {
     x: -100,
     y: -100,
   });
+  const useG = useContext(GlobalContext);
   const [isInPopup, setIsInPopup] = React.useState(false);
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const bindEvents = () => {
@@ -172,10 +175,13 @@ export default function SelectText() {
       }
     }
   };
+  const navigate = useNavigate();
   const addAlarm = function (e: any) {
     e.stopPropagation();
-    setAddAlarmConfirmShow(true);
-    setAddAlarmConfirmContent("");
+    useG.setShowMain(true);
+    navigate("/alarms?timestamp=" + convertResult?.getTime());
+    // setAddAlarmConfirmShow(true);
+    // setAddAlarmConfirmContent("");
   };
   const handleClose = function () {
     setAddAlarmConfirmShow(false);

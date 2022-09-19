@@ -513,6 +513,7 @@ export const ModalContainer = styled.div`
 export const AddNewAlarm = styled.div`
   position: absolute;
   right: 50px;
+  cursor: pointer;
   background: linear-gradient(
     91.75deg,
     rgba(125, 226, 172, 0.1) 0%,
@@ -530,5 +531,5 @@ export const AddNewAlarm = styled.div`
   border-style: solid;
   height: 24px;
   line-height: 15px;
-  padding: 4px; 
+  padding: 4px;
 `;

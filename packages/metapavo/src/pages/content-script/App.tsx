@@ -29,6 +29,7 @@ function Root() {
       <WalletContext.Provider value={wallet}>
         <Ball />
         {useG.showMain ? <Main /> : null}
+        <SelectText />
       </WalletContext.Provider>
     </GlobalContext.Provider>
   );
@@ -38,7 +39,7 @@ ReactDOM.render(
     <MemoryRouter initialEntries={["/index"]}>
       <Root />
     </MemoryRouter>
-    <SelectText />
+
     <Toaster />
   </React.StrictMode>,
   rootElement,
