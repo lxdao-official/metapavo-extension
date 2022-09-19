@@ -164,7 +164,7 @@ export default function SelectText() {
     bindEvents();
   }, []);
 
-  const [convertResult, setConvertResult] = React.useState<Date | null>();
+  const [convertResult, setConvertResult] = React.useState<Date | null | string>();
   const [addAlarmConfirmShow, setAddAlarmConfirmShow] = React.useState(false);
   const [addAlarmConfirmContent, setAddAlarmConfirmContent] = React.useState("");
   const convert = function (e: React.MouseEvent) {
@@ -172,6 +172,9 @@ export default function SelectText() {
       const result = smartParseDate(text);
       if (result) {
         setConvertResult(result);
+      } else {
+        setConvertResult("no valid time");
+        toast.error("Cannot parse datetime");
       }
     }
   };
@@ -179,9 +182,7 @@ export default function SelectText() {
   const addAlarm = function (e: any) {
     e.stopPropagation();
     useG.setShowMain(true);
-    navigate("/alarms?timestamp=" + convertResult?.getTime());
-    // setAddAlarmConfirmShow(true);
-    // setAddAlarmConfirmContent("");
+    navigate("/alarms?timestamp=" + (convertResult as Date).getTime());
   };
   const handleClose = function () {
     setAddAlarmConfirmShow(false);
@@ -189,7 +190,7 @@ export default function SelectText() {
 
   const submit = async function (e: any) {
     if (convertResult) {
-      const timestramp = convertResult.getTime();
+      const timestramp = (convertResult as Date).getTime();
       await addAlarmForUser(new Date(timestramp), addAlarmConfirmContent, "", "");
       chrome.runtime.sendMessage(
         {
@@ -253,50 +254,57 @@ export default function SelectText() {
           </ButtonElement>
           <Line></Line>
           {text && convertResult ? (
-            <ResultElement>Convert Result: {convertResult.toLocaleString()}</ResultElement>
+            <ResultElement>
+              <span>
+                {"Convert Result: " +
+                  ((convertResult as Date).getTime
+                    ? convertResult.toLocaleString()
+                    : convertResult)}
+              </span>
+            </ResultElement>
           ) : null}
-          {/* {text && convertResult ? ( */}
-          <ButtonElement onClick={addAlarm}>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ verticalAlign: "-3px", marginRight: "5px" }}
-            >
-              <path
-                d="M7.99979 14.7778C11.3749 14.7778 14.1109 12.0417 14.1109 8.66667C14.1109 5.29157 11.3749 2.55554 7.99979 2.55554C4.6247 2.55554 1.88867 5.29157 1.88867 8.66667C1.88867 12.0417 4.6247 14.7778 7.99979 14.7778Z"
-                fill="black"
-                stroke="black"
-                strokeWidth="1.33333"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M7.91935 5.1178L7.91895 8.7874L10.5097 11.3782"
-                stroke="white"
-                strokeWidth="1.33333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M1.33301 2.99992L3.66634 1.33325"
-                stroke="black"
-                strokeWidth="1.33333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M14.6663 2.99992L12.333 1.33325"
-                stroke="black"
-                strokeWidth="1.33333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            Add to Reminder
-          </ButtonElement>
-          {/* ) : null} */}
+          {text && convertResult && (convertResult as Date).getTime ? (
+            <ButtonElement onClick={addAlarm}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ verticalAlign: "-3px", marginRight: "5px" }}
+              >
+                <path
+                  d="M7.99979 14.7778C11.3749 14.7778 14.1109 12.0417 14.1109 8.66667C14.1109 5.29157 11.3749 2.55554 7.99979 2.55554C4.6247 2.55554 1.88867 5.29157 1.88867 8.66667C1.88867 12.0417 4.6247 14.7778 7.99979 14.7778Z"
+                  fill="black"
+                  stroke="black"
+                  strokeWidth="1.33333"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M7.91935 5.1178L7.91895 8.7874L10.5097 11.3782"
+                  stroke="white"
+                  strokeWidth="1.33333"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M1.33301 2.99992L3.66634 1.33325"
+                  stroke="black"
+                  strokeWidth="1.33333"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.6663 2.99992L12.333 1.33325"
+                  stroke="black"
+                  strokeWidth="1.33333"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Add to Reminder
+            </ButtonElement>
+          ) : null}
           {/* <ButtonElement>🔍 Search project in MetaPavo</ButtonElement>
           <PowerBy>Power by MetaPavo</PowerBy> */}
         </RootElement>

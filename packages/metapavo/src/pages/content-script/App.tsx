@@ -40,7 +40,7 @@ ReactDOM.render(
       <Root />
     </MemoryRouter>
 
-    <Toaster />
+    <Toaster containerStyle={{ zIndex: 1000000000000 }} />
   </React.StrictMode>,
   rootElement,
 );
