@@ -1,4 +1,4 @@
-import List from "@mui/material/List";
+import List, { ListProps } from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
@@ -8,22 +8,27 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import { CalendarPicker, CalendarPickerProps } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import React from "react";
-import { useEffect } from "react";
-import dayjs, { Dayjs } from "dayjs";
-// import moment, { Moment } from "moment";
+import React, { useEffect } from "react";
+import dayjs from "dayjs";
 import { getUsersAlarmsList, removeAlarmForUser } from "../../../../utils/apis/nft_api";
 import { Box, CircularProgress, styled } from "@mui/material";
 import toast from "react-hot-toast";
 import { PageContainer } from "../styleCom";
-// import { HeadReturn } from "../common/HeadReturn";
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import { HeadReturnContainer, AddNewAlarm } from "../styleCom";
 import { useLocation, useNavigate } from "react-router-dom";
 import AlarmSetPage from "./AlarmSetPage";
-import { ItemSkeleton } from "../../components/common/ItemSkeleton";
+import styledCom from "styled-components";
+
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 
+const AlarmListWrap = styledCom.div`
+.MuiListItemSecondaryAction-root {
+  visibility: hidden;
+},
+.MuiListItem-root:hover .MuiListItemSecondaryAction-root{
+  visibility: inherit;
+}
+`
 export default function AlarmListPage() {
   const [alarms, setAlarms] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(false);
@@ -109,7 +114,7 @@ export default function AlarmListPage() {
       <CircularProgress size={20} />
     </Box>
   ) : (
-    <>
+    <AlarmListWrap>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Box
           sx={(theme) => ({
@@ -127,18 +132,6 @@ export default function AlarmListPage() {
       {alarms.map((alarm) => {
         return (
           <List sx={{ width: "100%", bgcolor: "background.paper" }} disablePadding={true}>
-            {/* <ListItem divider={true} disablePadding={true}>
-              <ListItemText
-                primary={new Date(alarm.alarm_at).toLocaleString() + " | " + alarm.desc}
-                secondary={
-                  "Alarm After: " +
-                  moment
-                    .duration((new Date(alarm.alarm_at).getTime() - Date.now()) / 1000, "seconds")
-                    .locale("en")
-                    .humanize()
-                }
-              />
-            </ListItem> */}
             <ListItem
               divider={true}
               disablePadding={true}
@@ -167,9 +160,6 @@ export default function AlarmListPage() {
                   {alarm.desc.slice(0, 1)}
                 </Avatar>
               </ListItemAvatar>
-              {/* <ListItemIcon sx={{justifyContent: 'center'}}>
-                <AccessAlarmsIcon sx={{ color: alarm.color}} />
-              </ListItemIcon> */}
               <ListItemText
                 primary={alarm.desc}
                 secondary={dayjs(alarm.alarm_at).format("HH:mm a")}
@@ -178,7 +168,7 @@ export default function AlarmListPage() {
           </List>
         );
       })}
-    </>
+    </AlarmListWrap>
   );
 
   return (
