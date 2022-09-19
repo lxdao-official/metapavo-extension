@@ -88,10 +88,10 @@
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
     "workbox-webpack-plugin": "^6.4.1",
-    "react-markdown": "*",
+    "react-markdown": "8.0.3",
     "ahooks": "^3.7.0",
     "uniswap-widgets-for-extension": "2.7.0",
-    "react-hot-toast": "*"
+    "react-hot-toast": "2.4.0"
   },
   "scripts": {
     "start": "BUILD_PATH=../../extensions/dist/ node scripts/start.js",

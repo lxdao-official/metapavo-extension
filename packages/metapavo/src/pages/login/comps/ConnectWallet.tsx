@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import styled from "styled-components";
 import toast, { Toaster } from "react-hot-toast";
 import { WalletContext } from "../../content-script/context/useWallet";
+import { colorfulButtonStyle } from "../../../styles/common-colorful-button";
 //@ts-ignore
 window.process = {};
 
@@ -9,29 +10,11 @@ const ButtonStyle = styled.button`
   padding: 0 20px;
   width: 276.57px;
   height: 48px;
-  box-shadow: 0px 0px 0px #4216e7;
-  border-radius: 4px;
-  color: #fff !important;
-  font-size: 14px !important;
+
   cursor: pointer;
   margin: 0 auto;
-  border: 3px solid;
-  border-image: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%) 1;
-  background: linear-gradient(
-    91.75deg,
-    rgba(125, 226, 172, 0.1) 0%,
-    rgba(56, 157, 250, 0.1) 49.26%,
-    rgba(159, 80, 255, 0.1) 97.76%
-  );
-  box-shadow: 0px 0px 0px #4216e7;
-  border-radius: 5px;
-  color: #1c1b1d !important;
-  cursor: pointer;
 
-  border: 3px solid transparent;
-  background-image: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
-  background-origin: border-box;
-  box-shadow: inset 0 1000px 1px #f5f6f7;
+  ${colorfulButtonStyle}
 
   &:disabled {
     opacity: 0.6;

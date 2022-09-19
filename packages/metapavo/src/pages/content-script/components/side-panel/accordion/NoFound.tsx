@@ -5,6 +5,7 @@ import { reportCreate } from "../../../../../utils/apis/nft_api";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { getLang } from "../../../../../utils/lang";
+import { colorfulButtonStyle } from "../../../../../styles/common-colorful-button";
 const NoFoundWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -80,25 +81,9 @@ const NoFoundWrap = styled.div`
   }
 
   button {
-    background: linear-gradient(
-      91.75deg,
-      rgba(125, 226, 172, 0.1) 0%,
-      rgba(56, 157, 250, 0.1) 49.26%,
-      rgba(159, 80, 255, 0.1) 97.76%
-    );
-    box-shadow: 0px 0px 0px #4216e7;
-    border-radius: 4px;
-    border-width: 3px;
     height: 45px;
     margin-bottom: 20px;
-    border-image-slice: 1;
-    cursor: pointer;
-    border-image-source: linear-gradient(to left, #7de2ac, #9f50ff);
-
-    border: 3px solid transparent;
-    background-image: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
-    background-origin: border-box;
-    box-shadow: inset 0 1000px 1px #f5f6f7;
+    ${colorfulButtonStyle}
   }
 `;
 
