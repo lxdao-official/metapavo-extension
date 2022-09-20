@@ -7,6 +7,7 @@ import { IProject, IProjectV2 } from "../../../utils/apis/types";
 import { ScamResult } from "../../../utils/detector/src";
 import { Checker } from "../../../utils/recognizer/checkers";
 import { checkTwitterScam } from "../../../utils/recognizer/checkers/twitterScam";
+import { checkWebsiteScam } from "../../../utils/recognizer/checkers/websiteScam";
 type RecognizerStatus = "danger" | "warning" | "success" | "none";
 export const GlobalContext = React.createContext<{
   showMain: boolean;
@@ -85,6 +86,17 @@ function useGlobal() {
   }
   async function checkPlatform() {
     checker.check();
+    // const websiteScamResult = await checkWebsiteScam();
+    // if (websiteScamResult) {
+    //   if (websiteScamResult === "blacklist") {
+    //     setDetectStatus("danger");
+    //   } else {
+    //     setDetectStatus("warning");
+    //   }
+    //   setTimeout(() => {
+    //     setAddRootClass("metapavo-main-box-danger");
+    //   }, 1000);
+    // } else {
     setInterval(async () => {
       let twitterScamInfo: ScamResult | undefined = undefined;
       twitterScamInfo = await checkTwitterScam();
@@ -95,6 +107,7 @@ function useGlobal() {
         }, 1000);
       }
     }, 2000);
+    // }
   }
 
   async function refreshActiveProject() {

@@ -19,6 +19,15 @@ const rootElement = document.createElement("div");
 rootElement.id = "metapavo-popop";
 
 document.body.appendChild(rootElement);
+
+const style = document.createElement("style");
+style.innerText = `
+@import url('https://rsms.me/inter/inter.css');
+#metapavo-popop *{
+  font-family: "Inter", Roboto, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+}
+`;
+document.body.appendChild(style);
 document.body.style.margin = "0";
 const RootElement = styled.div`
   width: 303px;

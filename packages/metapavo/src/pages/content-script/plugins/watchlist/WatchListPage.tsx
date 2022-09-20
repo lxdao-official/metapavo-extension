@@ -14,6 +14,7 @@ import { getNftByIdV2 } from "../../../../utils/apis/nft_api_v2";
 import { getLang } from "../../../../utils/lang";
 import { ItemSkeleton } from "../../components/common/ItemSkeleton";
 import { projectLinksWrapper } from "../../../../utils/apis/project_wrapper";
+import { Empty } from "../../components/side-panel/index/comps/Empty";
 export const Item = (props: any) => {
   const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
 
@@ -149,6 +150,8 @@ const WatchListPage = (props: any) => {
           <ItemSkeleton />
           <ItemSkeleton />
         </Box>
+      ) : list.length === 0 ? (
+        <Empty />
       ) : null}
       <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
         <MoreButton onClick={nextPage}>more</MoreButton>

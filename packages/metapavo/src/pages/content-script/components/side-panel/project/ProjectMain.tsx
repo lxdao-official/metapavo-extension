@@ -133,6 +133,12 @@ const twoDecimal = (num: any) => {
   const data = num + "".toLocaleString();
   return Number(data).toFixed(2);
 };
+const formatNumber = (num: number) => {
+  if (num < 10000) {
+    return num.toLocaleString();
+  }
+  return Number(Number(num / 1000).toFixed(2)).toLocaleString() + "K";
+};
 const ProjectTab = (props: MediaProps) => {
   const { loading = false } = props;
   const { activeProject, detectStatus, refreshActiveProject } = useContext(GlobalContext);
@@ -151,9 +157,9 @@ const ProjectTab = (props: MediaProps) => {
   const mookData = [
     {
       label: getLang("Total_Sales"),
-      value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.totalSales),
-      ).toLocaleString()}`,
+      value: `${formatNumber(
+        Number(twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.totalSales)),
+      )}`,
       date: "24H",
       rate: 0,
       icon: <></>,
@@ -172,27 +178,27 @@ const ProjectTab = (props: MediaProps) => {
 
     {
       label: getLang("Volume") + " (total)",
-      value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo?.stats[0].totalVolume),
-      ).toLocaleString()} Ξ`,
+      value: `${formatNumber(
+        Number(twoDecimal(activeProject?.nftProjectInfo?.stats[0].totalVolume)),
+      )} Ξ`,
       date: "24H",
       rate: 0,
       icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
       label: getLang("Volume") + " (24H)",
-      value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo?.stats[0].oneDayVolume),
-      ).toLocaleString()} Ξ`,
+      value: `${formatNumber(
+        Number(twoDecimal(activeProject?.nftProjectInfo?.stats[0].oneDayVolume)),
+      )} Ξ`,
       date: "24H",
       rate: 0,
       icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,
     },
     {
       label: getLang("Volume") + " (7D)",
-      value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo?.stats[0].sevenDayVolume),
-      ).toLocaleString()} Ξ`,
+      value: `${formatNumber(
+        Number(twoDecimal(activeProject?.nftProjectInfo?.stats[0].sevenDayVolume)),
+      )} Ξ`,
       date: "24H",
       rate: 0,
       icon: <EthIcon sx={{ fontSize: "inherit", marginTop: "1.5px", marginLeft: "-3px" }} />,

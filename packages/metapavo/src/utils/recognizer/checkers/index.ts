@@ -5,7 +5,7 @@ import { checkTwitter } from "../../../utils/recognizer/checkers/twitter";
 import { checkWebsite } from "../../../utils/recognizer/checkers/website";
 import EventEmitter from "eventemitter3";
 import { checkEtherscan } from "./etherscan";
-
+import { tradeDomains, contractDomains } from "./data";
 export class Checker extends EventEmitter {
   lastCheckEntryResult?: {
     projectInfo?: IProjectV2;
@@ -21,22 +21,9 @@ export class Checker extends EventEmitter {
       };
       if (window.location.host.indexOf("twitter.com") !== -1) {
         checkEntryResult = await checkTwitter();
-      } else if (
-        [
-          "opensea.io",
-          "www.opensea.io",
-          "x2y2.io",
-          "www.x2y2.io",
-          "gem.xyz",
-          "www.gem.xyz",
-          "sudoswap.xyz",
-          "www.sudoswap.xyz",
-          "looksrare.org",
-          "www.looksrare.org",
-        ].indexOf(window.location.host) !== -1
-      ) {
+      } else if (tradeDomains.indexOf(window.location.host) !== -1) {
         checkEntryResult = await checkMarketPlace();
-      } else if (["etherscan.io"].indexOf(window.location.host) !== -1) {
+      } else if (contractDomains.indexOf(window.location.host) !== -1) {
         checkEntryResult = await checkEtherscan();
       } else {
         checkEntryResult = await checkWebsite();

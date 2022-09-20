@@ -91,7 +91,8 @@
     "react-markdown": "8.0.3",
     "ahooks": "^3.7.0",
     "uniswap-widgets-for-extension": "2.7.0",
-    "react-hot-toast": "2.4.0"
+    "react-hot-toast": "2.4.0",
+    "eth-phishing-detect": "1.2.0"
   },
   "scripts": {
     "start": "BUILD_PATH=../../extensions/dist/ node scripts/start.js",

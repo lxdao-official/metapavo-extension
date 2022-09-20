@@ -18,6 +18,14 @@ Object.assign(rootElement.style, {
   zIndex: 100000000000,
 });
 document.body.appendChild(rootElement);
+const style = document.createElement("style");
+style.innerText = `
+@import url('https://rsms.me/inter/inter.css');
+#metapavo-root *{
+  font-family: "Inter", Roboto, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+}
+`;
+document.body.appendChild(style);
 
 function Root() {
   const useG = useGlobal();
@@ -39,7 +47,6 @@ ReactDOM.render(
     <MemoryRouter initialEntries={["/index"]}>
       <Root />
     </MemoryRouter>
-
     <Toaster containerStyle={{ zIndex: 1000000000000 }} />
   </React.StrictMode>,
   rootElement,

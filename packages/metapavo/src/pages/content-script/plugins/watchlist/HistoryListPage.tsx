@@ -10,6 +10,7 @@ import { favs, IFavs, visit_histories } from "../../../../utils/apis/types";
 import { getLang } from "../../../../utils/lang";
 import { linkImages } from "../../../../utils/linkImages";
 import { ItemSkeleton } from "../../components/common/ItemSkeleton";
+import { Empty } from "../../components/side-panel/index/comps/Empty";
 import { GlobalContext } from "../../context/useGlobal";
 import { HeadReturn } from "../common/HeadReturn";
 import { ItemContainer, PageContainer } from "../styleCom";
@@ -147,6 +148,8 @@ const HisotryListPage = (props: any) => {
           <ItemSkeleton />
           <ItemSkeleton />
         </Box>
+      ) : list.length === 0 ? (
+        <Empty />
       ) : null}
       <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
         <MoreButton onClick={nextPage}>more</MoreButton>

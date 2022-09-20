@@ -123,7 +123,7 @@ const RootElement = styled.div`
 `;
 export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
   const useG = useContext(GlobalContext);
-  const { activeProject, setAddRootClass } = useG;
+  const { activeProject, setAddRootClass, detectStatus } = useG;
 
   const linkImages = {
     etherscan: chrome.runtime.getURL("images/etherscan.png"),
@@ -170,7 +170,9 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
 
         <div className="mp-success-title">{getLang("Very_risky")}</div>
       </div>
-      <div className="mp-success-bd">{getLang("danger_desc")}</div>
+      <div className="mp-success-bd">
+        {detectStatus === "danger" ? getLang("danger_desc") : getLang("warning_desc")}
+      </div>
       <div className="mp-success-links"></div>
       <div
         onClick={(e) => {

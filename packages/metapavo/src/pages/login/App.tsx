@@ -11,6 +11,15 @@ rootElement.id = "metapavo-login";
 
 document.body.appendChild(rootElement);
 document.body.style.margin = "0";
+
+const style = document.createElement("style");
+style.innerText = `
+@import url('https://rsms.me/inter/inter.css');
+#metapavo-login *{
+  font-family: "Inter", Roboto, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+}
+`;
+document.body.appendChild(style);
 const RootElement = styled.div`
   width: 100%;
 `;

@@ -41,11 +41,14 @@
   "danger_desc": {
     "message": "There are certain risks in this project. It may be a copy of a well-known project, or other problems. Make sure you have a full understanding of the project!"
   },
+  "warning_desc": {
+    "message": "This project may be scam. It may be a copy of a well-known project, or other problems. Make sure you have a full understanding of the project!"
+  },
   "Very_risky": {
     "message": "Very risky"
   },
   "Add_to_WATCHLIST": {
-    "message": "Add to WATCHLIST"
+    "message": "Watch it"
   },
   "WATCHING": {
     "message": "WATCHING"
