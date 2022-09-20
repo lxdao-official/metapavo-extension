@@ -125,6 +125,17 @@ export const HistoryIcon = function () {
   );
 };
 
+export const MYIcon = function () {
+  return (
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="60" height="60" rx="6" fill="#FF5084" />
+      <path
+        d="M29.5435 29.6184C33.8917 29.6184 37.4136 26.0965 37.4136 21.7483C37.4136 17.4001 33.8917 13.8782 29.5435 13.8782C25.1952 13.8782 21.6733 17.4001 21.6733 21.7483C21.6733 26.0965 25.1952 29.6184 29.5435 29.6184ZM29.5435 33.5534C24.2901 33.5534 13.8032 36.1899 13.8032 41.4236V45.3586H45.2837V41.4236C45.2836 36.1899 34.7967 33.5534 29.5435 33.5534V33.5534Z"
+        fill="#FDFCFD"
+      />
+    </svg>
+  );
+};
 export const SwapIcon = function () {
   return (
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">

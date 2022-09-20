@@ -372,6 +372,7 @@ export const ItemContainer = styled.div`
   width: 100%;
   margin-bottom: 12px;
   cursor: pointer;
+  justify-content: space-between;
   .user-icon {
     width: 40px;
     height: 40px;

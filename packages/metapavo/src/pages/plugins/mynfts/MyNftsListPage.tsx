@@ -15,7 +15,29 @@ import { getLang } from "../../../utils/lang";
 import { ItemSkeleton } from "../../content-script/components/common/ItemSkeleton";
 import { projectLinksWrapper } from "../../../utils/apis/project_wrapper";
 import { Empty } from "../../content-script/components/side-panel/index/comps/Empty";
-import { ListItem } from "../common/ListItem";
+
+const ListItem = (props: any) => {
+  const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
+
+  return (
+    <ItemContainer onClick={props.onClick}>
+      <img className="user-icon" src={userIcon} alt="" />
+      <div className="user-des">
+        <span className="user-name">{useName}</span>
+        <span className="user-eth">{userEth}</span>
+      </div>
+      <div className="imgs-container">
+        {links.map((link: any, index: number) => {
+          return (
+            <a className="link-container" key={index} href={link.link} target="_blank">
+              <img className="link-icon" src={link.img} alt="" />
+            </a>
+          );
+        })}
+      </div>
+    </ItemContainer>
+  );
+};
 
 const MyNftsListPage = (props: any) => {
   const [list, setList] = useState<any[]>([]);
@@ -93,7 +115,7 @@ const MyNftsListPage = (props: any) => {
   }, []);
   return (
     <PageContainer>
-      <HeadReturn title={getLang("My NFTs")} />
+      <HeadReturn title={getLang("My_NFTs")} />
       <div className="trend-list">
         {list.map((item: any, index: number) => {
           return (

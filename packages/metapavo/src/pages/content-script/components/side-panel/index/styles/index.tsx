@@ -228,9 +228,10 @@ export const ToolsHotContainer = styled.div`
   .hot-tool-list {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     overflow: hidden;
+    gap: 10px 31px;
   }
 
   .tool-list {
@@ -271,7 +272,7 @@ export const ToolsItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 18px;
+  margin-bottom: 8px;
   align-items: center;
   cursor: pointer;
 

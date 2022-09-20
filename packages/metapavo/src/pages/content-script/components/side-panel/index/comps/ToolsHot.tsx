@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { getLang } from "../../../../../../utils/lang";
-import { WatchlistIcon, AlarmIcon, HistoryIcon, SwapIcon } from "../icons/icons";
+import { WatchlistIcon, AlarmIcon, HistoryIcon, SwapIcon, MYIcon } from "../icons/icons";
 import { ToolsHotContainer, HotTitle, ToolsItemContainer } from "../styles";
 
 export const ToolsHot = (props: any) => {
@@ -45,7 +45,7 @@ export const ToolsHot = (props: any) => {
             navigate("/mynfts");
           }}
         >
-          <HistoryIcon />
+          <MYIcon />
           <span>{getLang("My_NFTs")}</span>
         </ToolsItemContainer>
         <ToolsItemContainer
