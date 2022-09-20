@@ -93,7 +93,7 @@ const LoginPage = () => {
       <img src={mainImage} alt="" style={{ width: "100%" }} />
       <MainBody>
         <TitleText>
-          <img className="logo" src={index_logo} alt="" />
+          <img src={index_logo} alt="" style={{ width: "180px" }} />
         </TitleText>
         <DescText>{getLang("LoginDesc")}</DescText>
       </MainBody>

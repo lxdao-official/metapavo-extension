@@ -46,10 +46,6 @@ const TitleText = styled.div`
   width: 263px;
   margin: 35.5px auto 34.8px auto;
   align-items: center;
-
-  .logo {
-    width: 263px;
-  }
 `;
 const ButtonContainer = styled.div`
       display: flex;
@@ -79,7 +75,7 @@ const SingleLoginPage = () => {
       <div style={{ flex: 1, alignItems: "center", display: "flex" }}>
         <MainBody>
           <TitleText>
-            <img className="logo" src={index_logo} alt="" />
+            <img src={index_logo} alt="" style={{ width: "263px" }} />
           </TitleText>
           <DescText>{getLang("LoginDesc")}</DescText>
           <ButtonContainer>

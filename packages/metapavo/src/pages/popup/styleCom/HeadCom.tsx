@@ -80,7 +80,15 @@ export const HeadCom = (props: any) => {
   return (
     <Head>
       <HeadLogo>
-        <img className="logo" src={index_logo} alt="" />
+        <img
+          src={index_logo}
+          alt=""
+          style={{
+            height: "28px",
+            width: "auto",
+            display: "block",
+          }}
+        />
       </HeadLogo>
       <HeadSelect onClick={() => setShowUserInfoModal(!showUserInfoModal)}>
         <span>{loginedAddress ? formatAddress(loginedAddress) : ""}</span>

@@ -67,10 +67,6 @@ const TitleText = styled.div`
   width: 200px;
   margin: 15.5px auto 14.8px auto;
   align-items: center;
-
-  .logo {
-    width: 200px;
-  }
 `;
 const SecurityLink = styled.a`
   diplsay: block;
@@ -91,7 +87,7 @@ const LoginPage = () => {
       <img src={mainImage} alt="" style={{ width: "100%", height: "444px" }} />
       <MainBody>
         <TitleText>
-          <img className="logo" src={index_logo} alt="" />
+          <img src={index_logo} alt="" style={{ width: "200px" }} />
         </TitleText>
         <DescText>{getLang("LoginDesc")}</DescText>
       </MainBody>

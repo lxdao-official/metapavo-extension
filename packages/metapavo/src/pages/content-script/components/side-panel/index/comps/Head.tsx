@@ -83,7 +83,14 @@ export const HeadCom = (props: any) => {
       </HeadSelect>
 
       <HeadLogo>
-        <img className="logo" src={index_logo} alt="" />
+        <img
+          src={index_logo}
+          alt=""
+          style={{
+            width: "168px",
+            height: "40.52px",
+          }}
+        />
       </HeadLogo>
       {selectMenu && <LoginModal />}
     </Head>
