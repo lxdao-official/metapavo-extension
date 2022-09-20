@@ -91,5 +91,8 @@
   },
   "search_placeholder": {
     "message": "输入合约地址或项目名称..."
+  },
+  "My_NFTs": {
+    "message": "我的 NFT"
   }
 }

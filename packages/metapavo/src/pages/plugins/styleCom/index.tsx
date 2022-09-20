@@ -542,3 +542,15 @@ export const AddNewAlarm = styled.div`
   line-height: 15px;
   padding: 4px;
 `;
+
+export const MoreButton = styled.button`
+  width: 72px;
+  height: 25px;
+  background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 22px;
+  border: none;
+  cursor: pointer;
+`;

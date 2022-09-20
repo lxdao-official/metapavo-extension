@@ -5,15 +5,16 @@ import { MemoryRouter, Route, Routes, useNavigate, useMatch } from "react-router
 import styled from "styled-components";
 import Bottom from "../content-script/components/side-panel/accordion/Bottom";
 import useWallet, { WalletContext } from "../content-script/context/useWallet";
-import HistoryListPage from "../content-script/plugins/watchlist/HistoryListPage";
-import WatchListPage from "../content-script/plugins/watchlist/WatchListPage";
-import AlarmList from "../content-script/plugins/alarmreminder/AlarmListPage";
+import HistoryListPage from "../plugins/history/HistoryListPage";
+import WatchListPage from "../plugins/watchlist/WatchListPage";
+import AlarmList from "../plugins/alarmreminder/AlarmListPage";
 import PopupMain from "./PopupMain";
 import NoLogin from "./NoLogin";
-import { Report } from "../content-script/plugins/report/ReportProject";
+import { Report } from "../plugins/report/ReportProject";
 import { Toaster } from "react-hot-toast";
 import { HeadCom } from "./styleCom/HeadCom";
-import { ReportScam } from "../content-script/plugins/report/ReportScam";
+import { ReportScam } from "../plugins/report/ReportScam";
+import MyNftsListPage from "../plugins/mynfts/MyNftsListPage";
 
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-popop";
@@ -114,6 +115,14 @@ function Page() {
             element={
               <HavNavPage>
                 <ReportScam />
+              </HavNavPage>
+            }
+          />
+          <Route
+            path="/mynfts"
+            element={
+              <HavNavPage>
+                <MyNftsListPage />
               </HavNavPage>
             }
           />

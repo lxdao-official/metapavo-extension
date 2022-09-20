@@ -91,5 +91,8 @@
   },
   "search_placeholder": {
     "message": "Search collection/address/.."
+  },
+  "My_NFTs": {
+    "message": "My NFTs"
   }
 }

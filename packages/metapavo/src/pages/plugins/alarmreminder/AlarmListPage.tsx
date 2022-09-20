@@ -12,7 +12,7 @@ import React from "react";
 import { useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 // import moment, { Moment } from "moment";
-import { getUsersAlarmsList, removeAlarmForUser } from "../../../../utils/apis/nft_api";
+import { getUsersAlarmsList, removeAlarmForUser } from "../../../utils/apis/nft_api";
 import { Box, CircularProgress, styled } from "@mui/material";
 import toast from "react-hot-toast";
 import { PageContainer } from "../styleCom";
@@ -21,7 +21,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import { HeadReturnContainer, AddNewAlarm } from "../styleCom";
 import { useLocation, useNavigate } from "react-router-dom";
 import AlarmSetPage from "./AlarmSetPage";
-import { ItemSkeleton } from "../../components/common/ItemSkeleton";
+import { ItemSkeleton } from "../../content-script/components/common/ItemSkeleton";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 
 export default function AlarmListPage() {

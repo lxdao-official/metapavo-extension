@@ -44,3 +44,16 @@ export async function searchProjectsV2(keyword: string): Promise<PagedDto<IProje
   }
   return null;
 }
+export async function myProjects(
+  pageIndex: number,
+  pageSize: number,
+): Promise<PagedDto<IProjectV2> | null> {
+  const res = await fetchWrapped(
+    `${config.baseURL}/nfts/my_nfts?pageIndex=${pageIndex}&pageSize=${pageSize}`,
+    {},
+  );
+  if (res && res.success) {
+    return res;
+  }
+  return null;
+}

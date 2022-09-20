@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
 import Ball from "./components/pavo-ball/ball";
-import SelectText from "./plugins/date-tool/selectText";
+import SelectText from "../plugins/date-tool/selectText";
 import useGlobal, { GlobalContext } from "./context/useGlobal";
 import useWallet, { WalletContext } from "./context/useWallet";
 import Main from "./components/side-panel";
@@ -30,7 +30,6 @@ document.body.appendChild(style);
 function Root() {
   const useG = useGlobal();
   const wallet = useWallet();
-  console.log("root");
 
   return (
     <GlobalContext.Provider value={useG}>

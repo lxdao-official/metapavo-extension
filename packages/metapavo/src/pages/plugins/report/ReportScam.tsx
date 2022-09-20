@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { reportCreate } from "../../../../utils/apis/nft_api";
+import { reportCreate } from "../../../utils/apis/nft_api";
 import { HeadReturnContainer, PageContainer } from "../styleCom";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { getLang } from "../../../../utils/lang";
-import { colorfulButtonStyle } from "../../../../styles/common-colorful-button";
+import { getLang } from "../../../utils/lang";
+import { colorfulButtonStyle } from "../../../styles/common-colorful-button";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
 const NoFoundWrap = styled.div`
   display: flex;

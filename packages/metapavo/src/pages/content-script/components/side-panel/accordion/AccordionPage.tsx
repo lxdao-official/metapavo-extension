@@ -12,11 +12,12 @@ import { MetaPavo } from "../../assets/Svgs";
 import Pavo from "../index/index";
 import styled from "styled-components";
 import { Route, Routes } from "react-router-dom";
-import AlarmListPage from "../../../plugins/alarmreminder/AlarmListPage";
-import HisotryListPage from "../../../plugins/watchlist/HistoryListPage";
-import WatchListPage from "../../../plugins/watchlist/WatchListPage";
-import Uniswap from "../../../plugins/swap/uniswap";
+import AlarmListPage from "../../../../plugins/alarmreminder/AlarmListPage";
+import HisotryListPage from "../../../../plugins/history/HistoryListPage";
+import WatchListPage from "../../../../plugins/watchlist/WatchListPage";
+import Uniswap from "../../../../plugins/swap/uniswap";
 import { getLang } from "../../../../../utils/lang";
+import MyNftsListPage from "../../../../plugins/mynfts/MyNftsListPage";
 
 const AccordionContainer = styled.div`
   div::-webkit-scrollbar {
@@ -148,6 +149,7 @@ const AccordionPage = () => {
                 <Route path="/history" element={<HisotryListPage />} />
                 <Route path="/watchlist" element={<WatchListPage />} />
                 <Route path="/swap" element={<Uniswap />} />
+                <Route path="/mynfts" element={<MyNftsListPage />} />
               </Routes>
             </div>
           ) : null}

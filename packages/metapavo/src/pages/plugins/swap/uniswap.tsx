@@ -3,9 +3,9 @@ import "uniswap-widgets-for-extension/fonts.css";
 import { useContext, useEffect, useState } from "react";
 import { HeadReturn } from "../common/HeadReturn";
 import { tokenList } from "./tokenList";
-import { WalletContext } from "../../context/useWallet";
+import { WalletContext } from "../../content-script/context/useWallet";
 import { PageContainer as PageContainer } from "../styleCom";
-import { getLang } from "../../../../utils/lang";
+import { getLang } from "../../../utils/lang";
 
 const Uniswap = () => {
   const wallet = useContext(WalletContext);

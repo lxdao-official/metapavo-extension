@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { CirclePicker } from "react-color";
 import { suggestionCollector } from "cspell-trie-lib";
-import { addAlarmForUser } from "../../../../utils/apis/nft_api";
+import { addAlarmForUser } from "../../../utils/apis/nft_api";
 import zIndex from "@mui/material/styles/zIndex";
 import toast from "react-hot-toast";
 const returnImg = chrome.runtime.getURL("images/svgs/return.svg");

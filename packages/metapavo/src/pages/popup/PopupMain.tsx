@@ -11,10 +11,12 @@ const PopupMain = () => {
     favCount: number;
     alarmCount: number;
     historyCount: number;
+    mynftCount: number;
   }>({
     favCount: 0,
     alarmCount: 0,
     historyCount: 0,
+    mynftCount: 0,
   });
 
   const navigate = useNavigate();
@@ -66,6 +68,17 @@ const PopupMain = () => {
         </MenuItemStyle>
         <MenuItemStyle
           onClick={() => {
+            navigate("/mynfts");
+          }}
+        >
+          <div className="menu-left">{getLang("My_NFTs")}</div>
+          <div className="menu-right">
+            {counts.mynftCount ? <Badge>{counts.mynftCount}</Badge> : null}
+            <GoIcon />
+          </div>
+        </MenuItemStyle>
+        <MenuItemStyle
+          onClick={() => {
             navigate("/history");
           }}
         >
@@ -75,12 +88,7 @@ const PopupMain = () => {
             <GoIcon />
           </div>
         </MenuItemStyle>
-        {/* <MenuItemStyle>
-          <div className="menu-left">Timezone Tool</div>
-          <div className="menu-right">
-            <GoIcon />
-          </div>
-        </MenuItemStyle> */}
+
         <MenuItemStyle
           onClick={() => {
             navigate("/report-scam");

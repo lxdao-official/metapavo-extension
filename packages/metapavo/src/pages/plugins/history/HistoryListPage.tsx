@@ -3,17 +3,17 @@ import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import styled from "styled-components";
-import { getNftById, getVisitHistories } from "../../../../utils/apis/nft_api";
-import { getNftByIdV2 } from "../../../../utils/apis/nft_api_v2";
-import { projectLinksWrapper } from "../../../../utils/apis/project_wrapper";
-import { favs, IFavs, visit_histories } from "../../../../utils/apis/types";
-import { getLang } from "../../../../utils/lang";
-import { linkImages } from "../../../../utils/linkImages";
-import { ItemSkeleton } from "../../components/common/ItemSkeleton";
-import { Empty } from "../../components/side-panel/index/comps/Empty";
-import { GlobalContext } from "../../context/useGlobal";
+import { getNftById, getVisitHistories } from "../../../utils/apis/nft_api";
+import { getNftByIdV2 } from "../../../utils/apis/nft_api_v2";
+import { projectLinksWrapper } from "../../../utils/apis/project_wrapper";
+import { favs, IFavs, visit_histories } from "../../../utils/apis/types";
+import { getLang } from "../../../utils/lang";
+import { linkImages } from "../../../utils/linkImages";
+import { ItemSkeleton } from "../../content-script/components/common/ItemSkeleton";
+import { Empty } from "../../content-script/components/side-panel/index/comps/Empty";
+import { GlobalContext } from "../../content-script/context/useGlobal";
 import { HeadReturn } from "../common/HeadReturn";
-import { ItemContainer, PageContainer } from "../styleCom";
+import { ItemContainer, MoreButton, PageContainer } from "../styleCom";
 export const Item = (props: any) => {
   const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
 
@@ -40,17 +40,7 @@ export const Item = (props: any) => {
     </ItemContainer>
   );
 };
-const MoreButton = styled.button`
-  width: 72px;
-  height: 25px;
-  background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
-  border-radius: 4px;
-  color: #fff;
-  font-size: 14px;
-  line-height: 22px;
-  border: none;
-  cursor: pointer;
-`;
+
 const HisotryListPage = (props: any) => {
   const [list, setList] = useState<any[]>([]);
   const [watchLoading, setLoading] = useState(false);

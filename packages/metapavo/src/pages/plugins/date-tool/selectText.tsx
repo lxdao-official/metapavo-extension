@@ -13,8 +13,8 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { addAlarmForUser } from "../../../../utils/apis/nft_api";
-import { GlobalContext } from "../../context/useGlobal";
+import { addAlarmForUser } from "../../../utils/apis/nft_api";
+import { GlobalContext } from "../../content-script/context/useGlobal";
 import { useNavigate } from "react-router-dom";
 const RootElement = styled.div`
   position: fixed;

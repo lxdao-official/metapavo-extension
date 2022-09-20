@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Item } from "../../../../plugins/watchlist/HistoryListPage";
+import { Item } from "../../../../../plugins/history/HistoryListPage";
 import { HistoryHotContainer, HotTitle } from "../styles";
 import { Empty } from "./Empty";
 import { linkImages } from "../../../../../../utils/linkImages";

@@ -42,6 +42,14 @@ export const ToolsHot = (props: any) => {
         </ToolsItemContainer>
         <ToolsItemContainer
           onClick={() => {
+            navigate("/mynfts");
+          }}
+        >
+          <HistoryIcon />
+          <span>{getLang("My_NFTs")}</span>
+        </ToolsItemContainer>
+        <ToolsItemContainer
+          onClick={() => {
             navigate("/swap");
             // setStatus(5);
           }}
