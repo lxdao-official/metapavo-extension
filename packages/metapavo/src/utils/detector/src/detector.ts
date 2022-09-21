@@ -354,12 +354,12 @@ async function _detectScam(
     });
 
     const projectsWithDomain: { project: Project; domain: DomainDetail }[] = [];
-    const scoreLimit = 1.5;
+    const scoreLimit = 1.7;
     const similarProjects = allProjects
       .map((_) => {
         let score = 0;
         let matchItems = [];
-        let simLimit = 0.6;
+        let simLimit = 0.65;
 
         const projectName = _.name;
         // const projectDomain = _.externalUrl && getDomain(_.externalUrl);

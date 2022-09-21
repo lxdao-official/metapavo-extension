@@ -1,4 +1,6 @@
+import { Menu, MenuItem } from "@mui/material";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { getLang } from "../../../../utils/lang";
 
 import { GlobalContext } from "../../context/useGlobal";
 import DangerPopup from "./status/danger";
@@ -9,6 +11,7 @@ import { GasBox, RootElement } from "./styles";
 let inited = false;
 function Ball() {
   const [hide, setHide] = React.useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const gasRef = useRef<HTMLDivElement>(null);
@@ -25,6 +28,7 @@ function Ball() {
     gasRef.current.onmousedown = dragMouseDown;
     gasRef.current.onmouseup = (e) => {
       e.stopPropagation();
+      if (e.button !== 0) return;
       if (new Date().getTime() - mousedownTimestamp < 300) {
         if (!useG.addRootClass) {
           useG.setShowMain(!useG.showMain);
@@ -36,6 +40,7 @@ function Ball() {
 
     function dragMouseDown(e: MouseEvent) {
       e.stopPropagation();
+      if (e.button !== 0) return;
       e = e || window.event;
       // e.preventDefault();
       mousedownTimestamp = Date.now();
@@ -108,10 +113,21 @@ function Ball() {
       },
     );
   }
-
+  function noDisplay7() {
+    setHide(true);
+    setMenuOpen(false);
+    localStorage.setItem(
+      "metapavo-hide-until",
+      String(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
+    );
+  }
   useEffect(() => {
     if (!inited) init();
     inited = true;
+    const hideUntil = localStorage.getItem("metapavo-hide-until");
+    if (hideUntil && Number(hideUntil) > new Date().getTime()) {
+      setHide(true);
+    }
   }, []);
 
   return (
@@ -132,7 +148,7 @@ function Ball() {
       >
         <GasBox
           id="metapavo-box-gas"
-          title="Drag to move"
+          title="click to open, drag to move, right click to show menu"
           ref={gasRef}
           style={{ userSelect: "none" }}
           onDoubleClick={(e) => {
@@ -142,6 +158,11 @@ function Ball() {
             setTimeout(() => {
               setHide(false);
             }, 10000);
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setMenuOpen(true);
           }}
         >
           <div id="metapavo-gas-text">
@@ -163,6 +184,24 @@ function Ball() {
         </GasBox>
         <DangerPopup state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
         <SuccessPopup state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"} />
+        <Menu
+          id="demo-positioned-menu"
+          aria-labelledby="demo-positioned-button"
+          anchorEl={gasRef.current}
+          open={menuOpen}
+          // onClose={handleClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          style={{ zIndex: 100000000000000000 }}
+        >
+          <MenuItem onClick={noDisplay7}>{getLang("nodisplay7")}</MenuItem>
+        </Menu>
       </RootElement>
     </>
   );
