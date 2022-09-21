@@ -63,7 +63,7 @@ const HisotryListPage = (props: any) => {
             useName: item.project?.name,
             userEth: `Floor: ${
               item.project?.nftProjectInfo?.stats[0]?.floorPrice
-                ? Number(item.project.nftProjectInfo.stats[0].floorPrice).toFixed(2)
+                ? Number(item.project.nftProjectInfo.stats[0].floorPrice).toFixed(4)
                 : "-"
             } E`,
             links: [

@@ -225,7 +225,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
         <div className="mp-success-bd-price">
           {getLang("Floor")}:{" "}
           {activeProject?.nftProjectInfo?.stats[0]?.floorPrice
-            ? Number(activeProject.nftProjectInfo.stats[0].floorPrice).toFixed(2)
+            ? Number(activeProject.nftProjectInfo.stats[0].floorPrice).toFixed(4)
             : "-"}
           Ξ
         </div>

@@ -62,7 +62,7 @@ const MyNftsListPage = (props: any) => {
             useName: project?.name,
             userEth: `Floor: ${
               project?.nftProjectInfo?.stats[0]?.floorPrice
-                ? Number(project.nftProjectInfo.stats[0].floorPrice).toFixed(2)
+                ? Number(project.nftProjectInfo.stats[0].floorPrice).toFixed(4)
                 : "-"
             } E`,
             links: [

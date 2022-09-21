@@ -67,7 +67,7 @@ export const SearchCom = (props: any) => {
               contract_is_verified: item.contractData?.isVerified,
               eth: `${
                 item.nftProjectInfo?.stats[0]?.floorPrice
-                  ? Math.round(Number(item.nftProjectInfo?.stats[0]?.floorPrice) * 1000) / 1000
+                  ? Number(Number(item.nftProjectInfo?.stats[0]?.floorPrice).toFixed(4))
                   : 0
               } ETH`,
             };

@@ -128,10 +128,10 @@ function formatAddress(address: string) {
 }
 
 //two decimal places
-const twoDecimal = (num: any) => {
+const twoDecimal = (num: any, decimal = 2) => {
   if (!num || num !== num || num == "NaN") return 0.0;
   const data = num + "".toLocaleString();
-  return Number(data).toFixed(2);
+  return Number(data).toFixed(decimal);
 };
 const formatNumber = (num: number) => {
   if (num < 10000) {
@@ -206,7 +206,7 @@ const ProjectTab = (props: MediaProps) => {
     {
       label: getLang("Floor"),
       value: `${Number(
-        twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.floorPrice),
+        twoDecimal(activeProject?.nftProjectInfo?.stats[0]?.floorPrice, 4),
       ).toLocaleString()} Ξ`,
       date: "24H",
       rate: 0,
