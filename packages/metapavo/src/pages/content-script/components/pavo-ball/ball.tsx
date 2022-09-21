@@ -1,4 +1,4 @@
-import { Menu, MenuItem, Tooltip } from "@mui/material";
+import { Menu, MenuItem, styled, Tooltip, tooltipClasses, TooltipProps } from "@mui/material";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { getLang } from "../../../../utils/lang";
 
@@ -9,6 +9,15 @@ import SuccessPopup from "./status/success";
 import { GasBox, RootElement } from "./styles";
 
 let inited = false;
+const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 180,
+    zIndex: 100000000000000000,
+  },
+});
+
 function Ball() {
   const [hide, setHide] = React.useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -149,28 +158,29 @@ function Ball() {
           display: !hide ? "block" : "none",
         }}
       >
-        <GasBox
-          id="metapavo-box-gas"
-          ref={gasRef}
-          style={{ userSelect: "none" }}
-          onDoubleClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setHide(true);
-            setTimeout(() => {
-              setHide(false);
-            }, 10000);
-          }}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setMenuOpen(true);
-          }}
+        <CustomWidthTooltip
+          title="click to open, drag to move, right click to show menu"
+          placement="top"
+          arrow
+          style={{ zIndex: 100000000000000000 }}
         >
-          <Tooltip
-            title="click to open, drag to move, right click to show menu"
-            placement="top"
-            arrow
+          <GasBox
+            id="metapavo-box-gas"
+            ref={gasRef}
+            style={{ userSelect: "none" }}
+            onDoubleClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setHide(true);
+              setTimeout(() => {
+                setHide(false);
+              }, 10000);
+            }}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setMenuOpen(true);
+            }}
           >
             <div id="metapavo-gas-text">
               {gas}
@@ -188,8 +198,8 @@ function Ball() {
                 GAS
               </span>
             </div>
-          </Tooltip>
-        </GasBox>
+          </GasBox>
+        </CustomWidthTooltip>
         <DangerPopup state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
         <SuccessPopup state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"} />
         <Menu
