@@ -354,7 +354,7 @@ async function _detectScam(
     });
 
     const projectsWithDomain: { project: Project; domain: DomainDetail }[] = [];
-    const scoreLimit = 1.7;
+    const scoreLimit = 1.5;
     const similarProjects = allProjects
       .map((_) => {
         let score = 0;

@@ -6,12 +6,15 @@ import { checkWebsite } from "../../../utils/recognizer/checkers/website";
 import EventEmitter from "eventemitter3";
 import { checkEtherscan } from "./etherscan";
 import { tradeDomains, contractDomains } from "./data";
+import { ScamResult } from "../../detector/src";
+import { checkTwitterScam } from "./twitterScam";
 export class Checker extends EventEmitter {
   lastCheckEntryResult?: {
     projectInfo?: IProjectV2;
     status: CheckResultStatus;
   };
   lastCheckTokenId?: string = "";
+  lastTwitterScamInfo?: ScamResult;
   async check() {
     setInterval(async () => {
       let checkEntryResult: {
@@ -28,6 +31,7 @@ export class Checker extends EventEmitter {
       } else {
         checkEntryResult = await checkWebsite();
       }
+      console.log("checkEntryResult", checkEntryResult);
       if (checkEntryResult?.projectInfo) {
         if (this.lastCheckEntryResult?.projectInfo) {
           if (this.lastCheckEntryResult?.projectInfo?.id !== checkEntryResult.projectInfo.id) {
@@ -42,7 +46,16 @@ export class Checker extends EventEmitter {
         if (this.lastCheckEntryResult && this.lastCheckEntryResult.projectInfo) {
           this.emit("changed", null);
           this.lastCheckEntryResult = checkEntryResult;
+        } else if (this.lastTwitterScamInfo) {
+          this.emit("changed", null);
         }
+        const twitterScamInfo = await checkTwitterScam();
+        if (twitterScamInfo) {
+          console.log("twitterScamInfo", twitterScamInfo);
+          this.lastTwitterScamInfo = twitterScamInfo;
+          this.emit("danger", twitterScamInfo);
+        }
+      } else {
       }
 
       if (checkEntryResult.tokenId) {

@@ -1,4 +1,4 @@
-import { Menu, MenuItem } from "@mui/material";
+import { Menu, MenuItem, Tooltip } from "@mui/material";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { getLang } from "../../../../utils/lang";
 
@@ -151,7 +151,6 @@ function Ball() {
       >
         <GasBox
           id="metapavo-box-gas"
-          title="click to open, drag to move, right click to show menu"
           ref={gasRef}
           style={{ userSelect: "none" }}
           onDoubleClick={(e) => {
@@ -168,22 +167,28 @@ function Ball() {
             setMenuOpen(true);
           }}
         >
-          <div id="metapavo-gas-text">
-            {gas}
-            <br />
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: "400",
-                opacity: "0.8",
-                transform: "scale(0.7)",
-                display: "block",
-                marginTop: "4px",
-              }}
-            >
-              GAS
-            </span>
-          </div>
+          <Tooltip
+            title="click to open, drag to move, right click to show menu"
+            placement="top"
+            arrow
+          >
+            <div id="metapavo-gas-text">
+              {gas}
+              <br />
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  opacity: "0.8",
+                  transform: "scale(0.7)",
+                  display: "block",
+                  marginTop: "4px",
+                }}
+              >
+                GAS
+              </span>
+            </div>
+          </Tooltip>
         </GasBox>
         <DangerPopup state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
         <SuccessPopup state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"} />

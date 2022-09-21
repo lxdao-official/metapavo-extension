@@ -59,6 +59,15 @@ function useGlobal() {
       setAddRootClass("");
     }
   });
+  checker.on("danger", (scamInfo: ScamResult) => {
+    console.log("danger", scamInfo);
+    if (scamInfo) {
+      setDetectStatus("danger");
+      setTimeout(() => {
+        setAddRootClass("metapavo-main-box-danger");
+      }, 1000);
+    }
+  });
   checker.on("tokenIdChanged", (tokenId: string) => {
     if (tokenId) {
       setActiveTokenId(tokenId);
@@ -97,16 +106,17 @@ function useGlobal() {
     //     setAddRootClass("metapavo-main-box-danger");
     //   }, 1000);
     // } else {
-    setInterval(async () => {
-      let twitterScamInfo: ScamResult | undefined = undefined;
-      twitterScamInfo = await checkTwitterScam();
-      if (twitterScamInfo) {
-        setDetectStatus("danger");
-        setTimeout(() => {
-          setAddRootClass("metapavo-main-box-danger");
-        }, 1000);
-      }
-    }, 2000);
+    // setInterval(async () => {
+    //   let twitterScamInfo: ScamResult | undefined = undefined;
+    //   twitterScamInfo = await checkTwitterScam();
+    //   if (twitterScamInfo) {
+    //     setDetectStatus("danger");
+    //     setTimeout(() => {
+    //       setAddRootClass("metapavo-main-box-danger");
+    //     }, 1000);
+    //   } else {
+    //   }
+    // }, 2000);
     // }
   }
 
