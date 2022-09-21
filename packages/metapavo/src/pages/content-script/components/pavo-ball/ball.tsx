@@ -128,6 +128,9 @@ function Ball() {
     if (hideUntil && Number(hideUntil) > new Date().getTime()) {
       setHide(true);
     }
+    document.addEventListener("click", () => {
+      setMenuOpen(false);
+    });
   }, []);
 
   return (
