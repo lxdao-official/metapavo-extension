@@ -329,7 +329,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               ? AutoDecimal(activeProject.nftProjectInfo.stats[0]?.oneDayVolume)
               : "-"}
             Ξ
-            {activeProject?.nftProjectInfo?.stats[0]?.oneDayChange && (
+            {activeProject?.nftProjectInfo?.stats[0]?.oneDayChange ? (
               <span
                 style={{
                   color:
@@ -367,8 +367,10 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
                 )}
                 {Number(activeProject.nftProjectInfo.stats[0].oneDayChange * 100).toFixed(0)}%
               </span>
+            ) : (
+              ""
             )}
-          </span>{" "}
+          </span>
         </div>
         <div className="mp-success-bd-price">
           <span className="mp-success-price-item">
