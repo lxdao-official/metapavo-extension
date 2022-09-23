@@ -163,6 +163,7 @@ function Ball() {
           placement="top"
           arrow
           style={{ zIndex: 100000000000000000 }}
+          disableHoverListener={useG.detectStatus !== "none"}
         >
           <GasBox
             id="metapavo-box-gas"

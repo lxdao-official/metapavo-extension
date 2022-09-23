@@ -109,6 +109,8 @@ export interface Stat {
   numOwners: number;
   oneDayVolume: string;
   oneDaySales: number;
+  oneDayChange: number;
+  oneDayDifference: number;
   thirtyDayVolume: string;
   thirtyDaySales: number;
   sevenDayVolume: string;

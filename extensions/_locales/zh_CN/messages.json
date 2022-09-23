@@ -80,6 +80,9 @@
   "Holders": {
     "message": "持有人"
   },
+  "Sales": {
+    "message": "销售量"
+  },
   "Total_Sales": {
     "message": "总销售"
   },

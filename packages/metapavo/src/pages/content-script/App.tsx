@@ -7,6 +7,7 @@ import useGlobal, { GlobalContext } from "./context/useGlobal";
 import useWallet, { WalletContext } from "./context/useWallet";
 import Main from "./components/side-panel";
 import toast, { Toaster } from "react-hot-toast";
+import { createTheme, ThemeProvider } from "@mui/material";
 const rootElement = document.createElement("div");
 rootElement.id = "metapavo-root";
 Object.assign(rootElement.style, {
@@ -25,6 +26,22 @@ style.innerText = `
   font-family: "Inter", Roboto, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
 }
 `;
+
+const theme = createTheme({
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          // overrides tooltip
+        },
+        popper: {
+          // overrides the popper
+          zIndex: 7000000000000000 + "!important",
+        },
+      },
+    },
+  },
+});
 document.body.appendChild(style);
 
 function Root() {
@@ -32,13 +49,15 @@ function Root() {
   const wallet = useWallet();
 
   return (
-    <GlobalContext.Provider value={useG}>
-      <WalletContext.Provider value={wallet}>
-        <Ball />
-        {useG.showMain ? <Main /> : null}
-        <SelectText />
-      </WalletContext.Provider>
-    </GlobalContext.Provider>
+    <ThemeProvider theme={theme}>
+      <GlobalContext.Provider value={useG}>
+        <WalletContext.Provider value={wallet}>
+          <Ball />
+          {useG.showMain ? <Main /> : null}
+          <SelectText />
+        </WalletContext.Provider>
+      </GlobalContext.Provider>
+    </ThemeProvider>
   );
 }
 ReactDOM.render(

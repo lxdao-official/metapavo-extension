@@ -308,7 +308,7 @@ const ProjectTab = (props: MediaProps) => {
     if (activeProject) {
       try {
         await addFavByProjectId(activeProject.id);
-        toast.success("Add to favorite successfully");
+        toast.success("Add to watchlist successfully");
         refreshFavedStatus();
       } catch (e: any) {
         toast.error(e.message);
@@ -321,7 +321,7 @@ const ProjectTab = (props: MediaProps) => {
     if (activeProject) {
       try {
         await removeFavByProjectId(activeProject.id);
-        toast.success("Remove from favorite successfully");
+        toast.success("Remove from watchlist successfully");
         refreshFavedStatus();
       } catch (e: any) {
         toast.error(e.message);
