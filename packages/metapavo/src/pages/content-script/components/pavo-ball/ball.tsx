@@ -194,6 +194,7 @@ function Ball() {
                   transform: "scale(0.7)",
                   display: "block",
                   marginTop: "4px",
+                  color: "#fff",
                 }}
               >
                 GAS

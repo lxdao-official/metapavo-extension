@@ -64,10 +64,12 @@ const NoFoundWrap = styled.div`
     border-radius: 6px;
     padding: 12px 16px;
     margin-bottom: 20px;
+    width: 100%;
   }
   textarea {
     height: 100px !important;
     line-height: 20px !important;
+    width: 100%;
   }
   .disable {
     background: #efeef1;

@@ -50,7 +50,7 @@ export const HeadLogo = styled.div`
 
 export const SearchField = styled.div`
   box-sizing: border-box;
-  width: 272px;
+  width: 90%;
   min-height: 45px;
   margin: 0 auto;
   padding: 12px 16px;
@@ -222,7 +222,7 @@ export const Head = styled.div`
 `;
 
 export const ToolsHotContainer = styled.div`
-  width: 272px;
+  width: 90%;
   margin: 30px auto 0 auto;
 
   .hot-tool-list {
@@ -231,7 +231,7 @@ export const ToolsHotContainer = styled.div`
     justify-content: flex-start;
     flex-wrap: wrap;
     overflow: hidden;
-    gap: 10px 31px;
+    gap: 5px 9px;
   }
 
   .tool-list {
@@ -355,7 +355,7 @@ export const TrendsItemContainer = styled.div`
 `;
 
 export const HistoryHotContainer = styled.div`
-  width: 272px;
+  width: 90%;
   margin: 24px auto 0 auto;
 
   .hot-history-list {

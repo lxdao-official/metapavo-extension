@@ -151,5 +151,6 @@ export const RootElement = styled.div`
     line-height: 13px;
     margin-top: 13px;
     color: #fff !important;
+    float: none !important;
   }
 `;

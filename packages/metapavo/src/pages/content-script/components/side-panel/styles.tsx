@@ -21,10 +21,10 @@ const hide = keyframes`
  
   `;
 export const MainRootElement = styled.div`
-  width: 303px;
+  width: 343px;
   height: 100vh;
   position: fixed;
-  right: -303px;
+  right: -343px;
   z-index: 100000000002;
   top: 0;
   background: #fcfcfc;

@@ -82,7 +82,7 @@ function useGlobal() {
   function setShowMain(_show: boolean) {
     if (_show) {
       setTimeout(() => {
-        document.body.style.paddingRight = "303px";
+        document.body.style.paddingRight = "343px";
         document.body.style.boxSizing = "border-box";
       }, 1000);
     } else {
