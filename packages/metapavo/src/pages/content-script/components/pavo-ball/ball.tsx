@@ -121,6 +121,9 @@ function Ball() {
         }
       },
     );
+    document.body.addEventListener("click", () => {
+      setMenuOpen(false);
+    });
   }
   function noDisplay7() {
     setHide(true);
@@ -138,7 +141,7 @@ function Ball() {
       setHide(true);
     }
     document.addEventListener("click", () => {
-      setMenuOpen(false);
+      useG.setShowMain(false);
     });
   }, []);
 

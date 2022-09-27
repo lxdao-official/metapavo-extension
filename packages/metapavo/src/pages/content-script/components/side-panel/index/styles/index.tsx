@@ -93,12 +93,12 @@ export const SearchField = styled.div`
   .metapavo-search-data {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100% + 34px);
 
     .metapavo-prompt {
       box-sizing: border-box;
       display: flex;
-      width: 272px;
+      width: 100%;
       margin-left: -17px;
       margin-bottom: -13px;
       margin-top: 9px;
@@ -155,7 +155,7 @@ export const SearchItemContainer: any = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 272px;
+  width: 100%;
   padding: 4px 18px;
   padding-right: 8px;
   margin-top: 8px;
@@ -295,7 +295,7 @@ export const ToolsItemContainer = styled.div`
 `;
 
 export const TrendsHotContainer = styled.div`
-  width: 272px;
+  width: 100%;
   margin: 17px auto 0 auto;
 
   .hot-trend-list {
@@ -415,7 +415,7 @@ export const HistoryHotItemContainer = styled.div`
   .imgs-container {
     display: flex;
     justify-content: center;
-    width: calc(272px - 80px - 40px - 105px);
+    width: calc(100% - 80px - 40px - 105px);
 
     .link-container {
       width: 12px;

@@ -40,7 +40,7 @@ const card = (obj: any) => (
       border: "0.794574px solid #D7D7D7",
       borderRadius: "6.35659px",
       textAlign: "left",
-      maxWidth: "150px",
+      maxWidth: "160px",
     }}
   >
     <Box

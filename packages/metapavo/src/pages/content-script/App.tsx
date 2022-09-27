@@ -19,6 +19,9 @@ Object.assign(rootElement.style, {
   zIndex: 100000000000,
 });
 document.body.appendChild(rootElement);
+rootElement.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
 const style = document.createElement("style");
 style.innerText = `
 @import url('https://rsms.me/inter/inter.css');

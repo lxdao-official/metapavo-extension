@@ -30,7 +30,7 @@ export const MainRootElement = styled.div`
   background: #fcfcfc;
   border-left: 1px solid #e8e8e8;
   &.metapavo-main-show {
-    right: -303px;
+    right: -343px;
     animation: ${show} 0.6s ease-in-out 0.3s;
     animation-fill-mode: forwards;
   }

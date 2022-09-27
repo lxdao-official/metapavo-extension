@@ -50,7 +50,7 @@ export const HeadLogo = styled.div`
 
 export const SearchField = styled.div`
   box-sizing: border-box;
-  width: 272px;
+  width: 100%;
   min-height: 45px;
   margin: 0 auto;
   padding: 12px 16px;
@@ -95,7 +95,7 @@ export const SearchField = styled.div`
     .metapavo-prompt {
       box-sizing: border-box;
       display: flex;
-      width: 272px;
+      width: 100%;
       margin-left: -17px;
       margin-bottom: -13px;
       margin-top: 9px;
@@ -152,7 +152,7 @@ export const SearchItemContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 272px;
+  width: 100%;
   padding: 4px 18px;
   padding-right: 8px;
   margin-top: 8px;
@@ -218,7 +218,7 @@ export const Head = styled.div`
 `;
 
 export const ToolsHotContainer = styled.div`
-  width: 272px;
+  width: 100%;
   height: 137px;
   margin: 28px auto 0 auto;
 
@@ -415,7 +415,7 @@ export const ItemContainer = styled.div`
   .imgs-container {
     display: flex;
     justify-content: center;
-    width: calc(272px - 80px - 40px - 105px);
+    width: calc(100% - 80px - 40px - 105px);
 
     .link-container {
       width: 12px;
