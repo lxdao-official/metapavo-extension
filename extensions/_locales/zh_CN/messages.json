@@ -32,6 +32,9 @@
   "Swap": {
     "message": "兑换"
   },
+  "Revoke": {
+    "message": "Revoke.cash"
+  },
   "Tools": {
     "message": "工具"
   },

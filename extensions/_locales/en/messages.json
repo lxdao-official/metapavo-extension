@@ -32,6 +32,9 @@
   "Swap": {
     "message": "Swap"
   },
+  "Revoke": {
+    "message": "Revoke.cash"
+  },
   "Tools": {
     "message": "Tools"
   },
@@ -48,7 +51,7 @@
     "message": "Very risky"
   },
   "Add_to_WATCHLIST": {
-    "message": "Watch it"
+    "message": "Add to Watchlist"
   },
   "WATCHING": {
     "message": "WATCHING"

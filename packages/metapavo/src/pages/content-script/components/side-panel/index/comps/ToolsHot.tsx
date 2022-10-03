@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { getLang } from "../../../../../../utils/lang";
 import { WatchlistIcon, AlarmIcon, HistoryIcon, SwapIcon, MYIcon } from "../icons/icons";
 import { ToolsHotContainer, HotTitle, ToolsItemContainer } from "../styles";
-
+const revokeIcon = chrome.runtime.getURL("images/revoke.cash.png");
 export const ToolsHot = (props: any) => {
   const title = props.title;
   const navigate = useNavigate();
@@ -56,6 +56,14 @@ export const ToolsHot = (props: any) => {
         >
           <SwapIcon />
           <span>{getLang("Swap")}</span>
+        </ToolsItemContainer>
+        <ToolsItemContainer
+          onClick={() => {
+            window.open("https://revoke.cash/");
+          }}
+        >
+          <img src={revokeIcon} style={{ width: "60px", height: "60px" }} />
+          <span>{getLang("Revoke")}</span>
         </ToolsItemContainer>
       </div>
     </ToolsHotContainer>

@@ -17,7 +17,7 @@ const RootElement = styled.div`
   opacity: 0;
   transition: all 0.75s ease-in-out 0s;
   position: absolute;
-  width: 317px;
+  width: 327px;
   height: 167px;
   box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
   border-radius: 16px;
@@ -126,7 +126,7 @@ const RootElement = styled.div`
     }
   }
   .mp-success-links-left {
-    width: 195px;
+    width: 205px;
     overflow-x: auto;
     position: relative;
     bahavior: smooth;
@@ -138,7 +138,7 @@ const RootElement = styled.div`
     position: absolute;
     width: 17px;
     height: 40px;
-    left: 179px;
+    left: 189px;
     top: 0px;
     background: linear-gradient(270deg, #ffffff 38.92%, rgba(255, 255, 255, 0.03) 97.37%);
     z-index: 10;

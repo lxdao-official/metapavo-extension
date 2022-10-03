@@ -161,50 +161,42 @@ function Ball() {
           display: !hide ? "block" : "none",
         }}
       >
-        <CustomWidthTooltip
-          title="click to open, drag to move, right click to show menu"
-          placement="top"
-          arrow
-          style={{ zIndex: 100000000000000000 }}
-          disableHoverListener={useG.detectStatus !== "none"}
+        <GasBox
+          id="metapavo-box-gas"
+          ref={gasRef}
+          style={{ userSelect: "none" }}
+          onDoubleClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setHide(true);
+            setTimeout(() => {
+              setHide(false);
+            }, 10000);
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setMenuOpen(true);
+          }}
         >
-          <GasBox
-            id="metapavo-box-gas"
-            ref={gasRef}
-            style={{ userSelect: "none" }}
-            onDoubleClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setHide(true);
-              setTimeout(() => {
-                setHide(false);
-              }, 10000);
-            }}
-            onContextMenu={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setMenuOpen(true);
-            }}
-          >
-            <div id="metapavo-gas-text">
-              {gas}
-              <br />
-              <span
-                style={{
-                  fontSize: "12px",
-                  fontWeight: "400",
-                  opacity: "0.8",
-                  transform: "scale(0.7)",
-                  display: "block",
-                  marginTop: "4px",
-                  color: "#fff",
-                }}
-              >
-                GAS
-              </span>
-            </div>
-          </GasBox>
-        </CustomWidthTooltip>
+          <div id="metapavo-gas-text">
+            {gas}
+            <br />
+            <span
+              style={{
+                fontSize: "12px",
+                fontWeight: "400",
+                opacity: "0.8",
+                transform: "scale(0.7)",
+                display: "block",
+                marginTop: "4px",
+                color: "#fff",
+              }}
+            >
+              GAS
+            </span>
+          </div>
+        </GasBox>
         <DangerPopup state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
         <SuccessPopup state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"} />
         <Menu

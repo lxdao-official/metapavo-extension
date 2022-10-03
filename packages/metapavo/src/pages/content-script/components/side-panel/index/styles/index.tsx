@@ -267,22 +267,21 @@ export const HotTitle = styled.div`
 `;
 
 export const ToolsItemContainer = styled.div`
-  width: 70px;
+  width: 96px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 18px;
   align-items: center;
   cursor: pointer;
 
   img {
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
   }
 
   span {
-    width: 70px;
     margin-top: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
