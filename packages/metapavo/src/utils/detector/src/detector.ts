@@ -389,7 +389,7 @@ async function _detectScam(
 
         const nameInContent = content && content.split(" ").includes(_.name);
         if (nameInContent) {
-          score += 5;
+          score += 0.5;
         }
 
         let hasSimLink = false;
@@ -454,7 +454,6 @@ async function _detectScam(
         return _.score >= scoreLimit;
       })
       .sort((a, b) => b.score - a.score);
-    console.log(similarProjects);
     if (similarProjects.length && (fuzzyTwitterCheck || options.onlyLink)) {
       matchProject = similarProjects[0].project;
       matchType = "check_by_sim";

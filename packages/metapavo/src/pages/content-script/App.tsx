@@ -28,6 +28,10 @@ style.innerText = `
 #metapavo-root *{
   font-family: "Inter", Roboto, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
 }
+#metapavo-root svg{
+  margin-bottom:auto;
+  margin-top:auto;
+}
 `;
 
 const theme = createTheme({
