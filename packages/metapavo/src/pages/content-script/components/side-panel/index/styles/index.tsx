@@ -530,5 +530,5 @@ export const ModalBG = styled.div`
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
   right: 0;
-  width: 302px;
+  width: 343px;
 `;
