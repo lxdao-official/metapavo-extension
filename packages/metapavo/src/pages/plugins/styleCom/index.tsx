@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colorfulButtonStyle } from "../../../styles/common-colorful-button";
 
 export const Container = styled.div`
   position: relative;
@@ -539,9 +540,9 @@ export const AddNewAlarm = styled.div`
   font-size: 12px;
   cursor: pointer;
   border-style: solid;
-  height: 24px;
   line-height: 15px;
   padding: 4px;
+  ${colorfulButtonStyle}
 `;
 
 export const MoreButton = styled.button`

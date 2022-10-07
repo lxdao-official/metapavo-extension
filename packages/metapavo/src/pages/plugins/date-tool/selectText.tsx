@@ -94,40 +94,6 @@ export default function SelectText() {
   const bindEvents = () => {
     if (binded) return;
     let lastTarget: any = document.body;
-    // document.addEventListener(
-    //   "mousemove",
-    //   _.debounce((e) => {
-    //     if (isInPopup) {
-    //       return;
-    //     }
-    //     const target = e.target;
-    //     if (
-    //       target instanceof HTMLElement &&
-    //       target.childElementCount === 0 &&
-    //       lastTarget !== target
-    //     ) {
-    //       lastTarget = target;
-    //       const text = target.innerText;
-    //       if (text && text.length > 10 && text.length < 100) {
-    //         const result = smartParseDate(text);
-    //         if (result) {
-    //           console.log(text, result);
-    //           setText(text);
-    //           setConvertResult(result);
-    //           const rect = target.getBoundingClientRect();
-    //           setPos({
-    //             x: rect.left,
-    //             y: rect.top - rect.height - 10,
-    //           });
-    //           return;
-    //         }
-    //       }
-    //     }
-    //     setText("");
-    //     setConvertResult(null);
-    //     lastTarget = target;
-    //   }, 200),
-    // );
     document.addEventListener(
       "selectionchange",
       _.debounce(function () {
@@ -161,7 +127,7 @@ export default function SelectText() {
     binded = true;
   };
   useEffect(() => {
-    bindEvents();
+    // bindEvents();
   }, []);
 
   const [convertResult, setConvertResult] = React.useState<Date | null | string>();
@@ -211,7 +177,7 @@ export default function SelectText() {
   };
   return (
     <>
-      {text && (
+      {/* {text && (
         <RootElement
           style={{ left: pos.x + 10 + "px", top: pos.y + (text && convertResult ? -30 : 0) + "px" }}
           onMouseEnter={() => {
@@ -305,8 +271,6 @@ export default function SelectText() {
               Add to Reminder
             </ButtonElement>
           ) : null}
-          {/* <ButtonElement>🔍 Search project in MetaPavo</ButtonElement>
-          <PowerBy>Power by MetaPavo</PowerBy> */}
         </RootElement>
       )}
       <Dialog open={addAlarmConfirmShow} onClose={handleClose}>
@@ -333,7 +297,7 @@ export default function SelectText() {
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={submit}>Submit</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }
