@@ -5,16 +5,16 @@
 lerna bootstrap
 
 # build website
-lerna run build:website
+npm run build:website
 
 # run website dev
-lerna run dev:website
+npm run dev:website
 
 # build extension dev
-lerna run build:extension:dev
+npm run build:extension:dev
 
 # build extension prod
-lerna run build:extension
+npm run build:extension
 
 ```
 
