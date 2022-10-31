@@ -98,7 +98,9 @@
     "start": "BUILD_PATH=../../extensions/dist/ node scripts/start.js",
     "build": "set BUILD_PATH=../../extensions/dist/&&node scripts/build.js",
     "build:dev": "set BUILD_PATH=../../extensions/dist/&&node scripts/build-dev.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "build:extension": "npm run build",
+    "build:extension:dev": "npm run build:dev"
   },
   "eslintConfig": {
     "extends": [

@@ -48,23 +48,31 @@ export async function searchProjects(keyword: string): Promise<IProject | null> 
 export async function findAllWebsite(): Promise<string[] | null> {
   return new Promise((resolve, reject) => {
     if (!chrome?.storage?.local) {
-      reject("access_token is not found");
+      reject("local is not found");
       return;
     }
-    chrome.storage.local.get(["nft_website_all"], async function (data) {
-      if (data.nft_website_all) {
-        return resolve(data.nft_website_all.filter((item: string) => item));
-      } else {
+    chrome.storage.local.get(
+      ["nft_website_all", "nft_website_all_timestamp"],
+      async function (data) {
+        if (data && data.nft_website_all && data.nft_website_all.length) {
+          if (
+            data.nft_website_all_timestamp &&
+            new Date().getTime() - data.nft_website_all_timestamp < 24 * 60 * 60 * 1000
+          ) {
+            return resolve(data.nft_website_all.filter((item: string) => item));
+          }
+        }
         const res = await fetchWrapped(`${config.baseURL}/nfts/websites/all`, {}, false);
-        if (res && res.success) {
+        if (res && res.success && res.data && res.data.length) {
           chrome.storage.local.set({
             nft_website_all: res.data.filter((item: string) => item),
+            nft_website_all_timestamp: new Date().getTime(),
           });
           return resolve(res.data);
         }
-      }
-      reject(null);
-    });
+        reject(null);
+      },
+    );
   });
 }
 

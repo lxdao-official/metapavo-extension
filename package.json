@@ -2,20 +2,10 @@
   "name": "metapavo",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "bundle:dev": "webpack build --mode production  --config ./webpack/webpack.dev.config.js ",
-    "bundle": "webpack build --mode production --config ./webpack/webpack.config.js",
-    "export": "next build && next export -o extensions/dist && npm run bundle"
-  },
-  "dependencies": {
-    "@types/jquery": "^3.5.14",
-    "autoprefixer": "^10.4.7",
-    "ethers": "^5.6.9",
-    "jquery": "^3.6.0",
-    "wagmi": "^0.5.3"
+    "build:extension": "lerna run build:extension",
+    "build:extension:dev": "lerna run build:extension:dev",
+    "dev:website": "lerna run dev:website",
+    "build:website": "lerna run build:website"
   },
   "devDependencies": {
     "lerna": "^4.0.0"

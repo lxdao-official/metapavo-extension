@@ -4,8 +4,19 @@
 # install dependencies
 lerna run bootstrap
 # build extension
-cd packages/metapavo
-npm run build:dev
+
+# build website
+lerna run build:website
+
+# run website dev
+lerna run dev:website
+
+# build extension dev
+lerna run build:extension:dev
+
+# build extension prod
+lerna run build:extension
+
 ```
 
 and then open chrome extension dev mode

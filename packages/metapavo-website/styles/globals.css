@@ -1,0 +1,100 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.website-pavo {
+  color: #fff !important;
+  z-index: 100000000001;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 50px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 50px;
+  cursor: pointer;
+  --background: rgb(96, 93, 236);
+  --blob: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+  -webkit-transition: all 0.6s ease-in;
+  transition: all 0.6s ease-in;
+  --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #7de2ac,
+    inset -40px 10px 100px #9f50ff;
+  --error-shades: inset 10px 0 40px #ff0000, inset -10px 0 20px #ff0000,
+    inset -40px 10px 100px #ff0000;
+}
+@-webkit-keyframes pavomove {
+  0%,
+  100% {
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  }
+  14% {
+    border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%;
+  }
+  28% {
+    border-radius: 54% 46% 38% 62% / 49% 70% 30% 51%;
+  }
+  42% {
+    border-radius: 61% 39% 55% 45% / 61% 38% 62% 39%;
+  }
+  56% {
+    border-radius: 61% 39% 67% 33% / 70% 50% 50% 30%;
+  }
+  70% {
+    border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%;
+  }
+  84% {
+    border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
+  }
+}
+.pavo-inner {
+  content: '';
+  display: block;
+  height: 50px;
+  width: 50px;
+  background: var(--blob);
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  -webkit-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease;
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  -ms-perspective: 1000px;
+  perspective: 1000px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  -webkit-animation: pavomove 10s ease-in-out infinite both alternate,
+    kqclKk 10s ease-in-out infinite both;
+  -webkit-animation: pavomove 10s ease-in-out infinite both alternate,
+    kqclKk 10s ease-in-out infinite both;
+  animation: pavomove 10s ease-in-out infinite both alternate,
+    kqclKk 10s ease-in-out infinite both;
+}
