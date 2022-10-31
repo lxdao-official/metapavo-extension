@@ -2,10 +2,10 @@
   "name": "metapavo",
   "private": true,
   "scripts": {
-    "build:extension": "lerna run build:extension",
-    "build:extension:dev": "lerna run build:extension:dev",
-    "dev:website": "lerna run dev:website",
-    "build:website": "lerna run build:website"
+    "build:extension": "lerna run build:extension --stream",
+    "build:extension:dev": "lerna run build:extension:dev --stream",
+    "dev:website": "lerna run dev:website --stream",
+    "build:website": "lerna run build:website --stream"
   },
   "devDependencies": {
     "lerna": "^4.0.0"

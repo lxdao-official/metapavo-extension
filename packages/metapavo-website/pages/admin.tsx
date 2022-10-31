@@ -23,11 +23,12 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useConfirmDialog } from 'react-mui-confirm';
 import { useAccount } from 'wagmi';
+
 import { fetchWrapped } from '../common/fetch';
 import { WalletContext } from '../common/useWallet';
 import Layout from '../components/Layout';
 import LayoutAdmin from '../components/LayoutAdmin';
-import { dapps, dapp_categories } from '../types';
+import { dapp_categories, dapps } from '../types';
 
 export default function Admin() {
   const [cats, setCats] = useState<dapp_categories[]>([]);
@@ -143,7 +144,7 @@ export default function Admin() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={selectTab}
-          onChange={(e, newValue) => {
+          onChange={(e: any, newValue: any) => {
             setSelectTab(newValue);
             loadDapps(newValue);
           }}

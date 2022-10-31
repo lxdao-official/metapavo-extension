@@ -1,19 +1,18 @@
-import { Box } from "@mui/material";
-import { useState, useEffect, useCallback } from "react";
-import { searchProjects } from "../../../../../../utils/apis/nft_api";
-import { Component1 } from "../../../assets/Svgs";
-import { SearchField, SearchItemContainer } from "../styles";
-import { useThrottle, useThrottleFn } from "ahooks";
-import { AnyARecord } from "dns";
-import { searchProjectsV2 } from "../../../../../../utils/apis/nft_api_v2";
-import { getLang } from "../../../../../../utils/lang";
-const enter = chrome.runtime.getURL("images/svgs/enter.svg");
-const flag = chrome.runtime.getURL("images/svgs/flag.svg");
-const userIcon = chrome.runtime.getURL("images/svgs/user_icon.svg");
-const up = chrome.runtime.getURL("images/svgs/u_arrow-up.svg");
-const down = chrome.runtime.getURL("images/svgs/u_arrow-down.svg");
-const esc = chrome.runtime.getURL("images/svgs/ESC.svg");
-const enter_btn = chrome.runtime.getURL("images/svgs/enter_btn.svg");
+import { Box } from '@mui/material';
+import { useThrottleFn } from 'ahooks';
+import { useEffect, useState } from 'react';
+
+import { searchProjectsV2 } from '../../../../../../utils/apis/nft_api_v2';
+import { getLang } from '../../../../../../utils/lang';
+import { Component1 } from '../../../assets/Svgs';
+import { SearchField, SearchItemContainer } from '../styles';
+
+const enter = chrome.runtime.getURL('images/svgs/enter.svg');
+const flag = chrome.runtime.getURL('images/svgs/flag.svg');
+const up = chrome.runtime.getURL('images/svgs/u_arrow-up.svg');
+const down = chrome.runtime.getURL('images/svgs/u_arrow-down.svg');
+const esc = chrome.runtime.getURL('images/svgs/ESC.svg');
+const enter_btn = chrome.runtime.getURL('images/svgs/enter_btn.svg');
 const SearchItem = (props: any) => {
   const item = props.itemData;
   const clickFn = props.onClick;
@@ -25,7 +24,7 @@ const SearchItem = (props: any) => {
         <img className="user-icon" src={item.user_icon} alt="" />
         <span className="user-name">{item.user_name}</span>
         {item.contract_is_verified ? (
-          <Component1 sx={{ ml: 0.5, width: "16px", height: "16px" }} />
+          <Component1 sx={{ ml: 0.5, width: '16px', height: '16px' }} />
         ) : null}
       </div>
 
@@ -42,7 +41,7 @@ const SearchItem = (props: any) => {
 
 // 检索组件
 export const SearchCom = (props: any) => {
-  const [curValue, setCurValue] = useState<string>("");
+  const [curValue, setCurValue] = useState<string>('');
   const [searchData, setSearchData] = useState<any[]>([]);
   const [curIndex, setCurIndex] = useState<number>(0);
 
@@ -67,7 +66,11 @@ export const SearchCom = (props: any) => {
               contract_is_verified: item.contractData?.isVerified,
               eth: `${
                 item.nftProjectInfo?.stats[0]?.floorPrice
-                  ? Number(Number(item.nftProjectInfo?.stats[0]?.floorPrice).toFixed(4))
+                  ? Number(
+                      Number(item.nftProjectInfo?.stats[0]?.floorPrice).toFixed(
+                        4,
+                      ),
+                    )
                   : 0
               } ETH`,
             };
@@ -99,23 +102,25 @@ export const SearchCom = (props: any) => {
         break;
       case 27:
         setSearchData([]);
-        setCurValue("");
+        setCurValue('');
         setCurIndex(0);
         break;
       case 38:
         setCurIndex(curIndex - 1 <= 0 ? 0 : curIndex - 1);
         break;
       case 40:
-        setCurIndex(searchData.length !== 0 ? (curIndex + 1) % searchData.length : 0);
+        setCurIndex(
+          searchData.length !== 0 ? (curIndex + 1) % searchData.length : 0,
+        );
         break;
     }
   };
 
   useEffect(() => {
-    window.addEventListener("keyup", keyBoardCheck, true);
+    window.addEventListener('keyup', keyBoardCheck, true);
 
     return () => {
-      window.removeEventListener("keyup", keyBoardCheck, true);
+      window.removeEventListener('keyup', keyBoardCheck, true);
     };
   }, [searchData, curIndex]);
 
@@ -127,7 +132,7 @@ export const SearchCom = (props: any) => {
           onChange={searchChange}
           onPaste={searchChange}
           value={curValue}
-          placeholder={getLang("search_placeholder")}
+          placeholder={getLang('search_placeholder')}
         />
       </div>
 
@@ -151,28 +156,28 @@ export const SearchCom = (props: any) => {
           <div className="metapavo-prompt">
             <Box
               sx={{
-                boxShadow: "0px 1.5px 0px rgba(215, 215, 215, 0.6)",
-                boxSizing: "border-box",
-                width: "23px",
-                height: "21px",
-                marginLeft: "-10px",
-                marginRight: "7px",
-                borderRadius: "3px",
-                padding: "2px 5px",
-                border: "0.5px solid #D7D7D7",
+                boxShadow: '0px 1.5px 0px rgba(215, 215, 215, 0.6)',
+                boxSizing: 'border-box',
+                width: '23px',
+                height: '21px',
+                marginLeft: '-10px',
+                marginRight: '7px',
+                borderRadius: '3px',
+                padding: '2px 5px',
+                border: '0.5px solid #D7D7D7',
               }}
             >
               <img className="up" src={up} alt="" />
             </Box>
             <Box
               sx={{
-                boxShadow: "0px 1.5px 0px rgba(215, 215, 215, 0.6)",
-                boxSizing: "border-box",
-                width: "23px",
-                height: "21px",
-                borderRadius: "3px",
-                padding: "2px 5px",
-                border: "0.5px solid #D7D7D7",
+                boxShadow: '0px 1.5px 0px rgba(215, 215, 215, 0.6)',
+                boxSizing: 'border-box',
+                width: '23px',
+                height: '21px',
+                borderRadius: '3px',
+                padding: '2px 5px',
+                border: '0.5px solid #D7D7D7',
               }}
             >
               <img className="metapavo-down" src={down} alt="" />
@@ -181,13 +186,13 @@ export const SearchCom = (props: any) => {
             <span className="metapavo-text-chose">选择</span>
             <Box
               sx={{
-                boxShadow: "0px 1.5px 0px rgba(215, 215, 215, 0.6)",
-                boxSizing: "border-box",
-                width: "32px",
-                height: "21px",
-                borderRadius: "3px",
-                padding: "0px 3px",
-                border: "0.5px solid #D7D7D7",
+                boxShadow: '0px 1.5px 0px rgba(215, 215, 215, 0.6)',
+                boxSizing: 'border-box',
+                width: '32px',
+                height: '21px',
+                borderRadius: '3px',
+                padding: '0px 3px',
+                border: '0.5px solid #D7D7D7',
               }}
             >
               <img className="metapavo-esc" src={esc} alt="" />
@@ -196,13 +201,13 @@ export const SearchCom = (props: any) => {
             <span className="metapavo-text-close">关闭窗口</span>
             <Box
               sx={{
-                boxShadow: "0px 1.5px 0px rgba(215, 215, 215, 0.6)",
-                boxSizing: "border-box",
-                width: "23px",
-                height: "21px",
-                borderRadius: "3px",
-                padding: "2px 5px",
-                border: "0.5px solid #D7D7D7",
+                boxShadow: '0px 1.5px 0px rgba(215, 215, 215, 0.6)',
+                boxSizing: 'border-box',
+                width: '23px',
+                height: '21px',
+                borderRadius: '3px',
+                padding: '2px 5px',
+                border: '0.5px solid #D7D7D7',
               }}
             >
               <img className="metapavo-enter-btn" src={enter_btn} alt="" />

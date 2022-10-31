@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "../../context/useGlobal";
-import LoginPage from "./accordion/Login";
-import AccordionPage from "./accordion/AccordionPage";
-import { WalletContext } from "../../context/useWallet";
-import { MainRootElement } from "./styles";
-import Bottom from "./accordion/Bottom";
+import { useContext, useEffect } from 'react';
+
+import { GlobalContext } from '../../context/useGlobal';
+import { WalletContext } from '../../context/useWallet';
+import AccordionPage from './accordion/AccordionPage';
+import Bottom from './accordion/Bottom';
+import LoginPage from './accordion/Login';
+import { MainRootElement } from './styles';
 
 function App() {
   const useG = useContext(GlobalContext);
@@ -27,7 +28,9 @@ function App() {
   }, [useG.showMain]);
 
   return (
-    <MainRootElement className={useG.showMain ? "metapavo-main-show" : "metapavo-main-hide"}>
+    <MainRootElement
+      className={useG.showMain ? 'metapavo-main-show' : 'metapavo-main-hide'}
+    >
       <div>
         {useG.showLogin ? <LoginPage /> : <AccordionPage />}
         <Bottom />
@@ -38,12 +41,12 @@ function App() {
             useG.setShowMain(false);
           }}
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: 0,
-            left: "-39px",
-            cursor: "pointer",
-            width: "36px",
-            height: "36px",
+            left: '-39px',
+            cursor: 'pointer',
+            width: '36px',
+            height: '36px',
           }}
         >
           <svg

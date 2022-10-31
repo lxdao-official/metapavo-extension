@@ -7,7 +7,6 @@ import Bottom from "../content-script/components/side-panel/accordion/Bottom";
 import useWallet, { WalletContext } from "../content-script/context/useWallet";
 import HistoryListPage from "../plugins/history/HistoryListPage";
 import WatchListPage from "../plugins/watchlist/WatchListPage";
-import AlarmList from "../plugins/alarmreminder/AlarmListPage";
 import PopupMain from "./PopupMain";
 import NoLogin from "./NoLogin";
 import { Report } from "../plugins/report/ReportProject";
@@ -94,14 +93,7 @@ function Page() {
               </HavNavPage>
             }
           />
-          <Route
-            path="/alarms"
-            element={
-              <HavNavPage>
-                <AlarmList />
-              </HavNavPage>
-            }
-          />
+
           <Route
             path="/report"
             element={
@@ -126,7 +118,6 @@ function Page() {
               </HavNavPage>
             }
           />
-          {/* <Route path="/alarms" element={<AlarmListPage />} /> */}
         </Routes>
       </Box>
       <Bottom />

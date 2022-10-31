@@ -2,8 +2,7 @@
 
 ```bash
 # install dependencies
-lerna run bootstrap
-# build extension
+lerna bootstrap
 
 # build website
 lerna run build:website

@@ -1,22 +1,26 @@
-import { IconButton } from "@mui/material";
-import { useState, useContext } from "react";
-import { GlobalContext } from "../../../../context/useGlobal";
-import { WalletContext } from "../../../../context/useWallet";
-import { Head, HeadSelect, HeadLogo, ModalBG, ModalContainer } from "../styles";
-import toast from "react-hot-toast";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import copy from "clipboard-copy";
-import ClearIcon from "@mui/icons-material/Clear";
-import { getLang } from "../../../../../../utils/lang";
-const arrow_down = chrome.runtime.getURL("images/svgs/arrow_down.svg");
-const index_logo = chrome.runtime.getURL("images/index-logo.png");
+import ClearIcon from '@mui/icons-material/Clear';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { IconButton } from '@mui/material';
+import copy from 'clipboard-copy';
+import { useContext, useState } from 'react';
+import toast from 'react-hot-toast';
+
+import { getLang } from '../../../../../../utils/lang';
+import { GlobalContext } from '../../../../context/useGlobal';
+import { WalletContext } from '../../../../context/useWallet';
+import { Head, HeadLogo, HeadSelect, ModalBG, ModalContainer } from '../styles';
+
+const arrow_down = chrome.runtime.getURL('images/svgs/arrow_down.svg');
+const index_logo = chrome.runtime.getURL('images/index-logo.png');
 
 function formatAddress(address: string) {
   // ens
-  if (address.includes(".")) {
+  if (address.includes('.')) {
     return address;
   }
-  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+  return `${address.substring(0, 6)}...${address.substring(
+    address.length - 4,
+  )}`;
 }
 // 头部组件
 export const HeadCom = (props: any) => {
@@ -26,7 +30,7 @@ export const HeadCom = (props: any) => {
 
   const copyContractAddress = () => {
     copy(loginedAddress);
-    toast.success("Copied");
+    toast.success('Copied');
   };
   const LoginModal = (props: any) => {
     return (
@@ -40,20 +44,29 @@ export const HeadCom = (props: any) => {
           <div className="user-des">
             <div className="user-topLine">
               <div className="user-name">
-                <span className="user-code">{formatAddress(loginedAddress)}</span>
+                <span className="user-code">
+                  {formatAddress(loginedAddress)}
+                </span>
                 <IconButton
                   onClick={() => {
                     copyContractAddress();
                   }}
-                  sx={{ ml: 0.5, height: "17px", width: "17px" }}
+                  sx={{ ml: 0.5, height: '17px', width: '17px' }}
                 >
-                  <ContentCopyIcon sx={{ ml: 0.5, height: "17px", width: "17px" }} />
+                  <ContentCopyIcon
+                    sx={{ ml: 0.5, height: '17px', width: '17px' }}
+                  />
                 </IconButton>
               </div>
               {/* <div className="user-eth">Value: 1213.22 USDC</div> */}
             </div>
             <ClearIcon
-              sx={{ height: "24px", width: "24px", color: "#D1D0D6", cursor: "pointer" }}
+              sx={{
+                height: '24px',
+                width: '24px',
+                color: '#D1D0D6',
+                cursor: 'pointer',
+              }}
               onClick={() => setSelectMenu(!selectMenu)}
             />
           </div>
@@ -66,7 +79,7 @@ export const HeadCom = (props: any) => {
                 setShowLogin(true);
               }}
             >
-              {getLang("Logout")}
+              {getLang('Logout')}
             </div>
           </div>
           <div className="mask" />
@@ -87,8 +100,8 @@ export const HeadCom = (props: any) => {
           src={index_logo}
           alt=""
           style={{
-            width: "168px",
-            height: "40.52px",
+            width: '168px',
+            height: '40.52px',
           }}
         />
       </HeadLogo>

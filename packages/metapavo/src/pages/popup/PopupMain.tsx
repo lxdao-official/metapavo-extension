@@ -55,7 +55,7 @@ const PopupMain = () => {
           </div>
         </MenuItemStyle>
 
-        <MenuItemStyle
+        {/* <MenuItemStyle
           onClick={() => {
             navigate("/alarms");
           }}
@@ -65,7 +65,7 @@ const PopupMain = () => {
             {counts.alarmCount ? <Badge>{counts.alarmCount}</Badge> : null}
             <GoIcon />
           </div>
-        </MenuItemStyle>
+        </MenuItemStyle> */}
         <MenuItemStyle
           onClick={() => {
             navigate("/mynfts");

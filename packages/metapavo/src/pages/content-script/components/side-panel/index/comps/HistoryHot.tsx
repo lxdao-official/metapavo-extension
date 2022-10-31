@@ -1,16 +1,18 @@
-import { Box, CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Item } from "../../../../../plugins/history/HistoryListPage";
-import { HistoryHotContainer, HotTitle } from "../styles";
-import { Empty } from "./Empty";
-import { linkImages } from "../../../../../../utils/linkImages";
-import { getVisitHistories } from "../../../../../../utils/apis/nft_api";
-import { IVisitHistory, visit_histories } from "../../../../../../utils/apis/types";
-import moment from "moment";
-import { useNavigate } from "react-router-dom";
-import { getLang } from "../../../../../../utils/lang";
-import { ItemSkeleton } from "../../../common/ItemSkeleton";
-import { projectLinksWrapper } from "../../../../../../utils/apis/project_wrapper";
+import { Box, CircularProgress } from '@mui/material';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { getVisitHistories } from '../../../../../../utils/apis/nft_api';
+import { projectLinksWrapper } from '../../../../../../utils/apis/project_wrapper';
+import { visit_histories } from '../../../../../../utils/apis/types';
+import { getLang } from '../../../../../../utils/lang';
+import { linkImages } from '../../../../../../utils/linkImages';
+import { Item } from '../../../../../plugins/history/HistoryListPage';
+import { ItemSkeleton } from '../../../common/ItemSkeleton';
+import { HistoryHotContainer, HotTitle } from '../styles';
+import { Empty } from './Empty';
+
 export const HistoryHotTitle = (props: any) => {
   const title = props.title;
   const navigate = useNavigate();
@@ -20,10 +22,10 @@ export const HistoryHotTitle = (props: any) => {
       <span
         className="op"
         onClick={() => {
-          navigate("/history");
+          navigate('/history');
         }}
       >
-        {getLang("More")}
+        {getLang('More')}
       </span>
     </HotTitle>
   );
@@ -46,8 +48,10 @@ export const HistoryHot = (props: any) => {
             useName: item.project?.name,
             userEth: `Floor: ${
               item.project?.nftProjectInfo?.stats[0]?.floorPrice
-                ? Number(item.project.nftProjectInfo.stats[0].floorPrice).toFixed(4)
-                : "-"
+                ? Number(
+                    item.project.nftProjectInfo.stats[0].floorPrice,
+                  ).toFixed(4)
+                : '-'
             } E`,
             links: [
               {
@@ -67,8 +71,8 @@ export const HistoryHot = (props: any) => {
                 img: linkImages.twitter,
               },
             ].filter((item) => item.link),
-            dayTime: moment(item.updated_at).format("MM-DD"),
-            hourTime: moment(item.updated_at).format("mm:ss"),
+            dayTime: moment(item.updated_at).format('MM-DD'),
+            hourTime: moment(item.updated_at).format('mm:ss'),
             project_id: item.project_id,
             symbol: item.project?.symbol,
           };
@@ -78,7 +82,7 @@ export const HistoryHot = (props: any) => {
     setGetHistoryLoading(false);
   }
   useEffect(() => {
-    console.log("init");
+    console.log('init');
     getHistories();
     // getFavs();
   }, []);

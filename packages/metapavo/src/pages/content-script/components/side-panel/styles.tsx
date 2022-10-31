@@ -1,4 +1,5 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components';
+
 const show = keyframes`
   0% {
     right:-303px;

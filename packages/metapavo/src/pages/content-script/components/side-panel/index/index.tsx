@@ -1,14 +1,13 @@
-import { useContext } from "react";
-import { getNftById } from "../../../../../utils/apis/nft_api";
-import { GlobalContext } from "../../../context/useGlobal";
+import { useContext } from 'react';
 
-import { Container } from "./styles";
-import { SearchCom } from "./comps/SearchCom";
-import { HistoryHot } from "./comps/HistoryHot";
-import { ToolsHot } from "./comps/ToolsHot";
-import { HeadCom } from "./comps/Head";
-import { getNftByIdV2 } from "../../../../../utils/apis/nft_api_v2";
-import { getLang } from "../../../../../utils/lang";
+import { getNftByIdV2 } from '../../../../../utils/apis/nft_api_v2';
+import { getLang } from '../../../../../utils/lang';
+import { GlobalContext } from '../../../context/useGlobal';
+import { HeadCom } from './comps/Head';
+import { HistoryHot } from './comps/HistoryHot';
+import { SearchCom } from './comps/SearchCom';
+import { ToolsHot } from './comps/ToolsHot';
+import { Container } from './styles';
 
 const Pavo = () => {
   const { setActiveProject } = useContext(GlobalContext);
@@ -25,9 +24,9 @@ const Pavo = () => {
 
       <SearchCom goDetail={goDetail} />
 
-      <ToolsHot title={getLang("Tools")} />
+      <ToolsHot title={getLang('Tools')} />
 
-      <HistoryHot title={getLang("History")} goDetail={goDetail} />
+      <HistoryHot title={getLang('History')} goDetail={goDetail} />
     </Container>
   );
 };
