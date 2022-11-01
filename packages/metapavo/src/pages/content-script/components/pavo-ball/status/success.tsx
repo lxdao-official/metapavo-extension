@@ -1,185 +1,18 @@
-import { Tooltip } from "@mui/material";
-import React, { useEffect } from "react";
-import { useContext } from "react";
-import toast from "react-hot-toast";
-import styled from "styled-components";
-import { colorfulButtonStyle } from "../../../../../styles/common-colorful-button";
+import { Tooltip } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useContext } from 'react';
+import toast from 'react-hot-toast';
+
 import {
   addFavByProjectId,
   isFaved,
   removeFavByProjectId,
-} from "../../../../../utils/apis/nft_api";
-import { getLang } from "../../../../../utils/lang";
-import { linkImages } from "../../../../../utils/linkImages";
-import { GlobalContext } from "../../../context/useGlobal";
+} from '../../../../../utils/apis/nft_api';
+import { getLang } from '../../../../../utils/lang';
+import { linkImages } from '../../../../../utils/linkImages';
+import { GlobalContext } from '../../../context/useGlobal';
+import { SuccessRootElement } from '../styles';
 
-const RootElement = styled.div`
-  opacity: 0;
-  transition: all 0.75s ease-in-out 0s;
-  position: absolute;
-  width: 327px;
-  height: 167px;
-  box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
-  border-radius: 16px;
-  transform-origin: 100% 100%;
-  right: -11px;
-  bottom: 55px;
-  background: #fff;
-  &.mp-success-show {
-    opacity: 1;
-  }
-  &.mp-success-hide {
-    opacity: 0;
-    transform: scale(0);
-  }
-
-  .mp-success-hd {
-    display: flex;
-    justify-content: flex-start;
-    height: 50px;
-    padding-left: 20px;
-    align-items: center;
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
-    padding-right: 40px;
-    img {
-      width: 24px;
-      height: 24px;
-
-      border-radius: 5px;
-
-      /* Inside auto layout */
-
-      flex: none;
-      order: 0;
-      flex-grow: 0;
-    }
-    .mp-success-title {
-      height: 19px;
-      margin-left: 8px;
-      font-family: "Inter";
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 19px;
-      display: flex;
-
-      text-align: left;
-      color: #252525;
-      overflow: hidden;
-    }
-    .mp-success-verified {
-      margin-left: 8px;
-    }
-  }
-  .mp-success-close {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    right: 15px;
-    top: 12px;
-    cursor: pointer;
-    z-index: 100;
-  }
-  .mp-success-bd {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px;
-    padding-left: 20px;
-  }
-  .mp-success-bd-price {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 25px;
-
-    display: flex;
-    align-items: center;
-    color: #979797;
-    width: 100%;
-    height: 25px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .mp-success-price-item {
-    padding-right: 10px;
-    svg {
-      vertical-align: -2px;
-      margin-right: 3px;
-    }
-  }
-  .mp-success-links {
-    display: flex;
-    position: relative;
-    justify-content: space-between;
-    margin: 0px 20px;
-    button {
-      width: 72px;
-      height: 25px;
-      background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
-      border-radius: 4px;
-      color: #fff;
-      font-size: 12px;
-      line-height: 25px;
-      border: none;
-      cursor: pointer;
-    }
-  }
-  .mp-success-links-left {
-    width: 205px;
-    overflow-x: auto;
-    position: relative;
-    bahavior: smooth;
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  }
-  .mp-links-shape {
-    position: absolute;
-    width: 17px;
-    height: 40px;
-    left: 189px;
-    top: 0px;
-    background: linear-gradient(270deg, #ffffff 38.92%, rgba(255, 255, 255, 0.03) 97.37%);
-    z-index: 10;
-  }
-  .mp-success-links-left-inner {
-    display: flex;
-    justify-content: flex-start;
-    line-height: 40px;
-    height: 25px;
-    align-items: center;
-    gap: 6px 6px;
-    a {
-      width: 20px;
-      height: 20px;
-      box-sizing: content-box;
-      display: block;
-      img {
-        width: 20px;
-        height: 20px;
-        max-width: 20px;
-        min-width: 20px;
-        vertical-align: 5px;
-        display: block;
-      }
-    }
-    .dividor {
-      border: 0.5px solid #979797;
-      margin-top: 0px;
-      height: 10px;
-      width: 0px;
-    }
-  }
-`;
-export const AddWatchButton = styled.button`
-  height: 35px !important;
-  padding-right: 20px !important;
-  padding-left: 10px !important;
-  font-size: 12px !important;
-
-  ${colorfulButtonStyle}
-`;
 export const AutoDecimal = (_num: number | string, decimal?: number) => {
   let num = Number(_num);
   let hasK = false;
@@ -188,31 +21,31 @@ export const AutoDecimal = (_num: number | string, decimal?: number) => {
     hasK = true;
   }
   if (decimal) {
-    return num.toFixed(decimal) + (hasK ? "K" : "");
+    return num.toFixed(decimal) + (hasK ? 'K' : '');
   }
   if (num > 1) {
-    return num.toFixed(2) + (hasK ? "K" : "");
+    return num.toFixed(2) + (hasK ? 'K' : '');
   } else {
-    return num.toFixed(4) + (hasK ? "K" : "");
+    return num.toFixed(4) + (hasK ? 'K' : '');
   }
 };
-export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
+export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
   const useG = useContext(GlobalContext);
   const { activeProject, setAddRootClass, activeTokenId } = useG;
   const mainLinks = [
     {
       link: activeProject?.links?.twitter,
-      label: "Twitter",
+      label: 'Twitter',
       img: linkImages.twitter,
     },
     {
       link: activeProject?.links?.website,
-      label: "Website",
+      label: 'Website',
       img: linkImages.website,
     },
     {
       link: activeProject?.links?.etherscan,
-      label: "Etherscan",
+      label: 'Etherscan',
       img: linkImages.etherscan,
     },
   ].filter((i) => {
@@ -221,28 +54,28 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
   const links = [
     {
       link: activeProject?.links?.opensea,
-      label: "OpenSea",
+      label: 'OpenSea',
       img: linkImages.opensea,
     },
     {
       link: activeProject?.links?.gem,
-      label: "Gem",
+      label: 'Gem',
       img: linkImages.gem,
     },
     {
       link: activeProject?.links?.looksrare,
-      label: "LooksRare",
+      label: 'LooksRare',
       img: linkImages.looksrare,
     },
     {
       link: activeProject?.links?.x2y2,
-      label: "X2Y2",
+      label: 'X2Y2',
       img: linkImages.x2y2,
     },
 
     {
       link: activeProject?.links?.sudoswap,
-      label: "SudoSwap",
+      label: 'SudoSwap',
       img: linkImages.sudoswap,
     },
   ].filter((i) => {
@@ -253,20 +86,20 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
     if (activeProject) {
       try {
         await addFavByProjectId(activeProject.id);
-        toast.success("Add to watchlist successfully");
+        toast.success('Add to watchlist successfully');
         refreshFavedStatus();
       } catch (e: any) {
         toast.error(e.message);
       }
     } else {
-      toast.error("Please select a project first");
+      toast.error('Please select a project first');
     }
   }
   const [faved, setFaved] = React.useState(false);
   const refreshFavedStatus = async () => {
     if (activeProject?.id) {
       const _isFaved = await isFaved(activeProject?.id);
-      console.log("is faved", _isFaved);
+      console.log('is faved', _isFaved);
       setFaved(_isFaved);
     }
   };
@@ -275,22 +108,29 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
     if (activeProject) {
       try {
         await removeFavByProjectId(activeProject.id);
-        toast.success("Remove from watchlist successfully");
+        toast.success('Remove from watchlist successfully');
         refreshFavedStatus();
       } catch (e: any) {
         toast.error(e.message);
       }
     } else {
-      toast.error("Please select a project first");
+      toast.error('Please select a project first');
     }
   }
   useEffect(() => {
     refreshFavedStatus();
   }, [activeProject?.id]);
   return (
-    <RootElement className={[state === "show" ? "mp-success-show" : "mp-success-hide"].join(" ")}>
+    <SuccessRootElement
+      className={[
+        state === 'show' ? 'mp-success-show' : 'mp-success-hide',
+      ].join(' ')}
+    >
       <div className="mp-success-hd">
-        <img src={activeProject?.imageUrl as string} alt={activeProject?.name} />
+        <img
+          src={activeProject?.imageUrl as string}
+          alt={activeProject?.name}
+        />
         <div className="mp-success-title">{activeProject?.name}</div>
         {activeProject?.contractData?.isVerified ? (
           <svg
@@ -314,27 +154,29 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
       </div>
       <div className="mp-success-bd">
         <div className="mp-success-bd-price">
-          {" "}
+          {' '}
           <span className="mp-success-price-item">
-            {" "}
-            {getLang("Floor")}:{" "}
+            {' '}
+            {getLang('Floor')}:{' '}
             {activeProject?.nftProjectInfo?.stats[0]?.floorPrice
               ? AutoDecimal(activeProject.nftProjectInfo.stats[0].floorPrice)
-              : "-"}
+              : '-'}
             Ξ
           </span>
           <span className="mp-success-price-item">
-            {getLang("Volume")}(24h):{" "}
+            {getLang('Volume')}(24h):{' '}
             {activeProject?.nftProjectInfo?.stats[0]?.oneDayVolume
               ? AutoDecimal(activeProject.nftProjectInfo.stats[0]?.oneDayVolume)
-              : "-"}
+              : '-'}
             Ξ
             {activeProject?.nftProjectInfo?.stats[0]?.oneDayChange ? (
               <span
                 style={{
                   color:
-                    activeProject.nftProjectInfo.stats[0].oneDayChange > 0 ? "#3EAF3F" : "#E14942",
-                  paddingLeft: "5px",
+                    activeProject.nftProjectInfo.stats[0].oneDayChange > 0
+                      ? '#3EAF3F'
+                      : '#E14942',
+                  paddingLeft: '5px',
                   fontWeight: 500,
                 }}
               >
@@ -365,19 +207,22 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
                     />
                   </svg>
                 )}
-                {Number(activeProject.nftProjectInfo.stats[0].oneDayChange * 100).toFixed(0)}%
+                {Number(
+                  activeProject.nftProjectInfo.stats[0].oneDayChange * 100,
+                ).toFixed(0)}
+                %
               </span>
             ) : (
-              ""
+              ''
             )}
           </span>
         </div>
         <div className="mp-success-bd-price">
           <span className="mp-success-price-item">
-            {getLang("Sales")}(24h):{" "}
+            {getLang('Sales')}(24h):{' '}
             {activeProject?.nftProjectInfo?.stats[0]?.oneDaySales
               ? activeProject.nftProjectInfo.stats[0].oneDaySales
-              : "-"}
+              : '-'}
             {/* {activeProject?.nftProjectInfo?.stats[0]?.oneDayDifference && (
               <span
                 style={{
@@ -422,10 +267,10 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
             )} */}
           </span>
           <span className="mp-success-price-item">
-            {getLang("Volume")}(All):{" "}
+            {getLang('Volume')}(All):{' '}
             {activeProject?.nftProjectInfo?.stats[0]?.totalVolume
               ? AutoDecimal(activeProject.nftProjectInfo.stats[0].totalVolume)
-              : "-"}
+              : '-'}
             Ξ
           </span>
         </div>
@@ -450,7 +295,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               </Tooltip>
             ))}
             <a>
-              <img src="" alt="" style={{ opacity: 0 }} />{" "}
+              <img src="" alt="" style={{ opacity: 0 }} />{' '}
             </a>
           </div>
         </div>
@@ -462,7 +307,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               viewBox="0 0 12 13"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              style={{ display: "inline-block", marginTop: "-1px" }}
+              style={{ display: 'inline-block', marginTop: '-1px' }}
               onClick={() => {
                 removeFav();
               }}
@@ -483,16 +328,16 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
               viewBox="0 0 12 13"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              style={{ display: "inline-block", marginTop: "-1px" }}
+              style={{ display: 'inline-block', marginTop: '-1px' }}
               onClick={() => {
                 addFav();
               }}
             >
               <defs>
                 <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#7de2ac" />{" "}
-                  <stop offset="50%" stop-color="#389dfa" />{" "}
-                  <stop offset="100%" stop-color="#9f50ff" />{" "}
+                  <stop offset="0%" stop-color="#7de2ac" />{' '}
+                  <stop offset="50%" stop-color="#389dfa" />{' '}
+                  <stop offset="100%" stop-color="#9f50ff" />{' '}
                 </linearGradient>
               </defs>
 
@@ -506,7 +351,7 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           </Tooltip>
         )}
 
-        <Tooltip title="Open Project Detail" placement="top" arrow>
+        {/* <Tooltip title="Open Project Detail" placement="top" arrow>
           <button
             style={{ width: "45px", marginLeft: "5px" }}
             onClick={() => {
@@ -515,13 +360,13 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           >
             {getLang("More")}
           </button>
-        </Tooltip>
+        </Tooltip> */}
       </div>
       <div
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          setAddRootClass("");
+          setAddRootClass('');
         }}
         className="mp-success-close"
       >
@@ -548,6 +393,6 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           />
         </svg>
       </div>
-    </RootElement>
+    </SuccessRootElement>
   );
 }

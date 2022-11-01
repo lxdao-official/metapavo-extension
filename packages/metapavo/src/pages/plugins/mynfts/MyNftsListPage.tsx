@@ -1,23 +1,25 @@
-import { Box, CircularProgress } from "@mui/material";
-import moment from "moment";
-import toast from "react-hot-toast";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { getNftById, getUsersFavs } from "../../../utils/apis/nft_api";
-import { favs, IFavs } from "../../../utils/apis/types";
-import { linkImages } from "../../../utils/linkImages";
-import { GlobalContext } from "../../content-script/context/useGlobal";
-import { HeadReturn } from "../common/HeadReturn";
-import { ItemContainer, MoreButton, PageContainer } from "../styleCom";
-import { getNftByIdV2, myProjects } from "../../../utils/apis/nft_api_v2";
-import { getLang } from "../../../utils/lang";
-import { ItemSkeleton } from "../../content-script/components/common/ItemSkeleton";
-import { projectLinksWrapper } from "../../../utils/apis/project_wrapper";
-import { Empty } from "../../content-script/components/side-panel/index/comps/Empty";
+import { Box, CircularProgress } from '@mui/material';
+import moment from 'moment';
+import { useContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { getNftById, getUsersFavs } from '../../../utils/apis/nft_api';
+import { getNftByIdV2, myProjects } from '../../../utils/apis/nft_api_v2';
+import { projectLinksWrapper } from '../../../utils/apis/project_wrapper';
+import { IFavs, favs } from '../../../utils/apis/types';
+import { getLang } from '../../../utils/lang';
+import { linkImages } from '../../../utils/linkImages';
+import { ItemSkeleton } from '../../content-script/components/common/ItemSkeleton';
+import { Empty } from '../../content-script/components/side-panel/index/comps/Empty';
+import { GlobalContext } from '../../content-script/context/useGlobal';
+import { HeadReturn } from '../common/HeadReturn';
+import { ItemContainer, MoreButton, PageContainer } from '../styleCom';
 
 const ListItem = (props: any) => {
-  const { userIcon, useName, userEth, links, dayTime, hourTime } = props.itemData;
+  const { userIcon, useName, userEth, links, dayTime, hourTime } =
+    props.itemData;
 
   return (
     <ItemContainer onClick={props.onClick}>
@@ -29,7 +31,12 @@ const ListItem = (props: any) => {
       <div className="imgs-container">
         {links.map((link: any, index: number) => {
           return (
-            <a className="link-container" key={index} href={link.link} target="_blank">
+            <a
+              className="link-container"
+              key={index}
+              href={link.link}
+              target="_blank"
+            >
               <img className="link-icon" src={link.img} alt="" />
             </a>
           );
@@ -63,7 +70,7 @@ const MyNftsListPage = (props: any) => {
             userEth: `Floor: ${
               project?.nftProjectInfo?.stats[0]?.floorPrice
                 ? Number(project.nftProjectInfo.stats[0].floorPrice).toFixed(4)
-                : "-"
+                : '-'
             } E`,
             links: [
               {
@@ -83,8 +90,8 @@ const MyNftsListPage = (props: any) => {
                 img: linkImages.twitter,
               },
             ].filter((item) => item.link),
-            dayTime: moment(project.createTime).format("MM-DD"),
-            hourTime: moment(project.createTime).format("mm:ss"),
+            dayTime: moment(project.createTime).format('MM-DD'),
+            hourTime: moment(project.createTime).format('mm:ss'),
             project_id: project.id,
             symbol: project?.symbol,
           };
@@ -92,7 +99,7 @@ const MyNftsListPage = (props: any) => {
         setList([...list, ...newList]);
       }
     } catch (e) {
-      toast.error("loading error");
+      toast.error('loading error');
     }
 
     setLoading(false);
@@ -115,7 +122,7 @@ const MyNftsListPage = (props: any) => {
   }, []);
   return (
     <PageContainer>
-      <HeadReturn title={getLang("My_NFTs")} />
+      <HeadReturn title={getLang('My_NFTs')} />
       <div className="trend-list">
         {list.map((item: any, index: number) => {
           return (
@@ -140,7 +147,7 @@ const MyNftsListPage = (props: any) => {
       ) : list.length === 0 ? (
         <Empty />
       ) : null}
-      <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', padding: '30px' }}>
         <MoreButton onClick={nextPage}>more</MoreButton>
       </Box>
     </PageContainer>

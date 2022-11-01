@@ -1,22 +1,20 @@
-import { Menu, MenuItem, styled, Tooltip, tooltipClasses, TooltipProps } from "@mui/material";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { getLang } from "../../../../utils/lang";
+import {
+  Menu,
+  MenuItem,
+  Tooltip,
+  TooltipProps,
+  styled,
+  tooltipClasses,
+} from '@mui/material';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { GlobalContext } from "../../context/useGlobal";
-import DangerPopup from "./status/danger";
-import SuccessPopup from "./status/success";
-
-import { GasBox, RootElement } from "./styles";
+import { getLang } from '../../../../utils/lang';
+import { GlobalContext } from '../../context/useGlobal';
+import DangerPopup from './status/danger';
+import SuccessPopup from './status/success';
+import { GasBox, RootElement } from './styles';
 
 let inited = false;
-const CustomWidthTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))({
-  [`& .${tooltipClasses.tooltip}`]: {
-    maxWidth: 180,
-    zIndex: 100000000000000000,
-  },
-});
 
 function Ball() {
   const [hide, setHide] = React.useState(false);
@@ -33,7 +31,6 @@ function Ball() {
       pos3 = 0,
       pos4 = 0;
     let mousedownTimestamp: number = 0;
-    // otherwise, move the DIV from anywhere inside the DIV:
     gasRef.current.onmousedown = dragMouseDown;
     gasRef.current.onmouseup = (e) => {
       e.stopPropagation();
@@ -44,7 +41,7 @@ function Ball() {
         }
       }
       closeDragElement();
-      rootRef.current?.classList.remove("notransition");
+      rootRef.current?.classList.remove('notransition');
     };
 
     function dragMouseDown(e: MouseEvent) {
@@ -53,12 +50,12 @@ function Ball() {
       e = e || window.event;
       // e.preventDefault();
       mousedownTimestamp = Date.now();
-      rootRef.current?.classList.add("notransition");
+      rootRef.current?.classList.add('notransition');
       // get the mouse cursor position at startup:
       pos3 = window.innerWidth - e.clientX;
       pos4 = window.innerHeight - e.clientY;
-      document.addEventListener("mouseup", closeDragElement);
-      document.addEventListener("mousemove", elementDrag);
+      document.addEventListener('mouseup', closeDragElement);
+      document.addEventListener('mousemove', elementDrag);
     }
 
     function elementDrag(e: MouseEvent) {
@@ -74,30 +71,34 @@ function Ball() {
       if (rootRef.current) {
         // set the element's new position:
         rootRef.current.style.right =
-          Number(rootRef.current.style.right.replace(/[^\d]/g, "")) - pos1 + "px";
+          Number(rootRef.current.style.right.replace(/[^\d]/g, '')) -
+          pos1 +
+          'px';
         rootRef.current.style.bottom =
-          Number(rootRef.current.style.bottom.replace(/[^\d]/g, "")) - pos2 + "px";
+          Number(rootRef.current.style.bottom.replace(/[^\d]/g, '')) -
+          pos2 +
+          'px';
         localStorage.setItem(
-          "metapavo-pos",
-          [rootRef.current.style.right, rootRef.current.style.bottom].join("-"),
+          'metapavo-pos',
+          [rootRef.current.style.right, rootRef.current.style.bottom].join('-'),
         );
       }
     }
 
     function closeDragElement() {
       // stop moving when mouse button is released:
-      document.removeEventListener("mouseup", closeDragElement);
-      document.removeEventListener("mousemove", elementDrag);
+      document.removeEventListener('mouseup', closeDragElement);
+      document.removeEventListener('mousemove', elementDrag);
     }
   }
 
   function init() {
     useG.checkPlatform();
     if (rootRef.current) {
-      rootRef.current.style.right = "50px";
-      rootRef.current.style.bottom = "50px";
-      if (localStorage.getItem("metapavo-pos")) {
-        const pos = (localStorage.getItem("metapavo-pos") || "").split("-");
+      rootRef.current.style.right = '50px';
+      rootRef.current.style.bottom = '50px';
+      if (localStorage.getItem('metapavo-pos')) {
+        const pos = (localStorage.getItem('metapavo-pos') || '').split('-');
         if (pos.length === 2) {
           rootRef.current.style.right = pos[0];
           rootRef.current.style.bottom = pos[1];
@@ -106,13 +107,17 @@ function Ball() {
       rootRef.current && dragElement();
     }
 
-    chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
-      if (request.cmd === "gasUpdate") setGas(request.value);
-      sendResponse("ok");
+    chrome?.runtime?.onMessage.addListener(function (
+      request,
+      sender,
+      sendResponse,
+    ) {
+      if (request.cmd === 'gasUpdate') setGas(request.value);
+      sendResponse('ok');
     });
     chrome.runtime.sendMessage(
       {
-        cmd: "getGas",
+        cmd: 'getGas',
       },
       function (response) {
         if (!chrome.runtime.lastError) {
@@ -121,7 +126,7 @@ function Ball() {
         }
       },
     );
-    document.body.addEventListener("click", () => {
+    document.body.addEventListener('click', () => {
       setMenuOpen(false);
     });
   }
@@ -129,18 +134,18 @@ function Ball() {
     setHide(true);
     setMenuOpen(false);
     localStorage.setItem(
-      "metapavo-hide-until",
+      'metapavo-hide-until',
       String(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
     );
   }
   useEffect(() => {
     if (!inited) init();
     inited = true;
-    const hideUntil = localStorage.getItem("metapavo-hide-until");
+    const hideUntil = localStorage.getItem('metapavo-hide-until');
     if (hideUntil && Number(hideUntil) > new Date().getTime()) {
       setHide(true);
     }
-    document.addEventListener("click", () => {
+    document.addEventListener('click', () => {
       useG.setShowMain(false);
     });
   }, []);
@@ -150,21 +155,21 @@ function Ball() {
       <RootElement
         id="metapavo-box"
         className={[
-          "web3-spin",
-          useG.detectStatus === "danger" ? "metapavo-main-status-danger" : "",
-          useG.detectStatus === "success" ? "metapavo-main-status-success" : "",
+          'web3-spin',
+          useG.detectStatus === 'danger' ? 'metapavo-main-status-danger' : '',
+          useG.detectStatus === 'success' ? 'metapavo-main-status-success' : '',
           useG.addRootClass,
-          useG.showMain ? "metapavo-main-show" : "",
-        ].join(" ")}
+          useG.showMain ? 'metapavo-main-show' : '',
+        ].join(' ')}
         ref={rootRef}
         style={{
-          display: !hide ? "block" : "none",
+          display: !hide ? 'block' : 'none',
         }}
       >
         <GasBox
           id="metapavo-box-gas"
           ref={gasRef}
-          style={{ userSelect: "none" }}
+          style={{ userSelect: 'none' }}
           onDoubleClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -184,21 +189,29 @@ function Ball() {
             <br />
             <span
               style={{
-                fontSize: "12px",
-                fontWeight: "400",
-                opacity: "0.8",
-                transform: "scale(0.7)",
-                display: "block",
-                marginTop: "4px",
-                color: "#fff",
+                fontSize: '12px',
+                fontWeight: '400',
+                opacity: '0.8',
+                transform: 'scale(0.7)',
+                display: 'block',
+                marginTop: '4px',
+                color: '#fff',
               }}
             >
               GAS
             </span>
           </div>
         </GasBox>
-        <DangerPopup state={useG.addRootClass === "metapavo-main-box-danger" ? "show" : "hide"} />
-        <SuccessPopup state={useG.addRootClass === "metapavo-main-box-success" ? "show" : "hide"} />
+        <DangerPopup
+          state={
+            useG.addRootClass === 'metapavo-main-box-danger' ? 'show' : 'hide'
+          }
+        />
+        <SuccessPopup
+          state={
+            useG.addRootClass === 'metapavo-main-box-success' ? 'show' : 'hide'
+          }
+        />
         <Menu
           id="demo-positioned-menu"
           aria-labelledby="demo-positioned-button"
@@ -206,16 +219,16 @@ function Ball() {
           open={menuOpen}
           // onClose={handleClose}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "left",
+            vertical: 'top',
+            horizontal: 'left',
           }}
           transformOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
+            vertical: 'bottom',
+            horizontal: 'right',
           }}
-          style={{ zIndex: 100000000000000000 }}
+          style={{ zIndex: 1000000000000000 }}
         >
-          <MenuItem onClick={noDisplay7}>{getLang("nodisplay7")}</MenuItem>
+          <MenuItem onClick={noDisplay7}>{getLang('nodisplay7')}</MenuItem>
         </Menu>
       </RootElement>
     </>

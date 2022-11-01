@@ -1,21 +1,21 @@
-import { Box, CircularProgress } from "@mui/material";
-import moment from "moment";
-import toast from "react-hot-toast";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { getNftById, getUsersFavs } from "../../../utils/apis/nft_api";
-import { favs, IFavs } from "../../../utils/apis/types";
-import { linkImages } from "../../../utils/linkImages";
-import { GlobalContext } from "../../content-script/context/useGlobal";
-import { HeadReturn } from "../common/HeadReturn";
-import { ItemContainer, MoreButton, PageContainer } from "../styleCom";
-import { getNftByIdV2 } from "../../../utils/apis/nft_api_v2";
-import { getLang } from "../../../utils/lang";
-import { ItemSkeleton } from "../../content-script/components/common/ItemSkeleton";
-import { projectLinksWrapper } from "../../../utils/apis/project_wrapper";
-import { Empty } from "../../content-script/components/side-panel/index/comps/Empty";
-import { ListItem } from "../common/ListItem";
+import { Box } from '@mui/material';
+import moment from 'moment';
+import { useContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
+import { getUsersFavs } from '../../../utils/apis/nft_api';
+import { getNftByIdV2 } from '../../../utils/apis/nft_api_v2';
+import { projectLinksWrapper } from '../../../utils/apis/project_wrapper';
+import { favs } from '../../../utils/apis/types';
+import { getLang } from '../../../utils/lang';
+import { linkImages } from '../../../utils/linkImages';
+import { ItemSkeleton } from '../../content-script/components/common/ItemSkeleton';
+import { Empty } from '../../content-script/components/side-panel/index/comps/Empty';
+import { GlobalContext } from '../../content-script/context/useGlobal';
+import { HeadReturn } from '../common/HeadReturn';
+import { ListItem } from '../common/ListItem';
+import { MoreButton, PageContainer } from '../styleCom';
 
 const WatchListPage = (props: any) => {
   const [list, setList] = useState<any[]>([]);
@@ -40,8 +40,10 @@ const WatchListPage = (props: any) => {
             useName: item.project?.name,
             userEth: `Floor: ${
               item.project?.nftProjectInfo?.stats[0]?.floorPrice
-                ? Number(item.project.nftProjectInfo.stats[0].floorPrice).toFixed(4)
-                : "-"
+                ? Number(
+                    item.project.nftProjectInfo.stats[0].floorPrice,
+                  ).toFixed(4)
+                : '-'
             } E`,
             links: [
               {
@@ -61,8 +63,8 @@ const WatchListPage = (props: any) => {
                 img: linkImages.twitter,
               },
             ].filter((item) => item.link),
-            dayTime: moment(item.updated_at).format("MM-DD"),
-            hourTime: moment(item.updated_at).format("mm:ss"),
+            dayTime: moment(item.updated_at).format('MM-DD'),
+            hourTime: moment(item.updated_at).format('mm:ss'),
             project_id: item.project_id,
             symbol: item.project?.symbol,
           };
@@ -70,7 +72,7 @@ const WatchListPage = (props: any) => {
         setList([...list, ...newList]);
       }
     } catch (e) {
-      toast.error("loading error");
+      toast.error('loading error');
     }
 
     setLoading(false);
@@ -93,7 +95,7 @@ const WatchListPage = (props: any) => {
   }, []);
   return (
     <PageContainer>
-      <HeadReturn title={getLang("WatchList")} />
+      <HeadReturn title={getLang('WatchList')} />
       <div className="trend-list">
         {list.map((item: any, index: number) => {
           return (
@@ -118,7 +120,7 @@ const WatchListPage = (props: any) => {
       ) : list.length === 0 ? (
         <Empty />
       ) : null}
-      <Box sx={{ display: "flex", justifyContent: "center", padding: "30px" }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', padding: '30px' }}>
         <MoreButton onClick={nextPage}>more</MoreButton>
       </Box>
     </PageContainer>

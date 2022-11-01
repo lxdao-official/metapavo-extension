@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:extension:dashboard": "next build&&next export&&rm -rf ../../extensions/contentscript&&mv -f out ../../extensions/contentscript",
-    "dev:extension:dashboard": "next dev"
+    "build:extension:contentscript": "next build&&next export&&rm -rf ../../extensions/contentscript&&mv -f out ../../extensions/contentscript",
+    "dev:extension:contentscript": "next dev"
   },
   "dependencies": {
     "next": "13.0.1",

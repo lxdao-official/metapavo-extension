@@ -1,11 +1,13 @@
-import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { reportCreate } from "../../../utils/apis/nft_api";
-import { HeadReturnContainer, PageContainer } from "../styleCom";
-import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
-import { colorfulButtonStyle } from "../../../styles/common-colorful-button";
-const returnImg = chrome.runtime.getURL("images/svgs/return.svg");
+import { useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { colorfulButtonStyle } from '../../../styles/common-colorful-button';
+import { reportCreate } from '../../../utils/apis/nft_api';
+import { HeadReturnContainer, PageContainer } from '../styleCom';
+
+const returnImg = chrome.runtime.getURL('images/svgs/return.svg');
 const NoFoundWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,7 +17,7 @@ const NoFoundWrap = styled.div`
     text-align: center;
     width: 100%;
     margin: 30px;
-    font-family: "Inter";
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -35,7 +37,7 @@ const NoFoundWrap = styled.div`
   .form-title {
     text-align: left;
     width: 100%;
-    font-family: "Inter";
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
@@ -71,24 +73,24 @@ const NoFoundWrap = styled.div`
 `;
 
 export function Report() {
-  const [type, setType] = useState<string>("NFT");
-  const [name, setName] = useState<string>("");
+  const [type, setType] = useState<string>('NFT');
+  const [name, setName] = useState<string>('');
 
   const onBtnClick = async () => {
     const reportResult = await reportCreate(url, type, name);
-    console.log("heisan-->", reportResult);
+    console.log('heisan-->', reportResult);
     if (reportResult) {
       // return {
       //   projectInfo,
       //   status: CheckResultStatus.SUCCESS,
       // };
       clear();
-      toast.success("submit success. thank you.", {});
+      toast.success('submit success. thank you.', {});
     } else {
       // return {
       //   status: CheckResultStatus.NOTINSERVER,
       // };
-      toast.error("Error", {});
+      toast.error('Error', {});
     }
   };
   const onTypeChange = (e: any) => {
@@ -98,8 +100,8 @@ export function Report() {
     setName(e.target.value);
   };
   const clear = () => {
-    setType("NFT");
-    setName("");
+    setType('NFT');
+    setName('');
   };
   const navigate = useNavigate();
   const HeadReturn = (props: any) => {
@@ -109,7 +111,7 @@ export function Report() {
       <HeadReturnContainer>
         <img
           onClick={() => {
-            navigate("/index");
+            navigate('/index');
           }}
           src={returnImg}
           alt=""
@@ -118,13 +120,17 @@ export function Report() {
       </HeadReturnContainer>
     );
   };
-  const [url, seturl] = useState<string>("");
+  const [url, seturl] = useState<string>('');
   useEffect(() => {
-    seturl(window.location.toString().startsWith("http") ? window.location.toString() : "");
+    seturl(
+      window.location.toString().startsWith('http')
+        ? window.location.toString()
+        : '',
+    );
   }, []);
   return (
     <PageContainer>
-      <HeadReturn title={"submit a project"} />
+      <HeadReturn title={'submit a project'} />
       <NoFoundWrap>
         <div className="form-wrap">
           <span className="form-title">URL</span>

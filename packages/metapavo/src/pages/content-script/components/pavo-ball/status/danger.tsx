@@ -1,7 +1,8 @@
-import { useContext } from "react";
-import styled from "styled-components";
-import { getLang } from "../../../../../utils/lang";
-import { GlobalContext } from "../../../context/useGlobal";
+import { useContext } from 'react';
+import styled from 'styled-components';
+
+import { getLang } from '../../../../../utils/lang';
+import { GlobalContext } from '../../../context/useGlobal';
 
 const RootElement = styled.div`
   opacity: 0;
@@ -9,7 +10,8 @@ const RootElement = styled.div`
   position: absolute;
   width: 307px;
   height: 167px;
-  box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16),
+    0px 0px 1px rgba(0, 0, 0, 0.4);
   border-radius: 16px;
   background: rgba(225, 73, 66, 0.97);
   transform-origin: 100% 100%;
@@ -45,7 +47,7 @@ const RootElement = styled.div`
     .mp-success-title {
       height: 19px;
       margin-left: 8px;
-      font-family: "Inter";
+      font-family: 'Inter';
       font-style: normal;
       font-weight: 600;
       font-size: 16px;
@@ -69,7 +71,7 @@ const RootElement = styled.div`
     z-index: 100;
   }
   .mp-success-bd {
-    font-family: "Inter";
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
@@ -81,7 +83,7 @@ const RootElement = styled.div`
     color: #dedede;
   }
   .mp-success-bd-price {
-    font-family: "Inter";
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
@@ -99,7 +101,12 @@ const RootElement = styled.div`
     button {
       width: 72px;
       height: 25px;
-      background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+      background: linear-gradient(
+        91.75deg,
+        #7de2ac 0%,
+        #389dfa 49.26%,
+        #9f50ff 97.76%
+      );
       border-radius: 4px;
       color: #fff;
       font-size: 12px;
@@ -121,21 +128,25 @@ const RootElement = styled.div`
     }
   }
 `;
-export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
+export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
   const useG = useContext(GlobalContext);
   const { activeProject, setAddRootClass, detectStatus } = useG;
 
   const linkImages = {
-    etherscan: chrome.runtime.getURL("images/etherscan.png"),
-    twitter: chrome.runtime.getURL("images/twitter.png"),
-    opensea: chrome.runtime.getURL("images/opensea.png"),
-    x2y2: chrome.runtime.getURL("images/x2y2.png"),
-    website: chrome.runtime.getURL("images/website.png"),
-    looksrare: chrome.runtime.getURL("images/looksrare.png"),
-    github: chrome.runtime.getURL("images/github.png"),
+    etherscan: chrome.runtime.getURL('images/etherscan.png'),
+    twitter: chrome.runtime.getURL('images/twitter.png'),
+    opensea: chrome.runtime.getURL('images/opensea.png'),
+    x2y2: chrome.runtime.getURL('images/x2y2.png'),
+    website: chrome.runtime.getURL('images/website.png'),
+    looksrare: chrome.runtime.getURL('images/looksrare.png'),
+    github: chrome.runtime.getURL('images/github.png'),
   };
   return (
-    <RootElement className={[state === "show" ? "mp-success-show" : "mp-success-hide"].join(" ")}>
+    <RootElement
+      className={[
+        state === 'show' ? 'mp-success-show' : 'mp-success-hide',
+      ].join(' ')}
+    >
       <div className="mp-success-hd">
         <svg
           width="24"
@@ -168,17 +179,19 @@ export default function SuccessPopup({ state }: { state: "show" | "hide" }) {
           />
         </svg>
 
-        <div className="mp-success-title">{getLang("Very_risky")}</div>
+        <div className="mp-success-title">{getLang('Very_risky')}</div>
       </div>
       <div className="mp-success-bd">
-        {detectStatus === "danger" ? getLang("danger_desc") : getLang("warning_desc")}
+        {detectStatus === 'danger'
+          ? getLang('danger_desc')
+          : getLang('warning_desc')}
       </div>
       <div className="mp-success-links"></div>
       <div
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          setAddRootClass("");
+          setAddRootClass('');
         }}
         className="mp-success-close"
       >

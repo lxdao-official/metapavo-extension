@@ -69,11 +69,9 @@ module.exports = {
   swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath: resolveApp(publicUrlOrPath),
   content: resolveApp('./src/pages/content-script/App.tsx'),
-  popup: resolveApp('./src/pages/popup/App.tsx'),
   background: resolveApp('./src/scripts/background.ts'),
   twitter: resolveApp('./src/scripts/twitter.ts'),
   single_login: resolveApp('./src/pages/login/App.tsx'),
-  dashboard: resolveApp('./src/pages/dashboard/App.tsx'),
 };
 
 module.exports.moduleFileExtensions = moduleFileExtensions;

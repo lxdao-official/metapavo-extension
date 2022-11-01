@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
-import { MemoryRouter } from "react-router-dom";
-import Ball from "./components/pavo-ball/ball";
-import SelectText from "../plugins/date-tool/selectText";
-import useGlobal, { GlobalContext } from "./context/useGlobal";
-import useWallet, { WalletContext } from "./context/useWallet";
-import Main from "./components/side-panel";
-import toast, { Toaster } from "react-hot-toast";
-import { createTheme, ThemeProvider } from "@mui/material";
-const rootElement = document.createElement("div");
-rootElement.id = "metapavo-root";
+import { ThemeProvider, createTheme } from '@mui/material';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Toaster } from 'react-hot-toast';
+
+import Ball from './components/pavo-ball/ball';
+import useGlobal, { GlobalContext } from './context/useGlobal';
+import useWallet, { WalletContext } from './context/useWallet';
+
+const rootElement = document.createElement('div');
+rootElement.id = 'metapavo-root';
 Object.assign(rootElement.style, {
-  position: "absolute",
+  position: 'absolute',
   width: 0,
   height: 0,
   right: 0,
@@ -19,10 +18,10 @@ Object.assign(rootElement.style, {
   zIndex: 100000000000,
 });
 document.body.appendChild(rootElement);
-rootElement.addEventListener("click", (e) => {
+rootElement.addEventListener('click', (e) => {
   e.stopPropagation();
 });
-const style = document.createElement("style");
+const style = document.createElement('style');
 style.innerText = `
 @import url('https://rsms.me/inter/inter.css');
 #metapavo-root *{
@@ -43,7 +42,7 @@ const theme = createTheme({
         },
         popper: {
           // overrides the popper
-          zIndex: 7000000000000000 + "!important",
+          zIndex: 7000000000000000 + '!important',
         },
       },
     },
@@ -60,8 +59,6 @@ function Root() {
       <GlobalContext.Provider value={useG}>
         <WalletContext.Provider value={wallet}>
           <Ball />
-          {useG.showMain ? <Main /> : null}
-          <SelectText />
         </WalletContext.Provider>
       </GlobalContext.Provider>
     </ThemeProvider>
@@ -69,9 +66,7 @@ function Root() {
 }
 ReactDOM.render(
   <React.StrictMode>
-    <MemoryRouter initialEntries={["/index"]}>
-      <Root />
-    </MemoryRouter>
+    <Root />
     <Toaster containerStyle={{ zIndex: 1000000000000 }} />
   </React.StrictMode>,
   rootElement,

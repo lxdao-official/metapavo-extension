@@ -199,11 +199,9 @@ module.exports = function (webpackEnv) {
     entry: {
       app: paths.appIndexJs,
       content: paths.content,
-      popup: paths.popup,
       background: paths.background,
       twitter: paths.twitter,
       single_login: paths.single_login,
-      dashboard: paths.dashboard,
     },
     output: {
       // The build folder.

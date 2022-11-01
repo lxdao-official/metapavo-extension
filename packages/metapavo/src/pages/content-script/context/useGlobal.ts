@@ -1,14 +1,13 @@
-import React from "react";
-import { useNavigate } from "react-router";
-import { createVisitHistory, getNftById } from "../../../utils/apis/nft_api";
-import { getNftByIdV2 } from "../../../utils/apis/nft_api_v2";
-import { projectLinksWrapper } from "../../../utils/apis/project_wrapper";
-import { IProject, IProjectV2 } from "../../../utils/apis/types";
-import { ScamResult } from "../../../utils/detector/src";
-import { Checker } from "../../../utils/recognizer/checkers";
-import { checkTwitterScam } from "../../../utils/recognizer/checkers/twitterScam";
-import { checkWebsiteScam } from "../../../utils/recognizer/checkers/websiteScam";
-type RecognizerStatus = "danger" | "warning" | "success" | "none";
+import React from 'react';
+
+import { createVisitHistory } from '../../../utils/apis/nft_api';
+import { getNftByIdV2 } from '../../../utils/apis/nft_api_v2';
+import { projectLinksWrapper } from '../../../utils/apis/project_wrapper';
+import { IProjectV2 } from '../../../utils/apis/types';
+import { ScamResult } from '../../../utils/detector/src';
+import { Checker } from '../../../utils/recognizer/checkers';
+
+type RecognizerStatus = 'danger' | 'warning' | 'success' | 'none';
 export const GlobalContext = React.createContext<{
   showMain: boolean;
   setShowMain: (showMain: boolean) => void;
@@ -31,10 +30,13 @@ export const GlobalContext = React.createContext<{
 }>({} as any);
 function useGlobal() {
   const [showMain, _setShowMain] = React.useState(false);
-  const [activeProject, _setActiveProject] = React.useState<IProjectV2 | null>(null);
+  const [activeProject, _setActiveProject] = React.useState<IProjectV2 | null>(
+    null,
+  );
   const [activeTokenId, setActiveTokenId] = React.useState<string | null>(null);
-  const [detectStatus, setDetectStatus] = React.useState<RecognizerStatus>("none");
-  const [addRootClass, setAddRootClass] = React.useState("");
+  const [detectStatus, setDetectStatus] =
+    React.useState<RecognizerStatus>('none');
+  const [addRootClass, setAddRootClass] = React.useState('');
   const [activeAccoidion, setActiveAccoidion] = React.useState(0);
   const checker = new Checker();
   const setActiveProject = (_project: IProjectV2 | null) => {
@@ -44,51 +46,51 @@ function useGlobal() {
       _setActiveProject(_project);
     }
   };
-  checker.on("changed", (projectInfo: IProjectV2 | null) => {
-    console.log("changed", projectInfo);
+  checker.on('changed', (projectInfo: IProjectV2 | null) => {
+    console.log('changed', projectInfo);
     if (projectInfo) {
-      setDetectStatus("success");
+      setDetectStatus('success');
       setTimeout(() => {
         showSuccess();
       }, 1000);
       setActiveProject(projectInfo);
       createVisitHistory(projectInfo.id);
     } else {
-      setDetectStatus("none");
+      setDetectStatus('none');
       setActiveProject(null);
-      setAddRootClass("");
+      setAddRootClass('');
     }
   });
-  checker.on("danger", (scamInfo: ScamResult) => {
-    console.log("danger", scamInfo);
+  checker.on('danger', (scamInfo: ScamResult) => {
+    console.log('danger', scamInfo);
     if (scamInfo) {
-      setDetectStatus("danger");
+      setDetectStatus('danger');
       setTimeout(() => {
-        setAddRootClass("metapavo-main-box-danger");
+        setAddRootClass('metapavo-main-box-danger');
       }, 1000);
     }
   });
-  checker.on("tokenIdChanged", (tokenId: string) => {
+  checker.on('tokenIdChanged', (tokenId: string) => {
     if (tokenId) {
       setActiveTokenId(tokenId);
     } else {
-      setActiveTokenId("");
+      setActiveTokenId('');
     }
   });
   function showSuccess() {
-    setAddRootClass("metapavo-main-box-success");
+    setAddRootClass('metapavo-main-box-success');
   }
 
   function setShowMain(_show: boolean) {
     if (_show) {
       setTimeout(() => {
-        document.body.style.paddingRight = "343px";
-        document.body.style.boxSizing = "border-box";
+        document.body.style.paddingRight = '343px';
+        document.body.style.boxSizing = 'border-box';
       }, 1000);
     } else {
       // setTimeout(() => {
-      document.body.style.paddingRight = "0";
-      document.body.style.boxSizing = "inherit";
+      document.body.style.paddingRight = '0';
+      document.body.style.boxSizing = 'inherit';
       // }, 800);
     }
     _setShowMain(_show);
@@ -128,11 +130,10 @@ function useGlobal() {
       }
     }
   }
-  let navigate = useNavigate();
   async function goLogin() {
     setShowMain(false);
     // navigate("/login");
-    chrome.tabs.create({ url: "/login.html" });
+    chrome.tabs.create({ url: '/login.html' });
   }
 
   const [showLogin, setShowLogin] = React.useState(false);

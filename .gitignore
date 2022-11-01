@@ -42,6 +42,7 @@ yarn-error.log*
 # extensions
 extensions/dist
 extensions/dashboard
+extensions/contentscript
 
 .swc
 .vscode
