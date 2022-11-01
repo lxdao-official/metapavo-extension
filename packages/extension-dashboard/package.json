@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "build:extension:dashboard": "next build&&next export&&rm -rf ../../extensions/dashboard&&mv -f out ../../extensions/dashboard",
-    "dev:extension:dashboard": "next dev"
+    "dev": "npx next dev",
+    "build": "npx next build",
+    "start": "npx next start",
+    "lint": "npx next lint",
+    "build:extension:dashboard": "npm run build&&npx next export&&rm -rf ../../extensions/dashboard&&mv -f out ../../extensions/dashboard",
+    "dev:extension:dashboard": "npm run dev"
   },
   "dependencies": {
     "next": "13.0.1",
