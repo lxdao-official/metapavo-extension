@@ -5,7 +5,9 @@
     "build:extension": "lerna run build:extension --stream",
     "build:extension:dev": "lerna run build:extension:dev --stream",
     "dev:website": "lerna run dev:website --stream",
-    "build:website": "lerna run build:website --stream"
+    "build:website": "lerna run build:website --stream",
+    "build:extension:dashboard": "lerna run build:extension:dashboard --stream",
+    "dev:extension:dashboard": "lerna run dev:extension:dashboard --stream"
   },
   "devDependencies": {
     "lerna": "^4.0.0"

@@ -12,6 +12,9 @@
     "128": "logo-128.png",
     "48": "logo-128.png"
   },
+  "chrome_url_overrides": {
+    "newtab": "dashboard/index.html"
+  },
   "content_scripts": [
     {
       "matches": ["https://*/*"],
