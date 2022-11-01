@@ -5,13 +5,12 @@
   "scripts": {
     "dev": "npx next dev",
     "build": "npx next build",
-    "start": "next start",
-    "lint": "next lint",
+    "start": "npx next start",
+    "lint": "npx next lint",
     "dev:website": "npm run dev",
     "build:website": "npm run build"
   },
   "dependencies": {
-    "@metapavo/dashboard": "1.0.0",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-proposal-decorators": "^7.19.6",
     "@babel/plugin-transform-reserved-words": "^7.18.6",
