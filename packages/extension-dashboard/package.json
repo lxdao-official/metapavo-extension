@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:extension:dashboard": "next build&&next export&&mv out ../../extensions/dashboard",
+    "build:extension:dashboard": "next build&&next export&&rm -rf ../../extensions/dashboard&&mv -f out ../../extensions/dashboard",
     "dev:extension:dashboard": "next dev"
   },
   "dependencies": {
