@@ -8,27 +8,12 @@ import {
   isFaved,
   removeFavByProjectId,
 } from '../../../../../utils/apis/nft_api';
+import { AutoDecimal } from '../../../../../utils/decimals';
 import { getLang } from '../../../../../utils/lang';
 import { linkImages } from '../../../../../utils/linkImages';
 import { GlobalContext } from '../../../context/useGlobal';
 import { SuccessRootElement } from '../styles';
 
-export const AutoDecimal = (_num: number | string, decimal?: number) => {
-  let num = Number(_num);
-  let hasK = false;
-  if (num >= 1000) {
-    num = num / 1000;
-    hasK = true;
-  }
-  if (decimal) {
-    return num.toFixed(decimal) + (hasK ? 'K' : '');
-  }
-  if (num > 1) {
-    return num.toFixed(2) + (hasK ? 'K' : '');
-  } else {
-    return num.toFixed(4) + (hasK ? 'K' : '');
-  }
-};
 export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
   const useG = useContext(GlobalContext);
   const { activeProject, setAddRootClass, activeTokenId } = useG;

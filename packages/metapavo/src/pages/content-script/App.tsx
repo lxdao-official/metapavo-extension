@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import Ball from './components/pavo-ball/ball';
 import useGlobal, { GlobalContext } from './context/useGlobal';
 import useWallet, { WalletContext } from './context/useWallet';
+import './scripts/tag';
 
 const rootElement = document.createElement('div');
 rootElement.id = 'metapavo-root';
