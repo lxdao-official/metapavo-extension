@@ -1,10 +1,3 @@
-import React, { useContext } from "react";
-import { useEffect } from "react";
-import styled from "styled-components";
-import _ from "lodash";
-import { smartParseDate } from "./util";
-import Dialog from "@mui/material/Dialog";
-import toast from "react-hot-toast";
 import {
   Button,
   DialogActions,
@@ -12,10 +5,19 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-} from "@mui/material";
-import { addAlarmForUser } from "../../../utils/apis/nft_api";
-import { GlobalContext } from "../../content-script/context/useGlobal";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import _ from 'lodash';
+import React, { useContext } from 'react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { addAlarmForUser } from '../../../utils/apis/nft_api';
+import { GlobalContext } from '../../content-script/context/useGlobal';
+import { smartParseDate } from './util';
+
 const RootElement = styled.div`
   position: fixed;
   background: #fff;
@@ -40,7 +42,7 @@ const RootElement = styled.div`
   }
 
   &::before {
-    content: "";
+    content: '';
     margin: auto;
     display: block;
     width: 0px;
@@ -83,7 +85,7 @@ const PowerBy = styled.div`
 `;
 let binded = false;
 export default function SelectText() {
-  const [text, setText] = React.useState("");
+  const [text, setText] = React.useState('');
   const [pos, setPos] = React.useState({
     x: -100,
     y: -100,
@@ -95,10 +97,10 @@ export default function SelectText() {
     if (binded) return;
     let lastTarget: any = document.body;
     document.addEventListener(
-      "selectionchange",
+      'selectionchange',
       _.debounce(function () {
         const selection = document.getSelection();
-        if (selection && selection.type === "Range") {
+        if (selection && selection.type === 'Range') {
           const selectionText = selection.toString();
           const matches = selectionText.match(/\d/g);
           if (selectionText.length >= 10 && matches && matches.length > 8) {
@@ -113,12 +115,12 @@ export default function SelectText() {
             setConvertResult(null);
           }
         } else {
-          console.log("no selection");
+          console.log('no selection');
         }
       }, 500),
     );
-    document.body.addEventListener("click", () => {
-      setText("");
+    document.body.addEventListener('click', () => {
+      setText('');
       setPos({
         x: -100,
         y: -100,
@@ -130,25 +132,27 @@ export default function SelectText() {
     // bindEvents();
   }, []);
 
-  const [convertResult, setConvertResult] = React.useState<Date | null | string>();
+  const [convertResult, setConvertResult] = React.useState<
+    Date | null | string
+  >();
   const [addAlarmConfirmShow, setAddAlarmConfirmShow] = React.useState(false);
-  const [addAlarmConfirmContent, setAddAlarmConfirmContent] = React.useState("");
+  const [addAlarmConfirmContent, setAddAlarmConfirmContent] =
+    React.useState('');
   const convert = function (e: React.MouseEvent) {
     if (text) {
       const result = smartParseDate(text);
       if (result) {
         setConvertResult(result);
       } else {
-        setConvertResult("no valid time");
-        toast.error("Cannot parse datetime");
+        setConvertResult('no valid time');
+        toast.error('Cannot parse datetime');
       }
     }
   };
   const navigate = useNavigate();
   const addAlarm = function (e: any) {
     e.stopPropagation();
-    useG.setShowMain(true);
-    navigate("/alarms?timestamp=" + (convertResult as Date).getTime());
+    navigate('/alarms?timestamp=' + (convertResult as Date).getTime());
   };
   const handleClose = function () {
     setAddAlarmConfirmShow(false);
@@ -157,21 +161,26 @@ export default function SelectText() {
   const submit = async function (e: any) {
     if (convertResult) {
       const timestramp = (convertResult as Date).getTime();
-      await addAlarmForUser(new Date(timestramp), addAlarmConfirmContent, "", "");
+      await addAlarmForUser(
+        new Date(timestramp),
+        addAlarmConfirmContent,
+        '',
+        '',
+      );
       chrome.runtime.sendMessage(
         {
-          cmd: "add_time_alarm",
+          cmd: 'add_time_alarm',
           value: {
             alarm_at: timestramp,
             desc: addAlarmConfirmContent,
-            url: "",
-            color: "",
+            url: '',
+            color: '',
           },
         },
         () => {},
       );
 
-      toast.success("add success", {});
+      toast.success('add success', {});
       setAddAlarmConfirmShow(false);
     }
   };

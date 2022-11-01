@@ -9,8 +9,6 @@ import { Checker } from '../../../utils/recognizer/checkers';
 
 type RecognizerStatus = 'danger' | 'warning' | 'success' | 'none';
 export const GlobalContext = React.createContext<{
-  showMain: boolean;
-  setShowMain: (showMain: boolean) => void;
   activeProject: IProjectV2 | null;
   activeTokenId: string | null;
   setActiveTokenId: (tokenId: string) => void;
@@ -20,16 +18,10 @@ export const GlobalContext = React.createContext<{
   checkPlatform: () => void;
   addRootClass: string;
   showSuccess: () => void;
-  activeAccoidion: number;
-  setActiveAccoidion: (activeAccoidion: number) => void;
   setAddRootClass: (addRootClass: string) => void;
   refreshActiveProject: () => void;
-  goLogin: () => void;
-  showLogin: boolean;
-  setShowLogin: (showLogin: boolean) => void;
 }>({} as any);
 function useGlobal() {
-  const [showMain, _setShowMain] = React.useState(false);
   const [activeProject, _setActiveProject] = React.useState<IProjectV2 | null>(
     null,
   );
@@ -37,7 +29,6 @@ function useGlobal() {
   const [detectStatus, setDetectStatus] =
     React.useState<RecognizerStatus>('none');
   const [addRootClass, setAddRootClass] = React.useState('');
-  const [activeAccoidion, setActiveAccoidion] = React.useState(0);
   const checker = new Checker();
   const setActiveProject = (_project: IProjectV2 | null) => {
     if (_project) {
@@ -81,45 +72,8 @@ function useGlobal() {
     setAddRootClass('metapavo-main-box-success');
   }
 
-  function setShowMain(_show: boolean) {
-    if (_show) {
-      setTimeout(() => {
-        document.body.style.paddingRight = '343px';
-        document.body.style.boxSizing = 'border-box';
-      }, 1000);
-    } else {
-      // setTimeout(() => {
-      document.body.style.paddingRight = '0';
-      document.body.style.boxSizing = 'inherit';
-      // }, 800);
-    }
-    _setShowMain(_show);
-  }
   async function checkPlatform() {
     checker.check();
-    // const websiteScamResult = await checkWebsiteScam();
-    // if (websiteScamResult) {
-    //   if (websiteScamResult === "blacklist") {
-    //     setDetectStatus("danger");
-    //   } else {
-    //     setDetectStatus("warning");
-    //   }
-    //   setTimeout(() => {
-    //     setAddRootClass("metapavo-main-box-danger");
-    //   }, 1000);
-    // } else {
-    // setInterval(async () => {
-    //   let twitterScamInfo: ScamResult | undefined = undefined;
-    //   twitterScamInfo = await checkTwitterScam();
-    //   if (twitterScamInfo) {
-    //     setDetectStatus("danger");
-    //     setTimeout(() => {
-    //       setAddRootClass("metapavo-main-box-danger");
-    //     }, 1000);
-    //   } else {
-    //   }
-    // }, 2000);
-    // }
   }
 
   async function refreshActiveProject() {
@@ -130,19 +84,8 @@ function useGlobal() {
       }
     }
   }
-  async function goLogin() {
-    setShowMain(false);
-    // navigate("/login");
-    chrome.tabs.create({ url: '/login.html' });
-  }
 
-  const [showLogin, setShowLogin] = React.useState(false);
   return {
-    showMain,
-    setShowMain,
-    goLogin,
-    showLogin,
-    setShowLogin,
     activeProject,
     setActiveProject,
     detectStatus,
@@ -150,8 +93,6 @@ function useGlobal() {
     checkPlatform,
     addRootClass,
     showSuccess,
-    activeAccoidion,
-    setActiveAccoidion,
     setAddRootClass,
     refreshActiveProject,
     activeTokenId,

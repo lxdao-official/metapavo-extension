@@ -37,7 +37,7 @@ function Ball() {
       if (e.button !== 0) return;
       if (new Date().getTime() - mousedownTimestamp < 300) {
         if (!useG.addRootClass) {
-          useG.setShowMain(!useG.showMain);
+          // 点击事件
         }
       }
       closeDragElement();
@@ -145,9 +145,6 @@ function Ball() {
     if (hideUntil && Number(hideUntil) > new Date().getTime()) {
       setHide(true);
     }
-    document.addEventListener('click', () => {
-      useG.setShowMain(false);
-    });
   }, []);
 
   return (
@@ -159,7 +156,6 @@ function Ball() {
           useG.detectStatus === 'danger' ? 'metapavo-main-status-danger' : '',
           useG.detectStatus === 'success' ? 'metapavo-main-status-success' : '',
           useG.addRootClass,
-          useG.showMain ? 'metapavo-main-show' : '',
         ].join(' ')}
         ref={rootRef}
         style={{
