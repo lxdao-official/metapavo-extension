@@ -11,7 +11,7 @@ npm run build:website
 npm run dev:website
 
 # build extension dev
-npm run build:extension:dev
+npm run dev:extension
 
 # build extension prod
 npm run build:extension

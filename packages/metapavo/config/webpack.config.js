@@ -200,7 +200,7 @@ module.exports = function (webpackEnv) {
       app: paths.appIndexJs,
       content: paths.content,
       background: paths.background,
-      twitter: paths.twitter,
+      // twitter: paths.twitter,
       single_login: paths.single_login,
     },
     output: {
@@ -336,7 +336,7 @@ module.exports = function (webpackEnv) {
         // please link the files into your node_modules/ and let module-resolution kick in.
         // Make sure your source files are compiled, as they will not be processed in any way.
         new ModuleScopePlugin(
-          [paths.appSrc, paths.appNodeModules],
+          [paths.appSrc],
           [
             paths.appPackageJson,
             reactRefreshRuntimeEntry,
@@ -418,7 +418,7 @@ module.exports = function (webpackEnv) {
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: [paths.appSrc, paths.appNodeModules],
+              include: [paths.appSrc],
               loader: require.resolve('babel-loader'),
               options: {
                 customize: require.resolve(

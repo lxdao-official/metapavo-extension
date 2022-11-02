@@ -1,7 +1,14 @@
 .container {
   padding: 0 2rem;
 }
+.head {
+  height: 80px;
 
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 12px;
+}
 .main {
   min-height: 100vh;
   padding: 4rem 0;

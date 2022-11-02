@@ -28,7 +28,13 @@
   "permissions": ["storage", "alarms", "notifications", "tabs"],
   "web_accessible_resources": [
     {
-      "resources": ["images/*.jpg", "images/*.png", "images/svgs/*.svg", "logo-128.png"],
+      "resources": [
+        "images/*.jpg",
+        "images/*.png",
+        "images/svgs/*.svg",
+        "logo-128.png",
+        "data/labels.json"
+      ],
       "matches": ["https://*/*"]
     }
   ]

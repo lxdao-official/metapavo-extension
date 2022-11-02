@@ -1,9 +1,15 @@
-import config from "../../config";
-import { fetchWrapped } from "./fetch";
-import { favs, IProject, IProjectV2, PagedDto, visit_histories } from "./types";
+import config from '../../config';
+import { fetchWrapped } from './fetch';
+import { IProject, IProjectV2, PagedDto, favs, visit_histories } from './types';
 
-export async function getNftByTwitterId(twitterId: string): Promise<IProject | null> {
-  const res = await fetchWrapped(`${config.baseURL}/nfts/by_twitter/${twitterId}`, {}, false);
+export async function getNftByTwitterId(
+  twitterId: string,
+): Promise<IProject | null> {
+  const res = await fetchWrapped(
+    `${config.baseURL}/nfts/by_twitter/${twitterId}`,
+    {},
+    false,
+  );
   if (res && res.success) {
     return res.data;
   }
@@ -11,14 +17,24 @@ export async function getNftByTwitterId(twitterId: string): Promise<IProject | n
 }
 
 export async function getNftById(id: string): Promise<IProject | null> {
-  const res = await fetchWrapped(`${config.baseURL}/nfts/by_id/${id}`, {}, false);
+  const res = await fetchWrapped(
+    `${config.baseURL}/nfts/by_id/${id}`,
+    {},
+    false,
+  );
   if (res && res.success) {
     return res.data;
   }
   return null;
 }
-export async function findNftByAddress(address: string): Promise<IProject | null> {
-  const res = await fetchWrapped(`${config.baseURL}/nfts/by_address/${address}`, {}, false);
+export async function findNftByAddress(
+  address: string,
+): Promise<IProject | null> {
+  const res = await fetchWrapped(
+    `${config.baseURL}/nfts/by_address/${address}`,
+    {},
+    false,
+  );
   if (res && res.success) {
     return res.data;
   }
@@ -37,8 +53,14 @@ export async function findNftByURL(url: string): Promise<IProject | null> {
   return null;
 }
 
-export async function searchProjects(keyword: string): Promise<IProject | null> {
-  const res = await fetchWrapped(`${config.baseURL}/nfts/search/${keyword}`, {}, false);
+export async function searchProjects(
+  keyword: string,
+): Promise<IProject | null> {
+  const res = await fetchWrapped(
+    `${config.baseURL}/nfts/search/${keyword}`,
+    {},
+    false,
+  );
   if (res && res.success) {
     return res.data;
   }
@@ -48,21 +70,26 @@ export async function searchProjects(keyword: string): Promise<IProject | null> 
 export async function findAllWebsite(): Promise<string[] | null> {
   return new Promise((resolve, reject) => {
     if (!chrome?.storage?.local) {
-      reject("local is not found");
+      reject('local is not found');
       return;
     }
     chrome.storage.local.get(
-      ["nft_website_all", "nft_website_all_timestamp"],
+      ['nft_website_all', 'nft_website_all_timestamp'],
       async function (data) {
         if (data && data.nft_website_all && data.nft_website_all.length) {
           if (
             data.nft_website_all_timestamp &&
-            new Date().getTime() - data.nft_website_all_timestamp < 24 * 60 * 60 * 1000
+            new Date().getTime() - data.nft_website_all_timestamp <
+              24 * 60 * 60 * 1000
           ) {
             return resolve(data.nft_website_all.filter((item: string) => item));
           }
         }
-        const res = await fetchWrapped(`${config.baseURL}/nfts/websites/all`, {}, false);
+        const res = await fetchWrapped(
+          `${config.baseURL}/nfts/websites/all`,
+          {},
+          false,
+        );
         if (res && res.success && res.data && res.data.length) {
           chrome.storage.local.set({
             nft_website_all: res.data.filter((item: string) => item),
@@ -78,7 +105,7 @@ export async function findAllWebsite(): Promise<string[] | null> {
 
 export async function createVisitHistory(project_id: number) {
   const res = await fetchWrapped(`${config.baseURL}/visit-histories/create`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({
       project_id,
     }),
@@ -96,7 +123,7 @@ export async function getVisitHistories(
   const res = await fetchWrapped(
     `${config.baseURL}/visit-histories/users/list?pageIndex=${pageIndex}&pageSize=${pageSize}`,
     {
-      method: "GET",
+      method: 'GET',
     },
   );
   if (res && res.success) {
@@ -106,9 +133,12 @@ export async function getVisitHistories(
 }
 
 export async function isFaved(project_id: number) {
-  const res = await fetchWrapped(`${config.baseURL}/favs/is_faved/${project_id}`, {
-    method: "GET",
-  });
+  const res = await fetchWrapped(
+    `${config.baseURL}/favs/is_faved/${project_id}`,
+    {
+      method: 'GET',
+    },
+  );
   if (res && res.success) {
     return res.data.faved;
   }
@@ -116,7 +146,7 @@ export async function isFaved(project_id: number) {
 }
 export async function addFavByProjectId(project_id: number) {
   const res = await fetchWrapped(`${config.baseURL}/favs/create`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({
       project_id,
     }),
@@ -127,9 +157,12 @@ export async function addFavByProjectId(project_id: number) {
   return null;
 }
 export async function removeFavByProjectId(project_id: number) {
-  const res = await fetchWrapped(`${config.baseURL}/favs/delete/${project_id}`, {
-    method: "DELETE",
-  });
+  const res = await fetchWrapped(
+    `${config.baseURL}/favs/delete/${project_id}`,
+    {
+      method: 'DELETE',
+    },
+  );
   if (res && res.success) {
     return res.data;
   }
@@ -146,7 +179,7 @@ export async function getUsersFavs(
   const res = await fetchWrapped(
     `${config.baseURL}/favs/user/list?pageIndex=${pageIndex}&pageSize=${pageSize}`,
     {
-      method: "GET",
+      method: 'GET',
     },
   );
   if (res && res.success) {
@@ -157,7 +190,7 @@ export async function getUsersFavs(
 
 export async function getUsersAlarms() {
   const res = await fetchWrapped(`${config.baseURL}/alarms/fromnow/list`, {
-    method: "GET",
+    method: 'GET',
   });
   if (res && res.success) {
     return res.data;
@@ -168,7 +201,7 @@ export async function getUsersAlarmsNoLogin() {
   const res = await fetchWrapped(
     `${config.baseURL}/alarms/fromnow/list`,
     {
-      method: "GET",
+      method: 'GET',
     },
     false,
   );
@@ -179,17 +212,25 @@ export async function getUsersAlarmsNoLogin() {
 }
 
 export async function getUsersAlarmsList(timestamp: number) {
-  const res = await fetchWrapped(`${config.baseURL}/alarms/fromnow/list/${timestamp}`, {
-    method: "GET",
-  });
+  const res = await fetchWrapped(
+    `${config.baseURL}/alarms/fromnow/list/${timestamp}`,
+    {
+      method: 'GET',
+    },
+  );
   if (res && res.success) {
     return res.data;
   }
   return null;
 }
-export async function addAlarmForUser(alarm_at: Date, desc: string, url?: string, color?: string) {
+export async function addAlarmForUser(
+  alarm_at: Date,
+  desc: string,
+  url?: string,
+  color?: string,
+) {
   const res = await fetchWrapped(`${config.baseURL}/alarms`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({
       alarm_at,
       desc,
@@ -204,7 +245,7 @@ export async function addAlarmForUser(alarm_at: Date, desc: string, url?: string
 }
 export async function removeAlarmForUser(id: string) {
   const res = await fetchWrapped(`${config.baseURL}/alarms/${id}`, {
-    method: "DELETE",
+    method: 'DELETE',
     body: JSON.stringify({
       id,
     }),
@@ -217,7 +258,7 @@ export async function removeAlarmForUser(id: string) {
 
 export async function settingCounts() {
   const res = await fetchWrapped(`${config.baseURL}/users/me/setting_counts`, {
-    method: "GET",
+    method: 'GET',
   });
   if (res && res.success) {
     return res.data;
@@ -232,7 +273,7 @@ export async function reportCreate(
   is_scam = false,
 ) {
   const res = await fetchWrapped(`${config.baseURL}/reports`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({
       url,
       project_type,

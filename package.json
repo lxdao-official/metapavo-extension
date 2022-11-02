@@ -2,8 +2,10 @@
   "name": "metapavo",
   "private": true,
   "scripts": {
-    "build:extension": "lerna run build:extension --stream",
-    "build:extension:dev": "lerna run build:extension:dev --stream",
+    "build:extension": "npm run build:extension:pavo&&npm run build:extension:dashboard",
+    "dev:extension": "npm run dev:extension:pavo&&npm run build:extension:dashboard",
+    "build:extension:pavo": "lerna run build:extension --stream",
+    "dev:extension:pavo": "lerna run build:extension:dev --stream",
     "dev:website": "lerna run dev:website --stream",
     "build:website": "lerna run build:website --stream",
     "build:extension:dashboard": "lerna run build:extension:dashboard --stream",

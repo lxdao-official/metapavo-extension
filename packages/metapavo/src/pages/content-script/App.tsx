@@ -32,6 +32,23 @@ style.innerText = `
   margin-bottom:auto;
   margin-top:auto;
 }
+.metapavo-label{
+  font-family: "Inter", Roboto, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
+  font-size: 12px !important;
+  color: #fff !important;
+  background-image: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%) !important;
+  padding: 0px 4px !important;
+  border-radius: 3px !important;
+  transform-origin: left bottom !important;
+  transform: scale(0.9) translate(0px, 1px) !important;
+  max-width: 100px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display:inline-block !important;
+  margin-left: 4px !important;
+  line-height: 1.2 !important;
+}
 `;
 
 const theme = createTheme({
