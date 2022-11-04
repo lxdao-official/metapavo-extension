@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useEnsName } from 'wagmi';
 
+import CardModule from '../components/CardModule';
+import FavNFTModule from '../components/FavNFTModule';
 import styles from '../styles/Home.module.css';
 import { users } from '../utils/apis';
 import { fetchWrapped } from '../utils/apis/fetch';
@@ -78,7 +80,9 @@ const Home: NextPage = () => {
         )}
       </head>
       <main className={styles.main}>
-        <div>dashboard</div>
+        <CardModule title="My Collected NFTs">
+          <FavNFTModule></FavNFTModule>
+        </CardModule>
       </main>
     </div>
   );
