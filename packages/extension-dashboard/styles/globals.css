@@ -3,8 +3,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Inter', Roboto, -apple-system, BlinkMacSystemFont, 'PingFang SC',
-    'Microsoft YaHei', sans-serif !important;
+  font-family: 'Montserrat', 'Inter', Roboto, -apple-system, BlinkMacSystemFont,
+    'PingFang SC', 'Microsoft YaHei', sans-serif !important;
 }
 
 a {

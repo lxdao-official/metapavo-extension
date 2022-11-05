@@ -192,7 +192,7 @@ export async function getUsersFavs(
 export async function getUserDapps(
   pageIndex: number = 1,
   pageSize: number = 20,
-): Promise<user_dapps[]> {
+): Promise<PagedDto<user_dapps> | null> {
   const res = await fetchWrapped(
     `${config.baseURL}/dapps/installed?pageIndex=${pageIndex}&pageSize=${pageSize}`,
     {
@@ -202,7 +202,7 @@ export async function getUserDapps(
   if (res && res.success) {
     return res.data;
   }
-  return [];
+  return null;
 }
 
 export async function getUsersAlarms() {

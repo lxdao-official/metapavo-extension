@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -7,6 +7,7 @@ import { useEnsName } from 'wagmi';
 
 import CardModule from '../components/CardModule';
 import FavNFTModule from '../components/functions/collectNFTs';
+import GasFees from '../components/functions/gasFees';
 import InstallDAPPs from '../components/functions/installDAPPs';
 import styles from '../styles/Home.module.css';
 import { users } from '../utils/apis';
@@ -81,12 +82,28 @@ const Home: NextPage = () => {
         )}
       </head>
       <main className={styles.main}>
-        <CardModule title="My Collected NFTs">
-          <FavNFTModule></FavNFTModule>
-        </CardModule>
-        <CardModule title="My Installed DAPPs">
-          <InstallDAPPs></InstallDAPPs>
-        </CardModule>
+        <Grid
+          container
+          spacing={2}
+          style={{ width: '1328px', margin: '0 auto' }}
+        >
+          <Grid item xs={8}>
+            <CardModule title="My Collected NFTs">
+              <FavNFTModule></FavNFTModule>
+            </CardModule>
+            <CardModule title="My Installed DAPPs">
+              <InstallDAPPs></InstallDAPPs>
+            </CardModule>
+          </Grid>
+          <Grid item xs={4}>
+            <CardModule
+              title="Gas"
+              extra={<a href="https://ultrasound.money/">What happening</a>}
+            >
+              <GasFees></GasFees>
+            </CardModule>
+          </Grid>
+        </Grid>
       </main>
     </div>
   );

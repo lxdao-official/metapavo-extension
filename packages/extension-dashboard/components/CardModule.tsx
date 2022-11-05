@@ -5,15 +5,15 @@ import React from 'react';
 export default function CardModule(props: {
   title: string;
   children: React.ReactNode;
+  extra?: React.ReactNode;
 }) {
   return (
     <Box
       style={{
-        width: '1024px',
         margin: '0 auto',
         padding: '16px',
         borderRadius: '10px',
-        background: '#f7f7f7',
+        background: '#fff',
         marginBottom: '20px',
       }}
     >
@@ -26,6 +26,7 @@ export default function CardModule(props: {
         }}
       >
         {props.title}
+        {props.extra}
       </Box>
       <div>{props.children}</div>
     </Box>

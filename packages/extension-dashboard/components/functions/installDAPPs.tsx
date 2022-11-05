@@ -18,8 +18,8 @@ export default function InstallDAPPs() {
   const [userdapps, setuserdapps] = useState<UserDapp[]>([]);
   const loadFavs = async () => {
     const res = await getUserDapps();
-    if (res) {
-      setuserdapps(res as UserDapp[]);
+    if (res && res.data) {
+      setuserdapps(res.data as UserDapp[]);
     }
   };
   useEffect(() => {
@@ -42,11 +42,18 @@ export default function InstallDAPPs() {
                 style={{
                   background: '#fff',
                   borderRadius: '10px',
+                  border: '1px solid #efefef',
+                }}
+                onClick={() => {
+                  window.location.href = `${process.env.NEXT_PUBLIC_APIBASE}/dapp/jump/${dapp.id}`;
                 }}
               >
-                <ListItemButton>
+                <ListItemButton style={{ padding: '5px 12px' }}>
                   <ListItemIcon>
-                    <img src={dapp.logo || ''} style={{ height: '40px' }} />
+                    <img
+                      src={dapp.logo || ''}
+                      style={{ height: '40px', borderRadius: '5px' }}
+                    />
                   </ListItemIcon>
                   <ListItemText
                     primary={
@@ -61,16 +68,7 @@ export default function InstallDAPPs() {
                               fontWeight: '300',
                             }}
                           >
-                            install: {dapp.install_count}
-                          </span>
-                          <span
-                            style={{
-                              color: '#999',
-                              fontSize: '12px',
-                              fontWeight: '300',
-                            }}
-                          >
-                            visit: {dapp.visit_count}
+                            score: {dapp.visit_count}
                           </span>
                         </div>
                       </>

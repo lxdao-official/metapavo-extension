@@ -48,44 +48,6 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
     );
   }, [props.activeProject]);
 
-  async function addFav() {
-    if (activeProject) {
-      try {
-        await addFavByProjectId(activeProject.id);
-        toast.success('Add to watchlist successfully');
-        refreshFavedStatus();
-      } catch (e: any) {
-        toast.error(e.message);
-      }
-    } else {
-      toast.error('Please select a project first');
-    }
-  }
-  const [faved, setFaved] = React.useState(false);
-  const refreshFavedStatus = async () => {
-    if (activeProject?.id) {
-      const _isFaved = await isFaved(activeProject?.id);
-      console.log('is faved', _isFaved);
-      setFaved(_isFaved);
-    }
-  };
-
-  async function removeFav() {
-    if (activeProject) {
-      try {
-        await removeFavByProjectId(activeProject.id);
-        toast.success('Remove from watchlist successfully');
-        refreshFavedStatus();
-      } catch (e: any) {
-        toast.error(e.message);
-      }
-    } else {
-      toast.error('Please select a project first');
-    }
-  }
-  useEffect(() => {
-    refreshFavedStatus();
-  }, [activeProject?.id]);
   return (
     <NFTCardRoot>
       <div className="mp-success-hd">
@@ -192,7 +154,7 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
             </Tooltip>
           ))}
         </div>
-        {faved ? (
+        {/* {faved ? (
           <Tooltip title="Remove from Watchlist" placement="top" arrow>
             <svg
               width="20"
@@ -242,7 +204,7 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
               />
             </svg>
           </Tooltip>
-        )}
+        )} */}
       </div>
     </NFTCardRoot>
   );

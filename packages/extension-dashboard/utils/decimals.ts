@@ -11,6 +11,6 @@ export const AutoDecimal = (_num: number | string, decimal?: number) => {
   if (num > 1) {
     return num.toFixed(2) + (hasK ? 'K' : '');
   } else {
-    return num.toFixed(4) + (hasK ? 'K' : '');
+    return num.toFixed(3) + (hasK ? 'K' : '');
   }
 };
