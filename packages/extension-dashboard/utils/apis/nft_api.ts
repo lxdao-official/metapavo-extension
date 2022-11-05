@@ -1,3 +1,4 @@
+import { user_dapps } from '.';
 import config from '../../config';
 import { fetchWrapped } from './fetch';
 import { IProject, IProjectV2, PagedDto, favs, visit_histories } from './types';
@@ -186,6 +187,22 @@ export async function getUsersFavs(
     return res.data;
   }
   return null;
+}
+
+export async function getUserDapps(
+  pageIndex: number = 1,
+  pageSize: number = 20,
+): Promise<user_dapps[]> {
+  const res = await fetchWrapped(
+    `${config.baseURL}/dapps/installed?pageIndex=${pageIndex}&pageSize=${pageSize}`,
+    {
+      method: 'GET',
+    },
+  );
+  if (res && res.success) {
+    return res.data;
+  }
+  return [];
 }
 
 export async function getUsersAlarms() {

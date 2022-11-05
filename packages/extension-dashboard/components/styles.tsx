@@ -222,6 +222,7 @@ export const NFTCardRoot = styled.div`
     display: flex;
     position: relative;
     justify-content: space-between;
+    margin-top: 5px;
     button {
       width: 72px;
       height: 25px;
@@ -252,8 +253,8 @@ export const NFTCardRoot = styled.div`
   .mp-success-links-left {
     display: flex;
     justify-content: flex-start;
-    line-height: 25px;
-    height: 25px;
+    line-height: 20px;
+    height: 20px;
     align-items: center;
     gap: 6px 6px;
     a {

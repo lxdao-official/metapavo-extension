@@ -12,9 +12,9 @@ export default function CardModule(props: {
         width: '1024px',
         margin: '0 auto',
         padding: '16px',
-        border: '1px solid #efefef',
         borderRadius: '10px',
         background: '#f7f7f7',
+        marginBottom: '20px',
       }}
     >
       <Box

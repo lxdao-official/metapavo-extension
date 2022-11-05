@@ -111,6 +111,7 @@ export type dapps = {
   visit_count: number
   install_count: number
   visible: boolean
+  is_good: boolean
 }
 
 /**
@@ -145,6 +146,62 @@ export type dapp_categories_relations = {
 export type user_dapps = {
   id: string
   user_id: string
+  dapp_id: string
+  created_at: Date
+  updated_at: Date | null
+}
+
+/**
+ * Model stories
+ * 
+ */
+export type stories = {
+  id: string
+  title: string
+  cover: string | null
+  desc: string | null
+  url: string | null
+  created_at: Date
+  updated_at: Date | null
+  visible: boolean
+  sort: number
+  is_deleted: boolean
+  visit_count: number
+}
+
+/**
+ * Model story_categories
+ * 
+ */
+export type story_categories = {
+  id: string
+  title: string
+  desc: string | null
+  sort: number
+  is_deleted: boolean
+  created_at: Date
+  updated_at: Date | null
+}
+
+/**
+ * Model story_categories_relations
+ * 
+ */
+export type story_categories_relations = {
+  id: number
+  story_category_id: string
+  story_id: string
+  created_at: Date
+  updated_at: Date | null
+}
+
+/**
+ * Model story_dapps_relations
+ * 
+ */
+export type story_dapps_relations = {
+  id: number
+  story_id: string
   dapp_id: string
   created_at: Date
   updated_at: Date | null
@@ -413,6 +470,46 @@ export class PrismaClient<
     * ```
     */
   get user_dapps(): Prisma.user_dappsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.stories`: Exposes CRUD operations for the **stories** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Stories
+    * const stories = await prisma.stories.findMany()
+    * ```
+    */
+  get stories(): Prisma.storiesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.story_categories`: Exposes CRUD operations for the **story_categories** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Story_categories
+    * const story_categories = await prisma.story_categories.findMany()
+    * ```
+    */
+  get story_categories(): Prisma.story_categoriesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.story_categories_relations`: Exposes CRUD operations for the **story_categories_relations** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Story_categories_relations
+    * const story_categories_relations = await prisma.story_categories_relations.findMany()
+    * ```
+    */
+  get story_categories_relations(): Prisma.story_categories_relationsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.story_dapps_relations`: Exposes CRUD operations for the **story_dapps_relations** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Story_dapps_relations
+    * const story_dapps_relations = await prisma.story_dapps_relations.findMany()
+    * ```
+    */
+  get story_dapps_relations(): Prisma.story_dapps_relationsDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -838,7 +935,11 @@ export namespace Prisma {
     dapps: 'dapps',
     dapp_categories: 'dapp_categories',
     dapp_categories_relations: 'dapp_categories_relations',
-    user_dapps: 'user_dapps'
+    user_dapps: 'user_dapps',
+    stories: 'stories',
+    story_categories: 'story_categories',
+    story_categories_relations: 'story_categories_relations',
+    story_dapps_relations: 'story_dapps_relations'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -997,16 +1098,69 @@ export namespace Prisma {
 
 
   /**
+   * Count Type UsersCountOutputType
+   */
+
+
+  export type UsersCountOutputType = {
+    user_dapps: number
+  }
+
+  export type UsersCountOutputTypeSelect = {
+    user_dapps?: boolean
+  }
+
+  export type UsersCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | UsersCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? UsersCountOutputType
+    : S extends undefined
+    ? never
+    : S extends UsersCountOutputTypeArgs
+    ?'include' extends U
+    ? UsersCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof UsersCountOutputType ? UsersCountOutputType[P] : never
+  } 
+    : UsersCountOutputType
+  : UsersCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UsersCountOutputType
+     * 
+    **/
+    select?: UsersCountOutputTypeSelect | null
+  }
+
+
+
+  /**
    * Count Type DappsCountOutputType
    */
 
 
   export type DappsCountOutputType = {
     dapp_categories_relations: number
+    story_dapps_relations: number
+    user_dapps: number
   }
 
   export type DappsCountOutputTypeSelect = {
     dapp_categories_relations?: boolean
+    story_dapps_relations?: boolean
+    user_dapps?: boolean
   }
 
   export type DappsCountOutputTypeGetPayload<
@@ -1090,6 +1244,106 @@ export namespace Prisma {
      * 
     **/
     select?: Dapp_categoriesCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type StoriesCountOutputType
+   */
+
+
+  export type StoriesCountOutputType = {
+    story_categories_relations: number
+    story_dapps_relations: number
+  }
+
+  export type StoriesCountOutputTypeSelect = {
+    story_categories_relations?: boolean
+    story_dapps_relations?: boolean
+  }
+
+  export type StoriesCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | StoriesCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? StoriesCountOutputType
+    : S extends undefined
+    ? never
+    : S extends StoriesCountOutputTypeArgs
+    ?'include' extends U
+    ? StoriesCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof StoriesCountOutputType ? StoriesCountOutputType[P] : never
+  } 
+    : StoriesCountOutputType
+  : StoriesCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * StoriesCountOutputType without action
+   */
+  export type StoriesCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the StoriesCountOutputType
+     * 
+    **/
+    select?: StoriesCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type Story_categoriesCountOutputType
+   */
+
+
+  export type Story_categoriesCountOutputType = {
+    story_categories_relations: number
+  }
+
+  export type Story_categoriesCountOutputTypeSelect = {
+    story_categories_relations?: boolean
+  }
+
+  export type Story_categoriesCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | Story_categoriesCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? Story_categoriesCountOutputType
+    : S extends undefined
+    ? never
+    : S extends Story_categoriesCountOutputTypeArgs
+    ?'include' extends U
+    ? Story_categoriesCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof Story_categoriesCountOutputType ? Story_categoriesCountOutputType[P] : never
+  } 
+    : Story_categoriesCountOutputType
+  : Story_categoriesCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Story_categoriesCountOutputType without action
+   */
+  export type Story_categoriesCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the Story_categoriesCountOutputType
+     * 
+    **/
+    select?: Story_categoriesCountOutputTypeSelect | null
   }
 
 
@@ -1301,6 +1555,13 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
+    user_dapps?: boolean | user_dappsFindManyArgs
+    _count?: boolean | UsersCountOutputTypeArgs
+  }
+
+  export type usersInclude = {
+    user_dapps?: boolean | user_dappsFindManyArgs
+    _count?: boolean | UsersCountOutputTypeArgs
   }
 
   export type usersGetPayload<
@@ -1312,11 +1573,16 @@ export namespace Prisma {
     ? never
     : S extends usersArgs | usersFindManyArgs
     ?'include' extends U
-    ? users 
+    ? users  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user_dapps' ? Array < user_dappsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? UsersCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-    P extends keyof users ? users[P] : never
+        P extends 'user_dapps' ? Array < user_dappsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? UsersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof users ? users[P] : never
   } 
     : users
   : users
@@ -1656,6 +1922,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
+    user_dapps<T extends user_dappsFindManyArgs = {}>(args?: Subset<T, user_dappsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<user_dapps>>, PrismaPromise<Array<user_dappsGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -1692,6 +1959,11 @@ export namespace Prisma {
     **/
     select?: usersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: usersInclude | null
+    /**
      * Throw an Error if a users can't be found
      * 
     **/
@@ -1713,6 +1985,11 @@ export namespace Prisma {
      * 
     **/
     select?: usersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: usersInclude | null
     /**
      * Throw an Error if a users can't be found
      * 
@@ -1771,6 +2048,11 @@ export namespace Prisma {
     **/
     select?: usersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: usersInclude | null
+    /**
      * Filter, which users to fetch.
      * 
     **/
@@ -1817,6 +2099,11 @@ export namespace Prisma {
     **/
     select?: usersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: usersInclude | null
+    /**
      * The data needed to create a users.
      * 
     **/
@@ -1846,6 +2133,11 @@ export namespace Prisma {
      * 
     **/
     select?: usersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: usersInclude | null
     /**
      * The data needed to update a users.
      * 
@@ -1886,6 +2178,11 @@ export namespace Prisma {
     **/
     select?: usersSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: usersInclude | null
+    /**
      * The filter to search for the users to update in case it exists.
      * 
     **/
@@ -1912,6 +2209,11 @@ export namespace Prisma {
      * 
     **/
     select?: usersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: usersInclude | null
     /**
      * Filter which users to delete.
      * 
@@ -1941,6 +2243,11 @@ export namespace Prisma {
      * 
     **/
     select?: usersSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: usersInclude | null
   }
 
 
@@ -6220,6 +6527,7 @@ export namespace Prisma {
     visit_count: number | null
     install_count: number | null
     visible: boolean | null
+    is_good: boolean | null
   }
 
   export type DappsMaxAggregateOutputType = {
@@ -6233,6 +6541,7 @@ export namespace Prisma {
     visit_count: number | null
     install_count: number | null
     visible: boolean | null
+    is_good: boolean | null
   }
 
   export type DappsCountAggregateOutputType = {
@@ -6246,6 +6555,7 @@ export namespace Prisma {
     visit_count: number
     install_count: number
     visible: number
+    is_good: number
     _all: number
   }
 
@@ -6271,6 +6581,7 @@ export namespace Prisma {
     visit_count?: true
     install_count?: true
     visible?: true
+    is_good?: true
   }
 
   export type DappsMaxAggregateInputType = {
@@ -6284,6 +6595,7 @@ export namespace Prisma {
     visit_count?: true
     install_count?: true
     visible?: true
+    is_good?: true
   }
 
   export type DappsCountAggregateInputType = {
@@ -6297,6 +6609,7 @@ export namespace Prisma {
     visit_count?: true
     install_count?: true
     visible?: true
+    is_good?: true
     _all?: true
   }
 
@@ -6403,6 +6716,7 @@ export namespace Prisma {
     visit_count: number
     install_count: number
     visible: boolean
+    is_good: boolean
     _count: DappsCountAggregateOutputType | null
     _avg: DappsAvgAggregateOutputType | null
     _sum: DappsSumAggregateOutputType | null
@@ -6435,12 +6749,17 @@ export namespace Prisma {
     visit_count?: boolean
     install_count?: boolean
     visible?: boolean
+    is_good?: boolean
     dapp_categories_relations?: boolean | dapp_categories_relationsFindManyArgs
+    story_dapps_relations?: boolean | story_dapps_relationsFindManyArgs
+    user_dapps?: boolean | user_dappsFindManyArgs
     _count?: boolean | DappsCountOutputTypeArgs
   }
 
   export type dappsInclude = {
     dapp_categories_relations?: boolean | dapp_categories_relationsFindManyArgs
+    story_dapps_relations?: boolean | story_dapps_relationsFindManyArgs
+    user_dapps?: boolean | user_dappsFindManyArgs
     _count?: boolean | DappsCountOutputTypeArgs
   }
 
@@ -6456,12 +6775,16 @@ export namespace Prisma {
     ? dapps  & {
     [P in TrueKeys<S['include']>]:
         P extends 'dapp_categories_relations' ? Array < dapp_categories_relationsGetPayload<S['include'][P]>>  :
+        P extends 'story_dapps_relations' ? Array < story_dapps_relationsGetPayload<S['include'][P]>>  :
+        P extends 'user_dapps' ? Array < user_dappsGetPayload<S['include'][P]>>  :
         P extends '_count' ? DappsCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
         P extends 'dapp_categories_relations' ? Array < dapp_categories_relationsGetPayload<S['select'][P]>>  :
+        P extends 'story_dapps_relations' ? Array < story_dapps_relationsGetPayload<S['select'][P]>>  :
+        P extends 'user_dapps' ? Array < user_dappsGetPayload<S['select'][P]>>  :
         P extends '_count' ? DappsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof dapps ? dapps[P] : never
   } 
     : dapps
@@ -6803,6 +7126,10 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     dapp_categories_relations<T extends dapp_categories_relationsFindManyArgs = {}>(args?: Subset<T, dapp_categories_relationsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<dapp_categories_relations>>, PrismaPromise<Array<dapp_categories_relationsGetPayload<T>>>>;
+
+    story_dapps_relations<T extends story_dapps_relationsFindManyArgs = {}>(args?: Subset<T, story_dapps_relationsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<story_dapps_relations>>, PrismaPromise<Array<story_dapps_relationsGetPayload<T>>>>;
+
+    user_dapps<T extends user_dappsFindManyArgs = {}>(args?: Subset<T, user_dappsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<user_dapps>>, PrismaPromise<Array<user_dappsGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -9115,8 +9442,15 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     dapp_id?: boolean
+    dapp?: boolean | dappsArgs
+    user?: boolean | usersArgs
     created_at?: boolean
     updated_at?: boolean
+  }
+
+  export type user_dappsInclude = {
+    dapp?: boolean | dappsArgs
+    user?: boolean | usersArgs
   }
 
   export type user_dappsGetPayload<
@@ -9128,11 +9462,16 @@ export namespace Prisma {
     ? never
     : S extends user_dappsArgs | user_dappsFindManyArgs
     ?'include' extends U
-    ? user_dapps 
+    ? user_dapps  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'dapp' ? dappsGetPayload<S['include'][P]> :
+        P extends 'user' ? usersGetPayload<S['include'][P]> :  never
+  } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-    P extends keyof user_dapps ? user_dapps[P] : never
+        P extends 'dapp' ? dappsGetPayload<S['select'][P]> :
+        P extends 'user' ? usersGetPayload<S['select'][P]> :  P extends keyof user_dapps ? user_dapps[P] : never
   } 
     : user_dapps
   : user_dapps
@@ -9472,6 +9811,9 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
+    dapp<T extends dappsArgs = {}>(args?: Subset<T, dappsArgs>): CheckSelect<T, Prisma__dappsClient<dapps | null >, Prisma__dappsClient<dappsGetPayload<T> | null >>;
+
+    user<T extends usersArgs = {}>(args?: Subset<T, usersArgs>): CheckSelect<T, Prisma__usersClient<users | null >, Prisma__usersClient<usersGetPayload<T> | null >>;
 
     private get _document();
     /**
@@ -9508,6 +9850,11 @@ export namespace Prisma {
     **/
     select?: user_dappsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dappsInclude | null
+    /**
      * Throw an Error if a user_dapps can't be found
      * 
     **/
@@ -9529,6 +9876,11 @@ export namespace Prisma {
      * 
     **/
     select?: user_dappsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dappsInclude | null
     /**
      * Throw an Error if a user_dapps can't be found
      * 
@@ -9587,6 +9939,11 @@ export namespace Prisma {
     **/
     select?: user_dappsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dappsInclude | null
+    /**
      * Filter, which user_dapps to fetch.
      * 
     **/
@@ -9633,6 +9990,11 @@ export namespace Prisma {
     **/
     select?: user_dappsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dappsInclude | null
+    /**
      * The data needed to create a user_dapps.
      * 
     **/
@@ -9662,6 +10024,11 @@ export namespace Prisma {
      * 
     **/
     select?: user_dappsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dappsInclude | null
     /**
      * The data needed to update a user_dapps.
      * 
@@ -9702,6 +10069,11 @@ export namespace Prisma {
     **/
     select?: user_dappsSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dappsInclude | null
+    /**
      * The filter to search for the user_dapps to update in case it exists.
      * 
     **/
@@ -9728,6 +10100,11 @@ export namespace Prisma {
      * 
     **/
     select?: user_dappsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dappsInclude | null
     /**
      * Filter which user_dapps to delete.
      * 
@@ -9757,6 +10134,3697 @@ export namespace Prisma {
      * 
     **/
     select?: user_dappsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dappsInclude | null
+  }
+
+
+
+  /**
+   * Model stories
+   */
+
+
+  export type AggregateStories = {
+    _count: StoriesCountAggregateOutputType | null
+    _avg: StoriesAvgAggregateOutputType | null
+    _sum: StoriesSumAggregateOutputType | null
+    _min: StoriesMinAggregateOutputType | null
+    _max: StoriesMaxAggregateOutputType | null
+  }
+
+  export type StoriesAvgAggregateOutputType = {
+    sort: number | null
+    visit_count: number | null
+  }
+
+  export type StoriesSumAggregateOutputType = {
+    sort: number | null
+    visit_count: number | null
+  }
+
+  export type StoriesMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    cover: string | null
+    desc: string | null
+    url: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    visible: boolean | null
+    sort: number | null
+    is_deleted: boolean | null
+    visit_count: number | null
+  }
+
+  export type StoriesMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    cover: string | null
+    desc: string | null
+    url: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    visible: boolean | null
+    sort: number | null
+    is_deleted: boolean | null
+    visit_count: number | null
+  }
+
+  export type StoriesCountAggregateOutputType = {
+    id: number
+    title: number
+    cover: number
+    desc: number
+    url: number
+    created_at: number
+    updated_at: number
+    visible: number
+    sort: number
+    is_deleted: number
+    visit_count: number
+    _all: number
+  }
+
+
+  export type StoriesAvgAggregateInputType = {
+    sort?: true
+    visit_count?: true
+  }
+
+  export type StoriesSumAggregateInputType = {
+    sort?: true
+    visit_count?: true
+  }
+
+  export type StoriesMinAggregateInputType = {
+    id?: true
+    title?: true
+    cover?: true
+    desc?: true
+    url?: true
+    created_at?: true
+    updated_at?: true
+    visible?: true
+    sort?: true
+    is_deleted?: true
+    visit_count?: true
+  }
+
+  export type StoriesMaxAggregateInputType = {
+    id?: true
+    title?: true
+    cover?: true
+    desc?: true
+    url?: true
+    created_at?: true
+    updated_at?: true
+    visible?: true
+    sort?: true
+    is_deleted?: true
+    visit_count?: true
+  }
+
+  export type StoriesCountAggregateInputType = {
+    id?: true
+    title?: true
+    cover?: true
+    desc?: true
+    url?: true
+    created_at?: true
+    updated_at?: true
+    visible?: true
+    sort?: true
+    is_deleted?: true
+    visit_count?: true
+    _all?: true
+  }
+
+  export type StoriesAggregateArgs = {
+    /**
+     * Filter which stories to aggregate.
+     * 
+    **/
+    where?: storiesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of stories to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<storiesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: storiesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` stories from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` stories.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned stories
+    **/
+    _count?: true | StoriesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StoriesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StoriesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StoriesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StoriesMaxAggregateInputType
+  }
+
+  export type GetStoriesAggregateType<T extends StoriesAggregateArgs> = {
+        [P in keyof T & keyof AggregateStories]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStories[P]>
+      : GetScalarType<T[P], AggregateStories[P]>
+  }
+
+
+
+
+  export type StoriesGroupByArgs = {
+    where?: storiesWhereInput
+    orderBy?: Enumerable<storiesOrderByWithAggregationInput>
+    by: Array<StoriesScalarFieldEnum>
+    having?: storiesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StoriesCountAggregateInputType | true
+    _avg?: StoriesAvgAggregateInputType
+    _sum?: StoriesSumAggregateInputType
+    _min?: StoriesMinAggregateInputType
+    _max?: StoriesMaxAggregateInputType
+  }
+
+
+  export type StoriesGroupByOutputType = {
+    id: string
+    title: string
+    cover: string | null
+    desc: string | null
+    url: string | null
+    created_at: Date
+    updated_at: Date | null
+    visible: boolean
+    sort: number
+    is_deleted: boolean
+    visit_count: number
+    _count: StoriesCountAggregateOutputType | null
+    _avg: StoriesAvgAggregateOutputType | null
+    _sum: StoriesSumAggregateOutputType | null
+    _min: StoriesMinAggregateOutputType | null
+    _max: StoriesMaxAggregateOutputType | null
+  }
+
+  type GetStoriesGroupByPayload<T extends StoriesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<StoriesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StoriesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StoriesGroupByOutputType[P]>
+            : GetScalarType<T[P], StoriesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type storiesSelect = {
+    id?: boolean
+    title?: boolean
+    cover?: boolean
+    desc?: boolean
+    url?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    visible?: boolean
+    sort?: boolean
+    is_deleted?: boolean
+    visit_count?: boolean
+    story_categories_relations?: boolean | story_categories_relationsFindManyArgs
+    story_dapps_relations?: boolean | story_dapps_relationsFindManyArgs
+    _count?: boolean | StoriesCountOutputTypeArgs
+  }
+
+  export type storiesInclude = {
+    story_categories_relations?: boolean | story_categories_relationsFindManyArgs
+    story_dapps_relations?: boolean | story_dapps_relationsFindManyArgs
+    _count?: boolean | StoriesCountOutputTypeArgs
+  }
+
+  export type storiesGetPayload<
+    S extends boolean | null | undefined | storiesArgs,
+    U = keyof S
+      > = S extends true
+        ? stories
+    : S extends undefined
+    ? never
+    : S extends storiesArgs | storiesFindManyArgs
+    ?'include' extends U
+    ? stories  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'story_categories_relations' ? Array < story_categories_relationsGetPayload<S['include'][P]>>  :
+        P extends 'story_dapps_relations' ? Array < story_dapps_relationsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? StoriesCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'story_categories_relations' ? Array < story_categories_relationsGetPayload<S['select'][P]>>  :
+        P extends 'story_dapps_relations' ? Array < story_dapps_relationsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? StoriesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof stories ? stories[P] : never
+  } 
+    : stories
+  : stories
+
+
+  type storiesCountArgs = Merge<
+    Omit<storiesFindManyArgs, 'select' | 'include'> & {
+      select?: StoriesCountAggregateInputType | true
+    }
+  >
+
+  export interface storiesDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Stories that matches the filter.
+     * @param {storiesFindUniqueArgs} args - Arguments to find a Stories
+     * @example
+     * // Get one Stories
+     * const stories = await prisma.stories.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends storiesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, storiesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'stories'> extends True ? CheckSelect<T, Prisma__storiesClient<stories>, Prisma__storiesClient<storiesGetPayload<T>>> : CheckSelect<T, Prisma__storiesClient<stories | null >, Prisma__storiesClient<storiesGetPayload<T> | null >>
+
+    /**
+     * Find the first Stories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {storiesFindFirstArgs} args - Arguments to find a Stories
+     * @example
+     * // Get one Stories
+     * const stories = await prisma.stories.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends storiesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, storiesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'stories'> extends True ? CheckSelect<T, Prisma__storiesClient<stories>, Prisma__storiesClient<storiesGetPayload<T>>> : CheckSelect<T, Prisma__storiesClient<stories | null >, Prisma__storiesClient<storiesGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Stories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {storiesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Stories
+     * const stories = await prisma.stories.findMany()
+     * 
+     * // Get first 10 Stories
+     * const stories = await prisma.stories.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const storiesWithIdOnly = await prisma.stories.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends storiesFindManyArgs>(
+      args?: SelectSubset<T, storiesFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<stories>>, PrismaPromise<Array<storiesGetPayload<T>>>>
+
+    /**
+     * Create a Stories.
+     * @param {storiesCreateArgs} args - Arguments to create a Stories.
+     * @example
+     * // Create one Stories
+     * const Stories = await prisma.stories.create({
+     *   data: {
+     *     // ... data to create a Stories
+     *   }
+     * })
+     * 
+    **/
+    create<T extends storiesCreateArgs>(
+      args: SelectSubset<T, storiesCreateArgs>
+    ): CheckSelect<T, Prisma__storiesClient<stories>, Prisma__storiesClient<storiesGetPayload<T>>>
+
+    /**
+     * Create many Stories.
+     *     @param {storiesCreateManyArgs} args - Arguments to create many Stories.
+     *     @example
+     *     // Create many Stories
+     *     const stories = await prisma.stories.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends storiesCreateManyArgs>(
+      args?: SelectSubset<T, storiesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Stories.
+     * @param {storiesDeleteArgs} args - Arguments to delete one Stories.
+     * @example
+     * // Delete one Stories
+     * const Stories = await prisma.stories.delete({
+     *   where: {
+     *     // ... filter to delete one Stories
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends storiesDeleteArgs>(
+      args: SelectSubset<T, storiesDeleteArgs>
+    ): CheckSelect<T, Prisma__storiesClient<stories>, Prisma__storiesClient<storiesGetPayload<T>>>
+
+    /**
+     * Update one Stories.
+     * @param {storiesUpdateArgs} args - Arguments to update one Stories.
+     * @example
+     * // Update one Stories
+     * const stories = await prisma.stories.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends storiesUpdateArgs>(
+      args: SelectSubset<T, storiesUpdateArgs>
+    ): CheckSelect<T, Prisma__storiesClient<stories>, Prisma__storiesClient<storiesGetPayload<T>>>
+
+    /**
+     * Delete zero or more Stories.
+     * @param {storiesDeleteManyArgs} args - Arguments to filter Stories to delete.
+     * @example
+     * // Delete a few Stories
+     * const { count } = await prisma.stories.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends storiesDeleteManyArgs>(
+      args?: SelectSubset<T, storiesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Stories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {storiesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Stories
+     * const stories = await prisma.stories.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends storiesUpdateManyArgs>(
+      args: SelectSubset<T, storiesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Stories.
+     * @param {storiesUpsertArgs} args - Arguments to update or create a Stories.
+     * @example
+     * // Update or create a Stories
+     * const stories = await prisma.stories.upsert({
+     *   create: {
+     *     // ... data to create a Stories
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Stories we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends storiesUpsertArgs>(
+      args: SelectSubset<T, storiesUpsertArgs>
+    ): CheckSelect<T, Prisma__storiesClient<stories>, Prisma__storiesClient<storiesGetPayload<T>>>
+
+    /**
+     * Count the number of Stories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {storiesCountArgs} args - Arguments to filter Stories to count.
+     * @example
+     * // Count the number of Stories
+     * const count = await prisma.stories.count({
+     *   where: {
+     *     // ... the filter for the Stories we want to count
+     *   }
+     * })
+    **/
+    count<T extends storiesCountArgs>(
+      args?: Subset<T, storiesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StoriesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Stories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoriesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StoriesAggregateArgs>(args: Subset<T, StoriesAggregateArgs>): PrismaPromise<GetStoriesAggregateType<T>>
+
+    /**
+     * Group by Stories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoriesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StoriesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StoriesGroupByArgs['orderBy'] }
+        : { orderBy?: StoriesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StoriesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStoriesGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for stories.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__storiesClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    story_categories_relations<T extends story_categories_relationsFindManyArgs = {}>(args?: Subset<T, story_categories_relationsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<story_categories_relations>>, PrismaPromise<Array<story_categories_relationsGetPayload<T>>>>;
+
+    story_dapps_relations<T extends story_dapps_relationsFindManyArgs = {}>(args?: Subset<T, story_dapps_relationsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<story_dapps_relations>>, PrismaPromise<Array<story_dapps_relationsGetPayload<T>>>>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * stories findUnique
+   */
+  export type storiesFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the stories
+     * 
+    **/
+    select?: storiesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: storiesInclude | null
+    /**
+     * Throw an Error if a stories can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which stories to fetch.
+     * 
+    **/
+    where: storiesWhereUniqueInput
+  }
+
+
+  /**
+   * stories findFirst
+   */
+  export type storiesFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the stories
+     * 
+    **/
+    select?: storiesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: storiesInclude | null
+    /**
+     * Throw an Error if a stories can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which stories to fetch.
+     * 
+    **/
+    where?: storiesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of stories to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<storiesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for stories.
+     * 
+    **/
+    cursor?: storiesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` stories from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` stories.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of stories.
+     * 
+    **/
+    distinct?: Enumerable<StoriesScalarFieldEnum>
+  }
+
+
+  /**
+   * stories findMany
+   */
+  export type storiesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the stories
+     * 
+    **/
+    select?: storiesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: storiesInclude | null
+    /**
+     * Filter, which stories to fetch.
+     * 
+    **/
+    where?: storiesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of stories to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<storiesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing stories.
+     * 
+    **/
+    cursor?: storiesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` stories from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` stories.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<StoriesScalarFieldEnum>
+  }
+
+
+  /**
+   * stories create
+   */
+  export type storiesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the stories
+     * 
+    **/
+    select?: storiesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: storiesInclude | null
+    /**
+     * The data needed to create a stories.
+     * 
+    **/
+    data: XOR<storiesCreateInput, storiesUncheckedCreateInput>
+  }
+
+
+  /**
+   * stories createMany
+   */
+  export type storiesCreateManyArgs = {
+    /**
+     * The data used to create many stories.
+     * 
+    **/
+    data: Enumerable<storiesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * stories update
+   */
+  export type storiesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the stories
+     * 
+    **/
+    select?: storiesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: storiesInclude | null
+    /**
+     * The data needed to update a stories.
+     * 
+    **/
+    data: XOR<storiesUpdateInput, storiesUncheckedUpdateInput>
+    /**
+     * Choose, which stories to update.
+     * 
+    **/
+    where: storiesWhereUniqueInput
+  }
+
+
+  /**
+   * stories updateMany
+   */
+  export type storiesUpdateManyArgs = {
+    /**
+     * The data used to update stories.
+     * 
+    **/
+    data: XOR<storiesUpdateManyMutationInput, storiesUncheckedUpdateManyInput>
+    /**
+     * Filter which stories to update
+     * 
+    **/
+    where?: storiesWhereInput
+  }
+
+
+  /**
+   * stories upsert
+   */
+  export type storiesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the stories
+     * 
+    **/
+    select?: storiesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: storiesInclude | null
+    /**
+     * The filter to search for the stories to update in case it exists.
+     * 
+    **/
+    where: storiesWhereUniqueInput
+    /**
+     * In case the stories found by the `where` argument doesn't exist, create a new stories with this data.
+     * 
+    **/
+    create: XOR<storiesCreateInput, storiesUncheckedCreateInput>
+    /**
+     * In case the stories was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<storiesUpdateInput, storiesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * stories delete
+   */
+  export type storiesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the stories
+     * 
+    **/
+    select?: storiesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: storiesInclude | null
+    /**
+     * Filter which stories to delete.
+     * 
+    **/
+    where: storiesWhereUniqueInput
+  }
+
+
+  /**
+   * stories deleteMany
+   */
+  export type storiesDeleteManyArgs = {
+    /**
+     * Filter which stories to delete
+     * 
+    **/
+    where?: storiesWhereInput
+  }
+
+
+  /**
+   * stories without action
+   */
+  export type storiesArgs = {
+    /**
+     * Select specific fields to fetch from the stories
+     * 
+    **/
+    select?: storiesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: storiesInclude | null
+  }
+
+
+
+  /**
+   * Model story_categories
+   */
+
+
+  export type AggregateStory_categories = {
+    _count: Story_categoriesCountAggregateOutputType | null
+    _avg: Story_categoriesAvgAggregateOutputType | null
+    _sum: Story_categoriesSumAggregateOutputType | null
+    _min: Story_categoriesMinAggregateOutputType | null
+    _max: Story_categoriesMaxAggregateOutputType | null
+  }
+
+  export type Story_categoriesAvgAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type Story_categoriesSumAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type Story_categoriesMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    desc: string | null
+    sort: number | null
+    is_deleted: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Story_categoriesMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    desc: string | null
+    sort: number | null
+    is_deleted: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Story_categoriesCountAggregateOutputType = {
+    id: number
+    title: number
+    desc: number
+    sort: number
+    is_deleted: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Story_categoriesAvgAggregateInputType = {
+    sort?: true
+  }
+
+  export type Story_categoriesSumAggregateInputType = {
+    sort?: true
+  }
+
+  export type Story_categoriesMinAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    sort?: true
+    is_deleted?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Story_categoriesMaxAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    sort?: true
+    is_deleted?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Story_categoriesCountAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    sort?: true
+    is_deleted?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Story_categoriesAggregateArgs = {
+    /**
+     * Filter which story_categories to aggregate.
+     * 
+    **/
+    where?: story_categoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of story_categories to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<story_categoriesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: story_categoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` story_categories from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` story_categories.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned story_categories
+    **/
+    _count?: true | Story_categoriesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Story_categoriesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Story_categoriesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Story_categoriesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Story_categoriesMaxAggregateInputType
+  }
+
+  export type GetStory_categoriesAggregateType<T extends Story_categoriesAggregateArgs> = {
+        [P in keyof T & keyof AggregateStory_categories]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStory_categories[P]>
+      : GetScalarType<T[P], AggregateStory_categories[P]>
+  }
+
+
+
+
+  export type Story_categoriesGroupByArgs = {
+    where?: story_categoriesWhereInput
+    orderBy?: Enumerable<story_categoriesOrderByWithAggregationInput>
+    by: Array<Story_categoriesScalarFieldEnum>
+    having?: story_categoriesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Story_categoriesCountAggregateInputType | true
+    _avg?: Story_categoriesAvgAggregateInputType
+    _sum?: Story_categoriesSumAggregateInputType
+    _min?: Story_categoriesMinAggregateInputType
+    _max?: Story_categoriesMaxAggregateInputType
+  }
+
+
+  export type Story_categoriesGroupByOutputType = {
+    id: string
+    title: string
+    desc: string | null
+    sort: number
+    is_deleted: boolean
+    created_at: Date
+    updated_at: Date | null
+    _count: Story_categoriesCountAggregateOutputType | null
+    _avg: Story_categoriesAvgAggregateOutputType | null
+    _sum: Story_categoriesSumAggregateOutputType | null
+    _min: Story_categoriesMinAggregateOutputType | null
+    _max: Story_categoriesMaxAggregateOutputType | null
+  }
+
+  type GetStory_categoriesGroupByPayload<T extends Story_categoriesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Story_categoriesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Story_categoriesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Story_categoriesGroupByOutputType[P]>
+            : GetScalarType<T[P], Story_categoriesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type story_categoriesSelect = {
+    id?: boolean
+    title?: boolean
+    desc?: boolean
+    sort?: boolean
+    is_deleted?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    story_categories_relations?: boolean | story_categories_relationsFindManyArgs
+    _count?: boolean | Story_categoriesCountOutputTypeArgs
+  }
+
+  export type story_categoriesInclude = {
+    story_categories_relations?: boolean | story_categories_relationsFindManyArgs
+    _count?: boolean | Story_categoriesCountOutputTypeArgs
+  }
+
+  export type story_categoriesGetPayload<
+    S extends boolean | null | undefined | story_categoriesArgs,
+    U = keyof S
+      > = S extends true
+        ? story_categories
+    : S extends undefined
+    ? never
+    : S extends story_categoriesArgs | story_categoriesFindManyArgs
+    ?'include' extends U
+    ? story_categories  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'story_categories_relations' ? Array < story_categories_relationsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? Story_categoriesCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'story_categories_relations' ? Array < story_categories_relationsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? Story_categoriesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof story_categories ? story_categories[P] : never
+  } 
+    : story_categories
+  : story_categories
+
+
+  type story_categoriesCountArgs = Merge<
+    Omit<story_categoriesFindManyArgs, 'select' | 'include'> & {
+      select?: Story_categoriesCountAggregateInputType | true
+    }
+  >
+
+  export interface story_categoriesDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Story_categories that matches the filter.
+     * @param {story_categoriesFindUniqueArgs} args - Arguments to find a Story_categories
+     * @example
+     * // Get one Story_categories
+     * const story_categories = await prisma.story_categories.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends story_categoriesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, story_categoriesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'story_categories'> extends True ? CheckSelect<T, Prisma__story_categoriesClient<story_categories>, Prisma__story_categoriesClient<story_categoriesGetPayload<T>>> : CheckSelect<T, Prisma__story_categoriesClient<story_categories | null >, Prisma__story_categoriesClient<story_categoriesGetPayload<T> | null >>
+
+    /**
+     * Find the first Story_categories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_categoriesFindFirstArgs} args - Arguments to find a Story_categories
+     * @example
+     * // Get one Story_categories
+     * const story_categories = await prisma.story_categories.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends story_categoriesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, story_categoriesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'story_categories'> extends True ? CheckSelect<T, Prisma__story_categoriesClient<story_categories>, Prisma__story_categoriesClient<story_categoriesGetPayload<T>>> : CheckSelect<T, Prisma__story_categoriesClient<story_categories | null >, Prisma__story_categoriesClient<story_categoriesGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Story_categories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_categoriesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Story_categories
+     * const story_categories = await prisma.story_categories.findMany()
+     * 
+     * // Get first 10 Story_categories
+     * const story_categories = await prisma.story_categories.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const story_categoriesWithIdOnly = await prisma.story_categories.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends story_categoriesFindManyArgs>(
+      args?: SelectSubset<T, story_categoriesFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<story_categories>>, PrismaPromise<Array<story_categoriesGetPayload<T>>>>
+
+    /**
+     * Create a Story_categories.
+     * @param {story_categoriesCreateArgs} args - Arguments to create a Story_categories.
+     * @example
+     * // Create one Story_categories
+     * const Story_categories = await prisma.story_categories.create({
+     *   data: {
+     *     // ... data to create a Story_categories
+     *   }
+     * })
+     * 
+    **/
+    create<T extends story_categoriesCreateArgs>(
+      args: SelectSubset<T, story_categoriesCreateArgs>
+    ): CheckSelect<T, Prisma__story_categoriesClient<story_categories>, Prisma__story_categoriesClient<story_categoriesGetPayload<T>>>
+
+    /**
+     * Create many Story_categories.
+     *     @param {story_categoriesCreateManyArgs} args - Arguments to create many Story_categories.
+     *     @example
+     *     // Create many Story_categories
+     *     const story_categories = await prisma.story_categories.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends story_categoriesCreateManyArgs>(
+      args?: SelectSubset<T, story_categoriesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Story_categories.
+     * @param {story_categoriesDeleteArgs} args - Arguments to delete one Story_categories.
+     * @example
+     * // Delete one Story_categories
+     * const Story_categories = await prisma.story_categories.delete({
+     *   where: {
+     *     // ... filter to delete one Story_categories
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends story_categoriesDeleteArgs>(
+      args: SelectSubset<T, story_categoriesDeleteArgs>
+    ): CheckSelect<T, Prisma__story_categoriesClient<story_categories>, Prisma__story_categoriesClient<story_categoriesGetPayload<T>>>
+
+    /**
+     * Update one Story_categories.
+     * @param {story_categoriesUpdateArgs} args - Arguments to update one Story_categories.
+     * @example
+     * // Update one Story_categories
+     * const story_categories = await prisma.story_categories.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends story_categoriesUpdateArgs>(
+      args: SelectSubset<T, story_categoriesUpdateArgs>
+    ): CheckSelect<T, Prisma__story_categoriesClient<story_categories>, Prisma__story_categoriesClient<story_categoriesGetPayload<T>>>
+
+    /**
+     * Delete zero or more Story_categories.
+     * @param {story_categoriesDeleteManyArgs} args - Arguments to filter Story_categories to delete.
+     * @example
+     * // Delete a few Story_categories
+     * const { count } = await prisma.story_categories.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends story_categoriesDeleteManyArgs>(
+      args?: SelectSubset<T, story_categoriesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Story_categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_categoriesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Story_categories
+     * const story_categories = await prisma.story_categories.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends story_categoriesUpdateManyArgs>(
+      args: SelectSubset<T, story_categoriesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Story_categories.
+     * @param {story_categoriesUpsertArgs} args - Arguments to update or create a Story_categories.
+     * @example
+     * // Update or create a Story_categories
+     * const story_categories = await prisma.story_categories.upsert({
+     *   create: {
+     *     // ... data to create a Story_categories
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Story_categories we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends story_categoriesUpsertArgs>(
+      args: SelectSubset<T, story_categoriesUpsertArgs>
+    ): CheckSelect<T, Prisma__story_categoriesClient<story_categories>, Prisma__story_categoriesClient<story_categoriesGetPayload<T>>>
+
+    /**
+     * Count the number of Story_categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_categoriesCountArgs} args - Arguments to filter Story_categories to count.
+     * @example
+     * // Count the number of Story_categories
+     * const count = await prisma.story_categories.count({
+     *   where: {
+     *     // ... the filter for the Story_categories we want to count
+     *   }
+     * })
+    **/
+    count<T extends story_categoriesCountArgs>(
+      args?: Subset<T, story_categoriesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Story_categoriesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Story_categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Story_categoriesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Story_categoriesAggregateArgs>(args: Subset<T, Story_categoriesAggregateArgs>): PrismaPromise<GetStory_categoriesAggregateType<T>>
+
+    /**
+     * Group by Story_categories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Story_categoriesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Story_categoriesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Story_categoriesGroupByArgs['orderBy'] }
+        : { orderBy?: Story_categoriesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Story_categoriesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStory_categoriesGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for story_categories.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__story_categoriesClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    story_categories_relations<T extends story_categories_relationsFindManyArgs = {}>(args?: Subset<T, story_categories_relationsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<story_categories_relations>>, PrismaPromise<Array<story_categories_relationsGetPayload<T>>>>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * story_categories findUnique
+   */
+  export type story_categoriesFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories
+     * 
+    **/
+    select?: story_categoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categoriesInclude | null
+    /**
+     * Throw an Error if a story_categories can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which story_categories to fetch.
+     * 
+    **/
+    where: story_categoriesWhereUniqueInput
+  }
+
+
+  /**
+   * story_categories findFirst
+   */
+  export type story_categoriesFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories
+     * 
+    **/
+    select?: story_categoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categoriesInclude | null
+    /**
+     * Throw an Error if a story_categories can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which story_categories to fetch.
+     * 
+    **/
+    where?: story_categoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of story_categories to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<story_categoriesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for story_categories.
+     * 
+    **/
+    cursor?: story_categoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` story_categories from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` story_categories.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of story_categories.
+     * 
+    **/
+    distinct?: Enumerable<Story_categoriesScalarFieldEnum>
+  }
+
+
+  /**
+   * story_categories findMany
+   */
+  export type story_categoriesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories
+     * 
+    **/
+    select?: story_categoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categoriesInclude | null
+    /**
+     * Filter, which story_categories to fetch.
+     * 
+    **/
+    where?: story_categoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of story_categories to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<story_categoriesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing story_categories.
+     * 
+    **/
+    cursor?: story_categoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` story_categories from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` story_categories.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Story_categoriesScalarFieldEnum>
+  }
+
+
+  /**
+   * story_categories create
+   */
+  export type story_categoriesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories
+     * 
+    **/
+    select?: story_categoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categoriesInclude | null
+    /**
+     * The data needed to create a story_categories.
+     * 
+    **/
+    data: XOR<story_categoriesCreateInput, story_categoriesUncheckedCreateInput>
+  }
+
+
+  /**
+   * story_categories createMany
+   */
+  export type story_categoriesCreateManyArgs = {
+    /**
+     * The data used to create many story_categories.
+     * 
+    **/
+    data: Enumerable<story_categoriesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * story_categories update
+   */
+  export type story_categoriesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories
+     * 
+    **/
+    select?: story_categoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categoriesInclude | null
+    /**
+     * The data needed to update a story_categories.
+     * 
+    **/
+    data: XOR<story_categoriesUpdateInput, story_categoriesUncheckedUpdateInput>
+    /**
+     * Choose, which story_categories to update.
+     * 
+    **/
+    where: story_categoriesWhereUniqueInput
+  }
+
+
+  /**
+   * story_categories updateMany
+   */
+  export type story_categoriesUpdateManyArgs = {
+    /**
+     * The data used to update story_categories.
+     * 
+    **/
+    data: XOR<story_categoriesUpdateManyMutationInput, story_categoriesUncheckedUpdateManyInput>
+    /**
+     * Filter which story_categories to update
+     * 
+    **/
+    where?: story_categoriesWhereInput
+  }
+
+
+  /**
+   * story_categories upsert
+   */
+  export type story_categoriesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories
+     * 
+    **/
+    select?: story_categoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categoriesInclude | null
+    /**
+     * The filter to search for the story_categories to update in case it exists.
+     * 
+    **/
+    where: story_categoriesWhereUniqueInput
+    /**
+     * In case the story_categories found by the `where` argument doesn't exist, create a new story_categories with this data.
+     * 
+    **/
+    create: XOR<story_categoriesCreateInput, story_categoriesUncheckedCreateInput>
+    /**
+     * In case the story_categories was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<story_categoriesUpdateInput, story_categoriesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * story_categories delete
+   */
+  export type story_categoriesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories
+     * 
+    **/
+    select?: story_categoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categoriesInclude | null
+    /**
+     * Filter which story_categories to delete.
+     * 
+    **/
+    where: story_categoriesWhereUniqueInput
+  }
+
+
+  /**
+   * story_categories deleteMany
+   */
+  export type story_categoriesDeleteManyArgs = {
+    /**
+     * Filter which story_categories to delete
+     * 
+    **/
+    where?: story_categoriesWhereInput
+  }
+
+
+  /**
+   * story_categories without action
+   */
+  export type story_categoriesArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories
+     * 
+    **/
+    select?: story_categoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categoriesInclude | null
+  }
+
+
+
+  /**
+   * Model story_categories_relations
+   */
+
+
+  export type AggregateStory_categories_relations = {
+    _count: Story_categories_relationsCountAggregateOutputType | null
+    _avg: Story_categories_relationsAvgAggregateOutputType | null
+    _sum: Story_categories_relationsSumAggregateOutputType | null
+    _min: Story_categories_relationsMinAggregateOutputType | null
+    _max: Story_categories_relationsMaxAggregateOutputType | null
+  }
+
+  export type Story_categories_relationsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Story_categories_relationsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Story_categories_relationsMinAggregateOutputType = {
+    id: number | null
+    story_category_id: string | null
+    story_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Story_categories_relationsMaxAggregateOutputType = {
+    id: number | null
+    story_category_id: string | null
+    story_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Story_categories_relationsCountAggregateOutputType = {
+    id: number
+    story_category_id: number
+    story_id: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Story_categories_relationsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type Story_categories_relationsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type Story_categories_relationsMinAggregateInputType = {
+    id?: true
+    story_category_id?: true
+    story_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Story_categories_relationsMaxAggregateInputType = {
+    id?: true
+    story_category_id?: true
+    story_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Story_categories_relationsCountAggregateInputType = {
+    id?: true
+    story_category_id?: true
+    story_id?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Story_categories_relationsAggregateArgs = {
+    /**
+     * Filter which story_categories_relations to aggregate.
+     * 
+    **/
+    where?: story_categories_relationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of story_categories_relations to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<story_categories_relationsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: story_categories_relationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` story_categories_relations from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` story_categories_relations.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned story_categories_relations
+    **/
+    _count?: true | Story_categories_relationsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Story_categories_relationsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Story_categories_relationsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Story_categories_relationsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Story_categories_relationsMaxAggregateInputType
+  }
+
+  export type GetStory_categories_relationsAggregateType<T extends Story_categories_relationsAggregateArgs> = {
+        [P in keyof T & keyof AggregateStory_categories_relations]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStory_categories_relations[P]>
+      : GetScalarType<T[P], AggregateStory_categories_relations[P]>
+  }
+
+
+
+
+  export type Story_categories_relationsGroupByArgs = {
+    where?: story_categories_relationsWhereInput
+    orderBy?: Enumerable<story_categories_relationsOrderByWithAggregationInput>
+    by: Array<Story_categories_relationsScalarFieldEnum>
+    having?: story_categories_relationsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Story_categories_relationsCountAggregateInputType | true
+    _avg?: Story_categories_relationsAvgAggregateInputType
+    _sum?: Story_categories_relationsSumAggregateInputType
+    _min?: Story_categories_relationsMinAggregateInputType
+    _max?: Story_categories_relationsMaxAggregateInputType
+  }
+
+
+  export type Story_categories_relationsGroupByOutputType = {
+    id: number
+    story_category_id: string
+    story_id: string
+    created_at: Date
+    updated_at: Date | null
+    _count: Story_categories_relationsCountAggregateOutputType | null
+    _avg: Story_categories_relationsAvgAggregateOutputType | null
+    _sum: Story_categories_relationsSumAggregateOutputType | null
+    _min: Story_categories_relationsMinAggregateOutputType | null
+    _max: Story_categories_relationsMaxAggregateOutputType | null
+  }
+
+  type GetStory_categories_relationsGroupByPayload<T extends Story_categories_relationsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Story_categories_relationsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Story_categories_relationsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Story_categories_relationsGroupByOutputType[P]>
+            : GetScalarType<T[P], Story_categories_relationsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type story_categories_relationsSelect = {
+    id?: boolean
+    story_categories?: boolean | story_categoriesArgs
+    story_category_id?: boolean
+    story?: boolean | storiesArgs
+    story_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type story_categories_relationsInclude = {
+    story_categories?: boolean | story_categoriesArgs
+    story?: boolean | storiesArgs
+  }
+
+  export type story_categories_relationsGetPayload<
+    S extends boolean | null | undefined | story_categories_relationsArgs,
+    U = keyof S
+      > = S extends true
+        ? story_categories_relations
+    : S extends undefined
+    ? never
+    : S extends story_categories_relationsArgs | story_categories_relationsFindManyArgs
+    ?'include' extends U
+    ? story_categories_relations  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'story_categories' ? story_categoriesGetPayload<S['include'][P]> :
+        P extends 'story' ? storiesGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'story_categories' ? story_categoriesGetPayload<S['select'][P]> :
+        P extends 'story' ? storiesGetPayload<S['select'][P]> :  P extends keyof story_categories_relations ? story_categories_relations[P] : never
+  } 
+    : story_categories_relations
+  : story_categories_relations
+
+
+  type story_categories_relationsCountArgs = Merge<
+    Omit<story_categories_relationsFindManyArgs, 'select' | 'include'> & {
+      select?: Story_categories_relationsCountAggregateInputType | true
+    }
+  >
+
+  export interface story_categories_relationsDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Story_categories_relations that matches the filter.
+     * @param {story_categories_relationsFindUniqueArgs} args - Arguments to find a Story_categories_relations
+     * @example
+     * // Get one Story_categories_relations
+     * const story_categories_relations = await prisma.story_categories_relations.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends story_categories_relationsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, story_categories_relationsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'story_categories_relations'> extends True ? CheckSelect<T, Prisma__story_categories_relationsClient<story_categories_relations>, Prisma__story_categories_relationsClient<story_categories_relationsGetPayload<T>>> : CheckSelect<T, Prisma__story_categories_relationsClient<story_categories_relations | null >, Prisma__story_categories_relationsClient<story_categories_relationsGetPayload<T> | null >>
+
+    /**
+     * Find the first Story_categories_relations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_categories_relationsFindFirstArgs} args - Arguments to find a Story_categories_relations
+     * @example
+     * // Get one Story_categories_relations
+     * const story_categories_relations = await prisma.story_categories_relations.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends story_categories_relationsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, story_categories_relationsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'story_categories_relations'> extends True ? CheckSelect<T, Prisma__story_categories_relationsClient<story_categories_relations>, Prisma__story_categories_relationsClient<story_categories_relationsGetPayload<T>>> : CheckSelect<T, Prisma__story_categories_relationsClient<story_categories_relations | null >, Prisma__story_categories_relationsClient<story_categories_relationsGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Story_categories_relations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_categories_relationsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Story_categories_relations
+     * const story_categories_relations = await prisma.story_categories_relations.findMany()
+     * 
+     * // Get first 10 Story_categories_relations
+     * const story_categories_relations = await prisma.story_categories_relations.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const story_categories_relationsWithIdOnly = await prisma.story_categories_relations.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends story_categories_relationsFindManyArgs>(
+      args?: SelectSubset<T, story_categories_relationsFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<story_categories_relations>>, PrismaPromise<Array<story_categories_relationsGetPayload<T>>>>
+
+    /**
+     * Create a Story_categories_relations.
+     * @param {story_categories_relationsCreateArgs} args - Arguments to create a Story_categories_relations.
+     * @example
+     * // Create one Story_categories_relations
+     * const Story_categories_relations = await prisma.story_categories_relations.create({
+     *   data: {
+     *     // ... data to create a Story_categories_relations
+     *   }
+     * })
+     * 
+    **/
+    create<T extends story_categories_relationsCreateArgs>(
+      args: SelectSubset<T, story_categories_relationsCreateArgs>
+    ): CheckSelect<T, Prisma__story_categories_relationsClient<story_categories_relations>, Prisma__story_categories_relationsClient<story_categories_relationsGetPayload<T>>>
+
+    /**
+     * Create many Story_categories_relations.
+     *     @param {story_categories_relationsCreateManyArgs} args - Arguments to create many Story_categories_relations.
+     *     @example
+     *     // Create many Story_categories_relations
+     *     const story_categories_relations = await prisma.story_categories_relations.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends story_categories_relationsCreateManyArgs>(
+      args?: SelectSubset<T, story_categories_relationsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Story_categories_relations.
+     * @param {story_categories_relationsDeleteArgs} args - Arguments to delete one Story_categories_relations.
+     * @example
+     * // Delete one Story_categories_relations
+     * const Story_categories_relations = await prisma.story_categories_relations.delete({
+     *   where: {
+     *     // ... filter to delete one Story_categories_relations
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends story_categories_relationsDeleteArgs>(
+      args: SelectSubset<T, story_categories_relationsDeleteArgs>
+    ): CheckSelect<T, Prisma__story_categories_relationsClient<story_categories_relations>, Prisma__story_categories_relationsClient<story_categories_relationsGetPayload<T>>>
+
+    /**
+     * Update one Story_categories_relations.
+     * @param {story_categories_relationsUpdateArgs} args - Arguments to update one Story_categories_relations.
+     * @example
+     * // Update one Story_categories_relations
+     * const story_categories_relations = await prisma.story_categories_relations.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends story_categories_relationsUpdateArgs>(
+      args: SelectSubset<T, story_categories_relationsUpdateArgs>
+    ): CheckSelect<T, Prisma__story_categories_relationsClient<story_categories_relations>, Prisma__story_categories_relationsClient<story_categories_relationsGetPayload<T>>>
+
+    /**
+     * Delete zero or more Story_categories_relations.
+     * @param {story_categories_relationsDeleteManyArgs} args - Arguments to filter Story_categories_relations to delete.
+     * @example
+     * // Delete a few Story_categories_relations
+     * const { count } = await prisma.story_categories_relations.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends story_categories_relationsDeleteManyArgs>(
+      args?: SelectSubset<T, story_categories_relationsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Story_categories_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_categories_relationsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Story_categories_relations
+     * const story_categories_relations = await prisma.story_categories_relations.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends story_categories_relationsUpdateManyArgs>(
+      args: SelectSubset<T, story_categories_relationsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Story_categories_relations.
+     * @param {story_categories_relationsUpsertArgs} args - Arguments to update or create a Story_categories_relations.
+     * @example
+     * // Update or create a Story_categories_relations
+     * const story_categories_relations = await prisma.story_categories_relations.upsert({
+     *   create: {
+     *     // ... data to create a Story_categories_relations
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Story_categories_relations we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends story_categories_relationsUpsertArgs>(
+      args: SelectSubset<T, story_categories_relationsUpsertArgs>
+    ): CheckSelect<T, Prisma__story_categories_relationsClient<story_categories_relations>, Prisma__story_categories_relationsClient<story_categories_relationsGetPayload<T>>>
+
+    /**
+     * Count the number of Story_categories_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_categories_relationsCountArgs} args - Arguments to filter Story_categories_relations to count.
+     * @example
+     * // Count the number of Story_categories_relations
+     * const count = await prisma.story_categories_relations.count({
+     *   where: {
+     *     // ... the filter for the Story_categories_relations we want to count
+     *   }
+     * })
+    **/
+    count<T extends story_categories_relationsCountArgs>(
+      args?: Subset<T, story_categories_relationsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Story_categories_relationsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Story_categories_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Story_categories_relationsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Story_categories_relationsAggregateArgs>(args: Subset<T, Story_categories_relationsAggregateArgs>): PrismaPromise<GetStory_categories_relationsAggregateType<T>>
+
+    /**
+     * Group by Story_categories_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Story_categories_relationsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Story_categories_relationsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Story_categories_relationsGroupByArgs['orderBy'] }
+        : { orderBy?: Story_categories_relationsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Story_categories_relationsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStory_categories_relationsGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for story_categories_relations.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__story_categories_relationsClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    story_categories<T extends story_categoriesArgs = {}>(args?: Subset<T, story_categoriesArgs>): CheckSelect<T, Prisma__story_categoriesClient<story_categories | null >, Prisma__story_categoriesClient<story_categoriesGetPayload<T> | null >>;
+
+    story<T extends storiesArgs = {}>(args?: Subset<T, storiesArgs>): CheckSelect<T, Prisma__storiesClient<stories | null >, Prisma__storiesClient<storiesGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * story_categories_relations findUnique
+   */
+  export type story_categories_relationsFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories_relations
+     * 
+    **/
+    select?: story_categories_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categories_relationsInclude | null
+    /**
+     * Throw an Error if a story_categories_relations can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which story_categories_relations to fetch.
+     * 
+    **/
+    where: story_categories_relationsWhereUniqueInput
+  }
+
+
+  /**
+   * story_categories_relations findFirst
+   */
+  export type story_categories_relationsFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories_relations
+     * 
+    **/
+    select?: story_categories_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categories_relationsInclude | null
+    /**
+     * Throw an Error if a story_categories_relations can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which story_categories_relations to fetch.
+     * 
+    **/
+    where?: story_categories_relationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of story_categories_relations to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<story_categories_relationsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for story_categories_relations.
+     * 
+    **/
+    cursor?: story_categories_relationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` story_categories_relations from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` story_categories_relations.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of story_categories_relations.
+     * 
+    **/
+    distinct?: Enumerable<Story_categories_relationsScalarFieldEnum>
+  }
+
+
+  /**
+   * story_categories_relations findMany
+   */
+  export type story_categories_relationsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories_relations
+     * 
+    **/
+    select?: story_categories_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categories_relationsInclude | null
+    /**
+     * Filter, which story_categories_relations to fetch.
+     * 
+    **/
+    where?: story_categories_relationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of story_categories_relations to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<story_categories_relationsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing story_categories_relations.
+     * 
+    **/
+    cursor?: story_categories_relationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` story_categories_relations from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` story_categories_relations.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Story_categories_relationsScalarFieldEnum>
+  }
+
+
+  /**
+   * story_categories_relations create
+   */
+  export type story_categories_relationsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories_relations
+     * 
+    **/
+    select?: story_categories_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categories_relationsInclude | null
+    /**
+     * The data needed to create a story_categories_relations.
+     * 
+    **/
+    data: XOR<story_categories_relationsCreateInput, story_categories_relationsUncheckedCreateInput>
+  }
+
+
+  /**
+   * story_categories_relations createMany
+   */
+  export type story_categories_relationsCreateManyArgs = {
+    /**
+     * The data used to create many story_categories_relations.
+     * 
+    **/
+    data: Enumerable<story_categories_relationsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * story_categories_relations update
+   */
+  export type story_categories_relationsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories_relations
+     * 
+    **/
+    select?: story_categories_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categories_relationsInclude | null
+    /**
+     * The data needed to update a story_categories_relations.
+     * 
+    **/
+    data: XOR<story_categories_relationsUpdateInput, story_categories_relationsUncheckedUpdateInput>
+    /**
+     * Choose, which story_categories_relations to update.
+     * 
+    **/
+    where: story_categories_relationsWhereUniqueInput
+  }
+
+
+  /**
+   * story_categories_relations updateMany
+   */
+  export type story_categories_relationsUpdateManyArgs = {
+    /**
+     * The data used to update story_categories_relations.
+     * 
+    **/
+    data: XOR<story_categories_relationsUpdateManyMutationInput, story_categories_relationsUncheckedUpdateManyInput>
+    /**
+     * Filter which story_categories_relations to update
+     * 
+    **/
+    where?: story_categories_relationsWhereInput
+  }
+
+
+  /**
+   * story_categories_relations upsert
+   */
+  export type story_categories_relationsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories_relations
+     * 
+    **/
+    select?: story_categories_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categories_relationsInclude | null
+    /**
+     * The filter to search for the story_categories_relations to update in case it exists.
+     * 
+    **/
+    where: story_categories_relationsWhereUniqueInput
+    /**
+     * In case the story_categories_relations found by the `where` argument doesn't exist, create a new story_categories_relations with this data.
+     * 
+    **/
+    create: XOR<story_categories_relationsCreateInput, story_categories_relationsUncheckedCreateInput>
+    /**
+     * In case the story_categories_relations was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<story_categories_relationsUpdateInput, story_categories_relationsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * story_categories_relations delete
+   */
+  export type story_categories_relationsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories_relations
+     * 
+    **/
+    select?: story_categories_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categories_relationsInclude | null
+    /**
+     * Filter which story_categories_relations to delete.
+     * 
+    **/
+    where: story_categories_relationsWhereUniqueInput
+  }
+
+
+  /**
+   * story_categories_relations deleteMany
+   */
+  export type story_categories_relationsDeleteManyArgs = {
+    /**
+     * Filter which story_categories_relations to delete
+     * 
+    **/
+    where?: story_categories_relationsWhereInput
+  }
+
+
+  /**
+   * story_categories_relations without action
+   */
+  export type story_categories_relationsArgs = {
+    /**
+     * Select specific fields to fetch from the story_categories_relations
+     * 
+    **/
+    select?: story_categories_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_categories_relationsInclude | null
+  }
+
+
+
+  /**
+   * Model story_dapps_relations
+   */
+
+
+  export type AggregateStory_dapps_relations = {
+    _count: Story_dapps_relationsCountAggregateOutputType | null
+    _avg: Story_dapps_relationsAvgAggregateOutputType | null
+    _sum: Story_dapps_relationsSumAggregateOutputType | null
+    _min: Story_dapps_relationsMinAggregateOutputType | null
+    _max: Story_dapps_relationsMaxAggregateOutputType | null
+  }
+
+  export type Story_dapps_relationsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Story_dapps_relationsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Story_dapps_relationsMinAggregateOutputType = {
+    id: number | null
+    story_id: string | null
+    dapp_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Story_dapps_relationsMaxAggregateOutputType = {
+    id: number | null
+    story_id: string | null
+    dapp_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Story_dapps_relationsCountAggregateOutputType = {
+    id: number
+    story_id: number
+    dapp_id: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Story_dapps_relationsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type Story_dapps_relationsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type Story_dapps_relationsMinAggregateInputType = {
+    id?: true
+    story_id?: true
+    dapp_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Story_dapps_relationsMaxAggregateInputType = {
+    id?: true
+    story_id?: true
+    dapp_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Story_dapps_relationsCountAggregateInputType = {
+    id?: true
+    story_id?: true
+    dapp_id?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Story_dapps_relationsAggregateArgs = {
+    /**
+     * Filter which story_dapps_relations to aggregate.
+     * 
+    **/
+    where?: story_dapps_relationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of story_dapps_relations to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<story_dapps_relationsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: story_dapps_relationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` story_dapps_relations from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` story_dapps_relations.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned story_dapps_relations
+    **/
+    _count?: true | Story_dapps_relationsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Story_dapps_relationsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Story_dapps_relationsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Story_dapps_relationsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Story_dapps_relationsMaxAggregateInputType
+  }
+
+  export type GetStory_dapps_relationsAggregateType<T extends Story_dapps_relationsAggregateArgs> = {
+        [P in keyof T & keyof AggregateStory_dapps_relations]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStory_dapps_relations[P]>
+      : GetScalarType<T[P], AggregateStory_dapps_relations[P]>
+  }
+
+
+
+
+  export type Story_dapps_relationsGroupByArgs = {
+    where?: story_dapps_relationsWhereInput
+    orderBy?: Enumerable<story_dapps_relationsOrderByWithAggregationInput>
+    by: Array<Story_dapps_relationsScalarFieldEnum>
+    having?: story_dapps_relationsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Story_dapps_relationsCountAggregateInputType | true
+    _avg?: Story_dapps_relationsAvgAggregateInputType
+    _sum?: Story_dapps_relationsSumAggregateInputType
+    _min?: Story_dapps_relationsMinAggregateInputType
+    _max?: Story_dapps_relationsMaxAggregateInputType
+  }
+
+
+  export type Story_dapps_relationsGroupByOutputType = {
+    id: number
+    story_id: string
+    dapp_id: string
+    created_at: Date
+    updated_at: Date | null
+    _count: Story_dapps_relationsCountAggregateOutputType | null
+    _avg: Story_dapps_relationsAvgAggregateOutputType | null
+    _sum: Story_dapps_relationsSumAggregateOutputType | null
+    _min: Story_dapps_relationsMinAggregateOutputType | null
+    _max: Story_dapps_relationsMaxAggregateOutputType | null
+  }
+
+  type GetStory_dapps_relationsGroupByPayload<T extends Story_dapps_relationsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Story_dapps_relationsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Story_dapps_relationsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Story_dapps_relationsGroupByOutputType[P]>
+            : GetScalarType<T[P], Story_dapps_relationsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type story_dapps_relationsSelect = {
+    id?: boolean
+    story?: boolean | storiesArgs
+    story_id?: boolean
+    dapp?: boolean | dappsArgs
+    dapp_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type story_dapps_relationsInclude = {
+    story?: boolean | storiesArgs
+    dapp?: boolean | dappsArgs
+  }
+
+  export type story_dapps_relationsGetPayload<
+    S extends boolean | null | undefined | story_dapps_relationsArgs,
+    U = keyof S
+      > = S extends true
+        ? story_dapps_relations
+    : S extends undefined
+    ? never
+    : S extends story_dapps_relationsArgs | story_dapps_relationsFindManyArgs
+    ?'include' extends U
+    ? story_dapps_relations  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'story' ? storiesGetPayload<S['include'][P]> :
+        P extends 'dapp' ? dappsGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'story' ? storiesGetPayload<S['select'][P]> :
+        P extends 'dapp' ? dappsGetPayload<S['select'][P]> :  P extends keyof story_dapps_relations ? story_dapps_relations[P] : never
+  } 
+    : story_dapps_relations
+  : story_dapps_relations
+
+
+  type story_dapps_relationsCountArgs = Merge<
+    Omit<story_dapps_relationsFindManyArgs, 'select' | 'include'> & {
+      select?: Story_dapps_relationsCountAggregateInputType | true
+    }
+  >
+
+  export interface story_dapps_relationsDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Story_dapps_relations that matches the filter.
+     * @param {story_dapps_relationsFindUniqueArgs} args - Arguments to find a Story_dapps_relations
+     * @example
+     * // Get one Story_dapps_relations
+     * const story_dapps_relations = await prisma.story_dapps_relations.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends story_dapps_relationsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, story_dapps_relationsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'story_dapps_relations'> extends True ? CheckSelect<T, Prisma__story_dapps_relationsClient<story_dapps_relations>, Prisma__story_dapps_relationsClient<story_dapps_relationsGetPayload<T>>> : CheckSelect<T, Prisma__story_dapps_relationsClient<story_dapps_relations | null >, Prisma__story_dapps_relationsClient<story_dapps_relationsGetPayload<T> | null >>
+
+    /**
+     * Find the first Story_dapps_relations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_dapps_relationsFindFirstArgs} args - Arguments to find a Story_dapps_relations
+     * @example
+     * // Get one Story_dapps_relations
+     * const story_dapps_relations = await prisma.story_dapps_relations.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends story_dapps_relationsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, story_dapps_relationsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'story_dapps_relations'> extends True ? CheckSelect<T, Prisma__story_dapps_relationsClient<story_dapps_relations>, Prisma__story_dapps_relationsClient<story_dapps_relationsGetPayload<T>>> : CheckSelect<T, Prisma__story_dapps_relationsClient<story_dapps_relations | null >, Prisma__story_dapps_relationsClient<story_dapps_relationsGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Story_dapps_relations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_dapps_relationsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Story_dapps_relations
+     * const story_dapps_relations = await prisma.story_dapps_relations.findMany()
+     * 
+     * // Get first 10 Story_dapps_relations
+     * const story_dapps_relations = await prisma.story_dapps_relations.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const story_dapps_relationsWithIdOnly = await prisma.story_dapps_relations.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends story_dapps_relationsFindManyArgs>(
+      args?: SelectSubset<T, story_dapps_relationsFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<story_dapps_relations>>, PrismaPromise<Array<story_dapps_relationsGetPayload<T>>>>
+
+    /**
+     * Create a Story_dapps_relations.
+     * @param {story_dapps_relationsCreateArgs} args - Arguments to create a Story_dapps_relations.
+     * @example
+     * // Create one Story_dapps_relations
+     * const Story_dapps_relations = await prisma.story_dapps_relations.create({
+     *   data: {
+     *     // ... data to create a Story_dapps_relations
+     *   }
+     * })
+     * 
+    **/
+    create<T extends story_dapps_relationsCreateArgs>(
+      args: SelectSubset<T, story_dapps_relationsCreateArgs>
+    ): CheckSelect<T, Prisma__story_dapps_relationsClient<story_dapps_relations>, Prisma__story_dapps_relationsClient<story_dapps_relationsGetPayload<T>>>
+
+    /**
+     * Create many Story_dapps_relations.
+     *     @param {story_dapps_relationsCreateManyArgs} args - Arguments to create many Story_dapps_relations.
+     *     @example
+     *     // Create many Story_dapps_relations
+     *     const story_dapps_relations = await prisma.story_dapps_relations.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends story_dapps_relationsCreateManyArgs>(
+      args?: SelectSubset<T, story_dapps_relationsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Story_dapps_relations.
+     * @param {story_dapps_relationsDeleteArgs} args - Arguments to delete one Story_dapps_relations.
+     * @example
+     * // Delete one Story_dapps_relations
+     * const Story_dapps_relations = await prisma.story_dapps_relations.delete({
+     *   where: {
+     *     // ... filter to delete one Story_dapps_relations
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends story_dapps_relationsDeleteArgs>(
+      args: SelectSubset<T, story_dapps_relationsDeleteArgs>
+    ): CheckSelect<T, Prisma__story_dapps_relationsClient<story_dapps_relations>, Prisma__story_dapps_relationsClient<story_dapps_relationsGetPayload<T>>>
+
+    /**
+     * Update one Story_dapps_relations.
+     * @param {story_dapps_relationsUpdateArgs} args - Arguments to update one Story_dapps_relations.
+     * @example
+     * // Update one Story_dapps_relations
+     * const story_dapps_relations = await prisma.story_dapps_relations.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends story_dapps_relationsUpdateArgs>(
+      args: SelectSubset<T, story_dapps_relationsUpdateArgs>
+    ): CheckSelect<T, Prisma__story_dapps_relationsClient<story_dapps_relations>, Prisma__story_dapps_relationsClient<story_dapps_relationsGetPayload<T>>>
+
+    /**
+     * Delete zero or more Story_dapps_relations.
+     * @param {story_dapps_relationsDeleteManyArgs} args - Arguments to filter Story_dapps_relations to delete.
+     * @example
+     * // Delete a few Story_dapps_relations
+     * const { count } = await prisma.story_dapps_relations.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends story_dapps_relationsDeleteManyArgs>(
+      args?: SelectSubset<T, story_dapps_relationsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Story_dapps_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_dapps_relationsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Story_dapps_relations
+     * const story_dapps_relations = await prisma.story_dapps_relations.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends story_dapps_relationsUpdateManyArgs>(
+      args: SelectSubset<T, story_dapps_relationsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Story_dapps_relations.
+     * @param {story_dapps_relationsUpsertArgs} args - Arguments to update or create a Story_dapps_relations.
+     * @example
+     * // Update or create a Story_dapps_relations
+     * const story_dapps_relations = await prisma.story_dapps_relations.upsert({
+     *   create: {
+     *     // ... data to create a Story_dapps_relations
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Story_dapps_relations we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends story_dapps_relationsUpsertArgs>(
+      args: SelectSubset<T, story_dapps_relationsUpsertArgs>
+    ): CheckSelect<T, Prisma__story_dapps_relationsClient<story_dapps_relations>, Prisma__story_dapps_relationsClient<story_dapps_relationsGetPayload<T>>>
+
+    /**
+     * Count the number of Story_dapps_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {story_dapps_relationsCountArgs} args - Arguments to filter Story_dapps_relations to count.
+     * @example
+     * // Count the number of Story_dapps_relations
+     * const count = await prisma.story_dapps_relations.count({
+     *   where: {
+     *     // ... the filter for the Story_dapps_relations we want to count
+     *   }
+     * })
+    **/
+    count<T extends story_dapps_relationsCountArgs>(
+      args?: Subset<T, story_dapps_relationsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Story_dapps_relationsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Story_dapps_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Story_dapps_relationsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Story_dapps_relationsAggregateArgs>(args: Subset<T, Story_dapps_relationsAggregateArgs>): PrismaPromise<GetStory_dapps_relationsAggregateType<T>>
+
+    /**
+     * Group by Story_dapps_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Story_dapps_relationsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Story_dapps_relationsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Story_dapps_relationsGroupByArgs['orderBy'] }
+        : { orderBy?: Story_dapps_relationsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Story_dapps_relationsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStory_dapps_relationsGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for story_dapps_relations.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__story_dapps_relationsClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    story<T extends storiesArgs = {}>(args?: Subset<T, storiesArgs>): CheckSelect<T, Prisma__storiesClient<stories | null >, Prisma__storiesClient<storiesGetPayload<T> | null >>;
+
+    dapp<T extends dappsArgs = {}>(args?: Subset<T, dappsArgs>): CheckSelect<T, Prisma__dappsClient<dapps | null >, Prisma__dappsClient<dappsGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * story_dapps_relations findUnique
+   */
+  export type story_dapps_relationsFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the story_dapps_relations
+     * 
+    **/
+    select?: story_dapps_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_dapps_relationsInclude | null
+    /**
+     * Throw an Error if a story_dapps_relations can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which story_dapps_relations to fetch.
+     * 
+    **/
+    where: story_dapps_relationsWhereUniqueInput
+  }
+
+
+  /**
+   * story_dapps_relations findFirst
+   */
+  export type story_dapps_relationsFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the story_dapps_relations
+     * 
+    **/
+    select?: story_dapps_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_dapps_relationsInclude | null
+    /**
+     * Throw an Error if a story_dapps_relations can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which story_dapps_relations to fetch.
+     * 
+    **/
+    where?: story_dapps_relationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of story_dapps_relations to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<story_dapps_relationsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for story_dapps_relations.
+     * 
+    **/
+    cursor?: story_dapps_relationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` story_dapps_relations from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` story_dapps_relations.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of story_dapps_relations.
+     * 
+    **/
+    distinct?: Enumerable<Story_dapps_relationsScalarFieldEnum>
+  }
+
+
+  /**
+   * story_dapps_relations findMany
+   */
+  export type story_dapps_relationsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the story_dapps_relations
+     * 
+    **/
+    select?: story_dapps_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_dapps_relationsInclude | null
+    /**
+     * Filter, which story_dapps_relations to fetch.
+     * 
+    **/
+    where?: story_dapps_relationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of story_dapps_relations to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<story_dapps_relationsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing story_dapps_relations.
+     * 
+    **/
+    cursor?: story_dapps_relationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` story_dapps_relations from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` story_dapps_relations.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Story_dapps_relationsScalarFieldEnum>
+  }
+
+
+  /**
+   * story_dapps_relations create
+   */
+  export type story_dapps_relationsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the story_dapps_relations
+     * 
+    **/
+    select?: story_dapps_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_dapps_relationsInclude | null
+    /**
+     * The data needed to create a story_dapps_relations.
+     * 
+    **/
+    data: XOR<story_dapps_relationsCreateInput, story_dapps_relationsUncheckedCreateInput>
+  }
+
+
+  /**
+   * story_dapps_relations createMany
+   */
+  export type story_dapps_relationsCreateManyArgs = {
+    /**
+     * The data used to create many story_dapps_relations.
+     * 
+    **/
+    data: Enumerable<story_dapps_relationsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * story_dapps_relations update
+   */
+  export type story_dapps_relationsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the story_dapps_relations
+     * 
+    **/
+    select?: story_dapps_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_dapps_relationsInclude | null
+    /**
+     * The data needed to update a story_dapps_relations.
+     * 
+    **/
+    data: XOR<story_dapps_relationsUpdateInput, story_dapps_relationsUncheckedUpdateInput>
+    /**
+     * Choose, which story_dapps_relations to update.
+     * 
+    **/
+    where: story_dapps_relationsWhereUniqueInput
+  }
+
+
+  /**
+   * story_dapps_relations updateMany
+   */
+  export type story_dapps_relationsUpdateManyArgs = {
+    /**
+     * The data used to update story_dapps_relations.
+     * 
+    **/
+    data: XOR<story_dapps_relationsUpdateManyMutationInput, story_dapps_relationsUncheckedUpdateManyInput>
+    /**
+     * Filter which story_dapps_relations to update
+     * 
+    **/
+    where?: story_dapps_relationsWhereInput
+  }
+
+
+  /**
+   * story_dapps_relations upsert
+   */
+  export type story_dapps_relationsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the story_dapps_relations
+     * 
+    **/
+    select?: story_dapps_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_dapps_relationsInclude | null
+    /**
+     * The filter to search for the story_dapps_relations to update in case it exists.
+     * 
+    **/
+    where: story_dapps_relationsWhereUniqueInput
+    /**
+     * In case the story_dapps_relations found by the `where` argument doesn't exist, create a new story_dapps_relations with this data.
+     * 
+    **/
+    create: XOR<story_dapps_relationsCreateInput, story_dapps_relationsUncheckedCreateInput>
+    /**
+     * In case the story_dapps_relations was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<story_dapps_relationsUpdateInput, story_dapps_relationsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * story_dapps_relations delete
+   */
+  export type story_dapps_relationsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the story_dapps_relations
+     * 
+    **/
+    select?: story_dapps_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_dapps_relationsInclude | null
+    /**
+     * Filter which story_dapps_relations to delete.
+     * 
+    **/
+    where: story_dapps_relationsWhereUniqueInput
+  }
+
+
+  /**
+   * story_dapps_relations deleteMany
+   */
+  export type story_dapps_relationsDeleteManyArgs = {
+    /**
+     * Filter which story_dapps_relations to delete
+     * 
+    **/
+    where?: story_dapps_relationsWhereInput
+  }
+
+
+  /**
+   * story_dapps_relations without action
+   */
+  export type story_dapps_relationsArgs = {
+    /**
+     * Select specific fields to fetch from the story_dapps_relations
+     * 
+    **/
+    select?: story_dapps_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: story_dapps_relationsInclude | null
   }
 
 
@@ -9856,7 +13924,8 @@ export namespace Prisma {
     updated_at: 'updated_at',
     visit_count: 'visit_count',
     install_count: 'install_count',
-    visible: 'visible'
+    visible: 'visible',
+    is_good: 'is_good'
   };
 
   export type DappsScalarFieldEnum = (typeof DappsScalarFieldEnum)[keyof typeof DappsScalarFieldEnum]
@@ -9894,6 +13963,58 @@ export namespace Prisma {
   };
 
   export type User_dappsScalarFieldEnum = (typeof User_dappsScalarFieldEnum)[keyof typeof User_dappsScalarFieldEnum]
+
+
+  export const StoriesScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    cover: 'cover',
+    desc: 'desc',
+    url: 'url',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    visible: 'visible',
+    sort: 'sort',
+    is_deleted: 'is_deleted',
+    visit_count: 'visit_count'
+  };
+
+  export type StoriesScalarFieldEnum = (typeof StoriesScalarFieldEnum)[keyof typeof StoriesScalarFieldEnum]
+
+
+  export const Story_categoriesScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    desc: 'desc',
+    sort: 'sort',
+    is_deleted: 'is_deleted',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Story_categoriesScalarFieldEnum = (typeof Story_categoriesScalarFieldEnum)[keyof typeof Story_categoriesScalarFieldEnum]
+
+
+  export const Story_categories_relationsScalarFieldEnum: {
+    id: 'id',
+    story_category_id: 'story_category_id',
+    story_id: 'story_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Story_categories_relationsScalarFieldEnum = (typeof Story_categories_relationsScalarFieldEnum)[keyof typeof Story_categories_relationsScalarFieldEnum]
+
+
+  export const Story_dapps_relationsScalarFieldEnum: {
+    id: 'id',
+    story_id: 'story_id',
+    dapp_id: 'dapp_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Story_dapps_relationsScalarFieldEnum = (typeof Story_dapps_relationsScalarFieldEnum)[keyof typeof Story_dapps_relationsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10022,6 +14143,42 @@ export namespace Prisma {
   export type user_dappsOrderByRelevanceFieldEnum = (typeof user_dappsOrderByRelevanceFieldEnum)[keyof typeof user_dappsOrderByRelevanceFieldEnum]
 
 
+  export const storiesOrderByRelevanceFieldEnum: {
+    id: 'id',
+    title: 'title',
+    cover: 'cover',
+    desc: 'desc',
+    url: 'url'
+  };
+
+  export type storiesOrderByRelevanceFieldEnum = (typeof storiesOrderByRelevanceFieldEnum)[keyof typeof storiesOrderByRelevanceFieldEnum]
+
+
+  export const story_categoriesOrderByRelevanceFieldEnum: {
+    id: 'id',
+    title: 'title',
+    desc: 'desc'
+  };
+
+  export type story_categoriesOrderByRelevanceFieldEnum = (typeof story_categoriesOrderByRelevanceFieldEnum)[keyof typeof story_categoriesOrderByRelevanceFieldEnum]
+
+
+  export const story_categories_relationsOrderByRelevanceFieldEnum: {
+    story_category_id: 'story_category_id',
+    story_id: 'story_id'
+  };
+
+  export type story_categories_relationsOrderByRelevanceFieldEnum = (typeof story_categories_relationsOrderByRelevanceFieldEnum)[keyof typeof story_categories_relationsOrderByRelevanceFieldEnum]
+
+
+  export const story_dapps_relationsOrderByRelevanceFieldEnum: {
+    story_id: 'story_id',
+    dapp_id: 'dapp_id'
+  };
+
+  export type story_dapps_relationsOrderByRelevanceFieldEnum = (typeof story_dapps_relationsOrderByRelevanceFieldEnum)[keyof typeof story_dapps_relationsOrderByRelevanceFieldEnum]
+
+
   /**
    * Deep Input Types
    */
@@ -10041,6 +14198,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeNullableFilter | Date | string | null
     deleted_at?: DateTimeNullableFilter | Date | string | null
+    user_dapps?: User_dappsListRelationFilter
   }
 
   export type usersOrderByWithRelationAndSearchRelevanceInput = {
@@ -10054,6 +14212,7 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
+    user_dapps?: user_dappsOrderByRelationAggregateInput
     _relevance?: usersOrderByRelevanceInput
   }
 
@@ -10373,7 +14532,10 @@ export namespace Prisma {
     visit_count?: IntFilter | number
     install_count?: IntFilter | number
     visible?: BoolFilter | boolean
+    is_good?: BoolFilter | boolean
     dapp_categories_relations?: Dapp_categories_relationsListRelationFilter
+    story_dapps_relations?: Story_dapps_relationsListRelationFilter
+    user_dapps?: User_dappsListRelationFilter
   }
 
   export type dappsOrderByWithRelationAndSearchRelevanceInput = {
@@ -10387,7 +14549,10 @@ export namespace Prisma {
     visit_count?: SortOrder
     install_count?: SortOrder
     visible?: SortOrder
+    is_good?: SortOrder
     dapp_categories_relations?: dapp_categories_relationsOrderByRelationAggregateInput
+    story_dapps_relations?: story_dapps_relationsOrderByRelationAggregateInput
+    user_dapps?: user_dappsOrderByRelationAggregateInput
     _relevance?: dappsOrderByRelevanceInput
   }
 
@@ -10406,6 +14571,7 @@ export namespace Prisma {
     visit_count?: SortOrder
     install_count?: SortOrder
     visible?: SortOrder
+    is_good?: SortOrder
     _count?: dappsCountOrderByAggregateInput
     _avg?: dappsAvgOrderByAggregateInput
     _max?: dappsMaxOrderByAggregateInput
@@ -10427,6 +14593,7 @@ export namespace Prisma {
     visit_count?: IntWithAggregatesFilter | number
     install_count?: IntWithAggregatesFilter | number
     visible?: BoolWithAggregatesFilter | boolean
+    is_good?: BoolWithAggregatesFilter | boolean
   }
 
   export type dapp_categoriesWhereInput = {
@@ -10542,6 +14709,8 @@ export namespace Prisma {
     id?: StringFilter | string
     user_id?: StringFilter | string
     dapp_id?: StringFilter | string
+    dapp?: XOR<DappsRelationFilter, dappsWhereInput>
+    user?: XOR<UsersRelationFilter, usersWhereInput>
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeNullableFilter | Date | string | null
   }
@@ -10550,6 +14719,8 @@ export namespace Prisma {
     id?: SortOrder
     user_id?: SortOrder
     dapp_id?: SortOrder
+    dapp?: dappsOrderByWithRelationAndSearchRelevanceInput
+    user?: usersOrderByWithRelationAndSearchRelevanceInput
     created_at?: SortOrder
     updated_at?: SortOrder
     _relevance?: user_dappsOrderByRelevanceInput
@@ -10582,6 +14753,244 @@ export namespace Prisma {
     updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
+  export type storiesWhereInput = {
+    AND?: Enumerable<storiesWhereInput>
+    OR?: Enumerable<storiesWhereInput>
+    NOT?: Enumerable<storiesWhereInput>
+    id?: StringFilter | string
+    title?: StringFilter | string
+    cover?: StringNullableFilter | string | null
+    desc?: StringNullableFilter | string | null
+    url?: StringNullableFilter | string | null
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+    visible?: BoolFilter | boolean
+    sort?: IntFilter | number
+    is_deleted?: BoolFilter | boolean
+    visit_count?: IntFilter | number
+    story_categories_relations?: Story_categories_relationsListRelationFilter
+    story_dapps_relations?: Story_dapps_relationsListRelationFilter
+  }
+
+  export type storiesOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    title?: SortOrder
+    cover?: SortOrder
+    desc?: SortOrder
+    url?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    visible?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    visit_count?: SortOrder
+    story_categories_relations?: story_categories_relationsOrderByRelationAggregateInput
+    story_dapps_relations?: story_dapps_relationsOrderByRelationAggregateInput
+    _relevance?: storiesOrderByRelevanceInput
+  }
+
+  export type storiesWhereUniqueInput = {
+    id?: string
+  }
+
+  export type storiesOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    cover?: SortOrder
+    desc?: SortOrder
+    url?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    visible?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    visit_count?: SortOrder
+    _count?: storiesCountOrderByAggregateInput
+    _avg?: storiesAvgOrderByAggregateInput
+    _max?: storiesMaxOrderByAggregateInput
+    _min?: storiesMinOrderByAggregateInput
+    _sum?: storiesSumOrderByAggregateInput
+  }
+
+  export type storiesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<storiesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<storiesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<storiesScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    title?: StringWithAggregatesFilter | string
+    cover?: StringNullableWithAggregatesFilter | string | null
+    desc?: StringNullableWithAggregatesFilter | string | null
+    url?: StringNullableWithAggregatesFilter | string | null
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    visible?: BoolWithAggregatesFilter | boolean
+    sort?: IntWithAggregatesFilter | number
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    visit_count?: IntWithAggregatesFilter | number
+  }
+
+  export type story_categoriesWhereInput = {
+    AND?: Enumerable<story_categoriesWhereInput>
+    OR?: Enumerable<story_categoriesWhereInput>
+    NOT?: Enumerable<story_categoriesWhereInput>
+    id?: StringFilter | string
+    title?: StringFilter | string
+    desc?: StringNullableFilter | string | null
+    sort?: IntFilter | number
+    is_deleted?: BoolFilter | boolean
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+    story_categories_relations?: Story_categories_relationsListRelationFilter
+  }
+
+  export type story_categoriesOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    story_categories_relations?: story_categories_relationsOrderByRelationAggregateInput
+    _relevance?: story_categoriesOrderByRelevanceInput
+  }
+
+  export type story_categoriesWhereUniqueInput = {
+    id?: string
+  }
+
+  export type story_categoriesOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: story_categoriesCountOrderByAggregateInput
+    _avg?: story_categoriesAvgOrderByAggregateInput
+    _max?: story_categoriesMaxOrderByAggregateInput
+    _min?: story_categoriesMinOrderByAggregateInput
+    _sum?: story_categoriesSumOrderByAggregateInput
+  }
+
+  export type story_categoriesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<story_categoriesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<story_categoriesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<story_categoriesScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    title?: StringWithAggregatesFilter | string
+    desc?: StringNullableWithAggregatesFilter | string | null
+    sort?: IntWithAggregatesFilter | number
+    is_deleted?: BoolWithAggregatesFilter | boolean
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type story_categories_relationsWhereInput = {
+    AND?: Enumerable<story_categories_relationsWhereInput>
+    OR?: Enumerable<story_categories_relationsWhereInput>
+    NOT?: Enumerable<story_categories_relationsWhereInput>
+    id?: IntFilter | number
+    story_categories?: XOR<Story_categoriesRelationFilter, story_categoriesWhereInput>
+    story_category_id?: StringFilter | string
+    story?: XOR<StoriesRelationFilter, storiesWhereInput>
+    story_id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type story_categories_relationsOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    story_categories?: story_categoriesOrderByWithRelationAndSearchRelevanceInput
+    story_category_id?: SortOrder
+    story?: storiesOrderByWithRelationAndSearchRelevanceInput
+    story_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _relevance?: story_categories_relationsOrderByRelevanceInput
+  }
+
+  export type story_categories_relationsWhereUniqueInput = {
+    id?: number
+  }
+
+  export type story_categories_relationsOrderByWithAggregationInput = {
+    id?: SortOrder
+    story_category_id?: SortOrder
+    story_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: story_categories_relationsCountOrderByAggregateInput
+    _avg?: story_categories_relationsAvgOrderByAggregateInput
+    _max?: story_categories_relationsMaxOrderByAggregateInput
+    _min?: story_categories_relationsMinOrderByAggregateInput
+    _sum?: story_categories_relationsSumOrderByAggregateInput
+  }
+
+  export type story_categories_relationsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<story_categories_relationsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<story_categories_relationsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<story_categories_relationsScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    story_category_id?: StringWithAggregatesFilter | string
+    story_id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type story_dapps_relationsWhereInput = {
+    AND?: Enumerable<story_dapps_relationsWhereInput>
+    OR?: Enumerable<story_dapps_relationsWhereInput>
+    NOT?: Enumerable<story_dapps_relationsWhereInput>
+    id?: IntFilter | number
+    story?: XOR<StoriesRelationFilter, storiesWhereInput>
+    story_id?: StringFilter | string
+    dapp?: XOR<DappsRelationFilter, dappsWhereInput>
+    dapp_id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type story_dapps_relationsOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    story?: storiesOrderByWithRelationAndSearchRelevanceInput
+    story_id?: SortOrder
+    dapp?: dappsOrderByWithRelationAndSearchRelevanceInput
+    dapp_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _relevance?: story_dapps_relationsOrderByRelevanceInput
+  }
+
+  export type story_dapps_relationsWhereUniqueInput = {
+    id?: number
+  }
+
+  export type story_dapps_relationsOrderByWithAggregationInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+    dapp_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: story_dapps_relationsCountOrderByAggregateInput
+    _avg?: story_dapps_relationsAvgOrderByAggregateInput
+    _max?: story_dapps_relationsMaxOrderByAggregateInput
+    _min?: story_dapps_relationsMinOrderByAggregateInput
+    _sum?: story_dapps_relationsSumOrderByAggregateInput
+  }
+
+  export type story_dapps_relationsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<story_dapps_relationsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<story_dapps_relationsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<story_dapps_relationsScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    story_id?: StringWithAggregatesFilter | string
+    dapp_id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
   export type usersCreateInput = {
     id?: string
     address?: string | null
@@ -10593,6 +15002,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    user_dapps?: user_dappsCreateNestedManyWithoutUserInput
   }
 
   export type usersUncheckedCreateInput = {
@@ -10606,6 +15016,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type usersUpdateInput = {
@@ -10619,6 +15030,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUpdateManyWithoutUserInput
   }
 
   export type usersUncheckedUpdateInput = {
@@ -10632,6 +15044,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutUserInput
   }
 
   export type usersCreateManyInput = {
@@ -11010,7 +15423,10 @@ export namespace Prisma {
     visit_count?: number
     install_count?: number
     visible?: boolean
+    is_good?: boolean
     dapp_categories_relations?: dapp_categories_relationsCreateNestedManyWithoutDappInput
+    story_dapps_relations?: story_dapps_relationsCreateNestedManyWithoutDappInput
+    user_dapps?: user_dappsCreateNestedManyWithoutDappInput
   }
 
   export type dappsUncheckedCreateInput = {
@@ -11024,7 +15440,10 @@ export namespace Prisma {
     visit_count?: number
     install_count?: number
     visible?: boolean
+    is_good?: boolean
     dapp_categories_relations?: dapp_categories_relationsUncheckedCreateNestedManyWithoutDappInput
+    story_dapps_relations?: story_dapps_relationsUncheckedCreateNestedManyWithoutDappInput
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutDappInput
   }
 
   export type dappsUpdateInput = {
@@ -11038,7 +15457,10 @@ export namespace Prisma {
     visit_count?: IntFieldUpdateOperationsInput | number
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
     dapp_categories_relations?: dapp_categories_relationsUpdateManyWithoutDappInput
+    story_dapps_relations?: story_dapps_relationsUpdateManyWithoutDappInput
+    user_dapps?: user_dappsUpdateManyWithoutDappInput
   }
 
   export type dappsUncheckedUpdateInput = {
@@ -11052,7 +15474,10 @@ export namespace Prisma {
     visit_count?: IntFieldUpdateOperationsInput | number
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
     dapp_categories_relations?: dapp_categories_relationsUncheckedUpdateManyWithoutDappInput
+    story_dapps_relations?: story_dapps_relationsUncheckedUpdateManyWithoutDappInput
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutDappInput
   }
 
   export type dappsCreateManyInput = {
@@ -11066,6 +15491,7 @@ export namespace Prisma {
     visit_count?: number
     install_count?: number
     visible?: boolean
+    is_good?: boolean
   }
 
   export type dappsUpdateManyMutationInput = {
@@ -11079,6 +15505,7 @@ export namespace Prisma {
     visit_count?: IntFieldUpdateOperationsInput | number
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type dappsUncheckedUpdateManyInput = {
@@ -11092,6 +15519,7 @@ export namespace Prisma {
     visit_count?: IntFieldUpdateOperationsInput | number
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type dapp_categoriesCreateInput = {
@@ -11214,8 +15642,8 @@ export namespace Prisma {
 
   export type user_dappsCreateInput = {
     id?: string
-    user_id: string
-    dapp_id: string
+    dapp: dappsCreateNestedOneWithoutUser_dappsInput
+    user: usersCreateNestedOneWithoutUser_dappsInput
     created_at?: Date | string
     updated_at?: Date | string | null
   }
@@ -11230,8 +15658,8 @@ export namespace Prisma {
 
   export type user_dappsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    dapp_id?: StringFieldUpdateOperationsInput | string
+    dapp?: dappsUpdateOneRequiredWithoutUser_dappsInput
+    user?: usersUpdateOneRequiredWithoutUser_dappsInput
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -11254,8 +15682,6 @@ export namespace Prisma {
 
   export type user_dappsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    dapp_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -11263,6 +15689,288 @@ export namespace Prisma {
   export type user_dappsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
+    dapp_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type storiesCreateInput = {
+    id?: string
+    title: string
+    cover?: string | null
+    desc?: string | null
+    url?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visible?: boolean
+    sort?: number
+    is_deleted?: boolean
+    visit_count?: number
+    story_categories_relations?: story_categories_relationsCreateNestedManyWithoutStoryInput
+    story_dapps_relations?: story_dapps_relationsCreateNestedManyWithoutStoryInput
+  }
+
+  export type storiesUncheckedCreateInput = {
+    id?: string
+    title: string
+    cover?: string | null
+    desc?: string | null
+    url?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visible?: boolean
+    sort?: number
+    is_deleted?: boolean
+    visit_count?: number
+    story_categories_relations?: story_categories_relationsUncheckedCreateNestedManyWithoutStoryInput
+    story_dapps_relations?: story_dapps_relationsUncheckedCreateNestedManyWithoutStoryInput
+  }
+
+  export type storiesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    visit_count?: IntFieldUpdateOperationsInput | number
+    story_categories_relations?: story_categories_relationsUpdateManyWithoutStoryInput
+    story_dapps_relations?: story_dapps_relationsUpdateManyWithoutStoryInput
+  }
+
+  export type storiesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    visit_count?: IntFieldUpdateOperationsInput | number
+    story_categories_relations?: story_categories_relationsUncheckedUpdateManyWithoutStoryInput
+    story_dapps_relations?: story_dapps_relationsUncheckedUpdateManyWithoutStoryInput
+  }
+
+  export type storiesCreateManyInput = {
+    id?: string
+    title: string
+    cover?: string | null
+    desc?: string | null
+    url?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visible?: boolean
+    sort?: number
+    is_deleted?: boolean
+    visit_count?: number
+  }
+
+  export type storiesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    visit_count?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type storiesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    visit_count?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type story_categoriesCreateInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    is_deleted?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    story_categories_relations?: story_categories_relationsCreateNestedManyWithoutStory_categoriesInput
+  }
+
+  export type story_categoriesUncheckedCreateInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    is_deleted?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    story_categories_relations?: story_categories_relationsUncheckedCreateNestedManyWithoutStory_categoriesInput
+  }
+
+  export type story_categoriesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    story_categories_relations?: story_categories_relationsUpdateManyWithoutStory_categoriesInput
+  }
+
+  export type story_categoriesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    story_categories_relations?: story_categories_relationsUncheckedUpdateManyWithoutStory_categoriesInput
+  }
+
+  export type story_categoriesCreateManyInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    is_deleted?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categoriesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categoriesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsCreateInput = {
+    story_categories: story_categoriesCreateNestedOneWithoutStory_categories_relationsInput
+    story: storiesCreateNestedOneWithoutStory_categories_relationsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categories_relationsUncheckedCreateInput = {
+    id?: number
+    story_category_id: string
+    story_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categories_relationsUpdateInput = {
+    story_categories?: story_categoriesUpdateOneRequiredWithoutStory_categories_relationsInput
+    story?: storiesUpdateOneRequiredWithoutStory_categories_relationsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_category_id?: StringFieldUpdateOperationsInput | string
+    story_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsCreateManyInput = {
+    id?: number
+    story_category_id: string
+    story_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categories_relationsUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_category_id?: StringFieldUpdateOperationsInput | string
+    story_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_dapps_relationsCreateInput = {
+    story: storiesCreateNestedOneWithoutStory_dapps_relationsInput
+    dapp: dappsCreateNestedOneWithoutStory_dapps_relationsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_dapps_relationsUncheckedCreateInput = {
+    id?: number
+    story_id: string
+    dapp_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_dapps_relationsUpdateInput = {
+    story?: storiesUpdateOneRequiredWithoutStory_dapps_relationsInput
+    dapp?: dappsUpdateOneRequiredWithoutStory_dapps_relationsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_dapps_relationsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_id?: StringFieldUpdateOperationsInput | string
+    dapp_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_dapps_relationsCreateManyInput = {
+    id?: number
+    story_id: string
+    dapp_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_dapps_relationsUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_dapps_relationsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_id?: StringFieldUpdateOperationsInput | string
     dapp_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11346,6 +16054,16 @@ export namespace Prisma {
     gt?: Date | string
     gte?: Date | string
     not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
+  export type User_dappsListRelationFilter = {
+    every?: user_dappsWhereInput
+    some?: user_dappsWhereInput
+    none?: user_dappsWhereInput
+  }
+
+  export type user_dappsOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type usersOrderByRelevanceInput = {
@@ -11761,7 +16479,17 @@ export namespace Prisma {
     none?: dapp_categories_relationsWhereInput
   }
 
+  export type Story_dapps_relationsListRelationFilter = {
+    every?: story_dapps_relationsWhereInput
+    some?: story_dapps_relationsWhereInput
+    none?: story_dapps_relationsWhereInput
+  }
+
   export type dapp_categories_relationsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type story_dapps_relationsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11782,6 +16510,7 @@ export namespace Prisma {
     visit_count?: SortOrder
     install_count?: SortOrder
     visible?: SortOrder
+    is_good?: SortOrder
   }
 
   export type dappsAvgOrderByAggregateInput = {
@@ -11800,6 +16529,7 @@ export namespace Prisma {
     visit_count?: SortOrder
     install_count?: SortOrder
     visible?: SortOrder
+    is_good?: SortOrder
   }
 
   export type dappsMinOrderByAggregateInput = {
@@ -11813,6 +16543,7 @@ export namespace Prisma {
     visit_count?: SortOrder
     install_count?: SortOrder
     visible?: SortOrder
+    is_good?: SortOrder
   }
 
   export type dappsSumOrderByAggregateInput = {
@@ -11917,6 +16648,11 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type UsersRelationFilter = {
+    is?: usersWhereInput
+    isNot?: usersWhereInput
+  }
+
   export type user_dappsOrderByRelevanceInput = {
     fields: Enumerable<user_dappsOrderByRelevanceFieldEnum>
     sort: SortOrder
@@ -11952,8 +16688,220 @@ export namespace Prisma {
     updated_at?: SortOrder
   }
 
+  export type Story_categories_relationsListRelationFilter = {
+    every?: story_categories_relationsWhereInput
+    some?: story_categories_relationsWhereInput
+    none?: story_categories_relationsWhereInput
+  }
+
+  export type story_categories_relationsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type storiesOrderByRelevanceInput = {
+    fields: Enumerable<storiesOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type storiesCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    cover?: SortOrder
+    desc?: SortOrder
+    url?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    visible?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    visit_count?: SortOrder
+  }
+
+  export type storiesAvgOrderByAggregateInput = {
+    sort?: SortOrder
+    visit_count?: SortOrder
+  }
+
+  export type storiesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    cover?: SortOrder
+    desc?: SortOrder
+    url?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    visible?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    visit_count?: SortOrder
+  }
+
+  export type storiesMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    cover?: SortOrder
+    desc?: SortOrder
+    url?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    visible?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    visit_count?: SortOrder
+  }
+
+  export type storiesSumOrderByAggregateInput = {
+    sort?: SortOrder
+    visit_count?: SortOrder
+  }
+
+  export type story_categoriesOrderByRelevanceInput = {
+    fields: Enumerable<story_categoriesOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type story_categoriesCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type story_categoriesAvgOrderByAggregateInput = {
+    sort?: SortOrder
+  }
+
+  export type story_categoriesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type story_categoriesMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    is_deleted?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type story_categoriesSumOrderByAggregateInput = {
+    sort?: SortOrder
+  }
+
+  export type Story_categoriesRelationFilter = {
+    is?: story_categoriesWhereInput
+    isNot?: story_categoriesWhereInput
+  }
+
+  export type StoriesRelationFilter = {
+    is?: storiesWhereInput
+    isNot?: storiesWhereInput
+  }
+
+  export type story_categories_relationsOrderByRelevanceInput = {
+    fields: Enumerable<story_categories_relationsOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type story_categories_relationsCountOrderByAggregateInput = {
+    id?: SortOrder
+    story_category_id?: SortOrder
+    story_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type story_categories_relationsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type story_categories_relationsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    story_category_id?: SortOrder
+    story_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type story_categories_relationsMinOrderByAggregateInput = {
+    id?: SortOrder
+    story_category_id?: SortOrder
+    story_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type story_categories_relationsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type story_dapps_relationsOrderByRelevanceInput = {
+    fields: Enumerable<story_dapps_relationsOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type story_dapps_relationsCountOrderByAggregateInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+    dapp_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type story_dapps_relationsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type story_dapps_relationsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+    dapp_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type story_dapps_relationsMinOrderByAggregateInput = {
+    id?: SortOrder
+    story_id?: SortOrder
+    dapp_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type story_dapps_relationsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type usersCreateroleInput = {
     set: Enumerable<Role>
+  }
+
+  export type user_dappsCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutUserInput>, Enumerable<user_dappsUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUserInput>
+    createMany?: user_dappsCreateManyUserInputEnvelope
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+  }
+
+  export type user_dappsUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutUserInput>, Enumerable<user_dappsUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUserInput>
+    createMany?: user_dappsCreateManyUserInputEnvelope
+    connect?: Enumerable<user_dappsWhereUniqueInput>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -11979,6 +16927,34 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type user_dappsUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutUserInput>, Enumerable<user_dappsUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<user_dappsUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: user_dappsCreateManyUserInputEnvelope
+    set?: Enumerable<user_dappsWhereUniqueInput>
+    disconnect?: Enumerable<user_dappsWhereUniqueInput>
+    delete?: Enumerable<user_dappsWhereUniqueInput>
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+    update?: Enumerable<user_dappsUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<user_dappsUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<user_dappsScalarWhereInput>
+  }
+
+  export type user_dappsUncheckedUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutUserInput>, Enumerable<user_dappsUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<user_dappsUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: user_dappsCreateManyUserInputEnvelope
+    set?: Enumerable<user_dappsWhereUniqueInput>
+    disconnect?: Enumerable<user_dappsWhereUniqueInput>
+    delete?: Enumerable<user_dappsWhereUniqueInput>
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+    update?: Enumerable<user_dappsUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<user_dappsUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<user_dappsScalarWhereInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -12008,11 +16984,39 @@ export namespace Prisma {
     connect?: Enumerable<dapp_categories_relationsWhereUniqueInput>
   }
 
+  export type story_dapps_relationsCreateNestedManyWithoutDappInput = {
+    create?: XOR<Enumerable<story_dapps_relationsCreateWithoutDappInput>, Enumerable<story_dapps_relationsUncheckedCreateWithoutDappInput>>
+    connectOrCreate?: Enumerable<story_dapps_relationsCreateOrConnectWithoutDappInput>
+    createMany?: story_dapps_relationsCreateManyDappInputEnvelope
+    connect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+  }
+
+  export type user_dappsCreateNestedManyWithoutDappInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutDappInput>, Enumerable<user_dappsUncheckedCreateWithoutDappInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutDappInput>
+    createMany?: user_dappsCreateManyDappInputEnvelope
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+  }
+
   export type dapp_categories_relationsUncheckedCreateNestedManyWithoutDappInput = {
     create?: XOR<Enumerable<dapp_categories_relationsCreateWithoutDappInput>, Enumerable<dapp_categories_relationsUncheckedCreateWithoutDappInput>>
     connectOrCreate?: Enumerable<dapp_categories_relationsCreateOrConnectWithoutDappInput>
     createMany?: dapp_categories_relationsCreateManyDappInputEnvelope
     connect?: Enumerable<dapp_categories_relationsWhereUniqueInput>
+  }
+
+  export type story_dapps_relationsUncheckedCreateNestedManyWithoutDappInput = {
+    create?: XOR<Enumerable<story_dapps_relationsCreateWithoutDappInput>, Enumerable<story_dapps_relationsUncheckedCreateWithoutDappInput>>
+    connectOrCreate?: Enumerable<story_dapps_relationsCreateOrConnectWithoutDappInput>
+    createMany?: story_dapps_relationsCreateManyDappInputEnvelope
+    connect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+  }
+
+  export type user_dappsUncheckedCreateNestedManyWithoutDappInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutDappInput>, Enumerable<user_dappsUncheckedCreateWithoutDappInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutDappInput>
+    createMany?: user_dappsCreateManyDappInputEnvelope
+    connect?: Enumerable<user_dappsWhereUniqueInput>
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -12033,6 +17037,34 @@ export namespace Prisma {
     deleteMany?: Enumerable<dapp_categories_relationsScalarWhereInput>
   }
 
+  export type story_dapps_relationsUpdateManyWithoutDappInput = {
+    create?: XOR<Enumerable<story_dapps_relationsCreateWithoutDappInput>, Enumerable<story_dapps_relationsUncheckedCreateWithoutDappInput>>
+    connectOrCreate?: Enumerable<story_dapps_relationsCreateOrConnectWithoutDappInput>
+    upsert?: Enumerable<story_dapps_relationsUpsertWithWhereUniqueWithoutDappInput>
+    createMany?: story_dapps_relationsCreateManyDappInputEnvelope
+    set?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    disconnect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    delete?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    connect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    update?: Enumerable<story_dapps_relationsUpdateWithWhereUniqueWithoutDappInput>
+    updateMany?: Enumerable<story_dapps_relationsUpdateManyWithWhereWithoutDappInput>
+    deleteMany?: Enumerable<story_dapps_relationsScalarWhereInput>
+  }
+
+  export type user_dappsUpdateManyWithoutDappInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutDappInput>, Enumerable<user_dappsUncheckedCreateWithoutDappInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutDappInput>
+    upsert?: Enumerable<user_dappsUpsertWithWhereUniqueWithoutDappInput>
+    createMany?: user_dappsCreateManyDappInputEnvelope
+    set?: Enumerable<user_dappsWhereUniqueInput>
+    disconnect?: Enumerable<user_dappsWhereUniqueInput>
+    delete?: Enumerable<user_dappsWhereUniqueInput>
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+    update?: Enumerable<user_dappsUpdateWithWhereUniqueWithoutDappInput>
+    updateMany?: Enumerable<user_dappsUpdateManyWithWhereWithoutDappInput>
+    deleteMany?: Enumerable<user_dappsScalarWhereInput>
+  }
+
   export type dapp_categories_relationsUncheckedUpdateManyWithoutDappInput = {
     create?: XOR<Enumerable<dapp_categories_relationsCreateWithoutDappInput>, Enumerable<dapp_categories_relationsUncheckedCreateWithoutDappInput>>
     connectOrCreate?: Enumerable<dapp_categories_relationsCreateOrConnectWithoutDappInput>
@@ -12045,6 +17077,34 @@ export namespace Prisma {
     update?: Enumerable<dapp_categories_relationsUpdateWithWhereUniqueWithoutDappInput>
     updateMany?: Enumerable<dapp_categories_relationsUpdateManyWithWhereWithoutDappInput>
     deleteMany?: Enumerable<dapp_categories_relationsScalarWhereInput>
+  }
+
+  export type story_dapps_relationsUncheckedUpdateManyWithoutDappInput = {
+    create?: XOR<Enumerable<story_dapps_relationsCreateWithoutDappInput>, Enumerable<story_dapps_relationsUncheckedCreateWithoutDappInput>>
+    connectOrCreate?: Enumerable<story_dapps_relationsCreateOrConnectWithoutDappInput>
+    upsert?: Enumerable<story_dapps_relationsUpsertWithWhereUniqueWithoutDappInput>
+    createMany?: story_dapps_relationsCreateManyDappInputEnvelope
+    set?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    disconnect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    delete?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    connect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    update?: Enumerable<story_dapps_relationsUpdateWithWhereUniqueWithoutDappInput>
+    updateMany?: Enumerable<story_dapps_relationsUpdateManyWithWhereWithoutDappInput>
+    deleteMany?: Enumerable<story_dapps_relationsScalarWhereInput>
+  }
+
+  export type user_dappsUncheckedUpdateManyWithoutDappInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutDappInput>, Enumerable<user_dappsUncheckedCreateWithoutDappInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutDappInput>
+    upsert?: Enumerable<user_dappsUpsertWithWhereUniqueWithoutDappInput>
+    createMany?: user_dappsCreateManyDappInputEnvelope
+    set?: Enumerable<user_dappsWhereUniqueInput>
+    disconnect?: Enumerable<user_dappsWhereUniqueInput>
+    delete?: Enumerable<user_dappsWhereUniqueInput>
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+    update?: Enumerable<user_dappsUpdateWithWhereUniqueWithoutDappInput>
+    updateMany?: Enumerable<user_dappsUpdateManyWithWhereWithoutDappInput>
+    deleteMany?: Enumerable<user_dappsScalarWhereInput>
   }
 
   export type dapp_categories_relationsCreateNestedManyWithoutDapp_categoriesInput = {
@@ -12115,6 +17175,216 @@ export namespace Prisma {
     upsert?: dappsUpsertWithoutDapp_categories_relationsInput
     connect?: dappsWhereUniqueInput
     update?: XOR<dappsUpdateWithoutDapp_categories_relationsInput, dappsUncheckedUpdateWithoutDapp_categories_relationsInput>
+  }
+
+  export type dappsCreateNestedOneWithoutUser_dappsInput = {
+    create?: XOR<dappsCreateWithoutUser_dappsInput, dappsUncheckedCreateWithoutUser_dappsInput>
+    connectOrCreate?: dappsCreateOrConnectWithoutUser_dappsInput
+    connect?: dappsWhereUniqueInput
+  }
+
+  export type usersCreateNestedOneWithoutUser_dappsInput = {
+    create?: XOR<usersCreateWithoutUser_dappsInput, usersUncheckedCreateWithoutUser_dappsInput>
+    connectOrCreate?: usersCreateOrConnectWithoutUser_dappsInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type dappsUpdateOneRequiredWithoutUser_dappsInput = {
+    create?: XOR<dappsCreateWithoutUser_dappsInput, dappsUncheckedCreateWithoutUser_dappsInput>
+    connectOrCreate?: dappsCreateOrConnectWithoutUser_dappsInput
+    upsert?: dappsUpsertWithoutUser_dappsInput
+    connect?: dappsWhereUniqueInput
+    update?: XOR<dappsUpdateWithoutUser_dappsInput, dappsUncheckedUpdateWithoutUser_dappsInput>
+  }
+
+  export type usersUpdateOneRequiredWithoutUser_dappsInput = {
+    create?: XOR<usersCreateWithoutUser_dappsInput, usersUncheckedCreateWithoutUser_dappsInput>
+    connectOrCreate?: usersCreateOrConnectWithoutUser_dappsInput
+    upsert?: usersUpsertWithoutUser_dappsInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<usersUpdateWithoutUser_dappsInput, usersUncheckedUpdateWithoutUser_dappsInput>
+  }
+
+  export type story_categories_relationsCreateNestedManyWithoutStoryInput = {
+    create?: XOR<Enumerable<story_categories_relationsCreateWithoutStoryInput>, Enumerable<story_categories_relationsUncheckedCreateWithoutStoryInput>>
+    connectOrCreate?: Enumerable<story_categories_relationsCreateOrConnectWithoutStoryInput>
+    createMany?: story_categories_relationsCreateManyStoryInputEnvelope
+    connect?: Enumerable<story_categories_relationsWhereUniqueInput>
+  }
+
+  export type story_dapps_relationsCreateNestedManyWithoutStoryInput = {
+    create?: XOR<Enumerable<story_dapps_relationsCreateWithoutStoryInput>, Enumerable<story_dapps_relationsUncheckedCreateWithoutStoryInput>>
+    connectOrCreate?: Enumerable<story_dapps_relationsCreateOrConnectWithoutStoryInput>
+    createMany?: story_dapps_relationsCreateManyStoryInputEnvelope
+    connect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+  }
+
+  export type story_categories_relationsUncheckedCreateNestedManyWithoutStoryInput = {
+    create?: XOR<Enumerable<story_categories_relationsCreateWithoutStoryInput>, Enumerable<story_categories_relationsUncheckedCreateWithoutStoryInput>>
+    connectOrCreate?: Enumerable<story_categories_relationsCreateOrConnectWithoutStoryInput>
+    createMany?: story_categories_relationsCreateManyStoryInputEnvelope
+    connect?: Enumerable<story_categories_relationsWhereUniqueInput>
+  }
+
+  export type story_dapps_relationsUncheckedCreateNestedManyWithoutStoryInput = {
+    create?: XOR<Enumerable<story_dapps_relationsCreateWithoutStoryInput>, Enumerable<story_dapps_relationsUncheckedCreateWithoutStoryInput>>
+    connectOrCreate?: Enumerable<story_dapps_relationsCreateOrConnectWithoutStoryInput>
+    createMany?: story_dapps_relationsCreateManyStoryInputEnvelope
+    connect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+  }
+
+  export type story_categories_relationsUpdateManyWithoutStoryInput = {
+    create?: XOR<Enumerable<story_categories_relationsCreateWithoutStoryInput>, Enumerable<story_categories_relationsUncheckedCreateWithoutStoryInput>>
+    connectOrCreate?: Enumerable<story_categories_relationsCreateOrConnectWithoutStoryInput>
+    upsert?: Enumerable<story_categories_relationsUpsertWithWhereUniqueWithoutStoryInput>
+    createMany?: story_categories_relationsCreateManyStoryInputEnvelope
+    set?: Enumerable<story_categories_relationsWhereUniqueInput>
+    disconnect?: Enumerable<story_categories_relationsWhereUniqueInput>
+    delete?: Enumerable<story_categories_relationsWhereUniqueInput>
+    connect?: Enumerable<story_categories_relationsWhereUniqueInput>
+    update?: Enumerable<story_categories_relationsUpdateWithWhereUniqueWithoutStoryInput>
+    updateMany?: Enumerable<story_categories_relationsUpdateManyWithWhereWithoutStoryInput>
+    deleteMany?: Enumerable<story_categories_relationsScalarWhereInput>
+  }
+
+  export type story_dapps_relationsUpdateManyWithoutStoryInput = {
+    create?: XOR<Enumerable<story_dapps_relationsCreateWithoutStoryInput>, Enumerable<story_dapps_relationsUncheckedCreateWithoutStoryInput>>
+    connectOrCreate?: Enumerable<story_dapps_relationsCreateOrConnectWithoutStoryInput>
+    upsert?: Enumerable<story_dapps_relationsUpsertWithWhereUniqueWithoutStoryInput>
+    createMany?: story_dapps_relationsCreateManyStoryInputEnvelope
+    set?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    disconnect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    delete?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    connect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    update?: Enumerable<story_dapps_relationsUpdateWithWhereUniqueWithoutStoryInput>
+    updateMany?: Enumerable<story_dapps_relationsUpdateManyWithWhereWithoutStoryInput>
+    deleteMany?: Enumerable<story_dapps_relationsScalarWhereInput>
+  }
+
+  export type story_categories_relationsUncheckedUpdateManyWithoutStoryInput = {
+    create?: XOR<Enumerable<story_categories_relationsCreateWithoutStoryInput>, Enumerable<story_categories_relationsUncheckedCreateWithoutStoryInput>>
+    connectOrCreate?: Enumerable<story_categories_relationsCreateOrConnectWithoutStoryInput>
+    upsert?: Enumerable<story_categories_relationsUpsertWithWhereUniqueWithoutStoryInput>
+    createMany?: story_categories_relationsCreateManyStoryInputEnvelope
+    set?: Enumerable<story_categories_relationsWhereUniqueInput>
+    disconnect?: Enumerable<story_categories_relationsWhereUniqueInput>
+    delete?: Enumerable<story_categories_relationsWhereUniqueInput>
+    connect?: Enumerable<story_categories_relationsWhereUniqueInput>
+    update?: Enumerable<story_categories_relationsUpdateWithWhereUniqueWithoutStoryInput>
+    updateMany?: Enumerable<story_categories_relationsUpdateManyWithWhereWithoutStoryInput>
+    deleteMany?: Enumerable<story_categories_relationsScalarWhereInput>
+  }
+
+  export type story_dapps_relationsUncheckedUpdateManyWithoutStoryInput = {
+    create?: XOR<Enumerable<story_dapps_relationsCreateWithoutStoryInput>, Enumerable<story_dapps_relationsUncheckedCreateWithoutStoryInput>>
+    connectOrCreate?: Enumerable<story_dapps_relationsCreateOrConnectWithoutStoryInput>
+    upsert?: Enumerable<story_dapps_relationsUpsertWithWhereUniqueWithoutStoryInput>
+    createMany?: story_dapps_relationsCreateManyStoryInputEnvelope
+    set?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    disconnect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    delete?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    connect?: Enumerable<story_dapps_relationsWhereUniqueInput>
+    update?: Enumerable<story_dapps_relationsUpdateWithWhereUniqueWithoutStoryInput>
+    updateMany?: Enumerable<story_dapps_relationsUpdateManyWithWhereWithoutStoryInput>
+    deleteMany?: Enumerable<story_dapps_relationsScalarWhereInput>
+  }
+
+  export type story_categories_relationsCreateNestedManyWithoutStory_categoriesInput = {
+    create?: XOR<Enumerable<story_categories_relationsCreateWithoutStory_categoriesInput>, Enumerable<story_categories_relationsUncheckedCreateWithoutStory_categoriesInput>>
+    connectOrCreate?: Enumerable<story_categories_relationsCreateOrConnectWithoutStory_categoriesInput>
+    createMany?: story_categories_relationsCreateManyStory_categoriesInputEnvelope
+    connect?: Enumerable<story_categories_relationsWhereUniqueInput>
+  }
+
+  export type story_categories_relationsUncheckedCreateNestedManyWithoutStory_categoriesInput = {
+    create?: XOR<Enumerable<story_categories_relationsCreateWithoutStory_categoriesInput>, Enumerable<story_categories_relationsUncheckedCreateWithoutStory_categoriesInput>>
+    connectOrCreate?: Enumerable<story_categories_relationsCreateOrConnectWithoutStory_categoriesInput>
+    createMany?: story_categories_relationsCreateManyStory_categoriesInputEnvelope
+    connect?: Enumerable<story_categories_relationsWhereUniqueInput>
+  }
+
+  export type story_categories_relationsUpdateManyWithoutStory_categoriesInput = {
+    create?: XOR<Enumerable<story_categories_relationsCreateWithoutStory_categoriesInput>, Enumerable<story_categories_relationsUncheckedCreateWithoutStory_categoriesInput>>
+    connectOrCreate?: Enumerable<story_categories_relationsCreateOrConnectWithoutStory_categoriesInput>
+    upsert?: Enumerable<story_categories_relationsUpsertWithWhereUniqueWithoutStory_categoriesInput>
+    createMany?: story_categories_relationsCreateManyStory_categoriesInputEnvelope
+    set?: Enumerable<story_categories_relationsWhereUniqueInput>
+    disconnect?: Enumerable<story_categories_relationsWhereUniqueInput>
+    delete?: Enumerable<story_categories_relationsWhereUniqueInput>
+    connect?: Enumerable<story_categories_relationsWhereUniqueInput>
+    update?: Enumerable<story_categories_relationsUpdateWithWhereUniqueWithoutStory_categoriesInput>
+    updateMany?: Enumerable<story_categories_relationsUpdateManyWithWhereWithoutStory_categoriesInput>
+    deleteMany?: Enumerable<story_categories_relationsScalarWhereInput>
+  }
+
+  export type story_categories_relationsUncheckedUpdateManyWithoutStory_categoriesInput = {
+    create?: XOR<Enumerable<story_categories_relationsCreateWithoutStory_categoriesInput>, Enumerable<story_categories_relationsUncheckedCreateWithoutStory_categoriesInput>>
+    connectOrCreate?: Enumerable<story_categories_relationsCreateOrConnectWithoutStory_categoriesInput>
+    upsert?: Enumerable<story_categories_relationsUpsertWithWhereUniqueWithoutStory_categoriesInput>
+    createMany?: story_categories_relationsCreateManyStory_categoriesInputEnvelope
+    set?: Enumerable<story_categories_relationsWhereUniqueInput>
+    disconnect?: Enumerable<story_categories_relationsWhereUniqueInput>
+    delete?: Enumerable<story_categories_relationsWhereUniqueInput>
+    connect?: Enumerable<story_categories_relationsWhereUniqueInput>
+    update?: Enumerable<story_categories_relationsUpdateWithWhereUniqueWithoutStory_categoriesInput>
+    updateMany?: Enumerable<story_categories_relationsUpdateManyWithWhereWithoutStory_categoriesInput>
+    deleteMany?: Enumerable<story_categories_relationsScalarWhereInput>
+  }
+
+  export type story_categoriesCreateNestedOneWithoutStory_categories_relationsInput = {
+    create?: XOR<story_categoriesCreateWithoutStory_categories_relationsInput, story_categoriesUncheckedCreateWithoutStory_categories_relationsInput>
+    connectOrCreate?: story_categoriesCreateOrConnectWithoutStory_categories_relationsInput
+    connect?: story_categoriesWhereUniqueInput
+  }
+
+  export type storiesCreateNestedOneWithoutStory_categories_relationsInput = {
+    create?: XOR<storiesCreateWithoutStory_categories_relationsInput, storiesUncheckedCreateWithoutStory_categories_relationsInput>
+    connectOrCreate?: storiesCreateOrConnectWithoutStory_categories_relationsInput
+    connect?: storiesWhereUniqueInput
+  }
+
+  export type story_categoriesUpdateOneRequiredWithoutStory_categories_relationsInput = {
+    create?: XOR<story_categoriesCreateWithoutStory_categories_relationsInput, story_categoriesUncheckedCreateWithoutStory_categories_relationsInput>
+    connectOrCreate?: story_categoriesCreateOrConnectWithoutStory_categories_relationsInput
+    upsert?: story_categoriesUpsertWithoutStory_categories_relationsInput
+    connect?: story_categoriesWhereUniqueInput
+    update?: XOR<story_categoriesUpdateWithoutStory_categories_relationsInput, story_categoriesUncheckedUpdateWithoutStory_categories_relationsInput>
+  }
+
+  export type storiesUpdateOneRequiredWithoutStory_categories_relationsInput = {
+    create?: XOR<storiesCreateWithoutStory_categories_relationsInput, storiesUncheckedCreateWithoutStory_categories_relationsInput>
+    connectOrCreate?: storiesCreateOrConnectWithoutStory_categories_relationsInput
+    upsert?: storiesUpsertWithoutStory_categories_relationsInput
+    connect?: storiesWhereUniqueInput
+    update?: XOR<storiesUpdateWithoutStory_categories_relationsInput, storiesUncheckedUpdateWithoutStory_categories_relationsInput>
+  }
+
+  export type storiesCreateNestedOneWithoutStory_dapps_relationsInput = {
+    create?: XOR<storiesCreateWithoutStory_dapps_relationsInput, storiesUncheckedCreateWithoutStory_dapps_relationsInput>
+    connectOrCreate?: storiesCreateOrConnectWithoutStory_dapps_relationsInput
+    connect?: storiesWhereUniqueInput
+  }
+
+  export type dappsCreateNestedOneWithoutStory_dapps_relationsInput = {
+    create?: XOR<dappsCreateWithoutStory_dapps_relationsInput, dappsUncheckedCreateWithoutStory_dapps_relationsInput>
+    connectOrCreate?: dappsCreateOrConnectWithoutStory_dapps_relationsInput
+    connect?: dappsWhereUniqueInput
+  }
+
+  export type storiesUpdateOneRequiredWithoutStory_dapps_relationsInput = {
+    create?: XOR<storiesCreateWithoutStory_dapps_relationsInput, storiesUncheckedCreateWithoutStory_dapps_relationsInput>
+    connectOrCreate?: storiesCreateOrConnectWithoutStory_dapps_relationsInput
+    upsert?: storiesUpsertWithoutStory_dapps_relationsInput
+    connect?: storiesWhereUniqueInput
+    update?: XOR<storiesUpdateWithoutStory_dapps_relationsInput, storiesUncheckedUpdateWithoutStory_dapps_relationsInput>
+  }
+
+  export type dappsUpdateOneRequiredWithoutStory_dapps_relationsInput = {
+    create?: XOR<dappsCreateWithoutStory_dapps_relationsInput, dappsUncheckedCreateWithoutStory_dapps_relationsInput>
+    connectOrCreate?: dappsCreateOrConnectWithoutStory_dapps_relationsInput
+    upsert?: dappsUpsertWithoutStory_dapps_relationsInput
+    connect?: dappsWhereUniqueInput
+    update?: XOR<dappsUpdateWithoutStory_dapps_relationsInput, dappsUncheckedUpdateWithoutStory_dapps_relationsInput>
   }
 
   export type NestedStringFilter = {
@@ -12363,6 +17633,57 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
+  export type user_dappsCreateWithoutUserInput = {
+    id?: string
+    dapp: dappsCreateNestedOneWithoutUser_dappsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type user_dappsUncheckedCreateWithoutUserInput = {
+    id?: string
+    dapp_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type user_dappsCreateOrConnectWithoutUserInput = {
+    where: user_dappsWhereUniqueInput
+    create: XOR<user_dappsCreateWithoutUserInput, user_dappsUncheckedCreateWithoutUserInput>
+  }
+
+  export type user_dappsCreateManyUserInputEnvelope = {
+    data: Enumerable<user_dappsCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type user_dappsUpsertWithWhereUniqueWithoutUserInput = {
+    where: user_dappsWhereUniqueInput
+    update: XOR<user_dappsUpdateWithoutUserInput, user_dappsUncheckedUpdateWithoutUserInput>
+    create: XOR<user_dappsCreateWithoutUserInput, user_dappsUncheckedCreateWithoutUserInput>
+  }
+
+  export type user_dappsUpdateWithWhereUniqueWithoutUserInput = {
+    where: user_dappsWhereUniqueInput
+    data: XOR<user_dappsUpdateWithoutUserInput, user_dappsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type user_dappsUpdateManyWithWhereWithoutUserInput = {
+    where: user_dappsScalarWhereInput
+    data: XOR<user_dappsUpdateManyMutationInput, user_dappsUncheckedUpdateManyWithoutUser_dappsInput>
+  }
+
+  export type user_dappsScalarWhereInput = {
+    AND?: Enumerable<user_dappsScalarWhereInput>
+    OR?: Enumerable<user_dappsScalarWhereInput>
+    NOT?: Enumerable<user_dappsScalarWhereInput>
+    id?: StringFilter | string
+    user_id?: StringFilter | string
+    dapp_id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+  }
+
   export type dapp_categories_relationsCreateWithoutDappInput = {
     dapp_categories: dapp_categoriesCreateNestedOneWithoutDapp_categories_relationsInput
     subcategory_id?: string | null
@@ -12385,6 +17706,53 @@ export namespace Prisma {
 
   export type dapp_categories_relationsCreateManyDappInputEnvelope = {
     data: Enumerable<dapp_categories_relationsCreateManyDappInput>
+    skipDuplicates?: boolean
+  }
+
+  export type story_dapps_relationsCreateWithoutDappInput = {
+    story: storiesCreateNestedOneWithoutStory_dapps_relationsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_dapps_relationsUncheckedCreateWithoutDappInput = {
+    id?: number
+    story_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_dapps_relationsCreateOrConnectWithoutDappInput = {
+    where: story_dapps_relationsWhereUniqueInput
+    create: XOR<story_dapps_relationsCreateWithoutDappInput, story_dapps_relationsUncheckedCreateWithoutDappInput>
+  }
+
+  export type story_dapps_relationsCreateManyDappInputEnvelope = {
+    data: Enumerable<story_dapps_relationsCreateManyDappInput>
+    skipDuplicates?: boolean
+  }
+
+  export type user_dappsCreateWithoutDappInput = {
+    id?: string
+    user: usersCreateNestedOneWithoutUser_dappsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type user_dappsUncheckedCreateWithoutDappInput = {
+    id?: string
+    user_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type user_dappsCreateOrConnectWithoutDappInput = {
+    where: user_dappsWhereUniqueInput
+    create: XOR<user_dappsCreateWithoutDappInput, user_dappsUncheckedCreateWithoutDappInput>
+  }
+
+  export type user_dappsCreateManyDappInputEnvelope = {
+    data: Enumerable<user_dappsCreateManyDappInput>
     skipDuplicates?: boolean
   }
 
@@ -12414,6 +17782,49 @@ export namespace Prisma {
     dapp_id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type story_dapps_relationsUpsertWithWhereUniqueWithoutDappInput = {
+    where: story_dapps_relationsWhereUniqueInput
+    update: XOR<story_dapps_relationsUpdateWithoutDappInput, story_dapps_relationsUncheckedUpdateWithoutDappInput>
+    create: XOR<story_dapps_relationsCreateWithoutDappInput, story_dapps_relationsUncheckedCreateWithoutDappInput>
+  }
+
+  export type story_dapps_relationsUpdateWithWhereUniqueWithoutDappInput = {
+    where: story_dapps_relationsWhereUniqueInput
+    data: XOR<story_dapps_relationsUpdateWithoutDappInput, story_dapps_relationsUncheckedUpdateWithoutDappInput>
+  }
+
+  export type story_dapps_relationsUpdateManyWithWhereWithoutDappInput = {
+    where: story_dapps_relationsScalarWhereInput
+    data: XOR<story_dapps_relationsUpdateManyMutationInput, story_dapps_relationsUncheckedUpdateManyWithoutStory_dapps_relationsInput>
+  }
+
+  export type story_dapps_relationsScalarWhereInput = {
+    AND?: Enumerable<story_dapps_relationsScalarWhereInput>
+    OR?: Enumerable<story_dapps_relationsScalarWhereInput>
+    NOT?: Enumerable<story_dapps_relationsScalarWhereInput>
+    id?: IntFilter | number
+    story_id?: StringFilter | string
+    dapp_id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type user_dappsUpsertWithWhereUniqueWithoutDappInput = {
+    where: user_dappsWhereUniqueInput
+    update: XOR<user_dappsUpdateWithoutDappInput, user_dappsUncheckedUpdateWithoutDappInput>
+    create: XOR<user_dappsCreateWithoutDappInput, user_dappsUncheckedCreateWithoutDappInput>
+  }
+
+  export type user_dappsUpdateWithWhereUniqueWithoutDappInput = {
+    where: user_dappsWhereUniqueInput
+    data: XOR<user_dappsUpdateWithoutDappInput, user_dappsUncheckedUpdateWithoutDappInput>
+  }
+
+  export type user_dappsUpdateManyWithWhereWithoutDappInput = {
+    where: user_dappsScalarWhereInput
+    data: XOR<user_dappsUpdateManyMutationInput, user_dappsUncheckedUpdateManyWithoutUser_dappsInput>
   }
 
   export type dapp_categories_relationsCreateWithoutDapp_categoriesInput = {
@@ -12489,6 +17900,9 @@ export namespace Prisma {
     visit_count?: number
     install_count?: number
     visible?: boolean
+    is_good?: boolean
+    story_dapps_relations?: story_dapps_relationsCreateNestedManyWithoutDappInput
+    user_dapps?: user_dappsCreateNestedManyWithoutDappInput
   }
 
   export type dappsUncheckedCreateWithoutDapp_categories_relationsInput = {
@@ -12502,6 +17916,9 @@ export namespace Prisma {
     visit_count?: number
     install_count?: number
     visible?: boolean
+    is_good?: boolean
+    story_dapps_relations?: story_dapps_relationsUncheckedCreateNestedManyWithoutDappInput
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutDappInput
   }
 
   export type dappsCreateOrConnectWithoutDapp_categories_relationsInput = {
@@ -12546,6 +17963,9 @@ export namespace Prisma {
     visit_count?: IntFieldUpdateOperationsInput | number
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
+    story_dapps_relations?: story_dapps_relationsUpdateManyWithoutDappInput
+    user_dapps?: user_dappsUpdateManyWithoutDappInput
   }
 
   export type dappsUncheckedUpdateWithoutDapp_categories_relationsInput = {
@@ -12559,12 +17979,585 @@ export namespace Prisma {
     visit_count?: IntFieldUpdateOperationsInput | number
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
+    story_dapps_relations?: story_dapps_relationsUncheckedUpdateManyWithoutDappInput
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutDappInput
+  }
+
+  export type dappsCreateWithoutUser_dappsInput = {
+    id?: string
+    title: string
+    url: string
+    logo?: string | null
+    desc?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visit_count?: number
+    install_count?: number
+    visible?: boolean
+    is_good?: boolean
+    dapp_categories_relations?: dapp_categories_relationsCreateNestedManyWithoutDappInput
+    story_dapps_relations?: story_dapps_relationsCreateNestedManyWithoutDappInput
+  }
+
+  export type dappsUncheckedCreateWithoutUser_dappsInput = {
+    id?: string
+    title: string
+    url: string
+    logo?: string | null
+    desc?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visit_count?: number
+    install_count?: number
+    visible?: boolean
+    is_good?: boolean
+    dapp_categories_relations?: dapp_categories_relationsUncheckedCreateNestedManyWithoutDappInput
+    story_dapps_relations?: story_dapps_relationsUncheckedCreateNestedManyWithoutDappInput
+  }
+
+  export type dappsCreateOrConnectWithoutUser_dappsInput = {
+    where: dappsWhereUniqueInput
+    create: XOR<dappsCreateWithoutUser_dappsInput, dappsUncheckedCreateWithoutUser_dappsInput>
+  }
+
+  export type usersCreateWithoutUser_dappsInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+  }
+
+  export type usersUncheckedCreateWithoutUser_dappsInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+  }
+
+  export type usersCreateOrConnectWithoutUser_dappsInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutUser_dappsInput, usersUncheckedCreateWithoutUser_dappsInput>
+  }
+
+  export type dappsUpsertWithoutUser_dappsInput = {
+    update: XOR<dappsUpdateWithoutUser_dappsInput, dappsUncheckedUpdateWithoutUser_dappsInput>
+    create: XOR<dappsCreateWithoutUser_dappsInput, dappsUncheckedCreateWithoutUser_dappsInput>
+  }
+
+  export type dappsUpdateWithoutUser_dappsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visit_count?: IntFieldUpdateOperationsInput | number
+    install_count?: IntFieldUpdateOperationsInput | number
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
+    dapp_categories_relations?: dapp_categories_relationsUpdateManyWithoutDappInput
+    story_dapps_relations?: story_dapps_relationsUpdateManyWithoutDappInput
+  }
+
+  export type dappsUncheckedUpdateWithoutUser_dappsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visit_count?: IntFieldUpdateOperationsInput | number
+    install_count?: IntFieldUpdateOperationsInput | number
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
+    dapp_categories_relations?: dapp_categories_relationsUncheckedUpdateManyWithoutDappInput
+    story_dapps_relations?: story_dapps_relationsUncheckedUpdateManyWithoutDappInput
+  }
+
+  export type usersUpsertWithoutUser_dappsInput = {
+    update: XOR<usersUpdateWithoutUser_dappsInput, usersUncheckedUpdateWithoutUser_dappsInput>
+    create: XOR<usersCreateWithoutUser_dappsInput, usersUncheckedCreateWithoutUser_dappsInput>
+  }
+
+  export type usersUpdateWithoutUser_dappsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type usersUncheckedUpdateWithoutUser_dappsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsCreateWithoutStoryInput = {
+    story_categories: story_categoriesCreateNestedOneWithoutStory_categories_relationsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categories_relationsUncheckedCreateWithoutStoryInput = {
+    id?: number
+    story_category_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categories_relationsCreateOrConnectWithoutStoryInput = {
+    where: story_categories_relationsWhereUniqueInput
+    create: XOR<story_categories_relationsCreateWithoutStoryInput, story_categories_relationsUncheckedCreateWithoutStoryInput>
+  }
+
+  export type story_categories_relationsCreateManyStoryInputEnvelope = {
+    data: Enumerable<story_categories_relationsCreateManyStoryInput>
+    skipDuplicates?: boolean
+  }
+
+  export type story_dapps_relationsCreateWithoutStoryInput = {
+    dapp: dappsCreateNestedOneWithoutStory_dapps_relationsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_dapps_relationsUncheckedCreateWithoutStoryInput = {
+    id?: number
+    dapp_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_dapps_relationsCreateOrConnectWithoutStoryInput = {
+    where: story_dapps_relationsWhereUniqueInput
+    create: XOR<story_dapps_relationsCreateWithoutStoryInput, story_dapps_relationsUncheckedCreateWithoutStoryInput>
+  }
+
+  export type story_dapps_relationsCreateManyStoryInputEnvelope = {
+    data: Enumerable<story_dapps_relationsCreateManyStoryInput>
+    skipDuplicates?: boolean
+  }
+
+  export type story_categories_relationsUpsertWithWhereUniqueWithoutStoryInput = {
+    where: story_categories_relationsWhereUniqueInput
+    update: XOR<story_categories_relationsUpdateWithoutStoryInput, story_categories_relationsUncheckedUpdateWithoutStoryInput>
+    create: XOR<story_categories_relationsCreateWithoutStoryInput, story_categories_relationsUncheckedCreateWithoutStoryInput>
+  }
+
+  export type story_categories_relationsUpdateWithWhereUniqueWithoutStoryInput = {
+    where: story_categories_relationsWhereUniqueInput
+    data: XOR<story_categories_relationsUpdateWithoutStoryInput, story_categories_relationsUncheckedUpdateWithoutStoryInput>
+  }
+
+  export type story_categories_relationsUpdateManyWithWhereWithoutStoryInput = {
+    where: story_categories_relationsScalarWhereInput
+    data: XOR<story_categories_relationsUpdateManyMutationInput, story_categories_relationsUncheckedUpdateManyWithoutStory_categories_relationsInput>
+  }
+
+  export type story_categories_relationsScalarWhereInput = {
+    AND?: Enumerable<story_categories_relationsScalarWhereInput>
+    OR?: Enumerable<story_categories_relationsScalarWhereInput>
+    NOT?: Enumerable<story_categories_relationsScalarWhereInput>
+    id?: IntFilter | number
+    story_category_id?: StringFilter | string
+    story_id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type story_dapps_relationsUpsertWithWhereUniqueWithoutStoryInput = {
+    where: story_dapps_relationsWhereUniqueInput
+    update: XOR<story_dapps_relationsUpdateWithoutStoryInput, story_dapps_relationsUncheckedUpdateWithoutStoryInput>
+    create: XOR<story_dapps_relationsCreateWithoutStoryInput, story_dapps_relationsUncheckedCreateWithoutStoryInput>
+  }
+
+  export type story_dapps_relationsUpdateWithWhereUniqueWithoutStoryInput = {
+    where: story_dapps_relationsWhereUniqueInput
+    data: XOR<story_dapps_relationsUpdateWithoutStoryInput, story_dapps_relationsUncheckedUpdateWithoutStoryInput>
+  }
+
+  export type story_dapps_relationsUpdateManyWithWhereWithoutStoryInput = {
+    where: story_dapps_relationsScalarWhereInput
+    data: XOR<story_dapps_relationsUpdateManyMutationInput, story_dapps_relationsUncheckedUpdateManyWithoutStory_dapps_relationsInput>
+  }
+
+  export type story_categories_relationsCreateWithoutStory_categoriesInput = {
+    story: storiesCreateNestedOneWithoutStory_categories_relationsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categories_relationsUncheckedCreateWithoutStory_categoriesInput = {
+    id?: number
+    story_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categories_relationsCreateOrConnectWithoutStory_categoriesInput = {
+    where: story_categories_relationsWhereUniqueInput
+    create: XOR<story_categories_relationsCreateWithoutStory_categoriesInput, story_categories_relationsUncheckedCreateWithoutStory_categoriesInput>
+  }
+
+  export type story_categories_relationsCreateManyStory_categoriesInputEnvelope = {
+    data: Enumerable<story_categories_relationsCreateManyStory_categoriesInput>
+    skipDuplicates?: boolean
+  }
+
+  export type story_categories_relationsUpsertWithWhereUniqueWithoutStory_categoriesInput = {
+    where: story_categories_relationsWhereUniqueInput
+    update: XOR<story_categories_relationsUpdateWithoutStory_categoriesInput, story_categories_relationsUncheckedUpdateWithoutStory_categoriesInput>
+    create: XOR<story_categories_relationsCreateWithoutStory_categoriesInput, story_categories_relationsUncheckedCreateWithoutStory_categoriesInput>
+  }
+
+  export type story_categories_relationsUpdateWithWhereUniqueWithoutStory_categoriesInput = {
+    where: story_categories_relationsWhereUniqueInput
+    data: XOR<story_categories_relationsUpdateWithoutStory_categoriesInput, story_categories_relationsUncheckedUpdateWithoutStory_categoriesInput>
+  }
+
+  export type story_categories_relationsUpdateManyWithWhereWithoutStory_categoriesInput = {
+    where: story_categories_relationsScalarWhereInput
+    data: XOR<story_categories_relationsUpdateManyMutationInput, story_categories_relationsUncheckedUpdateManyWithoutStory_categories_relationsInput>
+  }
+
+  export type story_categoriesCreateWithoutStory_categories_relationsInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    is_deleted?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categoriesUncheckedCreateWithoutStory_categories_relationsInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    is_deleted?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categoriesCreateOrConnectWithoutStory_categories_relationsInput = {
+    where: story_categoriesWhereUniqueInput
+    create: XOR<story_categoriesCreateWithoutStory_categories_relationsInput, story_categoriesUncheckedCreateWithoutStory_categories_relationsInput>
+  }
+
+  export type storiesCreateWithoutStory_categories_relationsInput = {
+    id?: string
+    title: string
+    cover?: string | null
+    desc?: string | null
+    url?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visible?: boolean
+    sort?: number
+    is_deleted?: boolean
+    visit_count?: number
+    story_dapps_relations?: story_dapps_relationsCreateNestedManyWithoutStoryInput
+  }
+
+  export type storiesUncheckedCreateWithoutStory_categories_relationsInput = {
+    id?: string
+    title: string
+    cover?: string | null
+    desc?: string | null
+    url?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visible?: boolean
+    sort?: number
+    is_deleted?: boolean
+    visit_count?: number
+    story_dapps_relations?: story_dapps_relationsUncheckedCreateNestedManyWithoutStoryInput
+  }
+
+  export type storiesCreateOrConnectWithoutStory_categories_relationsInput = {
+    where: storiesWhereUniqueInput
+    create: XOR<storiesCreateWithoutStory_categories_relationsInput, storiesUncheckedCreateWithoutStory_categories_relationsInput>
+  }
+
+  export type story_categoriesUpsertWithoutStory_categories_relationsInput = {
+    update: XOR<story_categoriesUpdateWithoutStory_categories_relationsInput, story_categoriesUncheckedUpdateWithoutStory_categories_relationsInput>
+    create: XOR<story_categoriesCreateWithoutStory_categories_relationsInput, story_categoriesUncheckedCreateWithoutStory_categories_relationsInput>
+  }
+
+  export type story_categoriesUpdateWithoutStory_categories_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categoriesUncheckedUpdateWithoutStory_categories_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type storiesUpsertWithoutStory_categories_relationsInput = {
+    update: XOR<storiesUpdateWithoutStory_categories_relationsInput, storiesUncheckedUpdateWithoutStory_categories_relationsInput>
+    create: XOR<storiesCreateWithoutStory_categories_relationsInput, storiesUncheckedCreateWithoutStory_categories_relationsInput>
+  }
+
+  export type storiesUpdateWithoutStory_categories_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    visit_count?: IntFieldUpdateOperationsInput | number
+    story_dapps_relations?: story_dapps_relationsUpdateManyWithoutStoryInput
+  }
+
+  export type storiesUncheckedUpdateWithoutStory_categories_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    visit_count?: IntFieldUpdateOperationsInput | number
+    story_dapps_relations?: story_dapps_relationsUncheckedUpdateManyWithoutStoryInput
+  }
+
+  export type storiesCreateWithoutStory_dapps_relationsInput = {
+    id?: string
+    title: string
+    cover?: string | null
+    desc?: string | null
+    url?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visible?: boolean
+    sort?: number
+    is_deleted?: boolean
+    visit_count?: number
+    story_categories_relations?: story_categories_relationsCreateNestedManyWithoutStoryInput
+  }
+
+  export type storiesUncheckedCreateWithoutStory_dapps_relationsInput = {
+    id?: string
+    title: string
+    cover?: string | null
+    desc?: string | null
+    url?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visible?: boolean
+    sort?: number
+    is_deleted?: boolean
+    visit_count?: number
+    story_categories_relations?: story_categories_relationsUncheckedCreateNestedManyWithoutStoryInput
+  }
+
+  export type storiesCreateOrConnectWithoutStory_dapps_relationsInput = {
+    where: storiesWhereUniqueInput
+    create: XOR<storiesCreateWithoutStory_dapps_relationsInput, storiesUncheckedCreateWithoutStory_dapps_relationsInput>
+  }
+
+  export type dappsCreateWithoutStory_dapps_relationsInput = {
+    id?: string
+    title: string
+    url: string
+    logo?: string | null
+    desc?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visit_count?: number
+    install_count?: number
+    visible?: boolean
+    is_good?: boolean
+    dapp_categories_relations?: dapp_categories_relationsCreateNestedManyWithoutDappInput
+    user_dapps?: user_dappsCreateNestedManyWithoutDappInput
+  }
+
+  export type dappsUncheckedCreateWithoutStory_dapps_relationsInput = {
+    id?: string
+    title: string
+    url: string
+    logo?: string | null
+    desc?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    visit_count?: number
+    install_count?: number
+    visible?: boolean
+    is_good?: boolean
+    dapp_categories_relations?: dapp_categories_relationsUncheckedCreateNestedManyWithoutDappInput
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutDappInput
+  }
+
+  export type dappsCreateOrConnectWithoutStory_dapps_relationsInput = {
+    where: dappsWhereUniqueInput
+    create: XOR<dappsCreateWithoutStory_dapps_relationsInput, dappsUncheckedCreateWithoutStory_dapps_relationsInput>
+  }
+
+  export type storiesUpsertWithoutStory_dapps_relationsInput = {
+    update: XOR<storiesUpdateWithoutStory_dapps_relationsInput, storiesUncheckedUpdateWithoutStory_dapps_relationsInput>
+    create: XOR<storiesCreateWithoutStory_dapps_relationsInput, storiesUncheckedCreateWithoutStory_dapps_relationsInput>
+  }
+
+  export type storiesUpdateWithoutStory_dapps_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    visit_count?: IntFieldUpdateOperationsInput | number
+    story_categories_relations?: story_categories_relationsUpdateManyWithoutStoryInput
+  }
+
+  export type storiesUncheckedUpdateWithoutStory_dapps_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    cover?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    sort?: IntFieldUpdateOperationsInput | number
+    is_deleted?: BoolFieldUpdateOperationsInput | boolean
+    visit_count?: IntFieldUpdateOperationsInput | number
+    story_categories_relations?: story_categories_relationsUncheckedUpdateManyWithoutStoryInput
+  }
+
+  export type dappsUpsertWithoutStory_dapps_relationsInput = {
+    update: XOR<dappsUpdateWithoutStory_dapps_relationsInput, dappsUncheckedUpdateWithoutStory_dapps_relationsInput>
+    create: XOR<dappsCreateWithoutStory_dapps_relationsInput, dappsUncheckedCreateWithoutStory_dapps_relationsInput>
+  }
+
+  export type dappsUpdateWithoutStory_dapps_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visit_count?: IntFieldUpdateOperationsInput | number
+    install_count?: IntFieldUpdateOperationsInput | number
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
+    dapp_categories_relations?: dapp_categories_relationsUpdateManyWithoutDappInput
+    user_dapps?: user_dappsUpdateManyWithoutDappInput
+  }
+
+  export type dappsUncheckedUpdateWithoutStory_dapps_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visit_count?: IntFieldUpdateOperationsInput | number
+    install_count?: IntFieldUpdateOperationsInput | number
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    is_good?: BoolFieldUpdateOperationsInput | boolean
+    dapp_categories_relations?: dapp_categories_relationsUncheckedUpdateManyWithoutDappInput
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutDappInput
+  }
+
+  export type user_dappsCreateManyUserInput = {
+    id?: string
+    dapp_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type user_dappsUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dapp?: dappsUpdateOneRequiredWithoutUser_dappsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type user_dappsUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dapp_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type user_dappsUncheckedUpdateManyWithoutUser_dappsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dapp_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type dapp_categories_relationsCreateManyDappInput = {
     id?: number
     website_category_id: string
     subcategory_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_dapps_relationsCreateManyDappInput = {
+    id?: number
+    story_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type user_dappsCreateManyDappInput = {
+    id?: string
+    user_id: string
     created_at?: Date | string
     updated_at?: Date | string | null
   }
@@ -12592,6 +18585,40 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type story_dapps_relationsUpdateWithoutDappInput = {
+    story?: storiesUpdateOneRequiredWithoutStory_dapps_relationsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_dapps_relationsUncheckedUpdateWithoutDappInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_dapps_relationsUncheckedUpdateManyWithoutStory_dapps_relationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type user_dappsUpdateWithoutDappInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user?: usersUpdateOneRequiredWithoutUser_dappsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type user_dappsUncheckedUpdateWithoutDappInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type dapp_categories_relationsCreateManyDapp_categoriesInput = {
     id?: number
     subcategory_id?: string | null
@@ -12611,6 +18638,73 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     subcategory_id?: NullableStringFieldUpdateOperationsInput | string | null
     dapp_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsCreateManyStoryInput = {
+    id?: number
+    story_category_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_dapps_relationsCreateManyStoryInput = {
+    id?: number
+    dapp_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categories_relationsUpdateWithoutStoryInput = {
+    story_categories?: story_categoriesUpdateOneRequiredWithoutStory_categories_relationsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsUncheckedUpdateWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_category_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsUncheckedUpdateManyWithoutStory_categories_relationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_category_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_dapps_relationsUpdateWithoutStoryInput = {
+    dapp?: dappsUpdateOneRequiredWithoutStory_dapps_relationsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_dapps_relationsUncheckedUpdateWithoutStoryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dapp_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsCreateManyStory_categoriesInput = {
+    id?: number
+    story_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type story_categories_relationsUpdateWithoutStory_categoriesInput = {
+    story?: storiesUpdateOneRequiredWithoutStory_categories_relationsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type story_categories_relationsUncheckedUpdateWithoutStory_categoriesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    story_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }

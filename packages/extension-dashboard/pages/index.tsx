@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import { useEnsName } from 'wagmi';
 
 import CardModule from '../components/CardModule';
-import FavNFTModule from '../components/FavNFTModule';
+import FavNFTModule from '../components/functions/collectNFTs';
+import InstallDAPPs from '../components/functions/installDAPPs';
 import styles from '../styles/Home.module.css';
 import { users } from '../utils/apis';
 import { fetchWrapped } from '../utils/apis/fetch';
@@ -82,6 +83,9 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <CardModule title="My Collected NFTs">
           <FavNFTModule></FavNFTModule>
+        </CardModule>
+        <CardModule title="My Installed DAPPs">
+          <InstallDAPPs></InstallDAPPs>
         </CardModule>
       </main>
     </div>

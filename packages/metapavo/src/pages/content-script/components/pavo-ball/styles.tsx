@@ -277,7 +277,7 @@ export const SuccessRootElement = styled.div`
     }
   }
   .mp-success-links-left {
-    width: 205px;
+    width: 255px;
     overflow-x: auto;
     position: relative;
     bahavior: smooth;
@@ -285,19 +285,7 @@ export const SuccessRootElement = styled.div`
       display: none;
     }
   }
-  .mp-links-shape {
-    position: absolute;
-    width: 17px;
-    height: 40px;
-    left: 189px;
-    top: 0px;
-    background: linear-gradient(
-      270deg,
-      #ffffff 38.92%,
-      rgba(255, 255, 255, 0.03) 97.37%
-    );
-    z-index: 10;
-  }
+
   .mp-success-links-left-inner {
     display: flex;
     justify-content: flex-start;

@@ -256,6 +256,30 @@ export default function Admin() {
                                 }}
                               />
                             ))}
+                          <Button
+                            onClick={async () => {
+                              try {
+                                const res = await fetchWrapped(
+                                  `${process.env.NEXT_PUBLIC_APIBASE}/dapps/${dapp.id}/install`,
+                                  {
+                                    method: 'GET',
+                                    headers: {
+                                      'Content-Type': 'application/json',
+                                    },
+                                  },
+                                );
+                                if (!res.success) {
+                                  throw new Error(res.message);
+                                }
+                                loadDapps(selectTab);
+                              } catch (e: any) {
+                                console.error(e);
+                                toast.error(e.message);
+                              }
+                            }}
+                          >
+                            install
+                          </Button>
                         </div>
                       </>
                     }

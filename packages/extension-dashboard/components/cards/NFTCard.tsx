@@ -7,12 +7,12 @@ import {
   addFavByProjectId,
   isFaved,
   removeFavByProjectId,
-} from '../utils/apis/nft_api';
-import { IProjectV2 } from '../utils/apis/types';
-import { AutoDecimal } from '../utils/decimals';
-import { getLang } from '../utils/lang';
-import { linkImages } from '../utils/linkImages';
-import { NFTCardRoot } from './styles';
+} from '../../utils/apis/nft_api';
+import { IProjectV2 } from '../../utils/apis/types';
+import { AutoDecimal } from '../../utils/decimals';
+import { getLang } from '../../utils/lang';
+import { linkImages } from '../../utils/linkImages';
+import { NFTCardRoot } from '../styles';
 
 export default function NFTCard(props: { activeProject: IProjectV2 }) {
   const activeProject = props.activeProject;
@@ -93,7 +93,9 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
           src={activeProject?.imageUrl as string}
           alt={activeProject?.name}
         />
-        <div className="mp-success-title">{activeProject?.name}</div>
+        <a className="mp-success-title" href={activeProject?.links?.opensea}>
+          {activeProject?.name}
+        </a>
         {activeProject?.contractData?.isVerified ? (
           <svg
             width="16"

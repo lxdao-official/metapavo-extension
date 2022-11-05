@@ -1,10 +1,10 @@
 import { Box, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import { getUsersFavs } from '../utils/apis/nft_api';
-import { projectLinksWrapper } from '../utils/apis/project_wrapper';
-import { favs } from '../utils/apis/types';
-import NFTCard from './NFTCard';
+import { getUsersFavs } from '../../utils/apis/nft_api';
+import { projectLinksWrapper } from '../../utils/apis/project_wrapper';
+import { favs } from '../../utils/apis/types';
+import NFTCard from '../cards/NFTCard';
 
 export default function FavNFTModule() {
   const [favs, setFavs] = useState<favs[]>([]);
