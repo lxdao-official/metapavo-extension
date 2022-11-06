@@ -23,10 +23,19 @@ export default function CardModule(props: {
           fontWeight: 600,
           lineHeight: '30px',
           color: '#252525',
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         {props.title}
-        {props.extra}
+        <Box
+          style={{
+            fontSize: '14px',
+            color: '#5B28EB',
+          }}
+        >
+          {props.extra}
+        </Box>
       </Box>
       <div>{props.children}</div>
     </Box>

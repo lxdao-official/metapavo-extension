@@ -17,9 +17,20 @@ type UserDapp = user_dapps & {
 export default function InstallDAPPs() {
   const [userdapps, setuserdapps] = useState<UserDapp[]>([]);
   const loadFavs = async () => {
+    try {
+      const cache = localStorage.getItem('userdapps');
+      if (cache) {
+        const cacheJson = JSON.parse(cache);
+        if (cacheJson.length) {
+          setuserdapps(cacheJson);
+        }
+      }
+    } catch (e) {}
+
     const res = await getUserDapps();
     if (res && res.data) {
       setuserdapps(res.data as UserDapp[]);
+      localStorage.setItem('userdapps', JSON.stringify(res.data));
     }
   };
   useEffect(() => {
@@ -45,7 +56,7 @@ export default function InstallDAPPs() {
                   border: '1px solid #efefef',
                 }}
                 onClick={() => {
-                  window.location.href = `${process.env.NEXT_PUBLIC_APIBASE}/dapp/jump/${dapp.id}`;
+                  window.location.href = `${process.env.NEXT_PUBLIC_APIBASE}/dapps/jump/${dapp.id}`;
                 }}
               >
                 <ListItemButton style={{ padding: '5px 12px' }}>

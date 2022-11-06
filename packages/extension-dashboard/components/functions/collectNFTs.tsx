@@ -9,6 +9,15 @@ import NFTCard from '../cards/NFTCard';
 export default function FavNFTModule() {
   const [favs, setFavs] = useState<favs[]>([]);
   const loadFavs = async () => {
+    try {
+      const cache = localStorage.getItem('myfavs');
+      if (cache) {
+        const cacheJson = JSON.parse(cache);
+        if (cacheJson.length) {
+          setFavs(cacheJson);
+        }
+      }
+    } catch (e) {}
     const res = await getUsersFavs();
     if (res && res.data) {
       res.data.map((fav) => {
@@ -17,6 +26,7 @@ export default function FavNFTModule() {
         }
       });
       setFavs(res.data);
+      localStorage.setItem('myfavs', JSON.stringify(res.data));
     }
   };
   useEffect(() => {
