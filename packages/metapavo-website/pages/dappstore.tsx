@@ -4,6 +4,7 @@ import { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
+import { fetchWrapped } from '../common/fetch';
 import DebouncedInput from '../components/DebouncedInput';
 import LayoutDapps from '../components/LayoutDapps';
 
@@ -180,7 +181,13 @@ const storyCard = (item: any) => (
         margin: '24px 0',
       }}
     ></Box>
-    <Box>{appCard({ a: 1 })}</Box>
+    <Box>
+      <Box>{appCard({ a: 1 })}</Box>
+      <Box marginTop={3} display="flex">
+        <img src="/icons/down.svg" style={{width:'21px'}}/>
+        <Typography fontSize="16px" color="#666F85">more</Typography>
+      </Box>
+      </Box>
   </Box>
 );
 const menulist = ['Trending', 'NFTs', 'trading tools'];
@@ -232,6 +239,22 @@ export default function Dappstore() {
   const handleChangeIndex = (index: number) => {
     setStoryTab(index);
   };
+
+  const getDappsCategories=async ()=>{
+    const data = await fetchWrapped(`${process.env.NEXT_PUBLIC_APIBASE}/dapp-categories`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({}),
+    });
+    console.log(data)
+  }
+  
+  useEffect(() => {
+    getDappsCategories();
+  }, []);
   return (
     <LayoutDapps title="admin" description={'admin'}>
       <Box
@@ -323,10 +346,38 @@ export default function Dappstore() {
         </Tabs>
         <Box>
           <TabPanel value={storyTab} index={0} dir={theme.direction}>
-            <Box>{storyCard({ a: 1 })}</Box>
+            <Box>
+              <Box>{storyCard({ a: 1 })}</Box>
+              <Box display="flex" justifyContent="center" marginTop="94px">
+                <Box
+                  width="144px"
+                  height="48px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  sx={{
+                    background: '#fff',
+                    border: '0.5px solid #D0D5DD',
+                    borderRadius: '6px',
+                  }}
+                >
+                  <Typography
+                    textTransform="capitalize"
+                    sx={{
+                      background:
+                        'linear-gradient(89.77deg, #6EDFA3 3.4%, #2292F9 54.78%, #7F56D9 100.87%)',
+                      backgroundClip: 'text',
+                      textFillColor: 'transparent',
+                    }}
+                  >
+                    view more
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
           </TabPanel>
           <TabPanel value={storyTab} index={1} dir={theme.direction}>
-            Item Two
+            <Box>{storyCard({ a: 1 })}</Box>
           </TabPanel>
         </Box>
       </Box>
