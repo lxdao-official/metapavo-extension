@@ -195,7 +195,6 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
                   <stop offset="100%" stop-color="#9f50ff" />{' '}
                 </linearGradient>
               </defs>
-
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"

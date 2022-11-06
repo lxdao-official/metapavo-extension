@@ -9,6 +9,7 @@ export const colorfulButtonStyle = `
   background-origin: border-box;
   box-shadow: inset 0 1000px 1px #f5f6f7;`;
 
-export const colorfulTextStyle = `linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%)
+export const colorfulTextStyle = `
+  background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
   -webkit-background-clip: text;
   color: transparent;`;

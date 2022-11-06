@@ -47,7 +47,6 @@ export default function GasFees() {
     );
 
     const json4 = await r4.json();
-    console.log('fas', json3);
     const lastDayGases: any = [];
     const todayGases: any = [];
     const lastDayStart = moment().subtract(1, 'days').startOf('day');
@@ -83,9 +82,9 @@ export default function GasFees() {
     const option = {
       tooltip: {
         trigger: 'axis',
-        backgroundColor: '#1A161C',
+        backgroundColor: '#fff',
+        show: true,
       },
-
       grid: {
         left: '-1%',
         right: '-0%',
@@ -102,7 +101,9 @@ export default function GasFees() {
         axisTick: {
           show: false,
         },
-        data: [],
+        data: _lastdayGases.map((item: any) => {
+          return moment(item.t).format('HH:mm');
+        }),
       },
       yAxis: {
         type: 'value',
@@ -182,7 +183,7 @@ export default function GasFees() {
                 border: '1px solid #efefef',
                 color: '#101010',
                 fontSize: '12px',
-                padding: '15px',
+                padding: '10px',
                 textAlign: 'center',
               }}
             >
@@ -232,7 +233,7 @@ export default function GasFees() {
                 border: '1px solid #efefef',
                 color: '#101010',
                 fontSize: '12px',
-                padding: '15px',
+                padding: '10px',
                 textAlign: 'center',
               }}
             >

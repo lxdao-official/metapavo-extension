@@ -47,42 +47,45 @@ export default function InstallDAPPs() {
         {userdapps.map((u) => {
           const dapp = u.dapp;
           return (
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <ListItem
                 disablePadding
                 style={{
                   background: '#fff',
-                  borderRadius: '10px',
+                  borderRadius: '5px',
                   border: '1px solid #efefef',
                 }}
                 onClick={() => {
                   window.location.href = `${process.env.NEXT_PUBLIC_APIBASE}/dapps/jump/${dapp.id}`;
                 }}
               >
-                <ListItemButton style={{ padding: '5px 12px' }}>
-                  <ListItemIcon>
+                <ListItemButton style={{ padding: '5px 10px' }}>
+                  <ListItemIcon
+                    style={{
+                      minWidth: '20px',
+                      width: '20px',
+                      marginRight: '8px',
+                    }}
+                  >
                     <img
                       src={dapp.logo || ''}
-                      style={{ height: '40px', borderRadius: '5px' }}
+                      style={{ height: '20px', borderRadius: '5px' }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary={
-                      <>
+                      <div
+                        style={{
+                          fontSize: '12px',
+                          fontWeight: 500,
+                          lineHeight: '20px',
+                          height: '20px',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
                         {dapp.title}{' '}
-                        <div>
-                          <span
-                            style={{
-                              paddingRight: '10px',
-                              color: '#999',
-                              fontSize: '12px',
-                              fontWeight: '300',
-                            }}
-                          >
-                            score: {dapp.visit_count}
-                          </span>
-                        </div>
-                      </>
+                      </div>
                     }
                   ></ListItemText>
                 </ListItemButton>
