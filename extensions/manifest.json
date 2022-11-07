@@ -25,7 +25,7 @@
   },
   "default_locale": "en",
   "options_page": "options.html",
-  "permissions": ["storage", "alarms", "notifications", "tabs"],
+  "permissions": ["storage", "alarms", "notifications", "tabs", "history"],
   "web_accessible_resources": [
     {
       "resources": [

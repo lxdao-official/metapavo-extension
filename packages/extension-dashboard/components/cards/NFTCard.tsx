@@ -23,6 +23,11 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
     setLinks(
       [
         {
+          link: activeProject?.links?.opensea,
+          label: 'OpenSea',
+          img: linkImages.opensea,
+        },
+        {
           link: activeProject?.links?.twitter,
           label: 'Twitter',
           img: linkImages.twitter,
@@ -32,11 +37,7 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
           label: 'Website',
           img: linkImages.website,
         },
-        {
-          link: activeProject?.links?.opensea,
-          label: 'OpenSea',
-          img: linkImages.opensea,
-        },
+
         {
           link: activeProject?.links?.gem,
           label: 'Gem',

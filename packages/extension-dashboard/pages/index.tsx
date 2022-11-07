@@ -12,6 +12,8 @@ import CoinPrices from '../components/functions/coinPrices';
 import FavNFTModule from '../components/functions/collectNFTs';
 import GasFees from '../components/functions/gasFees';
 import InstallDAPPs from '../components/functions/installDAPPs';
+import ReadLaters from '../components/functions/readLaters';
+import VisitHistories from '../components/functions/visitHistories';
 import styles from '../styles/Home.module.css';
 import { users } from '../utils/apis';
 import { fetchWrapped } from '../utils/apis/fetch';
@@ -139,6 +141,12 @@ const Home: NextPage = () => {
               extra={<a href="#">DAPP Store</a>}
             >
               <InstallDAPPs></InstallDAPPs>
+            </CardModule>
+            <CardModule title="Read Laters">
+              <ReadLaters></ReadLaters>
+            </CardModule>
+            <CardModule title="History">
+              <VisitHistories></VisitHistories>
             </CardModule>
           </Grid>
           <Grid item xs={4}>

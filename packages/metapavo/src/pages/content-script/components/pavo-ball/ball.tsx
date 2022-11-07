@@ -1,15 +1,8 @@
-import {
-  Menu,
-  MenuItem,
-  Tooltip,
-  TooltipProps,
-  styled,
-  tooltipClasses,
-} from '@mui/material';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { getLang } from '../../../../utils/lang';
 import { GlobalContext } from '../../context/useGlobal';
+import CirclePopup2 from './status/circle2';
 import DangerPopup from './status/danger';
 import SuccessPopup from './status/success';
 import { GasBox, RootElement } from './styles';
@@ -32,6 +25,25 @@ function Ball() {
       pos4 = 0;
     let mousedownTimestamp: number = 0;
     gasRef.current.onmousedown = dragMouseDown;
+    gasRef.current.onmousemove = (e) => {
+      const eleWith = gasRef.current?.offsetWidth || 0;
+      const eleHeight = gasRef.current?.offsetHeight || 0;
+      const mousePosInEleX = e.clientX - (gasRef.current?.offsetLeft || 0);
+      const mousePosInEleY = e.clientY - (gasRef.current?.offsetTop || 0);
+      if (mousePosInEleX > eleWith / 2) {
+        if (mousePosInEleY > eleHeight / 2) {
+          setActiveCorner(2);
+        } else {
+          setActiveCorner(1);
+        }
+      } else {
+        if (mousePosInEleY > eleHeight / 2) {
+          setActiveCorner(3);
+        } else {
+          setActiveCorner(0);
+        }
+      }
+    };
     gasRef.current.onmouseup = (e) => {
       e.stopPropagation();
       if (e.button !== 0) return;
@@ -147,6 +159,9 @@ function Ball() {
     }
   }, []);
 
+  // 左上 右上 右下 左下
+  const [activeCorner, setActiveCorner] = useState<0 | 1 | 2 | 3>(0);
+
   return (
     <>
       <RootElement
@@ -208,24 +223,9 @@ function Ball() {
             useG.addRootClass === 'metapavo-main-box-success' ? 'show' : 'hide'
           }
         />
-        <Menu
-          id="demo-positioned-menu"
-          aria-labelledby="demo-positioned-button"
-          anchorEl={gasRef.current}
-          open={menuOpen}
-          // onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          style={{ zIndex: 1000000000000000 }}
-        >
-          <MenuItem onClick={noDisplay7}>{getLang('nodisplay7')}</MenuItem>
-        </Menu>
+        <CirclePopup2
+          state={activeCorner === 2 ? 'show' : 'hide'}
+        ></CirclePopup2>
       </RootElement>
     </>
   );

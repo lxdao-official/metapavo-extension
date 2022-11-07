@@ -160,13 +160,14 @@ export const RootElement = styled.div`
 
 export const SuccessRootElement = styled.div`
   opacity: 0;
-  transition: all 0.75s ease-in-out 0s;
+
   position: absolute;
   width: 327px;
   height: 167px;
   box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16),
     0px 0px 1px rgba(0, 0, 0, 0.4);
   border-radius: 16px;
+  transition: all 0.75s ease-in-out 0s;
   transform-origin: 100% 100%;
   right: -11px;
   bottom: 55px;
@@ -322,4 +323,28 @@ export const AddWatchButton = styled.button`
   font-size: 12px !important;
 
   ${colorfulButtonStyle}
+`;
+
+export const CircleRootElement = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16),
+    0px 0px 1px rgba(0, 0, 0, 0.4);
+  color: #444;
+  line-height: 40px;
+  text-align: center;
+  transition: all 0.75s ease-in-out 0s;
+  transform-origin: 100% 100%;
+  position: absolute;
+  &.mp-circle-show {
+    opacity: 1;
+  }
+  &.mp-circle-hide {
+    opacity: 0;
+    transform: scale(0);
+  }
+  .mp-circle-btn {
+  }
 `;
