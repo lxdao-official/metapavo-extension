@@ -43,7 +43,7 @@ export default function InstallDAPPs() {
         width: '100%',
       }}
     >
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {userdapps.map((u) => {
           const dapp = u.dapp;
           return (
