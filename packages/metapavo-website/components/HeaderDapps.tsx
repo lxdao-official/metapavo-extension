@@ -72,9 +72,17 @@ const HeaderDapps = () => {
           alignItems="center"
           justifyContent="center"
           marginLeft={3}
-          sx={{ background: '#fff',
-          border: '0.5px solid #D0D5DD',
-          borderRadius: '6px', }}
+          sx={{
+            background: '#fff',
+            border: '0.5px solid #D0D5DD',
+            borderRadius: '6px',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            toast(
+              'We are in the process of building the app. Please apply for the early access. Stay tuned!',
+            );
+          }}
         >
           <Typography
             textTransform="capitalize"

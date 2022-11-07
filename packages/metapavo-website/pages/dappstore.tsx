@@ -1,10 +1,11 @@
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Link, Tab, Tabs, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
 import DebouncedInput from '../components/DebouncedInput';
 import LayoutDapps from '../components/LayoutDapps';
+import TabPanel from '../components/TabPanel';
 
 const menu = (item: any, active: boolean) => (
   <Box
@@ -23,73 +24,87 @@ const menu = (item: any, active: boolean) => (
   </Box>
 );
 const DappCard = (item: any) => (
-  <Box
-    padding={3}
-    maxWidth="320px"
-    height="248px"
+  <Link
+    color={'inherit'}
     sx={{
-      background: '#FFFFFF',
-      border: '0.5px solid #D0D5DD',
-      borderRadius: '6px',
+      textDecoration: 'none',
     }}
-    key={item.id}
+    href={item.url}
+    target="_blank"
   >
-    <Box marginBottom={3} display="flex">
-      <Box
-        width="80px"
-        height="80px"
-        marginRight={2}
-        sx={{
-          border: '0.5px solid #D0D5DD',
-          borderRadius: '18px',
-        }}
-      >
-        <img src={item.logo} />
-      </Box>
-      <Box>
-        <Typography
-          color="#101828"
-          fontWeight="600"
-          fontSize="20px"
-          lineHeight="24px"
-          marginBottom={1}
-        >
-          {item.title}
-        </Typography>
+    <Box
+      padding={3}
+      maxWidth="320px"
+      height="248px"
+      sx={{
+        background: '#FFFFFF',
+        border: '0.5px solid #D0D5DD',
+        borderRadius: '6px',
+      }}
+      key={item.id}
+    >
+      <Box marginBottom={3} display="flex">
         <Box
+          width="80px"
+          height="80px"
+          marginRight={2}
           sx={{
-            width: '55px',
-            height: '24px',
-            background: 'rgba(77, 204, 158, 0.1)',
-            borderRadius: '2px',
-            textAlign: 'center',
-            fontSize: '14px',
-            lineHeight: '24px',
-            color: '#4DCC9E',
-            textTransform: 'capitalize',
+            border: '0.5px solid #D0D5DD',
+            borderRadius: '18px',
           }}
         >
-          wallet
+          <img src={item.logo} style={{ width: '100%' }} />
+        </Box>
+        <Box>
+          <Typography
+            color="#101828"
+            fontWeight="600"
+            fontSize="20px"
+            lineHeight="24px"
+            marginBottom={1}
+          >
+            {item.title}
+          </Typography>
+          <Box
+            sx={{
+              width: '55px',
+              height: '24px',
+              background: 'rgba(77, 204, 158, 0.1)',
+              borderRadius: '2px',
+              textAlign: 'center',
+              fontSize: '14px',
+              lineHeight: '24px',
+              color: '#4DCC9E',
+              textTransform: 'capitalize',
+            }}
+          >
+            wallet
+          </Box>
         </Box>
       </Box>
-    </Box>
-    <Box marginBottom={3}>
-      <Typography>{item.desc}</Typography>
-    </Box>
-    <Box display="flex" justifyContent="space-between">
-      <Box display="flex">
-        <Box width={24} height={24} marginRight={1} sx={{ cursor: 'pointer' }}>
-          <img src="/icons/twitterblue.svg" />
+      <Box marginBottom={3}>
+        <Typography>{item.desc}</Typography>
+      </Box>
+      <Box display="flex" justifyContent="space-between">
+        <Box display="flex">
+          <Box
+            width={24}
+            height={24}
+            marginRight={1}
+            sx={{ cursor: 'pointer' }}
+          >
+            <img src="/icons/twitterblue.svg" />
+          </Box>
+          <Box width={24} height={24} sx={{ cursor: 'pointer' }}>
+            <img src="/icons/weblink.svg" />
+          </Box>
         </Box>
         <Box width={24} height={24} sx={{ cursor: 'pointer' }}>
-          <img src="/icons/weblink.svg" />
+          <img src="/icons/star.svg" />
         </Box>
       </Box>
-      <Box width={24} height={24} sx={{ cursor: 'pointer' }}>
-        <img src="/icons/star.svg" />
-      </Box>
     </Box>
-  </Box>
+  </Link>
 );
 const appCard = (item: any) => (
   <Box
@@ -144,6 +159,7 @@ const storyCard = (item: any) => (
       border: '0.5px solid #D0D5DD',
       borderRadius: '6px',
     }}
+    key={item.id}
   >
     <Box
       height="300px"
@@ -193,32 +209,7 @@ const storyCard = (item: any) => (
     </Box>
   </Box>
 );
-interface TabPanelProps {
-  children?: React.ReactNode;
-  dir?: string;
-  index: number;
-  value: number;
-}
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
 export default function Dappstore() {
   const theme = useTheme();
   const [activeMenu, setActiveMenu] = useState({
@@ -253,7 +244,9 @@ export default function Dappstore() {
         },
       },
     );
-    setMenuList(r1.data);
+
+    const json1 = await r1.json();
+    setMenuList(json1.data);
   };
   const getDapps = async () => {
     const r2: any = await fetch(
@@ -266,7 +259,9 @@ export default function Dappstore() {
         },
       },
     );
-    setDapps(r2.data);
+    const json2 = await r2.json();
+    let data = json2.data.slice(0, 9);
+    setDapps(data);
   };
 
   const getStories = async () => {
@@ -280,15 +275,19 @@ export default function Dappstore() {
         },
       },
     );
-    setStoryList(r3.data);
+    const json3 = await r3.json();
+    setStoryList(json3.data);
   };
   useEffect(() => {
     (async () => {
-      // await getDappsCategories();
-      // await getDapps();
-      // await getStories();
+      await getDappsCategories();
+      await getDapps();
+      await getStories();
     })();
   }, []);
+  useEffect(() => {
+    getDapps();
+  }, [activeMenu]);
   return (
     <LayoutDapps title="admin" description={'admin'}>
       <Box
@@ -345,7 +344,7 @@ export default function Dappstore() {
               ))
             : null}
         </Box>
-        <Box display="flex" gap={2}>
+        <Box display="flex" gap={2} flexWrap="wrap">
           {DappCardList && DappCardList.length > 0
             ? DappCardList.map((card) => DappCard(card))
             : null}
@@ -366,6 +365,9 @@ export default function Dappstore() {
                 background: page == count ? '#6047FC' : '#D0D5DD',
                 borderRadius: '50%',
               }}
+              onClick={() => {
+                page == count ? null : setPage(count);
+              }}
             ></Box>
           ))}
         </Box>
@@ -384,9 +386,13 @@ export default function Dappstore() {
           <Tab label="new" />
         </Tabs>
         <Box>
-          <TabPanel value={storyTab} index={0} dir={theme.direction}>
+          <TabPanel value={storyTab} index={0}>
             <Box>
-              <Box>{storyCard({ a: 1 })}</Box>
+              <Box>
+                {storyList && storyList.length > 0
+                  ? storyList.map((story) => storyCard(story))
+                  : null}
+              </Box>
               <Box display="flex" justifyContent="center" marginTop="94px">
                 <Box
                   width="144px"
@@ -415,11 +421,40 @@ export default function Dappstore() {
               </Box>
             </Box>
           </TabPanel>
-          <TabPanel value={storyTab} index={1} dir={theme.direction}>
+          <TabPanel value={storyTab} index={1}>
             <Box>
               {storyList && storyList.length > 0
                 ? storyList.map((story) => storyCard(story))
                 : null}
+            </Box>
+            <Box display="flex" justifyContent="center" marginTop="94px">
+              <Box
+                width="144px"
+                height="48px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  background: '#fff',
+                  border: '0.5px solid #D0D5DD',
+                  borderRadius: '6px',
+                }}
+                onClick={() => {
+                  setStoryPage(storyPage + 1);
+                }}
+              >
+                <Typography
+                  textTransform="capitalize"
+                  sx={{
+                    background:
+                      'linear-gradient(89.77deg, #6EDFA3 3.4%, #2292F9 54.78%, #7F56D9 100.87%)',
+                    backgroundClip: 'text',
+                    textFillColor: 'transparent',
+                  }}
+                >
+                  view more
+                </Typography>
+              </Box>
             </Box>
           </TabPanel>
         </Box>
