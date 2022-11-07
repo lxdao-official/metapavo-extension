@@ -1,10 +1,8 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 
-import { fetchWrapped } from '../common/fetch';
 import DebouncedInput from '../components/DebouncedInput';
 import LayoutDapps from '../components/LayoutDapps';
 
@@ -21,7 +19,7 @@ const menu = (item: any, active: boolean) => (
     }}
     height="48px"
   >
-    {item}
+    {item.title}
   </Box>
 );
 const DappCard = (item: any) => (
@@ -34,6 +32,7 @@ const DappCard = (item: any) => (
       border: '0.5px solid #D0D5DD',
       borderRadius: '6px',
     }}
+    key={item.id}
   >
     <Box marginBottom={3} display="flex">
       <Box
@@ -44,7 +43,9 @@ const DappCard = (item: any) => (
           border: '0.5px solid #D0D5DD',
           borderRadius: '18px',
         }}
-      ></Box>
+      >
+        <img src={item.logo} />
+      </Box>
       <Box>
         <Typography
           color="#101828"
@@ -183,23 +184,15 @@ const storyCard = (item: any) => (
     ></Box>
     <Box>
       <Box>{appCard({ a: 1 })}</Box>
-      <Box marginTop={3} display="flex">
-        <img src="/icons/down.svg" style={{width:'21px'}}/>
-        <Typography fontSize="16px" color="#666F85">more</Typography>
+      <Box marginTop={3} display="flex" justifyContent="center">
+        <img src="/icons/down.svg" style={{ width: '21px' }} />
+        <Typography fontSize="16px" color="#666F85">
+          more
+        </Typography>
       </Box>
-      </Box>
+    </Box>
   </Box>
 );
-const menulist = ['Trending', 'NFTs', 'trading tools'];
-const NFTList = ['NFTs', 'trading tools', 'wallet'];
-const DappCardList = [
-  {
-    title: 'MetaMask Swap',
-    url: '',
-    logo: '',
-    desc: 'A crypto swap from the wallet & gateway to blockchain apps...',
-  },
-];
 interface TabPanelProps {
   children?: React.ReactNode;
   dir?: string;
@@ -228,8 +221,16 @@ function TabPanel(props: TabPanelProps) {
 }
 export default function Dappstore() {
   const theme = useTheme();
-  const [activeMenu, setActiveMenu] = useState('Trending');
+  const [activeMenu, setActiveMenu] = useState({
+    id: '63205c0948436d6190fe93b8',
+  });
   const [page, setPage] = useState(1);
+  const [menuList, setMenuList] = useState([]);
+  const [DappCardList, setDapps] = useState([]);
+  const [DappCardCount, setDappsCount] = useState([1, 2, 3]);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [storyList, setStoryList] = useState([]);
+  const [storyPage, setStoryPage] = useState(1);
   const [storyTab, setStoryTab] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -239,21 +240,54 @@ export default function Dappstore() {
   const handleChangeIndex = (index: number) => {
     setStoryTab(index);
   };
+  const HTTPURL = 'https://api.metapavo.xyz';
+  const getDappsCategories = async () => {
+    const r1: any = await fetch(
+      HTTPURL + '/dapp-categories',
 
-  const getDappsCategories=async ()=>{
-    const data = await fetchWrapped(`${process.env.NEXT_PUBLIC_APIBASE}/dapp-categories`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
       },
-      body: JSON.stringify({}),
-    });
-    console.log(data)
-  }
-  
+    );
+    setMenuList(r1.data);
+  };
+  const getDapps = async () => {
+    const r2: any = await fetch(
+      `${HTTPURL}/dapps?pageIndex=${pageIndex}&pageSize=10&categoryId=${activeMenu.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      },
+    );
+    setDapps(r2.data);
+  };
+
+  const getStories = async () => {
+    const r3: any = await fetch(
+      `${HTTPURL}/stories?pageIndex=${storyPage}&pageSize=10`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      },
+    );
+    setStoryList(r3.data);
+  };
   useEffect(() => {
-    getDappsCategories();
+    (async () => {
+      // await getDappsCategories();
+      // await getDapps();
+      // await getStories();
+    })();
   }, []);
   return (
     <LayoutDapps title="admin" description={'admin'}>
@@ -298,37 +332,42 @@ export default function Dappstore() {
         >
           Dapps
         </Typography>
-        <Box display="flex" gap={1} marginBottom={1}>
-          {menulist.map((item) => (
-            <Box onClick={(item) => setActiveMenu(item)} width="auto">
-              {menu(item, activeMenu == item)}
-            </Box>
-          ))}
-        </Box>
-        <Box display="flex" gap={1} marginBottom={3}>
-          {NFTList.map((item) => (
-            <Box onClick={(item) => setActiveMenu(item)} width="auto">
-              {menu(item, activeMenu == item)}
-            </Box>
-          ))}
+        <Box display="flex" gap={1} marginBottom={1} flexWrap="wrap">
+          {menuList && menuList.length > 0
+            ? menuList.map((item: any) => (
+                <Box
+                  onClick={(item: any) => setActiveMenu(item)}
+                  width="auto"
+                  key={item.id}
+                >
+                  {menu(item, activeMenu == item)}
+                </Box>
+              ))
+            : null}
         </Box>
         <Box display="flex" gap={2}>
-          {DappCardList.map((card) => DappCard(card))}
+          {DappCardList && DappCardList.length > 0
+            ? DappCardList.map((card) => DappCard(card))
+            : null}
         </Box>
         <Box
           display="flex"
           justifyContent="center"
           marginTop="31px"
           marginBottom="36px"
+          gap={1}
         >
-          <Box
-            sx={{
-              width: '16px',
-              height: '16px',
-              background: page == 1 ? '#6047FC' : '#D0D5DD',
-              borderRadius: '50%',
-            }}
-          ></Box>
+          {DappCardCount.map((count) => (
+            <Box
+              key={count}
+              sx={{
+                width: '16px',
+                height: '16px',
+                background: page == count ? '#6047FC' : '#D0D5DD',
+                borderRadius: '50%',
+              }}
+            ></Box>
+          ))}
         </Box>
         <Typography
           fontWeight={600}
@@ -377,7 +416,11 @@ export default function Dappstore() {
             </Box>
           </TabPanel>
           <TabPanel value={storyTab} index={1} dir={theme.direction}>
-            <Box>{storyCard({ a: 1 })}</Box>
+            <Box>
+              {storyList && storyList.length > 0
+                ? storyList.map((story) => storyCard(story))
+                : null}
+            </Box>
           </TabPanel>
         </Box>
       </Box>
