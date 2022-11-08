@@ -54,52 +54,57 @@ const HeaderDapps = () => {
         </Box>
         <Toaster />
       </Container>
-      <Box
-        position="relative"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        height={{ md: '80px', xs: '64px' }}
-        sx={{ background: '#6047FC' }}
-      >
-        <Typography color="#fff">
-          Install the chrome plugin to better experience MetaPavo products.
-        </Typography>
+      {openMenu && (
         <Box
-          width="109px"
-          height="48px"
+          position="relative"
           display="flex"
           alignItems="center"
           justifyContent="center"
-          marginLeft={3}
-          sx={{
-            background: '#fff',
-            border: '0.5px solid #D0D5DD',
-            borderRadius: '6px',
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            toast(
-              'We are in the process of building the app. Please apply for the early access. Stay tuned!',
-            );
-          }}
+          height={{ md: '80px', xs: '64px' }}
+          sx={{ background: '#6047FC' }}
         >
-          <Typography
-            textTransform="capitalize"
+          <Typography color="#fff">
+            Install the chrome plugin to better experience MetaPavo products.
+          </Typography>
+          <Box
+            width="109px"
+            height="48px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginLeft={3}
             sx={{
-              background:
-                'linear-gradient(89.77deg, #6EDFA3 3.4%, #2292F9 54.78%, #7F56D9 100.87%)',
-              backgroundClip: 'text',
-              textFillColor: 'transparent',
+              background: '#fff',
+              border: '0.5px solid #D0D5DD',
+              borderRadius: '6px',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              toast(
+                'We are in the process of building the app. Please apply for the early access. Stay tuned!',
+              );
             }}
           >
-            download
-          </Typography>
+            <Typography
+              textTransform="capitalize"
+              sx={{
+                background:
+                  'linear-gradient(89.77deg, #6EDFA3 3.4%, #2292F9 54.78%, #7F56D9 100.87%)',
+                backgroundClip: 'text',
+                textFillColor: 'transparent',
+              }}
+            >
+              download
+            </Typography>
+          </Box>
+          <Box
+            sx={{ position: 'absolute', right: '24px' }}
+            onClick={() => setOpenMenu(false)}
+          >
+            <img src="/icons/delete.svg" />
+          </Box>
         </Box>
-        <Box sx={{ position: 'absolute', right: '24px' }}>
-          <img src="/icons/delete.svg" />
-        </Box>
-      </Box>
+      )}
     </div>
   );
 };

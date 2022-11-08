@@ -23,89 +23,6 @@ const menu = (item: any, active: boolean) => (
     {item.title}
   </Box>
 );
-const DappCard = (item: any) => (
-  <Link
-    color={'inherit'}
-    sx={{
-      textDecoration: 'none',
-    }}
-    href={item.url}
-    target="_blank"
-  >
-    <Box
-      padding={3}
-      maxWidth="320px"
-      height="248px"
-      sx={{
-        background: '#FFFFFF',
-        border: '0.5px solid #D0D5DD',
-        borderRadius: '6px',
-      }}
-      key={item.id}
-    >
-      <Box marginBottom={3} display="flex">
-        <Box
-          width="80px"
-          height="80px"
-          marginRight={2}
-          sx={{
-            border: '0.5px solid #D0D5DD',
-            borderRadius: '18px',
-          }}
-        >
-          <img src={item.logo} style={{ width: '100%' }} />
-        </Box>
-        <Box>
-          <Typography
-            color="#101828"
-            fontWeight="600"
-            fontSize="20px"
-            lineHeight="24px"
-            marginBottom={1}
-          >
-            {item.title}
-          </Typography>
-          <Box
-            sx={{
-              width: '55px',
-              height: '24px',
-              background: 'rgba(77, 204, 158, 0.1)',
-              borderRadius: '2px',
-              textAlign: 'center',
-              fontSize: '14px',
-              lineHeight: '24px',
-              color: '#4DCC9E',
-              textTransform: 'capitalize',
-            }}
-          >
-            wallet
-          </Box>
-        </Box>
-      </Box>
-      <Box marginBottom={3}>
-        <Typography>{item.desc}</Typography>
-      </Box>
-      <Box display="flex" justifyContent="space-between">
-        <Box display="flex">
-          <Box
-            width={24}
-            height={24}
-            marginRight={1}
-            sx={{ cursor: 'pointer' }}
-          >
-            <img src="/icons/twitterblue.svg" />
-          </Box>
-          <Box width={24} height={24} sx={{ cursor: 'pointer' }}>
-            <img src="/icons/weblink.svg" />
-          </Box>
-        </Box>
-        <Box width={24} height={24} sx={{ cursor: 'pointer' }}>
-          <img src="/icons/star.svg" />
-        </Box>
-      </Box>
-    </Box>
-  </Link>
-);
 const appCard = (item: any) => (
   <Box
     height="80px"
@@ -201,15 +118,17 @@ const storyCard = (item: any) => (
     <Box>
       <Box>{appCard({ a: 1 })}</Box>
       <Box marginTop={3} display="flex" justifyContent="center">
-        <img src="/icons/down.svg" style={{ width: '21px' }} />
-        <Typography fontSize="16px" color="#666F85">
+        <img
+          src="/icons/down.svg"
+          style={{ width: '24px', height: '24px', marginRight: 8 }}
+        />
+        <Typography fontSize="16px" color="#666F85" lineHeight="24px">
           more
         </Typography>
       </Box>
     </Box>
   </Box>
 );
-
 export default function Dappstore() {
   const theme = useTheme();
   const [activeMenu, setActiveMenu] = useState({
@@ -219,17 +138,151 @@ export default function Dappstore() {
   const [menuList, setMenuList] = useState([]);
   const [DappCardList, setDapps] = useState([]);
   const [DappCardCount, setDappsCount] = useState([1, 2, 3]);
-  const [pageIndex, setPageIndex] = useState(1);
   const [storyList, setStoryList] = useState([]);
+  const [storylistPage, setListPage] = useState(1);
   const [storyPage, setStoryPage] = useState(1);
+  const [storyMenu, setStoryMenu] = useState([]);
   const [storyTab, setStoryTab] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [collected, setCollected] = useState('');
+
+  const moreBtn = (text: string) => (
+    <Box
+      display="flex"
+      justifyContent="center"
+      marginTop="94px"
+      onClick={() => setListPage(storylistPage + 1)}
+    >
+      <Box
+        width="144px"
+        height="48px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        sx={{
+          background: '#fff',
+          border: '0.5px solid #D0D5DD',
+          borderRadius: '6px',
+        }}
+      >
+        <Typography
+          textTransform="capitalize"
+          sx={{
+            background:
+              'linear-gradient(89.77deg, #6EDFA3 3.4%, #2292F9 54.78%, #7F56D9 100.87%)',
+            backgroundClip: 'text',
+            textFillColor: 'transparent',
+          }}
+        >
+          {text}
+        </Typography>
+      </Box>
+    </Box>
+  );
+  const DappCard = (item: any) => (
+    <Link
+      color={'inherit'}
+      sx={{
+        textDecoration: 'none',
+      }}
+      href={item.url}
+      target="_blank"
+    >
+      <Box
+        padding={3}
+        maxWidth="320px"
+        height="248px"
+        sx={{
+          background: '#FFFFFF',
+          border: '0.5px solid #D0D5DD',
+          borderRadius: '6px',
+        }}
+        key={item.id}
+      >
+        <Box marginBottom={3} display="flex">
+          <Box
+            width="80px"
+            height="80px"
+            marginRight={2}
+            sx={{
+              border: '0.5px solid #D0D5DD',
+              borderRadius: '18px',
+            }}
+          >
+            <img src={item.logo} style={{ width: '100%' }} />
+          </Box>
+          <Box>
+            <Typography
+              color="#101828"
+              fontWeight="600"
+              fontSize="20px"
+              lineHeight="24px"
+              marginBottom={1}
+            >
+              {item.title}
+            </Typography>
+            <Box
+              sx={{
+                width: '55px',
+                height: '24px',
+                background: 'rgba(77, 204, 158, 0.1)',
+                borderRadius: '2px',
+                textAlign: 'center',
+                fontSize: '14px',
+                lineHeight: '24px',
+                color: '#4DCC9E',
+                textTransform: 'capitalize',
+              }}
+            >
+              wallet
+            </Box>
+          </Box>
+        </Box>
+        <Box marginBottom={3}>
+          <Typography>{item.desc}</Typography>
+        </Box>
+        <Box display="flex" justifyContent="space-between">
+          <Box display="flex">
+            <Box
+              width={24}
+              height={24}
+              marginRight={1}
+              sx={{ cursor: 'pointer' }}
+            >
+              <img src="/icons/twitterblue.svg" />
+            </Box>
+            <Box width={24} height={24} sx={{ cursor: 'pointer' }}>
+              <img src="/icons/weblink.svg" />
+            </Box>
+          </Box>
+          <Box
+            width={24}
+            height={24}
+            sx={{ cursor: 'pointer' }}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log('点击收藏');
+              setCollected(item.id);
+            }}
+          >
+            {collected == item.id ? (
+              // to do yellow star
+              <img src="/icons/star.svg" style={{ color: 'yellow' }} />
+            ) : (
+              <img src="/icons/star.svg" />
+            )}
+          </Box>
+        </Box>
+      </Box>
+    </Link>
+  );
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setStoryTab(newValue);
-  };
-
-  const handleChangeIndex = (index: number) => {
-    setStoryTab(index);
+    setHasMore(false);
+    setListPage(1);
+    setStoryPage(1);
+    getStories();
   };
   const HTTPURL = 'https://api.metapavo.xyz';
   const getDappsCategories = async () => {
@@ -250,7 +303,7 @@ export default function Dappstore() {
   };
   const getDapps = async () => {
     const r2: any = await fetch(
-      `${HTTPURL}/dapps?pageIndex=${pageIndex}&pageSize=10&categoryId=${activeMenu.id}`,
+      `${HTTPURL}/dapps?pageIndex=${page}&pageSize=10&categoryId=${activeMenu}`,
       {
         method: 'GET',
         headers: {
@@ -263,10 +316,26 @@ export default function Dappstore() {
     let data = json2.data.slice(0, 9);
     setDapps(data);
   };
+  const getStoryCategories = async () => {
+    const r4: any = await fetch(
+      HTTPURL + '/stories/category',
 
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      },
+    );
+
+    const json4 = await r4.json();
+    setStoryMenu(json4.data);
+    setStoryTab(json4.data[0].id);
+  };
   const getStories = async () => {
     const r3: any = await fetch(
-      `${HTTPURL}/stories?pageIndex=${storyPage}&pageSize=10`,
+      `${HTTPURL}/stories?pageIndex=${storyPage}&pageSize=10&categoryId=${storyTab}`,
       {
         method: 'GET',
         headers: {
@@ -276,18 +345,19 @@ export default function Dappstore() {
       },
     );
     const json3 = await r3.json();
-    setStoryList(json3.data);
+    setStoryList(json3?.data?.data);
   };
   useEffect(() => {
     (async () => {
       await getDappsCategories();
       await getDapps();
+      await getStoryCategories();
       await getStories();
     })();
   }, []);
   useEffect(() => {
     getDapps();
-  }, [activeMenu]);
+  }, [activeMenu, page]);
   return (
     <LayoutDapps title="admin" description={'admin'}>
       <Box
@@ -335,11 +405,11 @@ export default function Dappstore() {
           {menuList && menuList.length > 0
             ? menuList.map((item: any) => (
                 <Box
-                  onClick={(item: any) => setActiveMenu(item)}
+                  onClick={() => setActiveMenu(item.id)}
                   width="auto"
                   key={item.id}
                 >
-                  {menu(item, activeMenu == item)}
+                  {menu(item, activeMenu == item.id)}
                 </Box>
               ))
             : null}
@@ -382,81 +452,23 @@ export default function Dappstore() {
           Story
         </Typography>
         <Tabs value={storyTab} onChange={handleChange}>
-          <Tab label="popular" />
-          <Tab label="new" />
+          {storyMenu.map((menu: any) => (
+            <Tab label={menu.title} value={menu.id} />
+          ))}
         </Tabs>
         <Box>
-          <TabPanel value={storyTab} index={0}>
-            <Box>
+          {storyMenu.map((menu: any) => (
+            <TabPanel value={storyTab} index={menu.id}>
               <Box>
-                {storyList && storyList.length > 0
-                  ? storyList.map((story) => storyCard(story))
-                  : null}
-              </Box>
-              <Box display="flex" justifyContent="center" marginTop="94px">
-                <Box
-                  width="144px"
-                  height="48px"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  sx={{
-                    background: '#fff',
-                    border: '0.5px solid #D0D5DD',
-                    borderRadius: '6px',
-                  }}
-                >
-                  <Typography
-                    textTransform="capitalize"
-                    sx={{
-                      background:
-                        'linear-gradient(89.77deg, #6EDFA3 3.4%, #2292F9 54.78%, #7F56D9 100.87%)',
-                      backgroundClip: 'text',
-                      textFillColor: 'transparent',
-                    }}
-                  >
-                    view more
-                  </Typography>
+                <Box>
+                  {storyList && storyList.length > 0
+                    ? storyList.map((story) => storyCard(story))
+                    : null}
                 </Box>
+                {hasMore && moreBtn('view more')}
               </Box>
-            </Box>
-          </TabPanel>
-          <TabPanel value={storyTab} index={1}>
-            <Box>
-              {storyList && storyList.length > 0
-                ? storyList.map((story) => storyCard(story))
-                : null}
-            </Box>
-            <Box display="flex" justifyContent="center" marginTop="94px">
-              <Box
-                width="144px"
-                height="48px"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                sx={{
-                  background: '#fff',
-                  border: '0.5px solid #D0D5DD',
-                  borderRadius: '6px',
-                }}
-                onClick={() => {
-                  setStoryPage(storyPage + 1);
-                }}
-              >
-                <Typography
-                  textTransform="capitalize"
-                  sx={{
-                    background:
-                      'linear-gradient(89.77deg, #6EDFA3 3.4%, #2292F9 54.78%, #7F56D9 100.87%)',
-                    backgroundClip: 'text',
-                    textFillColor: 'transparent',
-                  }}
-                >
-                  view more
-                </Typography>
-              </Box>
-            </Box>
-          </TabPanel>
+            </TabPanel>
+          ))}
         </Box>
       </Box>
     </LayoutDapps>
