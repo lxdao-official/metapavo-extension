@@ -37,7 +37,6 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
           label: 'Website',
           img: linkImages.website,
         },
-
         {
           link: activeProject?.links?.gem,
           label: 'Gem',

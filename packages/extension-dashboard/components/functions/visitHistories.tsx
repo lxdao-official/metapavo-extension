@@ -12,10 +12,12 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { getLogo } from '../../utils/getLogo';
+
 export default function VisitHistories() {
   const [websiteURL, setWebsiteURL] = useState<string>('');
   const [groupedHistories, setGroupedHistories] = useState<
-    chrome.history.HistoryItem[][]
+    (chrome.history.HistoryItem & { logo?: string })[][]
   >([]);
   const pageEle = useRef(null);
 
@@ -23,20 +25,54 @@ export default function VisitHistories() {
     try {
       chrome.history.search(
         {
-          maxResults: 36,
+          maxResults: 300,
           text: '',
         },
         (results: chrome.history.HistoryItem[]) => {
           if (results.length) {
+            let realResults = [];
+            const processedHost: any = {};
+            for (let i = 0; i < results.length; i++) {
+              if (results[i].url?.match(/http(s):\/\//)) {
+                const host = results[i].url?.replace(
+                  /^(http(s)?:\/\/(.*?))\/.*$/,
+                  '$1',
+                );
+                if (host) {
+                  if (!processedHost[host]) {
+                    realResults.push(results[i]);
+                    processedHost[host] = true;
+                  }
+                }
+              }
+            }
+            realResults = realResults.slice(0, 36);
             const _group = [];
-            for (let i = 0; i < results.length; i += 12) {
-              _group.push(results.slice(i, i + 12));
+            for (let i = 0; i < realResults.length; i += 12) {
+              _group.push(realResults.slice(i, i + 12));
             }
             setGroupedHistories(_group);
+            fetchLogos(_group);
           }
         },
       );
     } catch (e) {}
+  };
+
+  const fetchLogos = async (groupedHistories: any) => {
+    const _groupedHistories = [...groupedHistories];
+    for (let i = 0; i < groupedHistories.length; i++) {
+      for (let j = 0; j < groupedHistories[i].length; j++) {
+        const item = groupedHistories[i][j];
+        if (item.url) {
+          const favicon = await getLogo(item.url);
+          if (favicon) {
+            groupedHistories[i][j].logo = favicon;
+          }
+        }
+        setGroupedHistories(_groupedHistories);
+      }
+    }
   };
   useEffect(() => {
     loadList();
@@ -82,7 +118,7 @@ export default function VisitHistories() {
                             }}
                           >
                             <img
-                              src={websiteURL}
+                              src={u.logo || websiteURL}
                               style={{ height: '16px', borderRadius: '5px' }}
                             />
                           </ListItemIcon>

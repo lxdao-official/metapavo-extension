@@ -87,7 +87,8 @@
     "eth-phishing-detect": "1.2.0",
     "stream-browserify": "3.0.0",
     "@walletconnect/client": "1.8.0",
-    "@walletconnect/qrcode-modal": "1.8.0"
+    "@walletconnect/qrcode-modal": "1.8.0",
+    "@nextui-org/react": "^1.0.0-beta.10"
   },
   "scripts": {
     "start": "BUILD_PATH=../../extensions/dist/ node scripts/start.js",

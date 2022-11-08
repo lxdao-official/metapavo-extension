@@ -5,7 +5,8 @@
   "description": "MetaPavo links web3 information and functions into one box",
   "action": {
     "default_icon": "logo-128.png",
-    "default_title": "MetaPavo, links web3 information and functions into one box"
+    "default_title": "MetaPavo, links web3 information and functions into one box",
+    "default_popup": "popup.html"
   },
   "icons": {
     "128": "logo-128.png",

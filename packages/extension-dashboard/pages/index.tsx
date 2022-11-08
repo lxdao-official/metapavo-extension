@@ -133,9 +133,6 @@ const Home: NextPage = () => {
           style={{ width: '1328px', margin: '40px auto' }}
         >
           <Grid item xs={8}>
-            <CardModule title="My Collected NFTs">
-              <FavNFTModule></FavNFTModule>
-            </CardModule>
             <CardModule
               title="My Installed DAPPs"
               extra={<a href="#">DAPP Store</a>}
@@ -147,6 +144,9 @@ const Home: NextPage = () => {
             </CardModule>
             <CardModule title="History">
               <VisitHistories></VisitHistories>
+            </CardModule>
+            <CardModule title="My Collected NFTs">
+              <FavNFTModule></FavNFTModule>
             </CardModule>
           </Grid>
           <Grid item xs={4}>
