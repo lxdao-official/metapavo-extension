@@ -10,7 +10,7 @@ import { projectLinksWrapper } from '../../utils/apis/project_wrapper';
 import { favs } from '../../utils/apis/types';
 import NFTCard from '../cards/NFTCard';
 
-export default function FavNFTModule() {
+export default function CollectedNFTs() {
   const [groupedFavs, setGroupedFavs] = useState<favs[][]>([]);
   const pageEle = useRef(null);
   const loadFavs = async () => {

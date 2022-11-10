@@ -115,5 +115,29 @@
   },
   "My_Installed_DAPPs": {
     "message": "我安装的 DAPPs"
+  },
+  "No_results": {
+    "message": "暂无结果"
+  },
+  "ungrouped": {
+    "message": "未分类"
+  },
+  "add_your_own_dapp_group": {
+    "message": "添加自定义分组"
+  },
+  "Submit": {
+    "message": "提交"
+  },
+  "Cancel": {
+    "message": "取消"
+  },
+  "Token_Price": {
+    "message": "币价"
+  },
+  "no_dapps": {
+    "message": "此分类暂无 DAPPs"
+  },
+  "recently_visited": {
+    "message": "最近访问"
   }
 }

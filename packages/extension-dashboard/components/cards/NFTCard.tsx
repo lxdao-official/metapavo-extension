@@ -16,6 +16,7 @@ import { NFTCardRoot } from '../styles';
 
 export default function NFTCard(props: { activeProject: IProjectV2 }) {
   const activeProject = props.activeProject;
+  const blankImage = chrome.runtime.getURL('images/placeholder.png');
   const [links, setLinks] = React.useState<any[]>([]);
   useEffect(() => {
     const activeProject = props.activeProject;
@@ -53,8 +54,10 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
       <NFTCardRoot>
         <div className="mp-success-hd">
           <img
-            src={activeProject?.imageUrl as string}
-            alt={activeProject?.name}
+            src={(activeProject?.imageUrl as string) || blankImage}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = blankImage;
+            }}
           />
           <a className="mp-success-title" href={activeProject?.links?.opensea}>
             {activeProject?.name}

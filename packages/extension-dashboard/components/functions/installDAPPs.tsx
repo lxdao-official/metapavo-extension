@@ -8,34 +8,50 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { Avatar, Button, Input, Modal, Text } from '@nextui-org/react';
+import {
+  Avatar,
+  Button,
+  Input,
+  Modal,
+  Navbar,
+  Text,
+  Tooltip,
+} from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import config from '../../config';
 import { dapps, user_dapps, user_dapps_catogories } from '../../utils/apis';
+import { getViewLogs } from '../../utils/apis/dapps_api';
 import { fetchWrapped } from '../../utils/apis/fetch';
 import { getUserDapps } from '../../utils/apis/nft_api';
+import { getLang } from '../../utils/lang';
+import CardModule from '../CardModule';
+import DappCard from '../cards/DappCard';
 
 type UserDapp = user_dapps & {
   dapp: dapps;
 };
 
 export default function InstallDAPPs() {
-  const [userdapps, setuserdapps] = useState<UserDapp[]>([]);
+  const [dapps, setDapps] = useState<dapps[]>([]);
   const [showAddCategory, setshowAddCategory] = useState(false);
   const [addCategoryTitle, setaddCategoryTitle] = useState('');
   const [addCategoryDesc, setaddCategoryDesc] = useState('');
   const [allDapps, setAllDapps] = useState<UserDapp[]>([]);
-  const [activeCategoryId, setActiveCategoryId] = useState<string>();
+  const [activeCategoryId, setActiveCategoryId] = useState<string>('recent');
   const refreshDappsList = async () => {
-    if (activeCategoryId) {
+    if (activeCategoryId == 'recent') {
+      const visitlog = getViewLogs();
+      console.log('visitlog', visitlog);
+      setDapps(visitlog);
+    } else if (activeCategoryId == 'ungrouped') {
+      setDapps(allDapps.map((d) => d.dapp));
+    } else {
       const _list = allDapps.filter((_dapp) => {
         return activeCategoryId == _dapp.user_dapps_catogories_id;
       });
-      setuserdapps(_list);
-    } else {
-      setuserdapps(allDapps);
+      setDapps(_list.map((d) => d.dapp));
     }
   };
   const loadFavs = async () => {
@@ -141,8 +157,11 @@ export default function InstallDAPPs() {
   }
   function activeCategory(cat_id: string) {
     setActiveCategoryId(cat_id);
-    refreshDappsList();
   }
+
+  useEffect(() => {
+    refreshDappsList();
+  }, [activeCategoryId, allDapps]);
   return (
     <Box
       mt={1}
@@ -155,42 +174,111 @@ export default function InstallDAPPs() {
           marginBottom: '10px',
         }}
       >
-        <Button.Group size="xs" color="secondary" style={{ margin: '0' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            gap: '0 5px',
+          }}
+        >
+          <div
+            onClick={() => {
+              activeCategory('recent');
+            }}
+            style={{
+              fontSize: '12px',
+              padding: '0px 10px',
+              lineHeight: '26px',
+              borderRadius: '13px',
+              cursor: 'pointer',
+              background: activeCategoryId == 'recent' ? '#9f50ff' : '#fff',
+              color: activeCategoryId == 'recent' ? '#fff' : '#444',
+            }}
+          >
+            {getLang('recently_visited')}
+          </div>
+          <div
+            onClick={() => {
+              activeCategory('ungrouped');
+            }}
+            style={{
+              fontSize: '12px',
+              padding: '0px 10px',
+              lineHeight: '26px',
+              borderRadius: '13px',
+              cursor: 'pointer',
+              background: activeCategoryId == 'ungrouped' ? '#9f50ff' : '#fff',
+              color: activeCategoryId == 'ungrouped' ? '#fff' : '#444',
+            }}
+          >
+            {getLang('ungrouped')}
+          </div>
+
           {user_categories.map((cat) => (
-            <Button
+            <div
               onClick={() => {
                 activeCategory(cat.id);
               }}
+              style={{
+                fontSize: '12px',
+                padding: '0px 10px',
+                lineHeight: '26px',
+                borderRadius: '13px',
+                cursor: 'pointer',
+                background: activeCategoryId === cat.id ? '#9f50ff' : '#fff',
+                color: activeCategoryId == cat.id ? '#fff' : '#444',
+              }}
             >
               {cat.title}
-            </Button>
+            </div>
           ))}
-          <Button
+          <Box
             onClick={() => {
               showModal();
             }}
-            style={{
-              width: '50px',
+            sx={{
+              lineHeight: '26px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0 6px',
+              '&:hover': {
+                background: '#f5f5f5',
+              },
+              borderRadius: '5px',
             }}
-            icon={
+          >
+            <Tooltip
+              content={getLang('add_your_own_dapp_group')}
+              rounded
+              color="secondary"
+            >
               <AddCircleOutlineIcon
-                style={{ fontSize: '16px', color: '#fff' }}
+                style={{ fontSize: '18px', color: '#9f50ff' }}
               />
-            }
-          />
-        </Button.Group>
+            </Tooltip>
+          </Box>
+        </div>
       </div>
       <Grid container spacing={1}>
-        {userdapps.map((u) => {
-          const dapp = u.dapp;
+        {dapps.length == 0 && (
+          <div
+            style={{
+              textAlign: 'left',
+              width: '100%',
+              fontSize: '14px',
+              lineHeight: '50px',
+              paddingLeft: '10px',
+            }}
+          >
+            {getLang('no_dapps')}
+          </div>
+        )}
+        {dapps.map((dapp) => {
           return (
             <Grid item xs={2}>
-              <ListItem
-                disablePadding
+              <Box
                 sx={{
-                  background: '#fff',
-                  borderRadius: '5px',
-                  border: '1px solid #efefef',
                   position: 'relative',
                   '& .icon': {
                     display: 'none',
@@ -201,40 +289,8 @@ export default function InstallDAPPs() {
                     },
                   },
                 }}
-                onClick={() => {
-                  window.location.href = `${process.env.NEXT_PUBLIC_APIBASE}/dapps/jump/${dapp.id}`;
-                }}
               >
-                <ListItemButton style={{ padding: '5px 10px' }}>
-                  <ListItemIcon
-                    style={{
-                      minWidth: '20px',
-                      width: '20px',
-                      marginRight: '8px',
-                    }}
-                  >
-                    <img
-                      src={dapp.logo || ''}
-                      style={{ height: '20px', borderRadius: '5px' }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <div
-                        style={{
-                          fontSize: '12px',
-                          fontWeight: 500,
-                          lineHeight: '20px',
-                          height: '20px',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {dapp.title}{' '}
-                      </div>
-                    }
-                  ></ListItemText>
-                </ListItemButton>
+                <DappCard dapp={dapp} />
                 <a
                   onClick={(e) => {
                     e.stopPropagation();
@@ -261,7 +317,7 @@ export default function InstallDAPPs() {
                     }}
                   />
                 </a>
-              </ListItem>
+              </Box>
             </Grid>
           );
         })}
@@ -274,7 +330,7 @@ export default function InstallDAPPs() {
       >
         <Modal.Header>
           <Text id="modal-title" size={18}>
-            Add your self own dapps category
+            {getLang('add_your_own_dapp_group')}
           </Text>
         </Modal.Header>
         <Modal.Body>
@@ -303,7 +359,7 @@ export default function InstallDAPPs() {
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onClick={closeModalHandler}>
-            Cancel
+            {getLang('Cancel')}
           </Button>
           <Button
             auto
@@ -312,7 +368,7 @@ export default function InstallDAPPs() {
               closeModalHandler();
             }}
           >
-            Submit
+            {getLang('Submit')}
           </Button>
         </Modal.Footer>
       </Modal>

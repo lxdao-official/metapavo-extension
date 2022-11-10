@@ -30,7 +30,9 @@
     "echarts-for-react": "^3.0.2",
     "moment": "2.29.4",
     "swiper": "8.4.4",
-    "@nextui-org/react": "^1.0.0-beta.10"
+    "@nextui-org/react": "^1.0.0-beta.10",
+    "react-dnd": "^14.0.4",
+    "react-dnd-html5-backend": "^14.0.4"
   },
   "devDependencies": {
     "@types/node": "18.11.8",

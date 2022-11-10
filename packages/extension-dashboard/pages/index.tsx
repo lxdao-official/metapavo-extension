@@ -3,6 +3,8 @@ import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import styled from 'styled-components';
 import { useEnsName } from 'wagmi';
 
@@ -107,7 +109,9 @@ const Home: NextPage = () => {
           </div>
         </header>
         <main className={styles.main}>
-          <IndexComponent />
+          <DndProvider backend={HTML5Backend}>
+            <IndexComponent />
+          </DndProvider>
         </main>
       </div>
     </NoSsr>
