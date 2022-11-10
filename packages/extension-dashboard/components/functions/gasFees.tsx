@@ -128,6 +128,7 @@ export default function GasFees() {
               },
             ]),
           },
+          animation: false,
           data: _lastdayGases.map((item: any) => {
             return { name: item.t, value: item.v };
           }),

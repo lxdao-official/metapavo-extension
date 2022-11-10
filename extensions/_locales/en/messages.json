@@ -103,5 +103,17 @@
   },
   "nodisplay7": {
     "message": "no display on this site in 7 days"
+  },
+  "Read_Laters": {
+    "message": "Read Laters"
+  },
+  "DASHBOARD_History": {
+    "message": "History"
+  },
+  "My_Collected_NFTs": {
+    "message": "My Collected NFTs"
+  },
+  "My_Installed_DAPPs": {
+    "message": "My Installed DAPPs"
   }
 }

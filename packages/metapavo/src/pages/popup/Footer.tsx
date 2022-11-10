@@ -13,6 +13,7 @@ const Footer = () => {
         borderTop="1px solid #F2F4F7"
         style={{
           backgroundColor: '#f9f9f9',
+          marginTop: '20px',
         }}
       >
         <Box height="60px" component={'img'} src={buildin} />

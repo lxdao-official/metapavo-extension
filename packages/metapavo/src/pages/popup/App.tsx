@@ -19,7 +19,7 @@ style.innerText = `
 `;
 document.body.appendChild(style);
 const RootElement = styled.div`
-  width: 250px;
+  width: 300px;
 `;
 
 ReactDOM.render(

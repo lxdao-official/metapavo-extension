@@ -47,7 +47,7 @@ export default function FavNFTModule() {
   }, []);
   return (
     <Box
-      mt={2}
+      mt={1}
       style={{
         width: '100%',
       }}

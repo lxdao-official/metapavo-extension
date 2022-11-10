@@ -112,6 +112,7 @@ export type dapps = {
   install_count: number
   visible: boolean
   is_good: boolean
+  add_by_admin: boolean
 }
 
 /**
@@ -149,6 +150,21 @@ export type user_dapps = {
   dapp_id: string
   created_at: Date
   updated_at: Date | null
+  user_dapps_catogories_id: string | null
+}
+
+/**
+ * Model user_dapps_catogories
+ * 
+ */
+export type user_dapps_catogories = {
+  id: string
+  title: string
+  desc: string | null
+  sort: number
+  created_at: Date
+  updated_at: Date | null
+  user_id: string
 }
 
 /**
@@ -205,6 +221,33 @@ export type story_dapps_relations = {
   dapp_id: string
   created_at: Date
   updated_at: Date | null
+}
+
+/**
+ * Model tokens
+ * 
+ */
+export type tokens = {
+  id: string
+  name: string
+  symbol: string
+  slug: string
+  cmcRank: number | null
+  marketPairCount: number | null
+  circulatingSupply: number | null
+  selfReportedCirculatingSupply: number | null
+  totalSupply: number | null
+  maxSupply: number | null
+  ath: number | null
+  atl: number | null
+  high24h: number | null
+  low24h: number | null
+  isActive: number | null
+  lastUpdated: Date | null
+  dateAdded: Date | null
+  created_at: Date
+  updated_at: Date | null
+  isAudited: boolean
 }
 
 
@@ -472,6 +515,16 @@ export class PrismaClient<
   get user_dapps(): Prisma.user_dappsDelegate<GlobalReject>;
 
   /**
+   * `prisma.user_dapps_catogories`: Exposes CRUD operations for the **user_dapps_catogories** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more User_dapps_catogories
+    * const user_dapps_catogories = await prisma.user_dapps_catogories.findMany()
+    * ```
+    */
+  get user_dapps_catogories(): Prisma.user_dapps_catogoriesDelegate<GlobalReject>;
+
+  /**
    * `prisma.stories`: Exposes CRUD operations for the **stories** model.
     * Example usage:
     * ```ts
@@ -510,6 +563,16 @@ export class PrismaClient<
     * ```
     */
   get story_dapps_relations(): Prisma.story_dapps_relationsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.tokens`: Exposes CRUD operations for the **tokens** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tokens
+    * const tokens = await prisma.tokens.findMany()
+    * ```
+    */
+  get tokens(): Prisma.tokensDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -936,10 +999,12 @@ export namespace Prisma {
     dapp_categories: 'dapp_categories',
     dapp_categories_relations: 'dapp_categories_relations',
     user_dapps: 'user_dapps',
+    user_dapps_catogories: 'user_dapps_catogories',
     stories: 'stories',
     story_categories: 'story_categories',
     story_categories_relations: 'story_categories_relations',
-    story_dapps_relations: 'story_dapps_relations'
+    story_dapps_relations: 'story_dapps_relations',
+    tokens: 'tokens'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1104,10 +1169,12 @@ export namespace Prisma {
 
   export type UsersCountOutputType = {
     user_dapps: number
+    user_dapps_catogories: number
   }
 
   export type UsersCountOutputTypeSelect = {
     user_dapps?: boolean
+    user_dapps_catogories?: boolean
   }
 
   export type UsersCountOutputTypeGetPayload<
@@ -1244,6 +1311,55 @@ export namespace Prisma {
      * 
     **/
     select?: Dapp_categoriesCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type User_dapps_catogoriesCountOutputType
+   */
+
+
+  export type User_dapps_catogoriesCountOutputType = {
+    user_dapps: number
+  }
+
+  export type User_dapps_catogoriesCountOutputTypeSelect = {
+    user_dapps?: boolean
+  }
+
+  export type User_dapps_catogoriesCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | User_dapps_catogoriesCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? User_dapps_catogoriesCountOutputType
+    : S extends undefined
+    ? never
+    : S extends User_dapps_catogoriesCountOutputTypeArgs
+    ?'include' extends U
+    ? User_dapps_catogoriesCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof User_dapps_catogoriesCountOutputType ? User_dapps_catogoriesCountOutputType[P] : never
+  } 
+    : User_dapps_catogoriesCountOutputType
+  : User_dapps_catogoriesCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * User_dapps_catogoriesCountOutputType without action
+   */
+  export type User_dapps_catogoriesCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the User_dapps_catogoriesCountOutputType
+     * 
+    **/
+    select?: User_dapps_catogoriesCountOutputTypeSelect | null
   }
 
 
@@ -1556,11 +1672,13 @@ export namespace Prisma {
     updated_at?: boolean
     deleted_at?: boolean
     user_dapps?: boolean | user_dappsFindManyArgs
+    user_dapps_catogories?: boolean | user_dapps_catogoriesFindManyArgs
     _count?: boolean | UsersCountOutputTypeArgs
   }
 
   export type usersInclude = {
     user_dapps?: boolean | user_dappsFindManyArgs
+    user_dapps_catogories?: boolean | user_dapps_catogoriesFindManyArgs
     _count?: boolean | UsersCountOutputTypeArgs
   }
 
@@ -1576,12 +1694,14 @@ export namespace Prisma {
     ? users  & {
     [P in TrueKeys<S['include']>]:
         P extends 'user_dapps' ? Array < user_dappsGetPayload<S['include'][P]>>  :
+        P extends 'user_dapps_catogories' ? Array < user_dapps_catogoriesGetPayload<S['include'][P]>>  :
         P extends '_count' ? UsersCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
         P extends 'user_dapps' ? Array < user_dappsGetPayload<S['select'][P]>>  :
+        P extends 'user_dapps_catogories' ? Array < user_dapps_catogoriesGetPayload<S['select'][P]>>  :
         P extends '_count' ? UsersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof users ? users[P] : never
   } 
     : users
@@ -1923,6 +2043,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
     user_dapps<T extends user_dappsFindManyArgs = {}>(args?: Subset<T, user_dappsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<user_dapps>>, PrismaPromise<Array<user_dappsGetPayload<T>>>>;
+
+    user_dapps_catogories<T extends user_dapps_catogoriesFindManyArgs = {}>(args?: Subset<T, user_dapps_catogoriesFindManyArgs>): CheckSelect<T, PrismaPromise<Array<user_dapps_catogories>>, PrismaPromise<Array<user_dapps_catogoriesGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -6528,6 +6650,7 @@ export namespace Prisma {
     install_count: number | null
     visible: boolean | null
     is_good: boolean | null
+    add_by_admin: boolean | null
   }
 
   export type DappsMaxAggregateOutputType = {
@@ -6542,6 +6665,7 @@ export namespace Prisma {
     install_count: number | null
     visible: boolean | null
     is_good: boolean | null
+    add_by_admin: boolean | null
   }
 
   export type DappsCountAggregateOutputType = {
@@ -6556,6 +6680,7 @@ export namespace Prisma {
     install_count: number
     visible: number
     is_good: number
+    add_by_admin: number
     _all: number
   }
 
@@ -6582,6 +6707,7 @@ export namespace Prisma {
     install_count?: true
     visible?: true
     is_good?: true
+    add_by_admin?: true
   }
 
   export type DappsMaxAggregateInputType = {
@@ -6596,6 +6722,7 @@ export namespace Prisma {
     install_count?: true
     visible?: true
     is_good?: true
+    add_by_admin?: true
   }
 
   export type DappsCountAggregateInputType = {
@@ -6610,6 +6737,7 @@ export namespace Prisma {
     install_count?: true
     visible?: true
     is_good?: true
+    add_by_admin?: true
     _all?: true
   }
 
@@ -6717,6 +6845,7 @@ export namespace Prisma {
     install_count: number
     visible: boolean
     is_good: boolean
+    add_by_admin: boolean
     _count: DappsCountAggregateOutputType | null
     _avg: DappsAvgAggregateOutputType | null
     _sum: DappsSumAggregateOutputType | null
@@ -6750,6 +6879,7 @@ export namespace Prisma {
     install_count?: boolean
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
     dapp_categories_relations?: boolean | dapp_categories_relationsFindManyArgs
     story_dapps_relations?: boolean | story_dapps_relationsFindManyArgs
     user_dapps?: boolean | user_dappsFindManyArgs
@@ -9290,6 +9420,7 @@ export namespace Prisma {
     dapp_id: string | null
     created_at: Date | null
     updated_at: Date | null
+    user_dapps_catogories_id: string | null
   }
 
   export type User_dappsMaxAggregateOutputType = {
@@ -9298,6 +9429,7 @@ export namespace Prisma {
     dapp_id: string | null
     created_at: Date | null
     updated_at: Date | null
+    user_dapps_catogories_id: string | null
   }
 
   export type User_dappsCountAggregateOutputType = {
@@ -9306,6 +9438,7 @@ export namespace Prisma {
     dapp_id: number
     created_at: number
     updated_at: number
+    user_dapps_catogories_id: number
     _all: number
   }
 
@@ -9316,6 +9449,7 @@ export namespace Prisma {
     dapp_id?: true
     created_at?: true
     updated_at?: true
+    user_dapps_catogories_id?: true
   }
 
   export type User_dappsMaxAggregateInputType = {
@@ -9324,6 +9458,7 @@ export namespace Prisma {
     dapp_id?: true
     created_at?: true
     updated_at?: true
+    user_dapps_catogories_id?: true
   }
 
   export type User_dappsCountAggregateInputType = {
@@ -9332,6 +9467,7 @@ export namespace Prisma {
     dapp_id?: true
     created_at?: true
     updated_at?: true
+    user_dapps_catogories_id?: true
     _all?: true
   }
 
@@ -9419,6 +9555,7 @@ export namespace Prisma {
     dapp_id: string
     created_at: Date
     updated_at: Date | null
+    user_dapps_catogories_id: string | null
     _count: User_dappsCountAggregateOutputType | null
     _min: User_dappsMinAggregateOutputType | null
     _max: User_dappsMaxAggregateOutputType | null
@@ -9446,11 +9583,14 @@ export namespace Prisma {
     user?: boolean | usersArgs
     created_at?: boolean
     updated_at?: boolean
+    user_dapps_catogories_id?: boolean
+    user_dapps_catogories?: boolean | user_dapps_catogoriesArgs
   }
 
   export type user_dappsInclude = {
     dapp?: boolean | dappsArgs
     user?: boolean | usersArgs
+    user_dapps_catogories?: boolean | user_dapps_catogoriesArgs
   }
 
   export type user_dappsGetPayload<
@@ -9465,13 +9605,15 @@ export namespace Prisma {
     ? user_dapps  & {
     [P in TrueKeys<S['include']>]:
         P extends 'dapp' ? dappsGetPayload<S['include'][P]> :
-        P extends 'user' ? usersGetPayload<S['include'][P]> :  never
+        P extends 'user' ? usersGetPayload<S['include'][P]> :
+        P extends 'user_dapps_catogories' ? user_dapps_catogoriesGetPayload<S['include'][P]> | null :  never
   } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
         P extends 'dapp' ? dappsGetPayload<S['select'][P]> :
-        P extends 'user' ? usersGetPayload<S['select'][P]> :  P extends keyof user_dapps ? user_dapps[P] : never
+        P extends 'user' ? usersGetPayload<S['select'][P]> :
+        P extends 'user_dapps_catogories' ? user_dapps_catogoriesGetPayload<S['select'][P]> | null :  P extends keyof user_dapps ? user_dapps[P] : never
   } 
     : user_dapps
   : user_dapps
@@ -9815,6 +9957,8 @@ export namespace Prisma {
 
     user<T extends usersArgs = {}>(args?: Subset<T, usersArgs>): CheckSelect<T, Prisma__usersClient<users | null >, Prisma__usersClient<usersGetPayload<T> | null >>;
 
+    user_dapps_catogories<T extends user_dapps_catogoriesArgs = {}>(args?: Subset<T, user_dapps_catogoriesArgs>): CheckSelect<T, Prisma__user_dapps_catogoriesClient<user_dapps_catogories | null >, Prisma__user_dapps_catogoriesClient<user_dapps_catogoriesGetPayload<T> | null >>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10139,6 +10283,930 @@ export namespace Prisma {
      * 
     **/
     include?: user_dappsInclude | null
+  }
+
+
+
+  /**
+   * Model user_dapps_catogories
+   */
+
+
+  export type AggregateUser_dapps_catogories = {
+    _count: User_dapps_catogoriesCountAggregateOutputType | null
+    _avg: User_dapps_catogoriesAvgAggregateOutputType | null
+    _sum: User_dapps_catogoriesSumAggregateOutputType | null
+    _min: User_dapps_catogoriesMinAggregateOutputType | null
+    _max: User_dapps_catogoriesMaxAggregateOutputType | null
+  }
+
+  export type User_dapps_catogoriesAvgAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type User_dapps_catogoriesSumAggregateOutputType = {
+    sort: number | null
+  }
+
+  export type User_dapps_catogoriesMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    desc: string | null
+    sort: number | null
+    created_at: Date | null
+    updated_at: Date | null
+    user_id: string | null
+  }
+
+  export type User_dapps_catogoriesMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    desc: string | null
+    sort: number | null
+    created_at: Date | null
+    updated_at: Date | null
+    user_id: string | null
+  }
+
+  export type User_dapps_catogoriesCountAggregateOutputType = {
+    id: number
+    title: number
+    desc: number
+    sort: number
+    created_at: number
+    updated_at: number
+    user_id: number
+    _all: number
+  }
+
+
+  export type User_dapps_catogoriesAvgAggregateInputType = {
+    sort?: true
+  }
+
+  export type User_dapps_catogoriesSumAggregateInputType = {
+    sort?: true
+  }
+
+  export type User_dapps_catogoriesMinAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    sort?: true
+    created_at?: true
+    updated_at?: true
+    user_id?: true
+  }
+
+  export type User_dapps_catogoriesMaxAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    sort?: true
+    created_at?: true
+    updated_at?: true
+    user_id?: true
+  }
+
+  export type User_dapps_catogoriesCountAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    sort?: true
+    created_at?: true
+    updated_at?: true
+    user_id?: true
+    _all?: true
+  }
+
+  export type User_dapps_catogoriesAggregateArgs = {
+    /**
+     * Filter which user_dapps_catogories to aggregate.
+     * 
+    **/
+    where?: user_dapps_catogoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of user_dapps_catogories to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<user_dapps_catogoriesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: user_dapps_catogoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` user_dapps_catogories from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` user_dapps_catogories.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned user_dapps_catogories
+    **/
+    _count?: true | User_dapps_catogoriesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: User_dapps_catogoriesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: User_dapps_catogoriesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: User_dapps_catogoriesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: User_dapps_catogoriesMaxAggregateInputType
+  }
+
+  export type GetUser_dapps_catogoriesAggregateType<T extends User_dapps_catogoriesAggregateArgs> = {
+        [P in keyof T & keyof AggregateUser_dapps_catogories]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUser_dapps_catogories[P]>
+      : GetScalarType<T[P], AggregateUser_dapps_catogories[P]>
+  }
+
+
+
+
+  export type User_dapps_catogoriesGroupByArgs = {
+    where?: user_dapps_catogoriesWhereInput
+    orderBy?: Enumerable<user_dapps_catogoriesOrderByWithAggregationInput>
+    by: Array<User_dapps_catogoriesScalarFieldEnum>
+    having?: user_dapps_catogoriesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: User_dapps_catogoriesCountAggregateInputType | true
+    _avg?: User_dapps_catogoriesAvgAggregateInputType
+    _sum?: User_dapps_catogoriesSumAggregateInputType
+    _min?: User_dapps_catogoriesMinAggregateInputType
+    _max?: User_dapps_catogoriesMaxAggregateInputType
+  }
+
+
+  export type User_dapps_catogoriesGroupByOutputType = {
+    id: string
+    title: string
+    desc: string | null
+    sort: number
+    created_at: Date
+    updated_at: Date | null
+    user_id: string
+    _count: User_dapps_catogoriesCountAggregateOutputType | null
+    _avg: User_dapps_catogoriesAvgAggregateOutputType | null
+    _sum: User_dapps_catogoriesSumAggregateOutputType | null
+    _min: User_dapps_catogoriesMinAggregateOutputType | null
+    _max: User_dapps_catogoriesMaxAggregateOutputType | null
+  }
+
+  type GetUser_dapps_catogoriesGroupByPayload<T extends User_dapps_catogoriesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<User_dapps_catogoriesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof User_dapps_catogoriesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], User_dapps_catogoriesGroupByOutputType[P]>
+            : GetScalarType<T[P], User_dapps_catogoriesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type user_dapps_catogoriesSelect = {
+    id?: boolean
+    title?: boolean
+    desc?: boolean
+    sort?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    user_id?: boolean
+    user?: boolean | usersArgs
+    user_dapps?: boolean | user_dappsFindManyArgs
+    _count?: boolean | User_dapps_catogoriesCountOutputTypeArgs
+  }
+
+  export type user_dapps_catogoriesInclude = {
+    user?: boolean | usersArgs
+    user_dapps?: boolean | user_dappsFindManyArgs
+    _count?: boolean | User_dapps_catogoriesCountOutputTypeArgs
+  }
+
+  export type user_dapps_catogoriesGetPayload<
+    S extends boolean | null | undefined | user_dapps_catogoriesArgs,
+    U = keyof S
+      > = S extends true
+        ? user_dapps_catogories
+    : S extends undefined
+    ? never
+    : S extends user_dapps_catogoriesArgs | user_dapps_catogoriesFindManyArgs
+    ?'include' extends U
+    ? user_dapps_catogories  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? usersGetPayload<S['include'][P]> :
+        P extends 'user_dapps' ? Array < user_dappsGetPayload<S['include'][P]>>  :
+        P extends '_count' ? User_dapps_catogoriesCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? usersGetPayload<S['select'][P]> :
+        P extends 'user_dapps' ? Array < user_dappsGetPayload<S['select'][P]>>  :
+        P extends '_count' ? User_dapps_catogoriesCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof user_dapps_catogories ? user_dapps_catogories[P] : never
+  } 
+    : user_dapps_catogories
+  : user_dapps_catogories
+
+
+  type user_dapps_catogoriesCountArgs = Merge<
+    Omit<user_dapps_catogoriesFindManyArgs, 'select' | 'include'> & {
+      select?: User_dapps_catogoriesCountAggregateInputType | true
+    }
+  >
+
+  export interface user_dapps_catogoriesDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one User_dapps_catogories that matches the filter.
+     * @param {user_dapps_catogoriesFindUniqueArgs} args - Arguments to find a User_dapps_catogories
+     * @example
+     * // Get one User_dapps_catogories
+     * const user_dapps_catogories = await prisma.user_dapps_catogories.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends user_dapps_catogoriesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, user_dapps_catogoriesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'user_dapps_catogories'> extends True ? CheckSelect<T, Prisma__user_dapps_catogoriesClient<user_dapps_catogories>, Prisma__user_dapps_catogoriesClient<user_dapps_catogoriesGetPayload<T>>> : CheckSelect<T, Prisma__user_dapps_catogoriesClient<user_dapps_catogories | null >, Prisma__user_dapps_catogoriesClient<user_dapps_catogoriesGetPayload<T> | null >>
+
+    /**
+     * Find the first User_dapps_catogories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {user_dapps_catogoriesFindFirstArgs} args - Arguments to find a User_dapps_catogories
+     * @example
+     * // Get one User_dapps_catogories
+     * const user_dapps_catogories = await prisma.user_dapps_catogories.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends user_dapps_catogoriesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, user_dapps_catogoriesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'user_dapps_catogories'> extends True ? CheckSelect<T, Prisma__user_dapps_catogoriesClient<user_dapps_catogories>, Prisma__user_dapps_catogoriesClient<user_dapps_catogoriesGetPayload<T>>> : CheckSelect<T, Prisma__user_dapps_catogoriesClient<user_dapps_catogories | null >, Prisma__user_dapps_catogoriesClient<user_dapps_catogoriesGetPayload<T> | null >>
+
+    /**
+     * Find zero or more User_dapps_catogories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {user_dapps_catogoriesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all User_dapps_catogories
+     * const user_dapps_catogories = await prisma.user_dapps_catogories.findMany()
+     * 
+     * // Get first 10 User_dapps_catogories
+     * const user_dapps_catogories = await prisma.user_dapps_catogories.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const user_dapps_catogoriesWithIdOnly = await prisma.user_dapps_catogories.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends user_dapps_catogoriesFindManyArgs>(
+      args?: SelectSubset<T, user_dapps_catogoriesFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<user_dapps_catogories>>, PrismaPromise<Array<user_dapps_catogoriesGetPayload<T>>>>
+
+    /**
+     * Create a User_dapps_catogories.
+     * @param {user_dapps_catogoriesCreateArgs} args - Arguments to create a User_dapps_catogories.
+     * @example
+     * // Create one User_dapps_catogories
+     * const User_dapps_catogories = await prisma.user_dapps_catogories.create({
+     *   data: {
+     *     // ... data to create a User_dapps_catogories
+     *   }
+     * })
+     * 
+    **/
+    create<T extends user_dapps_catogoriesCreateArgs>(
+      args: SelectSubset<T, user_dapps_catogoriesCreateArgs>
+    ): CheckSelect<T, Prisma__user_dapps_catogoriesClient<user_dapps_catogories>, Prisma__user_dapps_catogoriesClient<user_dapps_catogoriesGetPayload<T>>>
+
+    /**
+     * Create many User_dapps_catogories.
+     *     @param {user_dapps_catogoriesCreateManyArgs} args - Arguments to create many User_dapps_catogories.
+     *     @example
+     *     // Create many User_dapps_catogories
+     *     const user_dapps_catogories = await prisma.user_dapps_catogories.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends user_dapps_catogoriesCreateManyArgs>(
+      args?: SelectSubset<T, user_dapps_catogoriesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a User_dapps_catogories.
+     * @param {user_dapps_catogoriesDeleteArgs} args - Arguments to delete one User_dapps_catogories.
+     * @example
+     * // Delete one User_dapps_catogories
+     * const User_dapps_catogories = await prisma.user_dapps_catogories.delete({
+     *   where: {
+     *     // ... filter to delete one User_dapps_catogories
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends user_dapps_catogoriesDeleteArgs>(
+      args: SelectSubset<T, user_dapps_catogoriesDeleteArgs>
+    ): CheckSelect<T, Prisma__user_dapps_catogoriesClient<user_dapps_catogories>, Prisma__user_dapps_catogoriesClient<user_dapps_catogoriesGetPayload<T>>>
+
+    /**
+     * Update one User_dapps_catogories.
+     * @param {user_dapps_catogoriesUpdateArgs} args - Arguments to update one User_dapps_catogories.
+     * @example
+     * // Update one User_dapps_catogories
+     * const user_dapps_catogories = await prisma.user_dapps_catogories.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends user_dapps_catogoriesUpdateArgs>(
+      args: SelectSubset<T, user_dapps_catogoriesUpdateArgs>
+    ): CheckSelect<T, Prisma__user_dapps_catogoriesClient<user_dapps_catogories>, Prisma__user_dapps_catogoriesClient<user_dapps_catogoriesGetPayload<T>>>
+
+    /**
+     * Delete zero or more User_dapps_catogories.
+     * @param {user_dapps_catogoriesDeleteManyArgs} args - Arguments to filter User_dapps_catogories to delete.
+     * @example
+     * // Delete a few User_dapps_catogories
+     * const { count } = await prisma.user_dapps_catogories.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends user_dapps_catogoriesDeleteManyArgs>(
+      args?: SelectSubset<T, user_dapps_catogoriesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more User_dapps_catogories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {user_dapps_catogoriesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many User_dapps_catogories
+     * const user_dapps_catogories = await prisma.user_dapps_catogories.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends user_dapps_catogoriesUpdateManyArgs>(
+      args: SelectSubset<T, user_dapps_catogoriesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one User_dapps_catogories.
+     * @param {user_dapps_catogoriesUpsertArgs} args - Arguments to update or create a User_dapps_catogories.
+     * @example
+     * // Update or create a User_dapps_catogories
+     * const user_dapps_catogories = await prisma.user_dapps_catogories.upsert({
+     *   create: {
+     *     // ... data to create a User_dapps_catogories
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the User_dapps_catogories we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends user_dapps_catogoriesUpsertArgs>(
+      args: SelectSubset<T, user_dapps_catogoriesUpsertArgs>
+    ): CheckSelect<T, Prisma__user_dapps_catogoriesClient<user_dapps_catogories>, Prisma__user_dapps_catogoriesClient<user_dapps_catogoriesGetPayload<T>>>
+
+    /**
+     * Count the number of User_dapps_catogories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {user_dapps_catogoriesCountArgs} args - Arguments to filter User_dapps_catogories to count.
+     * @example
+     * // Count the number of User_dapps_catogories
+     * const count = await prisma.user_dapps_catogories.count({
+     *   where: {
+     *     // ... the filter for the User_dapps_catogories we want to count
+     *   }
+     * })
+    **/
+    count<T extends user_dapps_catogoriesCountArgs>(
+      args?: Subset<T, user_dapps_catogoriesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], User_dapps_catogoriesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a User_dapps_catogories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {User_dapps_catogoriesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends User_dapps_catogoriesAggregateArgs>(args: Subset<T, User_dapps_catogoriesAggregateArgs>): PrismaPromise<GetUser_dapps_catogoriesAggregateType<T>>
+
+    /**
+     * Group by User_dapps_catogories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {User_dapps_catogoriesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends User_dapps_catogoriesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: User_dapps_catogoriesGroupByArgs['orderBy'] }
+        : { orderBy?: User_dapps_catogoriesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, User_dapps_catogoriesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUser_dapps_catogoriesGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for user_dapps_catogories.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__user_dapps_catogoriesClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends usersArgs = {}>(args?: Subset<T, usersArgs>): CheckSelect<T, Prisma__usersClient<users | null >, Prisma__usersClient<usersGetPayload<T> | null >>;
+
+    user_dapps<T extends user_dappsFindManyArgs = {}>(args?: Subset<T, user_dappsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<user_dapps>>, PrismaPromise<Array<user_dappsGetPayload<T>>>>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * user_dapps_catogories findUnique
+   */
+  export type user_dapps_catogoriesFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the user_dapps_catogories
+     * 
+    **/
+    select?: user_dapps_catogoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dapps_catogoriesInclude | null
+    /**
+     * Throw an Error if a user_dapps_catogories can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which user_dapps_catogories to fetch.
+     * 
+    **/
+    where: user_dapps_catogoriesWhereUniqueInput
+  }
+
+
+  /**
+   * user_dapps_catogories findFirst
+   */
+  export type user_dapps_catogoriesFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the user_dapps_catogories
+     * 
+    **/
+    select?: user_dapps_catogoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dapps_catogoriesInclude | null
+    /**
+     * Throw an Error if a user_dapps_catogories can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which user_dapps_catogories to fetch.
+     * 
+    **/
+    where?: user_dapps_catogoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of user_dapps_catogories to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<user_dapps_catogoriesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for user_dapps_catogories.
+     * 
+    **/
+    cursor?: user_dapps_catogoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` user_dapps_catogories from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` user_dapps_catogories.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of user_dapps_catogories.
+     * 
+    **/
+    distinct?: Enumerable<User_dapps_catogoriesScalarFieldEnum>
+  }
+
+
+  /**
+   * user_dapps_catogories findMany
+   */
+  export type user_dapps_catogoriesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the user_dapps_catogories
+     * 
+    **/
+    select?: user_dapps_catogoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dapps_catogoriesInclude | null
+    /**
+     * Filter, which user_dapps_catogories to fetch.
+     * 
+    **/
+    where?: user_dapps_catogoriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of user_dapps_catogories to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<user_dapps_catogoriesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing user_dapps_catogories.
+     * 
+    **/
+    cursor?: user_dapps_catogoriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` user_dapps_catogories from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` user_dapps_catogories.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<User_dapps_catogoriesScalarFieldEnum>
+  }
+
+
+  /**
+   * user_dapps_catogories create
+   */
+  export type user_dapps_catogoriesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the user_dapps_catogories
+     * 
+    **/
+    select?: user_dapps_catogoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dapps_catogoriesInclude | null
+    /**
+     * The data needed to create a user_dapps_catogories.
+     * 
+    **/
+    data: XOR<user_dapps_catogoriesCreateInput, user_dapps_catogoriesUncheckedCreateInput>
+  }
+
+
+  /**
+   * user_dapps_catogories createMany
+   */
+  export type user_dapps_catogoriesCreateManyArgs = {
+    /**
+     * The data used to create many user_dapps_catogories.
+     * 
+    **/
+    data: Enumerable<user_dapps_catogoriesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * user_dapps_catogories update
+   */
+  export type user_dapps_catogoriesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the user_dapps_catogories
+     * 
+    **/
+    select?: user_dapps_catogoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dapps_catogoriesInclude | null
+    /**
+     * The data needed to update a user_dapps_catogories.
+     * 
+    **/
+    data: XOR<user_dapps_catogoriesUpdateInput, user_dapps_catogoriesUncheckedUpdateInput>
+    /**
+     * Choose, which user_dapps_catogories to update.
+     * 
+    **/
+    where: user_dapps_catogoriesWhereUniqueInput
+  }
+
+
+  /**
+   * user_dapps_catogories updateMany
+   */
+  export type user_dapps_catogoriesUpdateManyArgs = {
+    /**
+     * The data used to update user_dapps_catogories.
+     * 
+    **/
+    data: XOR<user_dapps_catogoriesUpdateManyMutationInput, user_dapps_catogoriesUncheckedUpdateManyInput>
+    /**
+     * Filter which user_dapps_catogories to update
+     * 
+    **/
+    where?: user_dapps_catogoriesWhereInput
+  }
+
+
+  /**
+   * user_dapps_catogories upsert
+   */
+  export type user_dapps_catogoriesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the user_dapps_catogories
+     * 
+    **/
+    select?: user_dapps_catogoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dapps_catogoriesInclude | null
+    /**
+     * The filter to search for the user_dapps_catogories to update in case it exists.
+     * 
+    **/
+    where: user_dapps_catogoriesWhereUniqueInput
+    /**
+     * In case the user_dapps_catogories found by the `where` argument doesn't exist, create a new user_dapps_catogories with this data.
+     * 
+    **/
+    create: XOR<user_dapps_catogoriesCreateInput, user_dapps_catogoriesUncheckedCreateInput>
+    /**
+     * In case the user_dapps_catogories was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<user_dapps_catogoriesUpdateInput, user_dapps_catogoriesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * user_dapps_catogories delete
+   */
+  export type user_dapps_catogoriesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the user_dapps_catogories
+     * 
+    **/
+    select?: user_dapps_catogoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dapps_catogoriesInclude | null
+    /**
+     * Filter which user_dapps_catogories to delete.
+     * 
+    **/
+    where: user_dapps_catogoriesWhereUniqueInput
+  }
+
+
+  /**
+   * user_dapps_catogories deleteMany
+   */
+  export type user_dapps_catogoriesDeleteManyArgs = {
+    /**
+     * Filter which user_dapps_catogories to delete
+     * 
+    **/
+    where?: user_dapps_catogoriesWhereInput
+  }
+
+
+  /**
+   * user_dapps_catogories without action
+   */
+  export type user_dapps_catogoriesArgs = {
+    /**
+     * Select specific fields to fetch from the user_dapps_catogories
+     * 
+    **/
+    select?: user_dapps_catogoriesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: user_dapps_catogoriesInclude | null
   }
 
 
@@ -13830,6 +14898,1015 @@ export namespace Prisma {
 
 
   /**
+   * Model tokens
+   */
+
+
+  export type AggregateTokens = {
+    _count: TokensCountAggregateOutputType | null
+    _avg: TokensAvgAggregateOutputType | null
+    _sum: TokensSumAggregateOutputType | null
+    _min: TokensMinAggregateOutputType | null
+    _max: TokensMaxAggregateOutputType | null
+  }
+
+  export type TokensAvgAggregateOutputType = {
+    cmcRank: number | null
+    marketPairCount: number | null
+    circulatingSupply: number | null
+    selfReportedCirculatingSupply: number | null
+    totalSupply: number | null
+    maxSupply: number | null
+    ath: number | null
+    atl: number | null
+    high24h: number | null
+    low24h: number | null
+    isActive: number | null
+  }
+
+  export type TokensSumAggregateOutputType = {
+    cmcRank: number | null
+    marketPairCount: number | null
+    circulatingSupply: number | null
+    selfReportedCirculatingSupply: number | null
+    totalSupply: number | null
+    maxSupply: number | null
+    ath: number | null
+    atl: number | null
+    high24h: number | null
+    low24h: number | null
+    isActive: number | null
+  }
+
+  export type TokensMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    symbol: string | null
+    slug: string | null
+    cmcRank: number | null
+    marketPairCount: number | null
+    circulatingSupply: number | null
+    selfReportedCirculatingSupply: number | null
+    totalSupply: number | null
+    maxSupply: number | null
+    ath: number | null
+    atl: number | null
+    high24h: number | null
+    low24h: number | null
+    isActive: number | null
+    lastUpdated: Date | null
+    dateAdded: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+    isAudited: boolean | null
+  }
+
+  export type TokensMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    symbol: string | null
+    slug: string | null
+    cmcRank: number | null
+    marketPairCount: number | null
+    circulatingSupply: number | null
+    selfReportedCirculatingSupply: number | null
+    totalSupply: number | null
+    maxSupply: number | null
+    ath: number | null
+    atl: number | null
+    high24h: number | null
+    low24h: number | null
+    isActive: number | null
+    lastUpdated: Date | null
+    dateAdded: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+    isAudited: boolean | null
+  }
+
+  export type TokensCountAggregateOutputType = {
+    id: number
+    name: number
+    symbol: number
+    slug: number
+    cmcRank: number
+    marketPairCount: number
+    circulatingSupply: number
+    selfReportedCirculatingSupply: number
+    totalSupply: number
+    maxSupply: number
+    ath: number
+    atl: number
+    high24h: number
+    low24h: number
+    isActive: number
+    lastUpdated: number
+    dateAdded: number
+    created_at: number
+    updated_at: number
+    isAudited: number
+    _all: number
+  }
+
+
+  export type TokensAvgAggregateInputType = {
+    cmcRank?: true
+    marketPairCount?: true
+    circulatingSupply?: true
+    selfReportedCirculatingSupply?: true
+    totalSupply?: true
+    maxSupply?: true
+    ath?: true
+    atl?: true
+    high24h?: true
+    low24h?: true
+    isActive?: true
+  }
+
+  export type TokensSumAggregateInputType = {
+    cmcRank?: true
+    marketPairCount?: true
+    circulatingSupply?: true
+    selfReportedCirculatingSupply?: true
+    totalSupply?: true
+    maxSupply?: true
+    ath?: true
+    atl?: true
+    high24h?: true
+    low24h?: true
+    isActive?: true
+  }
+
+  export type TokensMinAggregateInputType = {
+    id?: true
+    name?: true
+    symbol?: true
+    slug?: true
+    cmcRank?: true
+    marketPairCount?: true
+    circulatingSupply?: true
+    selfReportedCirculatingSupply?: true
+    totalSupply?: true
+    maxSupply?: true
+    ath?: true
+    atl?: true
+    high24h?: true
+    low24h?: true
+    isActive?: true
+    lastUpdated?: true
+    dateAdded?: true
+    created_at?: true
+    updated_at?: true
+    isAudited?: true
+  }
+
+  export type TokensMaxAggregateInputType = {
+    id?: true
+    name?: true
+    symbol?: true
+    slug?: true
+    cmcRank?: true
+    marketPairCount?: true
+    circulatingSupply?: true
+    selfReportedCirculatingSupply?: true
+    totalSupply?: true
+    maxSupply?: true
+    ath?: true
+    atl?: true
+    high24h?: true
+    low24h?: true
+    isActive?: true
+    lastUpdated?: true
+    dateAdded?: true
+    created_at?: true
+    updated_at?: true
+    isAudited?: true
+  }
+
+  export type TokensCountAggregateInputType = {
+    id?: true
+    name?: true
+    symbol?: true
+    slug?: true
+    cmcRank?: true
+    marketPairCount?: true
+    circulatingSupply?: true
+    selfReportedCirculatingSupply?: true
+    totalSupply?: true
+    maxSupply?: true
+    ath?: true
+    atl?: true
+    high24h?: true
+    low24h?: true
+    isActive?: true
+    lastUpdated?: true
+    dateAdded?: true
+    created_at?: true
+    updated_at?: true
+    isAudited?: true
+    _all?: true
+  }
+
+  export type TokensAggregateArgs = {
+    /**
+     * Filter which tokens to aggregate.
+     * 
+    **/
+    where?: tokensWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tokens to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<tokensOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: tokensWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tokens from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tokens.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tokens
+    **/
+    _count?: true | TokensCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TokensAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TokensSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TokensMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TokensMaxAggregateInputType
+  }
+
+  export type GetTokensAggregateType<T extends TokensAggregateArgs> = {
+        [P in keyof T & keyof AggregateTokens]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTokens[P]>
+      : GetScalarType<T[P], AggregateTokens[P]>
+  }
+
+
+
+
+  export type TokensGroupByArgs = {
+    where?: tokensWhereInput
+    orderBy?: Enumerable<tokensOrderByWithAggregationInput>
+    by: Array<TokensScalarFieldEnum>
+    having?: tokensScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TokensCountAggregateInputType | true
+    _avg?: TokensAvgAggregateInputType
+    _sum?: TokensSumAggregateInputType
+    _min?: TokensMinAggregateInputType
+    _max?: TokensMaxAggregateInputType
+  }
+
+
+  export type TokensGroupByOutputType = {
+    id: string
+    name: string
+    symbol: string
+    slug: string
+    cmcRank: number | null
+    marketPairCount: number | null
+    circulatingSupply: number | null
+    selfReportedCirculatingSupply: number | null
+    totalSupply: number | null
+    maxSupply: number | null
+    ath: number | null
+    atl: number | null
+    high24h: number | null
+    low24h: number | null
+    isActive: number | null
+    lastUpdated: Date | null
+    dateAdded: Date | null
+    created_at: Date
+    updated_at: Date | null
+    isAudited: boolean
+    _count: TokensCountAggregateOutputType | null
+    _avg: TokensAvgAggregateOutputType | null
+    _sum: TokensSumAggregateOutputType | null
+    _min: TokensMinAggregateOutputType | null
+    _max: TokensMaxAggregateOutputType | null
+  }
+
+  type GetTokensGroupByPayload<T extends TokensGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<TokensGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TokensGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TokensGroupByOutputType[P]>
+            : GetScalarType<T[P], TokensGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tokensSelect = {
+    id?: boolean
+    name?: boolean
+    symbol?: boolean
+    slug?: boolean
+    cmcRank?: boolean
+    marketPairCount?: boolean
+    circulatingSupply?: boolean
+    selfReportedCirculatingSupply?: boolean
+    totalSupply?: boolean
+    maxSupply?: boolean
+    ath?: boolean
+    atl?: boolean
+    high24h?: boolean
+    low24h?: boolean
+    isActive?: boolean
+    lastUpdated?: boolean
+    dateAdded?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    isAudited?: boolean
+  }
+
+  export type tokensGetPayload<
+    S extends boolean | null | undefined | tokensArgs,
+    U = keyof S
+      > = S extends true
+        ? tokens
+    : S extends undefined
+    ? never
+    : S extends tokensArgs | tokensFindManyArgs
+    ?'include' extends U
+    ? tokens 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof tokens ? tokens[P] : never
+  } 
+    : tokens
+  : tokens
+
+
+  type tokensCountArgs = Merge<
+    Omit<tokensFindManyArgs, 'select' | 'include'> & {
+      select?: TokensCountAggregateInputType | true
+    }
+  >
+
+  export interface tokensDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Tokens that matches the filter.
+     * @param {tokensFindUniqueArgs} args - Arguments to find a Tokens
+     * @example
+     * // Get one Tokens
+     * const tokens = await prisma.tokens.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends tokensFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, tokensFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'tokens'> extends True ? CheckSelect<T, Prisma__tokensClient<tokens>, Prisma__tokensClient<tokensGetPayload<T>>> : CheckSelect<T, Prisma__tokensClient<tokens | null >, Prisma__tokensClient<tokensGetPayload<T> | null >>
+
+    /**
+     * Find the first Tokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tokensFindFirstArgs} args - Arguments to find a Tokens
+     * @example
+     * // Get one Tokens
+     * const tokens = await prisma.tokens.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends tokensFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, tokensFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'tokens'> extends True ? CheckSelect<T, Prisma__tokensClient<tokens>, Prisma__tokensClient<tokensGetPayload<T>>> : CheckSelect<T, Prisma__tokensClient<tokens | null >, Prisma__tokensClient<tokensGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Tokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tokensFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tokens
+     * const tokens = await prisma.tokens.findMany()
+     * 
+     * // Get first 10 Tokens
+     * const tokens = await prisma.tokens.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tokensWithIdOnly = await prisma.tokens.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends tokensFindManyArgs>(
+      args?: SelectSubset<T, tokensFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<tokens>>, PrismaPromise<Array<tokensGetPayload<T>>>>
+
+    /**
+     * Create a Tokens.
+     * @param {tokensCreateArgs} args - Arguments to create a Tokens.
+     * @example
+     * // Create one Tokens
+     * const Tokens = await prisma.tokens.create({
+     *   data: {
+     *     // ... data to create a Tokens
+     *   }
+     * })
+     * 
+    **/
+    create<T extends tokensCreateArgs>(
+      args: SelectSubset<T, tokensCreateArgs>
+    ): CheckSelect<T, Prisma__tokensClient<tokens>, Prisma__tokensClient<tokensGetPayload<T>>>
+
+    /**
+     * Create many Tokens.
+     *     @param {tokensCreateManyArgs} args - Arguments to create many Tokens.
+     *     @example
+     *     // Create many Tokens
+     *     const tokens = await prisma.tokens.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends tokensCreateManyArgs>(
+      args?: SelectSubset<T, tokensCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Tokens.
+     * @param {tokensDeleteArgs} args - Arguments to delete one Tokens.
+     * @example
+     * // Delete one Tokens
+     * const Tokens = await prisma.tokens.delete({
+     *   where: {
+     *     // ... filter to delete one Tokens
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends tokensDeleteArgs>(
+      args: SelectSubset<T, tokensDeleteArgs>
+    ): CheckSelect<T, Prisma__tokensClient<tokens>, Prisma__tokensClient<tokensGetPayload<T>>>
+
+    /**
+     * Update one Tokens.
+     * @param {tokensUpdateArgs} args - Arguments to update one Tokens.
+     * @example
+     * // Update one Tokens
+     * const tokens = await prisma.tokens.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends tokensUpdateArgs>(
+      args: SelectSubset<T, tokensUpdateArgs>
+    ): CheckSelect<T, Prisma__tokensClient<tokens>, Prisma__tokensClient<tokensGetPayload<T>>>
+
+    /**
+     * Delete zero or more Tokens.
+     * @param {tokensDeleteManyArgs} args - Arguments to filter Tokens to delete.
+     * @example
+     * // Delete a few Tokens
+     * const { count } = await prisma.tokens.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends tokensDeleteManyArgs>(
+      args?: SelectSubset<T, tokensDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tokensUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tokens
+     * const tokens = await prisma.tokens.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends tokensUpdateManyArgs>(
+      args: SelectSubset<T, tokensUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Tokens.
+     * @param {tokensUpsertArgs} args - Arguments to update or create a Tokens.
+     * @example
+     * // Update or create a Tokens
+     * const tokens = await prisma.tokens.upsert({
+     *   create: {
+     *     // ... data to create a Tokens
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tokens we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends tokensUpsertArgs>(
+      args: SelectSubset<T, tokensUpsertArgs>
+    ): CheckSelect<T, Prisma__tokensClient<tokens>, Prisma__tokensClient<tokensGetPayload<T>>>
+
+    /**
+     * Count the number of Tokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tokensCountArgs} args - Arguments to filter Tokens to count.
+     * @example
+     * // Count the number of Tokens
+     * const count = await prisma.tokens.count({
+     *   where: {
+     *     // ... the filter for the Tokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends tokensCountArgs>(
+      args?: Subset<T, tokensCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TokensCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TokensAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TokensAggregateArgs>(args: Subset<T, TokensAggregateArgs>): PrismaPromise<GetTokensAggregateType<T>>
+
+    /**
+     * Group by Tokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TokensGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TokensGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TokensGroupByArgs['orderBy'] }
+        : { orderBy?: TokensGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TokensGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTokensGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tokens.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__tokensClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * tokens findUnique
+   */
+  export type tokensFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the tokens
+     * 
+    **/
+    select?: tokensSelect | null
+    /**
+     * Throw an Error if a tokens can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which tokens to fetch.
+     * 
+    **/
+    where: tokensWhereUniqueInput
+  }
+
+
+  /**
+   * tokens findFirst
+   */
+  export type tokensFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the tokens
+     * 
+    **/
+    select?: tokensSelect | null
+    /**
+     * Throw an Error if a tokens can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which tokens to fetch.
+     * 
+    **/
+    where?: tokensWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tokens to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<tokensOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tokens.
+     * 
+    **/
+    cursor?: tokensWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tokens from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tokens.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tokens.
+     * 
+    **/
+    distinct?: Enumerable<TokensScalarFieldEnum>
+  }
+
+
+  /**
+   * tokens findMany
+   */
+  export type tokensFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the tokens
+     * 
+    **/
+    select?: tokensSelect | null
+    /**
+     * Filter, which tokens to fetch.
+     * 
+    **/
+    where?: tokensWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tokens to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<tokensOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tokens.
+     * 
+    **/
+    cursor?: tokensWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tokens from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tokens.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<TokensScalarFieldEnum>
+  }
+
+
+  /**
+   * tokens create
+   */
+  export type tokensCreateArgs = {
+    /**
+     * Select specific fields to fetch from the tokens
+     * 
+    **/
+    select?: tokensSelect | null
+    /**
+     * The data needed to create a tokens.
+     * 
+    **/
+    data: XOR<tokensCreateInput, tokensUncheckedCreateInput>
+  }
+
+
+  /**
+   * tokens createMany
+   */
+  export type tokensCreateManyArgs = {
+    /**
+     * The data used to create many tokens.
+     * 
+    **/
+    data: Enumerable<tokensCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * tokens update
+   */
+  export type tokensUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the tokens
+     * 
+    **/
+    select?: tokensSelect | null
+    /**
+     * The data needed to update a tokens.
+     * 
+    **/
+    data: XOR<tokensUpdateInput, tokensUncheckedUpdateInput>
+    /**
+     * Choose, which tokens to update.
+     * 
+    **/
+    where: tokensWhereUniqueInput
+  }
+
+
+  /**
+   * tokens updateMany
+   */
+  export type tokensUpdateManyArgs = {
+    /**
+     * The data used to update tokens.
+     * 
+    **/
+    data: XOR<tokensUpdateManyMutationInput, tokensUncheckedUpdateManyInput>
+    /**
+     * Filter which tokens to update
+     * 
+    **/
+    where?: tokensWhereInput
+  }
+
+
+  /**
+   * tokens upsert
+   */
+  export type tokensUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the tokens
+     * 
+    **/
+    select?: tokensSelect | null
+    /**
+     * The filter to search for the tokens to update in case it exists.
+     * 
+    **/
+    where: tokensWhereUniqueInput
+    /**
+     * In case the tokens found by the `where` argument doesn't exist, create a new tokens with this data.
+     * 
+    **/
+    create: XOR<tokensCreateInput, tokensUncheckedCreateInput>
+    /**
+     * In case the tokens was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<tokensUpdateInput, tokensUncheckedUpdateInput>
+  }
+
+
+  /**
+   * tokens delete
+   */
+  export type tokensDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the tokens
+     * 
+    **/
+    select?: tokensSelect | null
+    /**
+     * Filter which tokens to delete.
+     * 
+    **/
+    where: tokensWhereUniqueInput
+  }
+
+
+  /**
+   * tokens deleteMany
+   */
+  export type tokensDeleteManyArgs = {
+    /**
+     * Filter which tokens to delete
+     * 
+    **/
+    where?: tokensWhereInput
+  }
+
+
+  /**
+   * tokens without action
+   */
+  export type tokensArgs = {
+    /**
+     * Select specific fields to fetch from the tokens
+     * 
+    **/
+    select?: tokensSelect | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -13925,7 +16002,8 @@ export namespace Prisma {
     visit_count: 'visit_count',
     install_count: 'install_count',
     visible: 'visible',
-    is_good: 'is_good'
+    is_good: 'is_good',
+    add_by_admin: 'add_by_admin'
   };
 
   export type DappsScalarFieldEnum = (typeof DappsScalarFieldEnum)[keyof typeof DappsScalarFieldEnum]
@@ -13959,10 +16037,24 @@ export namespace Prisma {
     user_id: 'user_id',
     dapp_id: 'dapp_id',
     created_at: 'created_at',
-    updated_at: 'updated_at'
+    updated_at: 'updated_at',
+    user_dapps_catogories_id: 'user_dapps_catogories_id'
   };
 
   export type User_dappsScalarFieldEnum = (typeof User_dappsScalarFieldEnum)[keyof typeof User_dappsScalarFieldEnum]
+
+
+  export const User_dapps_catogoriesScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    desc: 'desc',
+    sort: 'sort',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    user_id: 'user_id'
+  };
+
+  export type User_dapps_catogoriesScalarFieldEnum = (typeof User_dapps_catogoriesScalarFieldEnum)[keyof typeof User_dapps_catogoriesScalarFieldEnum]
 
 
   export const StoriesScalarFieldEnum: {
@@ -14015,6 +16107,32 @@ export namespace Prisma {
   };
 
   export type Story_dapps_relationsScalarFieldEnum = (typeof Story_dapps_relationsScalarFieldEnum)[keyof typeof Story_dapps_relationsScalarFieldEnum]
+
+
+  export const TokensScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    symbol: 'symbol',
+    slug: 'slug',
+    cmcRank: 'cmcRank',
+    marketPairCount: 'marketPairCount',
+    circulatingSupply: 'circulatingSupply',
+    selfReportedCirculatingSupply: 'selfReportedCirculatingSupply',
+    totalSupply: 'totalSupply',
+    maxSupply: 'maxSupply',
+    ath: 'ath',
+    atl: 'atl',
+    high24h: 'high24h',
+    low24h: 'low24h',
+    isActive: 'isActive',
+    lastUpdated: 'lastUpdated',
+    dateAdded: 'dateAdded',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    isAudited: 'isAudited'
+  };
+
+  export type TokensScalarFieldEnum = (typeof TokensScalarFieldEnum)[keyof typeof TokensScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -14137,10 +16255,21 @@ export namespace Prisma {
   export const user_dappsOrderByRelevanceFieldEnum: {
     id: 'id',
     user_id: 'user_id',
-    dapp_id: 'dapp_id'
+    dapp_id: 'dapp_id',
+    user_dapps_catogories_id: 'user_dapps_catogories_id'
   };
 
   export type user_dappsOrderByRelevanceFieldEnum = (typeof user_dappsOrderByRelevanceFieldEnum)[keyof typeof user_dappsOrderByRelevanceFieldEnum]
+
+
+  export const user_dapps_catogoriesOrderByRelevanceFieldEnum: {
+    id: 'id',
+    title: 'title',
+    desc: 'desc',
+    user_id: 'user_id'
+  };
+
+  export type user_dapps_catogoriesOrderByRelevanceFieldEnum = (typeof user_dapps_catogoriesOrderByRelevanceFieldEnum)[keyof typeof user_dapps_catogoriesOrderByRelevanceFieldEnum]
 
 
   export const storiesOrderByRelevanceFieldEnum: {
@@ -14179,6 +16308,16 @@ export namespace Prisma {
   export type story_dapps_relationsOrderByRelevanceFieldEnum = (typeof story_dapps_relationsOrderByRelevanceFieldEnum)[keyof typeof story_dapps_relationsOrderByRelevanceFieldEnum]
 
 
+  export const tokensOrderByRelevanceFieldEnum: {
+    id: 'id',
+    name: 'name',
+    symbol: 'symbol',
+    slug: 'slug'
+  };
+
+  export type tokensOrderByRelevanceFieldEnum = (typeof tokensOrderByRelevanceFieldEnum)[keyof typeof tokensOrderByRelevanceFieldEnum]
+
+
   /**
    * Deep Input Types
    */
@@ -14199,6 +16338,7 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter | Date | string | null
     deleted_at?: DateTimeNullableFilter | Date | string | null
     user_dapps?: User_dappsListRelationFilter
+    user_dapps_catogories?: User_dapps_catogoriesListRelationFilter
   }
 
   export type usersOrderByWithRelationAndSearchRelevanceInput = {
@@ -14213,6 +16353,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     deleted_at?: SortOrder
     user_dapps?: user_dappsOrderByRelationAggregateInput
+    user_dapps_catogories?: user_dapps_catogoriesOrderByRelationAggregateInput
     _relevance?: usersOrderByRelevanceInput
   }
 
@@ -14533,6 +16674,7 @@ export namespace Prisma {
     install_count?: IntFilter | number
     visible?: BoolFilter | boolean
     is_good?: BoolFilter | boolean
+    add_by_admin?: BoolFilter | boolean
     dapp_categories_relations?: Dapp_categories_relationsListRelationFilter
     story_dapps_relations?: Story_dapps_relationsListRelationFilter
     user_dapps?: User_dappsListRelationFilter
@@ -14550,6 +16692,7 @@ export namespace Prisma {
     install_count?: SortOrder
     visible?: SortOrder
     is_good?: SortOrder
+    add_by_admin?: SortOrder
     dapp_categories_relations?: dapp_categories_relationsOrderByRelationAggregateInput
     story_dapps_relations?: story_dapps_relationsOrderByRelationAggregateInput
     user_dapps?: user_dappsOrderByRelationAggregateInput
@@ -14572,6 +16715,7 @@ export namespace Prisma {
     install_count?: SortOrder
     visible?: SortOrder
     is_good?: SortOrder
+    add_by_admin?: SortOrder
     _count?: dappsCountOrderByAggregateInput
     _avg?: dappsAvgOrderByAggregateInput
     _max?: dappsMaxOrderByAggregateInput
@@ -14594,6 +16738,7 @@ export namespace Prisma {
     install_count?: IntWithAggregatesFilter | number
     visible?: BoolWithAggregatesFilter | boolean
     is_good?: BoolWithAggregatesFilter | boolean
+    add_by_admin?: BoolWithAggregatesFilter | boolean
   }
 
   export type dapp_categoriesWhereInput = {
@@ -14713,6 +16858,8 @@ export namespace Prisma {
     user?: XOR<UsersRelationFilter, usersWhereInput>
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeNullableFilter | Date | string | null
+    user_dapps_catogories_id?: StringNullableFilter | string | null
+    user_dapps_catogories?: XOR<User_dapps_catogoriesRelationFilter, user_dapps_catogoriesWhereInput> | null
   }
 
   export type user_dappsOrderByWithRelationAndSearchRelevanceInput = {
@@ -14723,6 +16870,8 @@ export namespace Prisma {
     user?: usersOrderByWithRelationAndSearchRelevanceInput
     created_at?: SortOrder
     updated_at?: SortOrder
+    user_dapps_catogories_id?: SortOrder
+    user_dapps_catogories?: user_dapps_catogoriesOrderByWithRelationAndSearchRelevanceInput
     _relevance?: user_dappsOrderByRelevanceInput
   }
 
@@ -14737,6 +16886,7 @@ export namespace Prisma {
     dapp_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    user_dapps_catogories_id?: SortOrder
     _count?: user_dappsCountOrderByAggregateInput
     _max?: user_dappsMaxOrderByAggregateInput
     _min?: user_dappsMinOrderByAggregateInput
@@ -14751,6 +16901,67 @@ export namespace Prisma {
     dapp_id?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    user_dapps_catogories_id?: StringNullableWithAggregatesFilter | string | null
+  }
+
+  export type user_dapps_catogoriesWhereInput = {
+    AND?: Enumerable<user_dapps_catogoriesWhereInput>
+    OR?: Enumerable<user_dapps_catogoriesWhereInput>
+    NOT?: Enumerable<user_dapps_catogoriesWhereInput>
+    id?: StringFilter | string
+    title?: StringFilter | string
+    desc?: StringNullableFilter | string | null
+    sort?: IntFilter | number
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+    user_id?: StringFilter | string
+    user?: XOR<UsersRelationFilter, usersWhereInput>
+    user_dapps?: User_dappsListRelationFilter
+  }
+
+  export type user_dapps_catogoriesOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    user_id?: SortOrder
+    user?: usersOrderByWithRelationAndSearchRelevanceInput
+    user_dapps?: user_dappsOrderByRelationAggregateInput
+    _relevance?: user_dapps_catogoriesOrderByRelevanceInput
+  }
+
+  export type user_dapps_catogoriesWhereUniqueInput = {
+    id?: string
+  }
+
+  export type user_dapps_catogoriesOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    user_id?: SortOrder
+    _count?: user_dapps_catogoriesCountOrderByAggregateInput
+    _avg?: user_dapps_catogoriesAvgOrderByAggregateInput
+    _max?: user_dapps_catogoriesMaxOrderByAggregateInput
+    _min?: user_dapps_catogoriesMinOrderByAggregateInput
+    _sum?: user_dapps_catogoriesSumOrderByAggregateInput
+  }
+
+  export type user_dapps_catogoriesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<user_dapps_catogoriesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<user_dapps_catogoriesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<user_dapps_catogoriesScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    title?: StringWithAggregatesFilter | string
+    desc?: StringNullableWithAggregatesFilter | string | null
+    sort?: IntWithAggregatesFilter | number
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    user_id?: StringWithAggregatesFilter | string
   }
 
   export type storiesWhereInput = {
@@ -14991,6 +17202,114 @@ export namespace Prisma {
     updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
+  export type tokensWhereInput = {
+    AND?: Enumerable<tokensWhereInput>
+    OR?: Enumerable<tokensWhereInput>
+    NOT?: Enumerable<tokensWhereInput>
+    id?: StringFilter | string
+    name?: StringFilter | string
+    symbol?: StringFilter | string
+    slug?: StringFilter | string
+    cmcRank?: FloatNullableFilter | number | null
+    marketPairCount?: FloatNullableFilter | number | null
+    circulatingSupply?: FloatNullableFilter | number | null
+    selfReportedCirculatingSupply?: FloatNullableFilter | number | null
+    totalSupply?: FloatNullableFilter | number | null
+    maxSupply?: FloatNullableFilter | number | null
+    ath?: FloatNullableFilter | number | null
+    atl?: FloatNullableFilter | number | null
+    high24h?: FloatNullableFilter | number | null
+    low24h?: FloatNullableFilter | number | null
+    isActive?: FloatNullableFilter | number | null
+    lastUpdated?: DateTimeNullableFilter | Date | string | null
+    dateAdded?: DateTimeNullableFilter | Date | string | null
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+    isAudited?: BoolFilter | boolean
+  }
+
+  export type tokensOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    name?: SortOrder
+    symbol?: SortOrder
+    slug?: SortOrder
+    cmcRank?: SortOrder
+    marketPairCount?: SortOrder
+    circulatingSupply?: SortOrder
+    selfReportedCirculatingSupply?: SortOrder
+    totalSupply?: SortOrder
+    maxSupply?: SortOrder
+    ath?: SortOrder
+    atl?: SortOrder
+    high24h?: SortOrder
+    low24h?: SortOrder
+    isActive?: SortOrder
+    lastUpdated?: SortOrder
+    dateAdded?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isAudited?: SortOrder
+    _relevance?: tokensOrderByRelevanceInput
+  }
+
+  export type tokensWhereUniqueInput = {
+    id?: string
+  }
+
+  export type tokensOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    symbol?: SortOrder
+    slug?: SortOrder
+    cmcRank?: SortOrder
+    marketPairCount?: SortOrder
+    circulatingSupply?: SortOrder
+    selfReportedCirculatingSupply?: SortOrder
+    totalSupply?: SortOrder
+    maxSupply?: SortOrder
+    ath?: SortOrder
+    atl?: SortOrder
+    high24h?: SortOrder
+    low24h?: SortOrder
+    isActive?: SortOrder
+    lastUpdated?: SortOrder
+    dateAdded?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isAudited?: SortOrder
+    _count?: tokensCountOrderByAggregateInput
+    _avg?: tokensAvgOrderByAggregateInput
+    _max?: tokensMaxOrderByAggregateInput
+    _min?: tokensMinOrderByAggregateInput
+    _sum?: tokensSumOrderByAggregateInput
+  }
+
+  export type tokensScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<tokensScalarWhereWithAggregatesInput>
+    OR?: Enumerable<tokensScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<tokensScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    name?: StringWithAggregatesFilter | string
+    symbol?: StringWithAggregatesFilter | string
+    slug?: StringWithAggregatesFilter | string
+    cmcRank?: FloatNullableWithAggregatesFilter | number | null
+    marketPairCount?: FloatNullableWithAggregatesFilter | number | null
+    circulatingSupply?: FloatNullableWithAggregatesFilter | number | null
+    selfReportedCirculatingSupply?: FloatNullableWithAggregatesFilter | number | null
+    totalSupply?: FloatNullableWithAggregatesFilter | number | null
+    maxSupply?: FloatNullableWithAggregatesFilter | number | null
+    ath?: FloatNullableWithAggregatesFilter | number | null
+    atl?: FloatNullableWithAggregatesFilter | number | null
+    high24h?: FloatNullableWithAggregatesFilter | number | null
+    low24h?: FloatNullableWithAggregatesFilter | number | null
+    isActive?: FloatNullableWithAggregatesFilter | number | null
+    lastUpdated?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    dateAdded?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    isAudited?: BoolWithAggregatesFilter | boolean
+  }
+
   export type usersCreateInput = {
     id?: string
     address?: string | null
@@ -15003,6 +17322,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     user_dapps?: user_dappsCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesCreateNestedManyWithoutUserInput
   }
 
   export type usersUncheckedCreateInput = {
@@ -15017,6 +17337,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type usersUpdateInput = {
@@ -15031,6 +17352,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_dapps?: user_dappsUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUpdateManyWithoutUserInput
   }
 
   export type usersUncheckedUpdateInput = {
@@ -15045,6 +17367,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_dapps?: user_dappsUncheckedUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedUpdateManyWithoutUserInput
   }
 
   export type usersCreateManyInput = {
@@ -15424,6 +17747,7 @@ export namespace Prisma {
     install_count?: number
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
     dapp_categories_relations?: dapp_categories_relationsCreateNestedManyWithoutDappInput
     story_dapps_relations?: story_dapps_relationsCreateNestedManyWithoutDappInput
     user_dapps?: user_dappsCreateNestedManyWithoutDappInput
@@ -15441,6 +17765,7 @@ export namespace Prisma {
     install_count?: number
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
     dapp_categories_relations?: dapp_categories_relationsUncheckedCreateNestedManyWithoutDappInput
     story_dapps_relations?: story_dapps_relationsUncheckedCreateNestedManyWithoutDappInput
     user_dapps?: user_dappsUncheckedCreateNestedManyWithoutDappInput
@@ -15458,6 +17783,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
     dapp_categories_relations?: dapp_categories_relationsUpdateManyWithoutDappInput
     story_dapps_relations?: story_dapps_relationsUpdateManyWithoutDappInput
     user_dapps?: user_dappsUpdateManyWithoutDappInput
@@ -15475,6 +17801,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
     dapp_categories_relations?: dapp_categories_relationsUncheckedUpdateManyWithoutDappInput
     story_dapps_relations?: story_dapps_relationsUncheckedUpdateManyWithoutDappInput
     user_dapps?: user_dappsUncheckedUpdateManyWithoutDappInput
@@ -15492,6 +17819,7 @@ export namespace Prisma {
     install_count?: number
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
   }
 
   export type dappsUpdateManyMutationInput = {
@@ -15506,6 +17834,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type dappsUncheckedUpdateManyInput = {
@@ -15520,6 +17849,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type dapp_categoriesCreateInput = {
@@ -15646,6 +17976,7 @@ export namespace Prisma {
     user: usersCreateNestedOneWithoutUser_dappsInput
     created_at?: Date | string
     updated_at?: Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesCreateNestedOneWithoutUser_dappsInput
   }
 
   export type user_dappsUncheckedCreateInput = {
@@ -15654,6 +17985,7 @@ export namespace Prisma {
     dapp_id: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    user_dapps_catogories_id?: string | null
   }
 
   export type user_dappsUpdateInput = {
@@ -15662,6 +17994,7 @@ export namespace Prisma {
     user?: usersUpdateOneRequiredWithoutUser_dappsInput
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesUpdateOneWithoutUser_dappsInput
   }
 
   export type user_dappsUncheckedUpdateInput = {
@@ -15670,6 +18003,7 @@ export namespace Prisma {
     dapp_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type user_dappsCreateManyInput = {
@@ -15678,6 +18012,7 @@ export namespace Prisma {
     dapp_id: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    user_dapps_catogories_id?: string | null
   }
 
   export type user_dappsUpdateManyMutationInput = {
@@ -15692,6 +18027,80 @@ export namespace Prisma {
     dapp_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories_id?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type user_dapps_catogoriesCreateInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user: usersCreateNestedOneWithoutUser_dapps_catogoriesInput
+    user_dapps?: user_dappsCreateNestedManyWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesUncheckedCreateInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user_id: string
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: usersUpdateOneRequiredWithoutUser_dapps_catogoriesInput
+    user_dapps?: user_dappsUpdateManyWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesCreateManyInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user_id: string
+  }
+
+  export type user_dapps_catogoriesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type user_dapps_catogoriesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type storiesCreateInput = {
@@ -15976,6 +18385,167 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type tokensCreateInput = {
+    id?: string
+    name: string
+    symbol: string
+    slug: string
+    cmcRank?: number | null
+    marketPairCount?: number | null
+    circulatingSupply?: number | null
+    selfReportedCirculatingSupply?: number | null
+    totalSupply?: number | null
+    maxSupply?: number | null
+    ath?: number | null
+    atl?: number | null
+    high24h?: number | null
+    low24h?: number | null
+    isActive?: number | null
+    lastUpdated?: Date | string | null
+    dateAdded?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    isAudited?: boolean
+  }
+
+  export type tokensUncheckedCreateInput = {
+    id?: string
+    name: string
+    symbol: string
+    slug: string
+    cmcRank?: number | null
+    marketPairCount?: number | null
+    circulatingSupply?: number | null
+    selfReportedCirculatingSupply?: number | null
+    totalSupply?: number | null
+    maxSupply?: number | null
+    ath?: number | null
+    atl?: number | null
+    high24h?: number | null
+    low24h?: number | null
+    isActive?: number | null
+    lastUpdated?: Date | string | null
+    dateAdded?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    isAudited?: boolean
+  }
+
+  export type tokensUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    cmcRank?: NullableFloatFieldUpdateOperationsInput | number | null
+    marketPairCount?: NullableFloatFieldUpdateOperationsInput | number | null
+    circulatingSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    selfReportedCirculatingSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    ath?: NullableFloatFieldUpdateOperationsInput | number | null
+    atl?: NullableFloatFieldUpdateOperationsInput | number | null
+    high24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    low24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    isActive?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateAdded?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAudited?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type tokensUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    cmcRank?: NullableFloatFieldUpdateOperationsInput | number | null
+    marketPairCount?: NullableFloatFieldUpdateOperationsInput | number | null
+    circulatingSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    selfReportedCirculatingSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    ath?: NullableFloatFieldUpdateOperationsInput | number | null
+    atl?: NullableFloatFieldUpdateOperationsInput | number | null
+    high24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    low24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    isActive?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateAdded?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAudited?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type tokensCreateManyInput = {
+    id?: string
+    name: string
+    symbol: string
+    slug: string
+    cmcRank?: number | null
+    marketPairCount?: number | null
+    circulatingSupply?: number | null
+    selfReportedCirculatingSupply?: number | null
+    totalSupply?: number | null
+    maxSupply?: number | null
+    ath?: number | null
+    atl?: number | null
+    high24h?: number | null
+    low24h?: number | null
+    isActive?: number | null
+    lastUpdated?: Date | string | null
+    dateAdded?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    isAudited?: boolean
+  }
+
+  export type tokensUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    cmcRank?: NullableFloatFieldUpdateOperationsInput | number | null
+    marketPairCount?: NullableFloatFieldUpdateOperationsInput | number | null
+    circulatingSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    selfReportedCirculatingSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    ath?: NullableFloatFieldUpdateOperationsInput | number | null
+    atl?: NullableFloatFieldUpdateOperationsInput | number | null
+    high24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    low24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    isActive?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateAdded?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAudited?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type tokensUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    symbol?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    cmcRank?: NullableFloatFieldUpdateOperationsInput | number | null
+    marketPairCount?: NullableFloatFieldUpdateOperationsInput | number | null
+    circulatingSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    selfReportedCirculatingSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSupply?: NullableFloatFieldUpdateOperationsInput | number | null
+    ath?: NullableFloatFieldUpdateOperationsInput | number | null
+    atl?: NullableFloatFieldUpdateOperationsInput | number | null
+    high24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    low24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    isActive?: NullableFloatFieldUpdateOperationsInput | number | null
+    lastUpdated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dateAdded?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isAudited?: BoolFieldUpdateOperationsInput | boolean
+  }
+
   export type StringFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -16062,7 +18632,17 @@ export namespace Prisma {
     none?: user_dappsWhereInput
   }
 
+  export type User_dapps_catogoriesListRelationFilter = {
+    every?: user_dapps_catogoriesWhereInput
+    some?: user_dapps_catogoriesWhereInput
+    none?: user_dapps_catogoriesWhereInput
+  }
+
   export type user_dappsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type user_dapps_catogoriesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16511,6 +19091,7 @@ export namespace Prisma {
     install_count?: SortOrder
     visible?: SortOrder
     is_good?: SortOrder
+    add_by_admin?: SortOrder
   }
 
   export type dappsAvgOrderByAggregateInput = {
@@ -16530,6 +19111,7 @@ export namespace Prisma {
     install_count?: SortOrder
     visible?: SortOrder
     is_good?: SortOrder
+    add_by_admin?: SortOrder
   }
 
   export type dappsMinOrderByAggregateInput = {
@@ -16544,6 +19126,7 @@ export namespace Prisma {
     install_count?: SortOrder
     visible?: SortOrder
     is_good?: SortOrder
+    add_by_admin?: SortOrder
   }
 
   export type dappsSumOrderByAggregateInput = {
@@ -16653,6 +19236,11 @@ export namespace Prisma {
     isNot?: usersWhereInput
   }
 
+  export type User_dapps_catogoriesRelationFilter = {
+    is?: user_dapps_catogoriesWhereInput | null
+    isNot?: user_dapps_catogoriesWhereInput | null
+  }
+
   export type user_dappsOrderByRelevanceInput = {
     fields: Enumerable<user_dappsOrderByRelevanceFieldEnum>
     sort: SortOrder
@@ -16670,6 +19258,7 @@ export namespace Prisma {
     dapp_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    user_dapps_catogories_id?: SortOrder
   }
 
   export type user_dappsMaxOrderByAggregateInput = {
@@ -16678,6 +19267,7 @@ export namespace Prisma {
     dapp_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    user_dapps_catogories_id?: SortOrder
   }
 
   export type user_dappsMinOrderByAggregateInput = {
@@ -16686,6 +19276,51 @@ export namespace Prisma {
     dapp_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+    user_dapps_catogories_id?: SortOrder
+  }
+
+  export type user_dapps_catogoriesOrderByRelevanceInput = {
+    fields: Enumerable<user_dapps_catogoriesOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type user_dapps_catogoriesCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type user_dapps_catogoriesAvgOrderByAggregateInput = {
+    sort?: SortOrder
+  }
+
+  export type user_dapps_catogoriesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type user_dapps_catogoriesMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    sort?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    user_id?: SortOrder
+  }
+
+  export type user_dapps_catogoriesSumOrderByAggregateInput = {
+    sort?: SortOrder
   }
 
   export type Story_categories_relationsListRelationFilter = {
@@ -16886,6 +19521,136 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type FloatNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatNullableFilter | number | null
+  }
+
+  export type tokensOrderByRelevanceInput = {
+    fields: Enumerable<tokensOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type tokensCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    symbol?: SortOrder
+    slug?: SortOrder
+    cmcRank?: SortOrder
+    marketPairCount?: SortOrder
+    circulatingSupply?: SortOrder
+    selfReportedCirculatingSupply?: SortOrder
+    totalSupply?: SortOrder
+    maxSupply?: SortOrder
+    ath?: SortOrder
+    atl?: SortOrder
+    high24h?: SortOrder
+    low24h?: SortOrder
+    isActive?: SortOrder
+    lastUpdated?: SortOrder
+    dateAdded?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isAudited?: SortOrder
+  }
+
+  export type tokensAvgOrderByAggregateInput = {
+    cmcRank?: SortOrder
+    marketPairCount?: SortOrder
+    circulatingSupply?: SortOrder
+    selfReportedCirculatingSupply?: SortOrder
+    totalSupply?: SortOrder
+    maxSupply?: SortOrder
+    ath?: SortOrder
+    atl?: SortOrder
+    high24h?: SortOrder
+    low24h?: SortOrder
+    isActive?: SortOrder
+  }
+
+  export type tokensMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    symbol?: SortOrder
+    slug?: SortOrder
+    cmcRank?: SortOrder
+    marketPairCount?: SortOrder
+    circulatingSupply?: SortOrder
+    selfReportedCirculatingSupply?: SortOrder
+    totalSupply?: SortOrder
+    maxSupply?: SortOrder
+    ath?: SortOrder
+    atl?: SortOrder
+    high24h?: SortOrder
+    low24h?: SortOrder
+    isActive?: SortOrder
+    lastUpdated?: SortOrder
+    dateAdded?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isAudited?: SortOrder
+  }
+
+  export type tokensMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    symbol?: SortOrder
+    slug?: SortOrder
+    cmcRank?: SortOrder
+    marketPairCount?: SortOrder
+    circulatingSupply?: SortOrder
+    selfReportedCirculatingSupply?: SortOrder
+    totalSupply?: SortOrder
+    maxSupply?: SortOrder
+    ath?: SortOrder
+    atl?: SortOrder
+    high24h?: SortOrder
+    low24h?: SortOrder
+    isActive?: SortOrder
+    lastUpdated?: SortOrder
+    dateAdded?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    isAudited?: SortOrder
+  }
+
+  export type tokensSumOrderByAggregateInput = {
+    cmcRank?: SortOrder
+    marketPairCount?: SortOrder
+    circulatingSupply?: SortOrder
+    selfReportedCirculatingSupply?: SortOrder
+    totalSupply?: SortOrder
+    maxSupply?: SortOrder
+    ath?: SortOrder
+    atl?: SortOrder
+    high24h?: SortOrder
+    low24h?: SortOrder
+    isActive?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedFloatNullableFilter
+    _min?: NestedFloatNullableFilter
+    _max?: NestedFloatNullableFilter
+  }
+
   export type usersCreateroleInput = {
     set: Enumerable<Role>
   }
@@ -16897,11 +19662,25 @@ export namespace Prisma {
     connect?: Enumerable<user_dappsWhereUniqueInput>
   }
 
+  export type user_dapps_catogoriesCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<user_dapps_catogoriesCreateWithoutUserInput>, Enumerable<user_dapps_catogoriesUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<user_dapps_catogoriesCreateOrConnectWithoutUserInput>
+    createMany?: user_dapps_catogoriesCreateManyUserInputEnvelope
+    connect?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+  }
+
   export type user_dappsUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<Enumerable<user_dappsCreateWithoutUserInput>, Enumerable<user_dappsUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUserInput>
     createMany?: user_dappsCreateManyUserInputEnvelope
     connect?: Enumerable<user_dappsWhereUniqueInput>
+  }
+
+  export type user_dapps_catogoriesUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<user_dapps_catogoriesCreateWithoutUserInput>, Enumerable<user_dapps_catogoriesUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<user_dapps_catogoriesCreateOrConnectWithoutUserInput>
+    createMany?: user_dapps_catogoriesCreateManyUserInputEnvelope
+    connect?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -16943,6 +19722,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<user_dappsScalarWhereInput>
   }
 
+  export type user_dapps_catogoriesUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<user_dapps_catogoriesCreateWithoutUserInput>, Enumerable<user_dapps_catogoriesUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<user_dapps_catogoriesCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<user_dapps_catogoriesUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: user_dapps_catogoriesCreateManyUserInputEnvelope
+    set?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+    disconnect?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+    delete?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+    connect?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+    update?: Enumerable<user_dapps_catogoriesUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<user_dapps_catogoriesUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<user_dapps_catogoriesScalarWhereInput>
+  }
+
   export type user_dappsUncheckedUpdateManyWithoutUserInput = {
     create?: XOR<Enumerable<user_dappsCreateWithoutUserInput>, Enumerable<user_dappsUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUserInput>
@@ -16955,6 +19748,20 @@ export namespace Prisma {
     update?: Enumerable<user_dappsUpdateWithWhereUniqueWithoutUserInput>
     updateMany?: Enumerable<user_dappsUpdateManyWithWhereWithoutUserInput>
     deleteMany?: Enumerable<user_dappsScalarWhereInput>
+  }
+
+  export type user_dapps_catogoriesUncheckedUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<user_dapps_catogoriesCreateWithoutUserInput>, Enumerable<user_dapps_catogoriesUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<user_dapps_catogoriesCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<user_dapps_catogoriesUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: user_dapps_catogoriesCreateManyUserInputEnvelope
+    set?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+    disconnect?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+    delete?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+    connect?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+    update?: Enumerable<user_dapps_catogoriesUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<user_dapps_catogoriesUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<user_dapps_catogoriesScalarWhereInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -17189,6 +19996,12 @@ export namespace Prisma {
     connect?: usersWhereUniqueInput
   }
 
+  export type user_dapps_catogoriesCreateNestedOneWithoutUser_dappsInput = {
+    create?: XOR<user_dapps_catogoriesCreateWithoutUser_dappsInput, user_dapps_catogoriesUncheckedCreateWithoutUser_dappsInput>
+    connectOrCreate?: user_dapps_catogoriesCreateOrConnectWithoutUser_dappsInput
+    connect?: user_dapps_catogoriesWhereUniqueInput
+  }
+
   export type dappsUpdateOneRequiredWithoutUser_dappsInput = {
     create?: XOR<dappsCreateWithoutUser_dappsInput, dappsUncheckedCreateWithoutUser_dappsInput>
     connectOrCreate?: dappsCreateOrConnectWithoutUser_dappsInput
@@ -17203,6 +20016,72 @@ export namespace Prisma {
     upsert?: usersUpsertWithoutUser_dappsInput
     connect?: usersWhereUniqueInput
     update?: XOR<usersUpdateWithoutUser_dappsInput, usersUncheckedUpdateWithoutUser_dappsInput>
+  }
+
+  export type user_dapps_catogoriesUpdateOneWithoutUser_dappsInput = {
+    create?: XOR<user_dapps_catogoriesCreateWithoutUser_dappsInput, user_dapps_catogoriesUncheckedCreateWithoutUser_dappsInput>
+    connectOrCreate?: user_dapps_catogoriesCreateOrConnectWithoutUser_dappsInput
+    upsert?: user_dapps_catogoriesUpsertWithoutUser_dappsInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: user_dapps_catogoriesWhereUniqueInput
+    update?: XOR<user_dapps_catogoriesUpdateWithoutUser_dappsInput, user_dapps_catogoriesUncheckedUpdateWithoutUser_dappsInput>
+  }
+
+  export type usersCreateNestedOneWithoutUser_dapps_catogoriesInput = {
+    create?: XOR<usersCreateWithoutUser_dapps_catogoriesInput, usersUncheckedCreateWithoutUser_dapps_catogoriesInput>
+    connectOrCreate?: usersCreateOrConnectWithoutUser_dapps_catogoriesInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type user_dappsCreateNestedManyWithoutUser_dapps_catogoriesInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutUser_dapps_catogoriesInput>, Enumerable<user_dappsUncheckedCreateWithoutUser_dapps_catogoriesInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUser_dapps_catogoriesInput>
+    createMany?: user_dappsCreateManyUser_dapps_catogoriesInputEnvelope
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+  }
+
+  export type user_dappsUncheckedCreateNestedManyWithoutUser_dapps_catogoriesInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutUser_dapps_catogoriesInput>, Enumerable<user_dappsUncheckedCreateWithoutUser_dapps_catogoriesInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUser_dapps_catogoriesInput>
+    createMany?: user_dappsCreateManyUser_dapps_catogoriesInputEnvelope
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+  }
+
+  export type usersUpdateOneRequiredWithoutUser_dapps_catogoriesInput = {
+    create?: XOR<usersCreateWithoutUser_dapps_catogoriesInput, usersUncheckedCreateWithoutUser_dapps_catogoriesInput>
+    connectOrCreate?: usersCreateOrConnectWithoutUser_dapps_catogoriesInput
+    upsert?: usersUpsertWithoutUser_dapps_catogoriesInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<usersUpdateWithoutUser_dapps_catogoriesInput, usersUncheckedUpdateWithoutUser_dapps_catogoriesInput>
+  }
+
+  export type user_dappsUpdateManyWithoutUser_dapps_catogoriesInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutUser_dapps_catogoriesInput>, Enumerable<user_dappsUncheckedCreateWithoutUser_dapps_catogoriesInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUser_dapps_catogoriesInput>
+    upsert?: Enumerable<user_dappsUpsertWithWhereUniqueWithoutUser_dapps_catogoriesInput>
+    createMany?: user_dappsCreateManyUser_dapps_catogoriesInputEnvelope
+    set?: Enumerable<user_dappsWhereUniqueInput>
+    disconnect?: Enumerable<user_dappsWhereUniqueInput>
+    delete?: Enumerable<user_dappsWhereUniqueInput>
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+    update?: Enumerable<user_dappsUpdateWithWhereUniqueWithoutUser_dapps_catogoriesInput>
+    updateMany?: Enumerable<user_dappsUpdateManyWithWhereWithoutUser_dapps_catogoriesInput>
+    deleteMany?: Enumerable<user_dappsScalarWhereInput>
+  }
+
+  export type user_dappsUncheckedUpdateManyWithoutUser_dapps_catogoriesInput = {
+    create?: XOR<Enumerable<user_dappsCreateWithoutUser_dapps_catogoriesInput>, Enumerable<user_dappsUncheckedCreateWithoutUser_dapps_catogoriesInput>>
+    connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUser_dapps_catogoriesInput>
+    upsert?: Enumerable<user_dappsUpsertWithWhereUniqueWithoutUser_dapps_catogoriesInput>
+    createMany?: user_dappsCreateManyUser_dapps_catogoriesInputEnvelope
+    set?: Enumerable<user_dappsWhereUniqueInput>
+    disconnect?: Enumerable<user_dappsWhereUniqueInput>
+    delete?: Enumerable<user_dappsWhereUniqueInput>
+    connect?: Enumerable<user_dappsWhereUniqueInput>
+    update?: Enumerable<user_dappsUpdateWithWhereUniqueWithoutUser_dapps_catogoriesInput>
+    updateMany?: Enumerable<user_dappsUpdateManyWithWhereWithoutUser_dapps_catogoriesInput>
+    deleteMany?: Enumerable<user_dappsScalarWhereInput>
   }
 
   export type story_categories_relationsCreateNestedManyWithoutStoryInput = {
@@ -17385,6 +20264,14 @@ export namespace Prisma {
     upsert?: dappsUpsertWithoutStory_dapps_relationsInput
     connect?: dappsWhereUniqueInput
     update?: XOR<dappsUpdateWithoutStory_dapps_relationsInput, dappsUncheckedUpdateWithoutStory_dapps_relationsInput>
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedStringFilter = {
@@ -17633,11 +20520,28 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
+  export type NestedFloatNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedFloatNullableFilter
+    _min?: NestedFloatNullableFilter
+    _max?: NestedFloatNullableFilter
+  }
+
   export type user_dappsCreateWithoutUserInput = {
     id?: string
     dapp: dappsCreateNestedOneWithoutUser_dappsInput
     created_at?: Date | string
     updated_at?: Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesCreateNestedOneWithoutUser_dappsInput
   }
 
   export type user_dappsUncheckedCreateWithoutUserInput = {
@@ -17645,6 +20549,7 @@ export namespace Prisma {
     dapp_id: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    user_dapps_catogories_id?: string | null
   }
 
   export type user_dappsCreateOrConnectWithoutUserInput = {
@@ -17654,6 +20559,36 @@ export namespace Prisma {
 
   export type user_dappsCreateManyUserInputEnvelope = {
     data: Enumerable<user_dappsCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type user_dapps_catogoriesCreateWithoutUserInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user_dapps?: user_dappsCreateNestedManyWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesCreateOrConnectWithoutUserInput = {
+    where: user_dapps_catogoriesWhereUniqueInput
+    create: XOR<user_dapps_catogoriesCreateWithoutUserInput, user_dapps_catogoriesUncheckedCreateWithoutUserInput>
+  }
+
+  export type user_dapps_catogoriesCreateManyUserInputEnvelope = {
+    data: Enumerable<user_dapps_catogoriesCreateManyUserInput>
     skipDuplicates?: boolean
   }
 
@@ -17682,6 +20617,36 @@ export namespace Prisma {
     dapp_id?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeNullableFilter | Date | string | null
+    user_dapps_catogories_id?: StringNullableFilter | string | null
+  }
+
+  export type user_dapps_catogoriesUpsertWithWhereUniqueWithoutUserInput = {
+    where: user_dapps_catogoriesWhereUniqueInput
+    update: XOR<user_dapps_catogoriesUpdateWithoutUserInput, user_dapps_catogoriesUncheckedUpdateWithoutUserInput>
+    create: XOR<user_dapps_catogoriesCreateWithoutUserInput, user_dapps_catogoriesUncheckedCreateWithoutUserInput>
+  }
+
+  export type user_dapps_catogoriesUpdateWithWhereUniqueWithoutUserInput = {
+    where: user_dapps_catogoriesWhereUniqueInput
+    data: XOR<user_dapps_catogoriesUpdateWithoutUserInput, user_dapps_catogoriesUncheckedUpdateWithoutUserInput>
+  }
+
+  export type user_dapps_catogoriesUpdateManyWithWhereWithoutUserInput = {
+    where: user_dapps_catogoriesScalarWhereInput
+    data: XOR<user_dapps_catogoriesUpdateManyMutationInput, user_dapps_catogoriesUncheckedUpdateManyWithoutUser_dapps_catogoriesInput>
+  }
+
+  export type user_dapps_catogoriesScalarWhereInput = {
+    AND?: Enumerable<user_dapps_catogoriesScalarWhereInput>
+    OR?: Enumerable<user_dapps_catogoriesScalarWhereInput>
+    NOT?: Enumerable<user_dapps_catogoriesScalarWhereInput>
+    id?: StringFilter | string
+    title?: StringFilter | string
+    desc?: StringNullableFilter | string | null
+    sort?: IntFilter | number
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+    user_id?: StringFilter | string
   }
 
   export type dapp_categories_relationsCreateWithoutDappInput = {
@@ -17737,6 +20702,7 @@ export namespace Prisma {
     user: usersCreateNestedOneWithoutUser_dappsInput
     created_at?: Date | string
     updated_at?: Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesCreateNestedOneWithoutUser_dappsInput
   }
 
   export type user_dappsUncheckedCreateWithoutDappInput = {
@@ -17744,6 +20710,7 @@ export namespace Prisma {
     user_id: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    user_dapps_catogories_id?: string | null
   }
 
   export type user_dappsCreateOrConnectWithoutDappInput = {
@@ -17901,6 +20868,7 @@ export namespace Prisma {
     install_count?: number
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
     story_dapps_relations?: story_dapps_relationsCreateNestedManyWithoutDappInput
     user_dapps?: user_dappsCreateNestedManyWithoutDappInput
   }
@@ -17917,6 +20885,7 @@ export namespace Prisma {
     install_count?: number
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
     story_dapps_relations?: story_dapps_relationsUncheckedCreateNestedManyWithoutDappInput
     user_dapps?: user_dappsUncheckedCreateNestedManyWithoutDappInput
   }
@@ -17964,6 +20933,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
     story_dapps_relations?: story_dapps_relationsUpdateManyWithoutDappInput
     user_dapps?: user_dappsUpdateManyWithoutDappInput
   }
@@ -17980,6 +20950,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
     story_dapps_relations?: story_dapps_relationsUncheckedUpdateManyWithoutDappInput
     user_dapps?: user_dappsUncheckedUpdateManyWithoutDappInput
   }
@@ -17996,6 +20967,7 @@ export namespace Prisma {
     install_count?: number
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
     dapp_categories_relations?: dapp_categories_relationsCreateNestedManyWithoutDappInput
     story_dapps_relations?: story_dapps_relationsCreateNestedManyWithoutDappInput
   }
@@ -18012,6 +20984,7 @@ export namespace Prisma {
     install_count?: number
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
     dapp_categories_relations?: dapp_categories_relationsUncheckedCreateNestedManyWithoutDappInput
     story_dapps_relations?: story_dapps_relationsUncheckedCreateNestedManyWithoutDappInput
   }
@@ -18032,6 +21005,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesCreateNestedManyWithoutUserInput
   }
 
   export type usersUncheckedCreateWithoutUser_dappsInput = {
@@ -18045,11 +21019,37 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type usersCreateOrConnectWithoutUser_dappsInput = {
     where: usersWhereUniqueInput
     create: XOR<usersCreateWithoutUser_dappsInput, usersUncheckedCreateWithoutUser_dappsInput>
+  }
+
+  export type user_dapps_catogoriesCreateWithoutUser_dappsInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user: usersCreateNestedOneWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesUncheckedCreateWithoutUser_dappsInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user_id: string
+  }
+
+  export type user_dapps_catogoriesCreateOrConnectWithoutUser_dappsInput = {
+    where: user_dapps_catogoriesWhereUniqueInput
+    create: XOR<user_dapps_catogoriesCreateWithoutUser_dappsInput, user_dapps_catogoriesUncheckedCreateWithoutUser_dappsInput>
   }
 
   export type dappsUpsertWithoutUser_dappsInput = {
@@ -18069,6 +21069,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
     dapp_categories_relations?: dapp_categories_relationsUpdateManyWithoutDappInput
     story_dapps_relations?: story_dapps_relationsUpdateManyWithoutDappInput
   }
@@ -18085,6 +21086,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
     dapp_categories_relations?: dapp_categories_relationsUncheckedUpdateManyWithoutDappInput
     story_dapps_relations?: story_dapps_relationsUncheckedUpdateManyWithoutDappInput
   }
@@ -18105,6 +21107,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesUpdateManyWithoutUserInput
   }
 
   export type usersUncheckedUpdateWithoutUser_dappsInput = {
@@ -18118,6 +21121,140 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedUpdateManyWithoutUserInput
+  }
+
+  export type user_dapps_catogoriesUpsertWithoutUser_dappsInput = {
+    update: XOR<user_dapps_catogoriesUpdateWithoutUser_dappsInput, user_dapps_catogoriesUncheckedUpdateWithoutUser_dappsInput>
+    create: XOR<user_dapps_catogoriesCreateWithoutUser_dappsInput, user_dapps_catogoriesUncheckedCreateWithoutUser_dappsInput>
+  }
+
+  export type user_dapps_catogoriesUpdateWithoutUser_dappsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: usersUpdateOneRequiredWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesUncheckedUpdateWithoutUser_dappsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type usersCreateWithoutUser_dapps_catogoriesInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsCreateNestedManyWithoutUserInput
+  }
+
+  export type usersUncheckedCreateWithoutUser_dapps_catogoriesInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type usersCreateOrConnectWithoutUser_dapps_catogoriesInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutUser_dapps_catogoriesInput, usersUncheckedCreateWithoutUser_dapps_catogoriesInput>
+  }
+
+  export type user_dappsCreateWithoutUser_dapps_catogoriesInput = {
+    id?: string
+    dapp: dappsCreateNestedOneWithoutUser_dappsInput
+    user: usersCreateNestedOneWithoutUser_dappsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type user_dappsUncheckedCreateWithoutUser_dapps_catogoriesInput = {
+    id?: string
+    user_id: string
+    dapp_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type user_dappsCreateOrConnectWithoutUser_dapps_catogoriesInput = {
+    where: user_dappsWhereUniqueInput
+    create: XOR<user_dappsCreateWithoutUser_dapps_catogoriesInput, user_dappsUncheckedCreateWithoutUser_dapps_catogoriesInput>
+  }
+
+  export type user_dappsCreateManyUser_dapps_catogoriesInputEnvelope = {
+    data: Enumerable<user_dappsCreateManyUser_dapps_catogoriesInput>
+    skipDuplicates?: boolean
+  }
+
+  export type usersUpsertWithoutUser_dapps_catogoriesInput = {
+    update: XOR<usersUpdateWithoutUser_dapps_catogoriesInput, usersUncheckedUpdateWithoutUser_dapps_catogoriesInput>
+    create: XOR<usersCreateWithoutUser_dapps_catogoriesInput, usersUncheckedCreateWithoutUser_dapps_catogoriesInput>
+  }
+
+  export type usersUpdateWithoutUser_dapps_catogoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUpdateManyWithoutUserInput
+  }
+
+  export type usersUncheckedUpdateWithoutUser_dapps_catogoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutUserInput
+  }
+
+  export type user_dappsUpsertWithWhereUniqueWithoutUser_dapps_catogoriesInput = {
+    where: user_dappsWhereUniqueInput
+    update: XOR<user_dappsUpdateWithoutUser_dapps_catogoriesInput, user_dappsUncheckedUpdateWithoutUser_dapps_catogoriesInput>
+    create: XOR<user_dappsCreateWithoutUser_dapps_catogoriesInput, user_dappsUncheckedCreateWithoutUser_dapps_catogoriesInput>
+  }
+
+  export type user_dappsUpdateWithWhereUniqueWithoutUser_dapps_catogoriesInput = {
+    where: user_dappsWhereUniqueInput
+    data: XOR<user_dappsUpdateWithoutUser_dapps_catogoriesInput, user_dappsUncheckedUpdateWithoutUser_dapps_catogoriesInput>
+  }
+
+  export type user_dappsUpdateManyWithWhereWithoutUser_dapps_catogoriesInput = {
+    where: user_dappsScalarWhereInput
+    data: XOR<user_dappsUpdateManyMutationInput, user_dappsUncheckedUpdateManyWithoutUser_dappsInput>
   }
 
   export type story_categories_relationsCreateWithoutStoryInput = {
@@ -18415,6 +21552,7 @@ export namespace Prisma {
     install_count?: number
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
     dapp_categories_relations?: dapp_categories_relationsCreateNestedManyWithoutDappInput
     user_dapps?: user_dappsCreateNestedManyWithoutDappInput
   }
@@ -18431,6 +21569,7 @@ export namespace Prisma {
     install_count?: number
     visible?: boolean
     is_good?: boolean
+    add_by_admin?: boolean
     dapp_categories_relations?: dapp_categories_relationsUncheckedCreateNestedManyWithoutDappInput
     user_dapps?: user_dappsUncheckedCreateNestedManyWithoutDappInput
   }
@@ -18492,6 +21631,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
     dapp_categories_relations?: dapp_categories_relationsUpdateManyWithoutDappInput
     user_dapps?: user_dappsUpdateManyWithoutDappInput
   }
@@ -18508,6 +21648,7 @@ export namespace Prisma {
     install_count?: IntFieldUpdateOperationsInput | number
     visible?: BoolFieldUpdateOperationsInput | boolean
     is_good?: BoolFieldUpdateOperationsInput | boolean
+    add_by_admin?: BoolFieldUpdateOperationsInput | boolean
     dapp_categories_relations?: dapp_categories_relationsUncheckedUpdateManyWithoutDappInput
     user_dapps?: user_dappsUncheckedUpdateManyWithoutDappInput
   }
@@ -18517,6 +21658,16 @@ export namespace Prisma {
     dapp_id: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    user_dapps_catogories_id?: string | null
+  }
+
+  export type user_dapps_catogoriesCreateManyUserInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    sort?: number
+    created_at?: Date | string
+    updated_at?: Date | string | null
   }
 
   export type user_dappsUpdateWithoutUserInput = {
@@ -18524,6 +21675,7 @@ export namespace Prisma {
     dapp?: dappsUpdateOneRequiredWithoutUser_dappsInput
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesUpdateOneWithoutUser_dappsInput
   }
 
   export type user_dappsUncheckedUpdateWithoutUserInput = {
@@ -18531,11 +21683,42 @@ export namespace Prisma {
     dapp_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type user_dappsUncheckedUpdateManyWithoutUser_dappsInput = {
     id?: StringFieldUpdateOperationsInput | string
     dapp_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories_id?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type user_dapps_catogoriesUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUpdateManyWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutUser_dapps_catogoriesInput
+  }
+
+  export type user_dapps_catogoriesUncheckedUpdateManyWithoutUser_dapps_catogoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    sort?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -18560,6 +21743,7 @@ export namespace Prisma {
     user_id: string
     created_at?: Date | string
     updated_at?: Date | string | null
+    user_dapps_catogories_id?: string | null
   }
 
   export type dapp_categories_relationsUpdateWithoutDappInput = {
@@ -18610,6 +21794,7 @@ export namespace Prisma {
     user?: usersUpdateOneRequiredWithoutUser_dappsInput
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories?: user_dapps_catogoriesUpdateOneWithoutUser_dappsInput
   }
 
   export type user_dappsUncheckedUpdateWithoutDappInput = {
@@ -18617,6 +21802,7 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps_catogories_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type dapp_categories_relationsCreateManyDapp_categoriesInput = {
@@ -18637,6 +21823,30 @@ export namespace Prisma {
   export type dapp_categories_relationsUncheckedUpdateWithoutDapp_categoriesInput = {
     id?: IntFieldUpdateOperationsInput | number
     subcategory_id?: NullableStringFieldUpdateOperationsInput | string | null
+    dapp_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type user_dappsCreateManyUser_dapps_catogoriesInput = {
+    id?: string
+    user_id: string
+    dapp_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type user_dappsUpdateWithoutUser_dapps_catogoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dapp?: dappsUpdateOneRequiredWithoutUser_dappsInput
+    user?: usersUpdateOneRequiredWithoutUser_dappsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type user_dappsUncheckedUpdateWithoutUser_dapps_catogoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
     dapp_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

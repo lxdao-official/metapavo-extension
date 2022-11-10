@@ -12,6 +12,17 @@ a {
   text-decoration: none;
 }
 
+.colorful-bg {
+  border-radius: 5px;
+
+  background-image: linear-gradient(
+    91.75deg,
+    #7de2ac 0%,
+    #389dfa 49.26%,
+    #9f50ff 97.76%
+  );
+  background-origin: border-box;
+}
 * {
   box-sizing: border-box;
 }

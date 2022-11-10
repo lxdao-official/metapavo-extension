@@ -193,6 +193,7 @@ export const NFTCardRoot = styled.div`
       text-align: left;
       color: #252525;
       overflow: hidden;
+      align-items: flex-start;
     }
     .mp-success-verified {
       margin-left: 8px;

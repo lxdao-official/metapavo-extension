@@ -103,5 +103,17 @@
   },
   "nodisplay7": {
     "message": "7 天内不在此网站显示"
+  },
+  "Read_Laters": {
+    "message": "稍后读"
+  },
+  "DASHBOARD_History": {
+    "message": "浏览历史"
+  },
+  "My_Collected_NFTs": {
+    "message": "我收藏的 NFTs"
+  },
+  "My_Installed_DAPPs": {
+    "message": "我安装的 DAPPs"
   }
 }

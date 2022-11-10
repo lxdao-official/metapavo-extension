@@ -1,6 +1,12 @@
+// 1. import `NextUIProvider` component
+import { NextUIProvider } from '@nextui-org/react';
+// 1. Import `createTheme`
+import { Text, createTheme } from '@nextui-org/react';
 import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
+import { Toaster } from 'react-hot-toast';
 import { WagmiConfig, chain, configureChains, createClient } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
@@ -22,13 +28,30 @@ const wagmiClient = createClient({
   connectors,
   provider,
 });
+
+// 2. Call `createTheme` and pass your custom values
+const theme = createTheme({
+  type: 'light', // it could be "light" or "dark"
+  theme: {
+    colors: {
+      // brand colors
+      secondary: '#9f50ff',
+    },
+    space: {},
+    fonts: {},
+  },
+});
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} initialChain={chain.polygon}>
-        <Component {...pageProps} />{' '}
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <NextUIProvider theme={theme}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains} initialChain={chain.polygon}>
+          <>
+            <Component {...pageProps} /> <Toaster />
+          </>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </NextUIProvider>
   );
 }
 
