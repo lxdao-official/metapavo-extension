@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import DebouncedInput from '../components/DebouncedInput';
 import LayoutDapps from '../components/LayoutDapps';
+import SearchTab from '../components/SearchTab';
 import TabPanel from '../components/TabPanel';
 
 const menu = (item: any, active: boolean) => (
@@ -38,6 +39,7 @@ export default function Dappstore() {
   const [storyTab, setStoryTab] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [collected, setCollected] = useState('');
+  const [showSearchMenu, setSearchMenu] = useState(false);
 
   const moreBtn = (text: string) => (
     <Box
@@ -241,11 +243,6 @@ export default function Dappstore() {
   const storyCard = (item: any) => {
     let dapps = item.story_dapps_relations;
     let showMore = false;
-    const length = item.story_dapps_relations.length;
-    if (length > 5) {
-      showMore = true;
-      dapps = item.story_dapps_relations.slice(0, 5);
-    }
     return (
       <Box
         sx={{
@@ -440,15 +437,19 @@ export default function Dappstore() {
           </Typography>
           <Typography> all the web3 you want is here</Typography>
         </Box>
-        <Box maxWidth="1328px" margin="auto">
+        <Box maxWidth="1328px" margin="auto" sx={{ position: 'relative' }}>
           <DebouncedInput
             placeholder="Search collection/address/.."
             sx={{ background: '#fff', minHeight: '48px' }}
             onChange={(val: any) => {
+              setSearchMenu(true);
               setKeyword(val);
               setPage(1);
             }}
+            onFocus={() => setSearchMenu(true)}
+            onBlur={() => setSearchMenu(false)}
           />
+          {showSearchMenu && <SearchTab keywords={keyword} />}
         </Box>
       </Box>
       <Box maxWidth="1328px" margin="auto">
