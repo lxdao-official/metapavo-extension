@@ -23,117 +23,10 @@ const menu = (item: any, active: boolean) => (
     {item.title}
   </Box>
 );
-const appCard = (item: any) => (
-  <Box
-    height="80px"
-    width="100%"
-    display="flex"
-    justifyContent="space-between"
-    alignItems="center"
-  >
-    <Box display="flex" alignItems="center">
-      <Box
-        width="80px"
-        height="80px"
-        marginRight={3}
-        sx={{
-          border: '0.5px solid #D0D5DD',
-          borderRadius: '18px',
-        }}
-      ></Box>
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        height="100%"
-      >
-        <Typography
-          marginBottom={1}
-          fontSize="20px"
-          lineHeight="24px"
-          color="#101828"
-          fontWeight="600"
-        >
-          OpenSea
-        </Typography>
-        <Typography fontSize="14px" lineHeight="24px" color="#666F85">
-          The largest and most used NFT trading platform.
-        </Typography>
-      </Box>
-    </Box>
-    <Box width={25} height={25}>
-      <img src="/icons/star.svg" />
-    </Box>
-  </Box>
-);
-const storyCard = (item: any) => (
-  <Box
-    sx={{
-      padding: '24px 24px 30px',
-      maxWidth: '652px',
-      background:
-        'linear-gradient(95.56deg, rgba(255, 255, 255, 0.5) 10.06%, rgba(255, 255, 255, 0.5) 95.26%)',
-      border: '0.5px solid #D0D5DD',
-      borderRadius: '6px',
-    }}
-    key={item.id}
-  >
-    <Box
-      height="300px"
-      width="100%"
-      marginBottom={3}
-      borderRadius="6px"
-      sx={{
-        background: 'linear-gradient(90.5deg, #E7F0F8 0.41%, #FFFFFF 85.77%)',
-      }}
-    ></Box>
-    <Typography
-      marginBottom={1}
-      sx={{
-        fontWeight: 600,
-        fontSize: '32px',
-        lineHeight: '40px',
-        color: '#101828',
-      }}
-    >
-      Essential tools for NFT trading
-    </Typography>
-    <Typography
-      sx={{
-        fontSize: '16px',
-        lineHeight: '26px',
-        color: '#666F85',
-      }}
-    >
-      A crypto swap from the wallet & gateway to blockchain apps. Trusted by
-      over 5 million users worldwide.
-    </Typography>
-    <Box
-      sx={{
-        border: '0.5px solid #D0D5DD',
-        width: '100%',
-        margin: '24px 0',
-      }}
-    ></Box>
-    <Box>
-      <Box>{appCard({ a: 1 })}</Box>
-      <Box marginTop={3} display="flex" justifyContent="center">
-        <img
-          src="/icons/down.svg"
-          style={{ width: '24px', height: '24px', marginRight: 8 }}
-        />
-        <Typography fontSize="16px" color="#666F85" lineHeight="24px">
-          more
-        </Typography>
-      </Box>
-    </Box>
-  </Box>
-);
 export default function Dappstore() {
   const theme = useTheme();
-  const [activeMenu, setActiveMenu] = useState({
-    id: '63205c0948436d6190fe93b8',
-  });
+  const [keyword, setKeyword] = useState('');
+  const [activeMenu, setActiveMenu] = useState('63205c0948436d6190fe93b8');
   const [page, setPage] = useState(1);
   const [menuList, setMenuList] = useState([]);
   const [DappCardList, setDapps] = useState([]);
@@ -277,6 +170,161 @@ export default function Dappstore() {
     </Link>
   );
 
+  const appCard = (item: any) => (
+    <Link
+      color={'inherit'}
+      sx={{
+        textDecoration: 'none',
+      }}
+      href={item.url}
+      target="_blank"
+    >
+      <Box
+        height="80px"
+        width="100%"
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Box display="flex" alignItems="center">
+          <Box
+            width="80px"
+            height="80px"
+            marginRight={3}
+            sx={{
+              border: '0.5px solid #D0D5DD',
+              borderRadius: '18px',
+            }}
+          >
+            <img src={item.logo} style={{ width: '100%' }} />
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            height="100%"
+          >
+            <Typography
+              marginBottom={1}
+              fontSize="20px"
+              lineHeight="24px"
+              color="#101828"
+              fontWeight="600"
+            >
+              {item.title}
+            </Typography>
+            <Typography fontSize="14px" lineHeight="24px" color="#666F85">
+              {item.desc}
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          width={25}
+          height={25}
+          sx={{ cursor: 'pointer' }}
+          onClick={(e) => {
+            e.preventDefault();
+            console.log('点击收藏');
+            setCollected(item.id);
+          }}
+        >
+          {collected == item.id ? (
+            // to do yellow star
+            <img src="/icons/star.svg" style={{ color: 'yellow' }} />
+          ) : (
+            <img src="/icons/star.svg" />
+          )}
+        </Box>
+      </Box>
+    </Link>
+  );
+  const storyCard = (item: any) => {
+    let dapps = item.story_dapps_relations;
+    let showMore = false;
+    const length = item.story_dapps_relations.length;
+    if (length > 5) {
+      showMore = true;
+      dapps = item.story_dapps_relations.slice(0, 5);
+    }
+    return (
+      <Box
+        sx={{
+          padding: '24px 24px 30px',
+          maxWidth: '652px',
+          background:
+            'linear-gradient(95.56deg, rgba(255, 255, 255, 0.5) 10.06%, rgba(255, 255, 255, 0.5) 95.26%)',
+          border: '0.5px solid #D0D5DD',
+          borderRadius: '6px',
+        }}
+        key={item.id}
+      >
+        <Box
+          height="300px"
+          width="100%"
+          marginBottom={3}
+          borderRadius="6px"
+          sx={{
+            background:
+              'linear-gradient(90.5deg, #E7F0F8 0.41%, #FFFFFF 85.77%)',
+          }}
+        ></Box>
+        <Typography
+          marginBottom={1}
+          sx={{
+            fontWeight: 600,
+            fontSize: '32px',
+            lineHeight: '40px',
+            color: '#101828',
+          }}
+        >
+          Essential tools for NFT trading
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: '16px',
+            lineHeight: '26px',
+            color: '#666F85',
+          }}
+        >
+          A crypto swap from the wallet & gateway to blockchain apps. Trusted by
+          over 5 million users worldwide.
+        </Typography>
+        <Box
+          sx={{
+            border: '0.5px solid #D0D5DD',
+            width: '100%',
+            margin: '24px 0',
+          }}
+        ></Box>
+        <Box>
+          <Box display="flex" gap="24px" flexDirection="column">
+            {dapps.map((dapp: any) => appCard(dapp?.dapp))}
+          </Box>
+          {showMore && (
+            <Box
+              marginTop={3}
+              display="flex"
+              justifyContent="center"
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                showMore = false;
+                dapps = item.story_dapps_relations;
+              }}
+            >
+              <img
+                src="/icons/down.svg"
+                style={{ width: '24px', height: '24px', marginRight: 8 }}
+              />
+              <Typography fontSize="16px" color="#666F85" lineHeight="24px">
+                more
+              </Typography>
+            </Box>
+          )}
+        </Box>
+      </Box>
+    );
+  };
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setStoryTab(newValue);
     setHasMore(false);
@@ -302,8 +350,10 @@ export default function Dappstore() {
     setMenuList(json1.data);
   };
   const getDapps = async () => {
+    console.log('getDapps', page);
+    //https://api.metapavo.xyz/dapps/by_page?pageIndex=2&pageSize=2&categoryId=63205c3b48436d6190fe93bc
     const r2: any = await fetch(
-      `${HTTPURL}/dapps?pageIndex=${page}&pageSize=10&categoryId=${activeMenu}`,
+      `${HTTPURL}/dapps/by_page?pageIndex=${page}&pageSize=8&categoryId=${activeMenu}`,
       {
         method: 'GET',
         headers: {
@@ -313,7 +363,14 @@ export default function Dappstore() {
       },
     );
     const json2 = await r2.json();
-    let data = json2.data.slice(0, 9);
+    let data = json2.data.data;
+    const pages = Math.ceil(json2.data.totalCount / 8);
+    let arr = [];
+    for (let i = 0; i < pages; i++) {
+      arr.push(i + 1);
+    }
+    console.log(json2.data, arr);
+    setDappsCount(arr);
     setDapps(data);
   };
   const getStoryCategories = async () => {
@@ -357,7 +414,7 @@ export default function Dappstore() {
   }, []);
   useEffect(() => {
     getDapps();
-  }, [activeMenu, page]);
+  }, [activeMenu, page, keyword]);
   return (
     <LayoutDapps title="admin" description={'admin'}>
       <Box
@@ -387,6 +444,10 @@ export default function Dappstore() {
           <DebouncedInput
             placeholder="Search collection/address/.."
             sx={{ background: '#fff', minHeight: '48px' }}
+            onChange={(val: any) => {
+              setKeyword(val);
+              setPage(1);
+            }}
           />
         </Box>
       </Box>
@@ -405,7 +466,10 @@ export default function Dappstore() {
           {menuList && menuList.length > 0
             ? menuList.map((item: any) => (
                 <Box
-                  onClick={() => setActiveMenu(item.id)}
+                  onClick={() => {
+                    setActiveMenu(item.id);
+                    setPage(1);
+                  }}
                   width="auto"
                   key={item.id}
                 >
