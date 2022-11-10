@@ -28,40 +28,105 @@ const typeMenu = (title: any, list: any) => (
             window.open(item.url);
           }}
         >
-          <Box
-            sx={{
-              padding: '16px 14px',
-              display: 'flex',
-              alignItems: 'center',
-              background: '#FFFFFF',
-              border: '0.5px solid #D0D5DD',
-              borderRadius: '6px',
-            }}
-          >
-            <img
-              src={item.logo}
-              style={{
-                width: '32px',
-                height: '32px',
-                marginRight: '16px',
-                borderRadius: '6px',
-              }}
-            />
-            <Typography
-              sx={{
-                fontWeight: 600,
-                fontSize: '20px',
-                lineHeight: '24px',
-                display: 'flex',
-                alignItems: 'center',
-                color: '#101828',
-              }}
-            >
-              {item.name || item.title}
-            </Typography>
-          </Box>
+          {title == 'Tokens' ? tokenCard(item) : appCard(item)}
         </Link>
       ))}
+    </Box>
+  </Box>
+);
+const appCard = (item: any) => (
+  <Box
+    sx={{
+      padding: '16px 14px',
+      display: 'flex',
+      alignItems: 'center',
+      background: '#FFFFFF',
+      border: '0.5px solid #D0D5DD',
+      borderRadius: '6px',
+    }}
+  >
+    <img
+      src={item.logo}
+      style={{
+        width: '32px',
+        height: '32px',
+        marginRight: '16px',
+        borderRadius: '6px',
+      }}
+    />
+    <Typography
+      sx={{
+        fontWeight: 600,
+        fontSize: '20px',
+        lineHeight: '24px',
+        display: 'flex',
+        alignItems: 'center',
+        color: '#101828',
+      }}
+    >
+      {item.name || item.title}
+    </Typography>
+  </Box>
+);
+const tokenCard = (item: any) => (
+  <Box
+    width="300px"
+    sx={{
+      padding: '16px 14px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      background: '#FFFFFF',
+      border: '0.5px solid #D0D5DD',
+      borderRadius: '6px',
+    }}
+  >
+    <Box display="flex" alignItems="center">
+      <img
+        src={item.logo}
+        style={{
+          width: '32px',
+          height: '32px',
+          marginRight: '16px',
+          borderRadius: '6px',
+        }}
+      />
+      <Typography
+        sx={{
+          fontWeight: 600,
+          fontSize: '20px',
+          lineHeight: '24px',
+          display: 'flex',
+          alignItems: 'center',
+          color: '#101828',
+        }}
+      >
+        {item.name || item.title}
+      </Typography>
+    </Box>
+    <Box>
+      <Typography
+        fontWeight={600}
+        fontSize="16px"
+        lineHeight="19px"
+        color="#4DCC9E"
+        marginBottom="20px"
+      >
+        $ 21035.26
+      </Typography>
+      <Box display="flex" alignItems="center">
+        <img
+          src={item.up ? '/icons/line-up.svg' : '/icons/line-down.svg'}
+          style={{ width: '14px', height: '6px', marginRight: '8px' }}
+        />
+        <Typography
+          color={item.up ? '#4DCC9E' : '#FF6E6E'}
+          fontSize="14px"
+          lineHeight="24px"
+        >
+          +1.39%
+        </Typography>
+      </Box>
     </Box>
   </Box>
 );
