@@ -97,7 +97,9 @@ function SearchTab({ keywords, onClick }: any) {
     if (json1 && json1.data.records) {
       json1.data.records.map((fav: any) => {
         if (fav.nftProjectInfo) {
-          fav.url = projectLinksWrapper(fav.nftProjectInfo).links;
+          const pp = projectLinksWrapper(fav.nftProjectInfo);
+          console.log(pp);
+          fav.url = pp.links?.opensea;
         }
       });
       setNFTList(json1.data.records);
@@ -120,7 +122,7 @@ function SearchTab({ keywords, onClick }: any) {
     if (json1 && json1.data) {
       json1.data.map((fav: any) => {
         if (fav) {
-          fav.url = projectLinksWrapper(fav).links;
+          fav.url = `https://coinmarketcap.com/zh/currencies/${fav.slug}/`;
         }
       });
       setTokensList(json1.data);
