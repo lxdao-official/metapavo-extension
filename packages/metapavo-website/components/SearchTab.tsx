@@ -17,9 +17,16 @@ const typeMenu = (title: any, list: any) => (
           color={'inherit'}
           sx={{
             textDecoration: 'none',
+            cursor: 'pointer',
           }}
           href={item.url}
           target="_blank"
+          key={item.id}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.open(item.url);
+          }}
         >
           <Box
             sx={{
@@ -58,7 +65,7 @@ const typeMenu = (title: any, list: any) => (
     </Box>
   </Box>
 );
-function SearchTab({ keywords, onClick }: any) {
+function SearchTab({ keywords }: any) {
   const [NFTList, setNFTList] = useState([]);
   const [DappsList, setDappsList] = useState([]);
   const [TokensList, setTokensList] = useState([]);
@@ -98,8 +105,7 @@ function SearchTab({ keywords, onClick }: any) {
       json1.data.records.map((fav: any) => {
         if (fav.nftProjectInfo) {
           const pp = projectLinksWrapper(fav.nftProjectInfo);
-          console.log(pp);
-          fav.url = pp.links?.opensea;
+          fav.url = pp.links?.nftnerds;
         }
       });
       setNFTList(json1.data.records);
@@ -154,11 +160,11 @@ function SearchTab({ keywords, onClick }: any) {
         borderRadius: '6px',
         background: '#fff',
         display: serachShow ? '' : 'none',
+        zIndex: 3,
       }}
-      onClick={(e) => onClick(e)}
     >
-      {menuList.map((menu) => (
-        <Box marginBottom={1}>
+      {menuList.map((menu: any) => (
+        <Box marginBottom={3} key={menu.id}>
           {menu.list && menu.list.length > 0
             ? typeMenu(menu.name, menu.list)
             : null}
