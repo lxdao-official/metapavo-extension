@@ -1,6 +1,8 @@
 import { Box, Link, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
+import { projectLinksWrapper } from '../common/project_wrapper';
+
 const typeMenu = (title: any, list: any) => (
   <Box>
     <Typography
@@ -56,7 +58,7 @@ const typeMenu = (title: any, list: any) => (
     </Box>
   </Box>
 );
-function SearchTab({ keywords }: any) {
+function SearchTab({ keywords, onClick }: any) {
   const [NFTList, setNFTList] = useState([]);
   const [DappsList, setDappsList] = useState([]);
   const [TokensList, setTokensList] = useState([]);
@@ -92,7 +94,14 @@ function SearchTab({ keywords }: any) {
     );
 
     const json1 = await r1.json();
-    setNFTList(json1.data.records);
+    if (json1 && json1.data.records) {
+      json1.data.records.map((fav: any) => {
+        if (fav.nftProjectInfo) {
+          fav.url = projectLinksWrapper(fav.nftProjectInfo).links;
+        }
+      });
+      setNFTList(json1.data.records);
+    }
   };
   const getTokens = async () => {
     const r1: any = await fetch(
@@ -108,7 +117,14 @@ function SearchTab({ keywords }: any) {
     );
 
     const json1 = await r1.json();
-    setTokensList(json1.data);
+    if (json1 && json1.data) {
+      json1.data.map((fav: any) => {
+        if (fav) {
+          fav.url = projectLinksWrapper(fav).links;
+        }
+      });
+      setTokensList(json1.data);
+    }
   };
   useEffect(() => {
     if (keywords) {
@@ -137,6 +153,7 @@ function SearchTab({ keywords }: any) {
         background: '#fff',
         display: serachShow ? '' : 'none',
       }}
+      onClick={(e) => onClick(e)}
     >
       {menuList.map((menu) => (
         <Box marginBottom={1}>

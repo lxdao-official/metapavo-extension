@@ -449,7 +449,15 @@ export default function Dappstore() {
             onFocus={() => setSearchMenu(true)}
             onBlur={() => setSearchMenu(false)}
           />
-          {showSearchMenu && <SearchTab keywords={keyword} />}
+          {showSearchMenu && (
+            <SearchTab
+              keywords={keyword}
+              onClick={(e: any) => {
+                e.preventDefault();
+                setSearchMenu(true);
+              }}
+            />
+          )}
         </Box>
       </Box>
       <Box maxWidth="1328px" margin="auto">
