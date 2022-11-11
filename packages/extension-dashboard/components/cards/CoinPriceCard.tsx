@@ -10,7 +10,7 @@ export default function CoinPriceCard(props: { symbol: string }) {
   const chartRef = useRef<any>();
   const loadBTC = async () => {
     const res = await fetch(
-      `https://api.binance.com/api/v3/klines?symbol=${props.symbol}&interval=5m`,
+      `https://api.binance.com/api/v3/klines?symbol=${props.symbol}&interval=15m`,
       {
         method: 'GET',
         headers: {
@@ -22,15 +22,21 @@ export default function CoinPriceCard(props: { symbol: string }) {
     const json = await res.json();
     const btcPrices: any[] = [];
     const lastDayBTCPrices: any[] = [];
-    const lastDayStart = moment().subtract(1, 'days').startOf('day');
-    const lastDayEnd = moment().subtract(1, 'days').endOf('day');
-    const todayStart = moment().startOf('day');
-    const todayEnd = moment().endOf('day');
+    const lastDayStart = moment()
+      .subtract(1, 'days')
+      .startOf('day')
+      .toDate()
+      .getTime();
+    const lastDayEnd = moment()
+      .subtract(1, 'days')
+      .endOf('day')
+      .toDate()
+      .getTime();
+    const todayStart = moment().startOf('day').toDate().getTime();
+    const todayEnd = moment().endOf('day').toDate().getTime();
     json.forEach((item: any) => {
-      const t = item[0];
+      const t = Number(item[0]);
       const gas = item[1];
-      const _t = moment(t).format('HH:mm');
-      const _gas = Math.floor(gas);
       if (t > lastDayStart && t < lastDayEnd) {
         lastDayBTCPrices.push({
           t: t,

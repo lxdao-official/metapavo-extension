@@ -1,16 +1,19 @@
 import { Box, Grid } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { UserContext } from '../../context/useUser';
 import { getUsersFavs } from '../../utils/apis/nft_api';
 import { projectLinksWrapper } from '../../utils/apis/project_wrapper';
 import { favs } from '../../utils/apis/types';
+import { getLang } from '../../utils/lang';
 import NFTCard from '../cards/NFTCard';
 
 export default function CollectedNFTs() {
+  const { token } = useContext(UserContext);
   const [groupedFavs, setGroupedFavs] = useState<favs[][]>([]);
   const pageEle = useRef(null);
   const loadFavs = async () => {
@@ -52,48 +55,79 @@ export default function CollectedNFTs() {
         width: '100%',
       }}
     >
-      <Swiper
-        slidesPerView={1}
-        style={{ width: '100%' }} // install Swiper modules
-        modules={[Pagination]}
-        pagination={{ clickable: true, el: pageEle.current }}
-      >
-        {groupedFavs.map((group) => {
-          return (
-            <SwiperSlide>
-              <Grid container spacing={2}>
-                {group.map((fav) => {
-                  if (fav.project) {
-                    return (
-                      <Grid item xs={3}>
-                        <NFTCard activeProject={fav.project}></NFTCard>
-                      </Grid>
-                    );
-                  }
-                  return <></>;
-                })}
-              </Grid>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'flex-end',
-          height: '25px',
-        }}
-      >
+      {token ? (
+        groupedFavs.length == 0 ? (
+          <div
+            style={{
+              textAlign: 'left',
+              width: '100%',
+              fontSize: '14px',
+              lineHeight: '50px',
+              paddingLeft: '10px',
+            }}
+          >
+            {getLang('no_nfts')}
+          </div>
+        ) : (
+          <>
+            <Swiper
+              slidesPerView={1}
+              style={{ width: '100%' }} // install Swiper modules
+              modules={[Pagination]}
+              pagination={{ clickable: true, el: pageEle.current }}
+            >
+              {groupedFavs.map((group) => {
+                return (
+                  <SwiperSlide>
+                    <Grid container spacing={2}>
+                      {group.map((fav) => {
+                        if (fav.project) {
+                          return (
+                            <Grid item xs={3}>
+                              <NFTCard activeProject={fav.project}></NFTCard>
+                            </Grid>
+                          );
+                        }
+                        return <></>;
+                      })}
+                    </Grid>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+                height: '25px',
+              }}
+            >
+              <div
+                ref={pageEle}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              ></div>
+            </div>
+          </>
+        )
+      ) : (
         <div
-          ref={pageEle}
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            textAlign: 'left',
+            width: '100%',
+            fontSize: '14px',
+            lineHeight: '50px',
+            paddingLeft: '10px',
+            color: '#666',
           }}
-        ></div>
-      </div>
+        >
+          {getLang('not_login_for_module')}
+        </div>
+      )}
     </Box>
   );
 }

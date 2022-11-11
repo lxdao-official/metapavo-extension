@@ -17,10 +17,11 @@ import {
   Text,
   Tooltip,
 } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import config from '../../config';
+import { UserContext } from '../../context/useUser';
 import { dapps, user_dapps, user_dapps_catogories } from '../../utils/apis';
 import { getViewLogs } from '../../utils/apis/dapps_api';
 import { fetchWrapped } from '../../utils/apis/fetch';
@@ -34,6 +35,7 @@ type UserDapp = user_dapps & {
 };
 
 export default function InstallDAPPs() {
+  const { token } = useContext(UserContext);
   const [dapps, setDapps] = useState<dapps[]>([]);
   const [showAddCategory, setshowAddCategory] = useState(false);
   const [addCategoryTitle, setaddCategoryTitle] = useState('');
@@ -169,159 +171,178 @@ export default function InstallDAPPs() {
         width: '100%',
       }}
     >
-      <div
-        style={{
-          marginBottom: '10px',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            gap: '0 5px',
-          }}
-        >
+      {token ? (
+        <>
           <div
-            onClick={() => {
-              activeCategory('recent');
-            }}
             style={{
-              fontSize: '12px',
-              padding: '0px 10px',
-              lineHeight: '26px',
-              borderRadius: '13px',
-              cursor: 'pointer',
-              background: activeCategoryId == 'recent' ? '#9f50ff' : '#fff',
-              color: activeCategoryId == 'recent' ? '#fff' : '#444',
+              marginBottom: '10px',
             }}
           >
-            {getLang('recently_visited')}
-          </div>
-          <div
-            onClick={() => {
-              activeCategory('ungrouped');
-            }}
-            style={{
-              fontSize: '12px',
-              padding: '0px 10px',
-              lineHeight: '26px',
-              borderRadius: '13px',
-              cursor: 'pointer',
-              background: activeCategoryId == 'ungrouped' ? '#9f50ff' : '#fff',
-              color: activeCategoryId == 'ungrouped' ? '#fff' : '#444',
-            }}
-          >
-            {getLang('ungrouped')}
-          </div>
-
-          {user_categories.map((cat) => (
             <div
-              onClick={() => {
-                activeCategory(cat.id);
-              }}
               style={{
-                fontSize: '12px',
-                padding: '0px 10px',
-                lineHeight: '26px',
-                borderRadius: '13px',
-                cursor: 'pointer',
-                background: activeCategoryId === cat.id ? '#9f50ff' : '#fff',
-                color: activeCategoryId == cat.id ? '#fff' : '#444',
+                display: 'flex',
+                justifyContent: 'flex-start',
+                gap: '0 5px',
               }}
             >
-              {cat.title}
-            </div>
-          ))}
-          <Box
-            onClick={() => {
-              showModal();
-            }}
-            sx={{
-              lineHeight: '26px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              padding: '0 6px',
-              '&:hover': {
-                background: '#f5f5f5',
-              },
-              borderRadius: '5px',
-            }}
-          >
-            <Tooltip
-              content={getLang('add_your_own_dapp_group')}
-              rounded
-              color="secondary"
-            >
-              <AddCircleOutlineIcon
-                style={{ fontSize: '18px', color: '#9f50ff' }}
-              />
-            </Tooltip>
-          </Box>
-        </div>
-      </div>
-      <Grid container spacing={1}>
-        {dapps.length == 0 && (
-          <div
-            style={{
-              textAlign: 'left',
-              width: '100%',
-              fontSize: '14px',
-              lineHeight: '50px',
-              paddingLeft: '10px',
-            }}
-          >
-            {getLang('no_dapps')}
-          </div>
-        )}
-        {dapps.map((dapp) => {
-          return (
-            <Grid item xs={2}>
-              <Box
-                sx={{
-                  position: 'relative',
-                  '& .icon': {
-                    display: 'none',
-                  },
-                  '&:hover': {
-                    '& .icon': {
-                      display: 'block',
-                    },
-                  },
+              <div
+                onClick={() => {
+                  activeCategory('recent');
+                }}
+                style={{
+                  fontSize: '12px',
+                  padding: '0px 10px',
+                  lineHeight: '26px',
+                  borderRadius: '13px',
+                  cursor: 'pointer',
+                  background: activeCategoryId == 'recent' ? '#9f50ff' : '#fff',
+                  color: activeCategoryId == 'recent' ? '#fff' : '#444',
                 }}
               >
-                <DappCard dapp={dapp} />
-                <a
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    uninstallDapp(dapp.id);
+                {getLang('recently_visited')}
+              </div>
+              <div
+                onClick={() => {
+                  activeCategory('ungrouped');
+                }}
+                style={{
+                  fontSize: '12px',
+                  padding: '0px 10px',
+                  lineHeight: '26px',
+                  borderRadius: '13px',
+                  cursor: 'pointer',
+                  background:
+                    activeCategoryId == 'ungrouped' ? '#9f50ff' : '#fff',
+                  color: activeCategoryId == 'ungrouped' ? '#fff' : '#444',
+                }}
+              >
+                {getLang('ungrouped')}
+              </div>
+
+              {user_categories.map((cat) => (
+                <div
+                  onClick={() => {
+                    activeCategory(cat.id);
                   }}
                   style={{
-                    position: 'absolute',
-                    right: '-10px',
-                    top: '-10px',
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    background: '#fff',
+                    fontSize: '12px',
+                    padding: '0px 10px',
+                    lineHeight: '26px',
+                    borderRadius: '13px',
                     cursor: 'pointer',
+                    background:
+                      activeCategoryId === cat.id ? '#9f50ff' : '#fff',
+                    color: activeCategoryId == cat.id ? '#fff' : '#444',
                   }}
-                  className="icon"
                 >
-                  <HighlightOffIcon
-                    style={{
-                      width: '20px',
-                      fontSize: '20px',
-                      color: '#5B28EB',
-                    }}
+                  {cat.title}
+                </div>
+              ))}
+              <Box
+                onClick={() => {
+                  showModal();
+                }}
+                sx={{
+                  lineHeight: '26px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0 6px',
+                  '&:hover': {
+                    background: '#f5f5f5',
+                  },
+                  borderRadius: '5px',
+                }}
+              >
+                <Tooltip
+                  content={getLang('add_your_own_dapp_group')}
+                  rounded
+                  color="secondary"
+                >
+                  <AddCircleOutlineIcon
+                    style={{ fontSize: '18px', color: '#9f50ff' }}
                   />
-                </a>
+                </Tooltip>
               </Box>
-            </Grid>
-          );
-        })}
-      </Grid>
+            </div>
+          </div>
+          <Grid container spacing={1}>
+            {dapps.length == 0 && (
+              <div
+                style={{
+                  textAlign: 'left',
+                  width: '100%',
+                  fontSize: '14px',
+                  lineHeight: '50px',
+                  paddingLeft: '10px',
+                }}
+              >
+                {getLang('no_dapps')}
+              </div>
+            )}
+            {dapps.map((dapp) => {
+              return (
+                <Grid item xs={2}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      '& .icon': {
+                        display: 'none',
+                      },
+                      '&:hover': {
+                        '& .icon': {
+                          display: 'block',
+                        },
+                      },
+                    }}
+                  >
+                    <DappCard dapp={dapp} />
+                    <a
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        uninstallDapp(dapp.id);
+                      }}
+                      style={{
+                        position: 'absolute',
+                        right: '-10px',
+                        top: '-10px',
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '50%',
+                        background: '#fff',
+                        cursor: 'pointer',
+                      }}
+                      className="icon"
+                    >
+                      <HighlightOffIcon
+                        style={{
+                          width: '20px',
+                          fontSize: '20px',
+                          color: '#5B28EB',
+                        }}
+                      />
+                    </a>
+                  </Box>
+                </Grid>
+              );
+            })}
+          </Grid>
+        </>
+      ) : (
+        <div
+          style={{
+            textAlign: 'left',
+            width: '100%',
+            fontSize: '14px',
+            lineHeight: '50px',
+            paddingLeft: '10px',
+            color: '#666',
+          }}
+        >
+          {getLang('not_login_for_module')}
+        </div>
+      )}
       <Modal
         closeButton
         aria-labelledby="modal-title"

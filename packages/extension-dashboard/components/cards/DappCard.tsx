@@ -23,6 +23,7 @@ export default function DappCard(props: { dapp: dapps }) {
         borderRadius: '5px',
         border: '1px solid #efefef',
         position: 'relative',
+        marginBottom: '0',
         '& .icon': {
           display: 'none',
         },

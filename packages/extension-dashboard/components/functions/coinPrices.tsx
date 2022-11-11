@@ -12,7 +12,11 @@ import CardModule from '../CardModule';
 import CoinPriceCard from '../cards/CoinPriceCard';
 
 const STORE_KEY = 'coinPrices_2';
-export default function CoinPrices() {
+export default function CoinPrices(props: {
+  id?: string;
+  index?: number;
+  moveCard?: (dragIndex: number, hoverIndex: number) => void;
+}) {
   const [symbols, setsymbols] = useState<string[]>([]);
 
   async function loadConfig() {
@@ -47,6 +51,9 @@ export default function CoinPrices() {
           Add
         </a>
       }
+      id={props.id}
+      index={props.index}
+      moveCard={props.moveCard}
     >
       <Box
         mt={2}

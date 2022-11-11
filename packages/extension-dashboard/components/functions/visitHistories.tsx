@@ -104,6 +104,7 @@ export default function VisitHistories() {
                           background: '#fff',
                           borderRadius: '5px',
                           border: '1px solid #efefef',
+                          marginBottom: '0',
                         }}
                         onClick={() => {
                           window.location.href = `${u.url}`;

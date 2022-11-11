@@ -1,14 +1,16 @@
-import { Tooltip } from "@mui/material";
-import { useEffect } from "react";
-import styled from "styled-components";
-import { getLang } from "../../../utils/lang";
-import ConnectWallet from "./ConnectWallet";
+import { Tooltip } from '@mui/material';
+import { useEffect } from 'react';
+import styled from 'styled-components';
+
+import { getLang } from '../../../utils/lang';
+import ConnectWallet from './ConnectWallet';
+
 const Page = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
 `;
-const index_logo = chrome.runtime.getURL("images/index-logo.png");
+const index_logo = chrome.runtime.getURL('images/index-logo.png');
 const Banner = styled.img``;
 const MainBody = styled.div`
   text-align: center;
@@ -21,7 +23,7 @@ const DescText = styled.div`
   width: 379px;
   margin: 10px auto;
 
-  font-family: "Inter";
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -35,7 +37,7 @@ const DescText = styled.div`
   color: #9e9aaf;
 `;
 const TitleText = styled.div`
-  font-family: "Inter";
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 25px;
@@ -68,16 +70,20 @@ const SecurityLink = styled.a`
 
 const SingleLoginPage = () => {
   useEffect(() => {}, []);
-  const mainImage = chrome.runtime.getURL("images/login-banner.png");
+  const mainImage = chrome.runtime.getURL('images/login-banner.png');
   return (
     <Page>
-      <Banner src={mainImage} alt="" style={{ width: "auto", height: "100vh" }} />
-      <div style={{ flex: 1, alignItems: "center", display: "flex" }}>
+      <Banner
+        src={mainImage}
+        alt=""
+        style={{ width: 'auto', height: '100vh' }}
+      />
+      <div style={{ flex: 1, alignItems: 'center', display: 'flex' }}>
         <MainBody>
           <TitleText>
-            <img src={index_logo} alt="" style={{ width: "263px" }} />
+            <img src={index_logo} alt="" style={{ width: '263px' }} />
           </TitleText>
-          <DescText>{getLang("LoginDesc")}</DescText>
+          <DescText>{getLang('LoginDesc')}</DescText>
           <ButtonContainer>
             <ConnectWallet
               loginSuccess={() => {
@@ -85,12 +91,12 @@ const SingleLoginPage = () => {
               }}
             />
           </ButtonContainer>
-          <Tooltip title={getLang("security_desc")}>
+          <Tooltip title={getLang('security_desc')}>
             <SecurityLink
               href="https://www.notion.so/lxdao/User-Security-Manual-fda56105aa4a4960932f854a7f907f9f"
-              target={"_blank"}
+              target={'_blank'}
             >
-              {getLang("User_Security_Manual")}
+              {getLang('User_Security_Manual')}
             </SecurityLink>
           </Tooltip>
         </MainBody>

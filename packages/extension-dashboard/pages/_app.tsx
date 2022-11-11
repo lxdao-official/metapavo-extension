@@ -11,6 +11,7 @@ import { WagmiConfig, chain, configureChains, createClient } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
+import useUser, { UserContext } from '../context/useUser';
 import '../styles/globals.css';
 
 const { chains, provider } = configureChains(
@@ -42,13 +43,16 @@ const theme = createTheme({
   },
 });
 function MyApp({ Component, pageProps }: AppProps) {
+  const userinfo = useUser();
   return (
     <NextUIProvider theme={theme}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains} initialChain={chain.polygon}>
-          <>
-            <Component {...pageProps} /> <Toaster />
-          </>
+          <UserContext.Provider value={userinfo}>
+            <>
+              <Component {...pageProps} /> <Toaster />
+            </>
+          </UserContext.Provider>
         </RainbowKitProvider>
       </WagmiConfig>
     </NextUIProvider>

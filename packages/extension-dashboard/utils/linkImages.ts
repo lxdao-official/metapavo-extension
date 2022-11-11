@@ -35,4 +35,10 @@ export const linkImages = {
   get sudoswap() {
     return chrome.runtime.getURL('images/sudoswap.png');
   },
+  get uniswap() {
+    return chrome.runtime.getURL('images/uniswap.png');
+  },
+  get coinmarketcap() {
+    return chrome.runtime.getURL('images/coinmarketcap.png');
+  },
 };

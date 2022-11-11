@@ -137,7 +137,22 @@
   "no_dapps": {
     "message": "此分类暂无 DAPPs"
   },
+  "no_nfts": {
+    "message": "暂无 NFTs, 请搜索以添加"
+  },
   "recently_visited": {
     "message": "最近访问"
+  },
+  "not_login_for_module": {
+    "message": "查看此信息前请先登录"
+  },
+  "low24h": {
+    "message": "24h 最低价"
+  },
+  "high24h": {
+    "message": "24h 最高价"
+  },
+  "MyNFTs": {
+    "message": "我持有的 NFTs"
   }
 }

@@ -137,7 +137,22 @@
   "no_dapps": {
     "message": "No DAPPs in this group"
   },
+  "no_nfts": {
+    "message": "No NFTs"
+  },
   "recently_visited": {
     "message": "Recent Visited"
+  },
+  "not_login_for_module": {
+    "message": "Please login to use this module"
+  },
+  "low24h": {
+    "message": "Low 24h"
+  },
+  "high24h": {
+    "message": "High 24h"
+  },
+  "MyNFTs": {
+    "message": "My NFTs"
   }
 }

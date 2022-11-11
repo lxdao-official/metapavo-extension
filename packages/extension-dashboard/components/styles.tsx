@@ -197,6 +197,7 @@ export const NFTCardRoot = styled.div`
     }
     .mp-success-verified {
       margin-left: 8px;
+      min-width: 16px;
     }
   }
 
@@ -279,4 +280,124 @@ export const AddWatchButton = styled.button`
   padding-right: 20px !important;
   padding-left: 10px !important;
   font-size: 12px !important;
+`;
+
+export const TokenCardRoot = styled.div`
+  width: 100%;
+  border: 1px solid #efefef;
+  border-radius: 5px;
+  background: #fff;
+  padding: 10px;
+
+  .mp-success-hd {
+    display: flex;
+    justify-content: flex-start;
+    height: 30px;
+    align-items: center;
+    img {
+      width: 24px;
+      height: 24px;
+
+      border-radius: 5px;
+
+      /* Inside auto layout */
+
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+    }
+    .mp-success-title {
+      height: 19px;
+      margin-left: 8px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 19px;
+      display: flex;
+
+      text-align: left;
+      color: #252525;
+      overflow: hidden;
+      align-items: flex-start;
+    }
+    .mp-success-verified {
+      margin-left: 8px;
+      min-width: 16px;
+    }
+  }
+
+  .mp-success-bd {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .mp-success-bd-price {
+    width: 100%;
+    margin-top: 6px;
+  }
+  .mp-success-price-item {
+    font-style: normal;
+    font-size: 12px;
+    line-height: 20px;
+    color: #979797;
+    display: block;
+    svg {
+      vertical-align: -2px;
+      margin-right: 3px;
+    }
+  }
+  .mp-success-links {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    margin-top: 5px;
+    button {
+      width: 72px;
+      height: 25px;
+      background: linear-gradient(
+        91.75deg,
+        #7de2ac 0%,
+        #389dfa 49.26%,
+        #9f50ff 97.76%
+      );
+      border-radius: 4px;
+      color: #fff;
+      font-size: 12px;
+      line-height: 25px;
+      border: none;
+      cursor: pointer;
+    }
+  }
+  .mp-success-links-left {
+    width: 80%;
+    overflow-x: auto;
+    position: relative;
+    bahavior: smooth;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .mp-success-links-left {
+    display: flex;
+    justify-content: flex-start;
+    line-height: 20px;
+    height: 20px;
+    align-items: center;
+    gap: 6px 6px;
+    a {
+      width: 16px;
+      height: 16px;
+      box-sizing: content-box;
+      display: block;
+      img {
+        width: 16px;
+        height: 16px;
+        max-width: 16px;
+        min-width: 16px;
+        vertical-align: 5px;
+        display: block;
+      }
+    }
+  }
 `;

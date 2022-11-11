@@ -2,19 +2,15 @@ import { NoSsr } from '@mui/material';
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import styled from 'styled-components';
 import { useEnsName } from 'wagmi';
 
+import { UserContext } from '../context/useUser';
 import styles from '../styles/Home.module.css';
-import { users } from '../utils/apis';
-import { fetchWrapped } from '../utils/apis/fetch';
-import {
-  colorfulButtonStyle,
-  colorfulTextStyle,
-} from '../utils/common-colorful-button';
+import { colorfulTextStyle } from '../utils/common-colorful-button';
 
 const IndexComponent = dynamic(() => import('../components/pages/Index'), {
   ssr: false,
@@ -35,30 +31,12 @@ function AddressSPAN(props: { address: string }) {
   return <AddressButton>{data}</AddressButton>;
 }
 
-const LoginButton = styled.button`
-  ${colorfulButtonStyle}
-`;
 const Home: NextPage = () => {
-  const [userInfo, setUserInfo] = useState<users>();
+  const { user, logout, fetchLoginInfo } = useContext(UserContext);
 
-  async function fetchLoginInfo() {
-    return new Promise((resolve, reject) => {
-      fetchWrapped(process.env.NEXT_PUBLIC_APIBASE + '/users/me', {
-        method: 'GET',
-      })
-        .then((json) => {
-          if (json?.data?.address) {
-            setUserInfo(json.data);
-          } else {
-            reject();
-          }
-        })
-        .catch(reject);
-    });
-  }
-  async function logout() {
-    chrome.storage.local.set({ access_token: '' }, function () {});
-    gotoLogin();
+  async function _logout() {
+    logout();
+    window.location.reload();
   }
   async function gotoLogin() {
     chrome.tabs.create({
@@ -86,12 +64,12 @@ const Home: NextPage = () => {
         <header className={styles.head}>
           <div className={styles.headInner}>
             <img src={indexLogoURL} style={{ height: '25px' }} />
-            {userInfo?.address ? (
+            {user?.address ? (
               <span>
-                <AddressSPAN address={userInfo.address} />
+                <AddressSPAN address={user.address} />
                 <a
                   onClick={() => {
-                    logout();
+                    _logout();
                   }}
                 >
                   Logout

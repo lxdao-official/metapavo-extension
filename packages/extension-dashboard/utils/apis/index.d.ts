@@ -248,6 +248,14 @@ export type tokens = {
   created_at: Date
   updated_at: Date | null
   isAudited: boolean
+  volume24h: number | null
+  volume7d: number | null
+  volume30d: number | null
+  marketCap: number | null
+  percentChange24h: number | null
+  percentChange7d: number | null
+  percentChange1h: number | null
+  price: number | null
 }
 
 
@@ -14922,6 +14930,14 @@ export namespace Prisma {
     high24h: number | null
     low24h: number | null
     isActive: number | null
+    volume24h: number | null
+    volume7d: number | null
+    volume30d: number | null
+    marketCap: number | null
+    percentChange24h: number | null
+    percentChange7d: number | null
+    percentChange1h: number | null
+    price: number | null
   }
 
   export type TokensSumAggregateOutputType = {
@@ -14936,6 +14952,14 @@ export namespace Prisma {
     high24h: number | null
     low24h: number | null
     isActive: number | null
+    volume24h: number | null
+    volume7d: number | null
+    volume30d: number | null
+    marketCap: number | null
+    percentChange24h: number | null
+    percentChange7d: number | null
+    percentChange1h: number | null
+    price: number | null
   }
 
   export type TokensMinAggregateOutputType = {
@@ -14959,6 +14983,14 @@ export namespace Prisma {
     created_at: Date | null
     updated_at: Date | null
     isAudited: boolean | null
+    volume24h: number | null
+    volume7d: number | null
+    volume30d: number | null
+    marketCap: number | null
+    percentChange24h: number | null
+    percentChange7d: number | null
+    percentChange1h: number | null
+    price: number | null
   }
 
   export type TokensMaxAggregateOutputType = {
@@ -14982,6 +15014,14 @@ export namespace Prisma {
     created_at: Date | null
     updated_at: Date | null
     isAudited: boolean | null
+    volume24h: number | null
+    volume7d: number | null
+    volume30d: number | null
+    marketCap: number | null
+    percentChange24h: number | null
+    percentChange7d: number | null
+    percentChange1h: number | null
+    price: number | null
   }
 
   export type TokensCountAggregateOutputType = {
@@ -15005,6 +15045,14 @@ export namespace Prisma {
     created_at: number
     updated_at: number
     isAudited: number
+    volume24h: number
+    volume7d: number
+    volume30d: number
+    marketCap: number
+    percentChange24h: number
+    percentChange7d: number
+    percentChange1h: number
+    price: number
     _all: number
   }
 
@@ -15021,6 +15069,14 @@ export namespace Prisma {
     high24h?: true
     low24h?: true
     isActive?: true
+    volume24h?: true
+    volume7d?: true
+    volume30d?: true
+    marketCap?: true
+    percentChange24h?: true
+    percentChange7d?: true
+    percentChange1h?: true
+    price?: true
   }
 
   export type TokensSumAggregateInputType = {
@@ -15035,6 +15091,14 @@ export namespace Prisma {
     high24h?: true
     low24h?: true
     isActive?: true
+    volume24h?: true
+    volume7d?: true
+    volume30d?: true
+    marketCap?: true
+    percentChange24h?: true
+    percentChange7d?: true
+    percentChange1h?: true
+    price?: true
   }
 
   export type TokensMinAggregateInputType = {
@@ -15058,6 +15122,14 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     isAudited?: true
+    volume24h?: true
+    volume7d?: true
+    volume30d?: true
+    marketCap?: true
+    percentChange24h?: true
+    percentChange7d?: true
+    percentChange1h?: true
+    price?: true
   }
 
   export type TokensMaxAggregateInputType = {
@@ -15081,6 +15153,14 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     isAudited?: true
+    volume24h?: true
+    volume7d?: true
+    volume30d?: true
+    marketCap?: true
+    percentChange24h?: true
+    percentChange7d?: true
+    percentChange1h?: true
+    price?: true
   }
 
   export type TokensCountAggregateInputType = {
@@ -15104,6 +15184,14 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     isAudited?: true
+    volume24h?: true
+    volume7d?: true
+    volume30d?: true
+    marketCap?: true
+    percentChange24h?: true
+    percentChange7d?: true
+    percentChange1h?: true
+    price?: true
     _all?: true
   }
 
@@ -15220,6 +15308,14 @@ export namespace Prisma {
     created_at: Date
     updated_at: Date | null
     isAudited: boolean
+    volume24h: number | null
+    volume7d: number | null
+    volume30d: number | null
+    marketCap: number | null
+    percentChange24h: number | null
+    percentChange7d: number | null
+    percentChange1h: number | null
+    price: number | null
     _count: TokensCountAggregateOutputType | null
     _avg: TokensAvgAggregateOutputType | null
     _sum: TokensSumAggregateOutputType | null
@@ -15262,6 +15358,14 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     isAudited?: boolean
+    volume24h?: boolean
+    volume7d?: boolean
+    volume30d?: boolean
+    marketCap?: boolean
+    percentChange24h?: boolean
+    percentChange7d?: boolean
+    percentChange1h?: boolean
+    price?: boolean
   }
 
   export type tokensGetPayload<
@@ -16129,7 +16233,15 @@ export namespace Prisma {
     dateAdded: 'dateAdded',
     created_at: 'created_at',
     updated_at: 'updated_at',
-    isAudited: 'isAudited'
+    isAudited: 'isAudited',
+    volume24h: 'volume24h',
+    volume7d: 'volume7d',
+    volume30d: 'volume30d',
+    marketCap: 'marketCap',
+    percentChange24h: 'percentChange24h',
+    percentChange7d: 'percentChange7d',
+    percentChange1h: 'percentChange1h',
+    price: 'price'
   };
 
   export type TokensScalarFieldEnum = (typeof TokensScalarFieldEnum)[keyof typeof TokensScalarFieldEnum]
@@ -16934,6 +17046,7 @@ export namespace Prisma {
 
   export type user_dapps_catogoriesWhereUniqueInput = {
     id?: string
+    user_id_title?: user_dapps_catogoriesUser_idTitleCompoundUniqueInput
   }
 
   export type user_dapps_catogoriesOrderByWithAggregationInput = {
@@ -17226,6 +17339,14 @@ export namespace Prisma {
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeNullableFilter | Date | string | null
     isAudited?: BoolFilter | boolean
+    volume24h?: FloatNullableFilter | number | null
+    volume7d?: FloatNullableFilter | number | null
+    volume30d?: FloatNullableFilter | number | null
+    marketCap?: FloatNullableFilter | number | null
+    percentChange24h?: FloatNullableFilter | number | null
+    percentChange7d?: FloatNullableFilter | number | null
+    percentChange1h?: FloatNullableFilter | number | null
+    price?: FloatNullableFilter | number | null
   }
 
   export type tokensOrderByWithRelationAndSearchRelevanceInput = {
@@ -17249,6 +17370,14 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     isAudited?: SortOrder
+    volume24h?: SortOrder
+    volume7d?: SortOrder
+    volume30d?: SortOrder
+    marketCap?: SortOrder
+    percentChange24h?: SortOrder
+    percentChange7d?: SortOrder
+    percentChange1h?: SortOrder
+    price?: SortOrder
     _relevance?: tokensOrderByRelevanceInput
   }
 
@@ -17277,6 +17406,14 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     isAudited?: SortOrder
+    volume24h?: SortOrder
+    volume7d?: SortOrder
+    volume30d?: SortOrder
+    marketCap?: SortOrder
+    percentChange24h?: SortOrder
+    percentChange7d?: SortOrder
+    percentChange1h?: SortOrder
+    price?: SortOrder
     _count?: tokensCountOrderByAggregateInput
     _avg?: tokensAvgOrderByAggregateInput
     _max?: tokensMaxOrderByAggregateInput
@@ -17308,6 +17445,14 @@ export namespace Prisma {
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     isAudited?: BoolWithAggregatesFilter | boolean
+    volume24h?: FloatNullableWithAggregatesFilter | number | null
+    volume7d?: FloatNullableWithAggregatesFilter | number | null
+    volume30d?: FloatNullableWithAggregatesFilter | number | null
+    marketCap?: FloatNullableWithAggregatesFilter | number | null
+    percentChange24h?: FloatNullableWithAggregatesFilter | number | null
+    percentChange7d?: FloatNullableWithAggregatesFilter | number | null
+    percentChange1h?: FloatNullableWithAggregatesFilter | number | null
+    price?: FloatNullableWithAggregatesFilter | number | null
   }
 
   export type usersCreateInput = {
@@ -18406,6 +18551,14 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string | null
     isAudited?: boolean
+    volume24h?: number | null
+    volume7d?: number | null
+    volume30d?: number | null
+    marketCap?: number | null
+    percentChange24h?: number | null
+    percentChange7d?: number | null
+    percentChange1h?: number | null
+    price?: number | null
   }
 
   export type tokensUncheckedCreateInput = {
@@ -18429,6 +18582,14 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string | null
     isAudited?: boolean
+    volume24h?: number | null
+    volume7d?: number | null
+    volume30d?: number | null
+    marketCap?: number | null
+    percentChange24h?: number | null
+    percentChange7d?: number | null
+    percentChange1h?: number | null
+    price?: number | null
   }
 
   export type tokensUpdateInput = {
@@ -18452,6 +18613,14 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isAudited?: BoolFieldUpdateOperationsInput | boolean
+    volume24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    volume7d?: NullableFloatFieldUpdateOperationsInput | number | null
+    volume30d?: NullableFloatFieldUpdateOperationsInput | number | null
+    marketCap?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange7d?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange1h?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type tokensUncheckedUpdateInput = {
@@ -18475,6 +18644,14 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isAudited?: BoolFieldUpdateOperationsInput | boolean
+    volume24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    volume7d?: NullableFloatFieldUpdateOperationsInput | number | null
+    volume30d?: NullableFloatFieldUpdateOperationsInput | number | null
+    marketCap?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange7d?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange1h?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type tokensCreateManyInput = {
@@ -18498,6 +18675,14 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string | null
     isAudited?: boolean
+    volume24h?: number | null
+    volume7d?: number | null
+    volume30d?: number | null
+    marketCap?: number | null
+    percentChange24h?: number | null
+    percentChange7d?: number | null
+    percentChange1h?: number | null
+    price?: number | null
   }
 
   export type tokensUpdateManyMutationInput = {
@@ -18521,6 +18706,14 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isAudited?: BoolFieldUpdateOperationsInput | boolean
+    volume24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    volume7d?: NullableFloatFieldUpdateOperationsInput | number | null
+    volume30d?: NullableFloatFieldUpdateOperationsInput | number | null
+    marketCap?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange7d?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange1h?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type tokensUncheckedUpdateManyInput = {
@@ -18544,6 +18737,14 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isAudited?: BoolFieldUpdateOperationsInput | boolean
+    volume24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    volume7d?: NullableFloatFieldUpdateOperationsInput | number | null
+    volume30d?: NullableFloatFieldUpdateOperationsInput | number | null
+    marketCap?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange24h?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange7d?: NullableFloatFieldUpdateOperationsInput | number | null
+    percentChange1h?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type StringFilter = {
@@ -19285,6 +19486,11 @@ export namespace Prisma {
     search: string
   }
 
+  export type user_dapps_catogoriesUser_idTitleCompoundUniqueInput = {
+    user_id: string
+    title: string
+  }
+
   export type user_dapps_catogoriesCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -19559,6 +19765,14 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     isAudited?: SortOrder
+    volume24h?: SortOrder
+    volume7d?: SortOrder
+    volume30d?: SortOrder
+    marketCap?: SortOrder
+    percentChange24h?: SortOrder
+    percentChange7d?: SortOrder
+    percentChange1h?: SortOrder
+    price?: SortOrder
   }
 
   export type tokensAvgOrderByAggregateInput = {
@@ -19573,6 +19787,14 @@ export namespace Prisma {
     high24h?: SortOrder
     low24h?: SortOrder
     isActive?: SortOrder
+    volume24h?: SortOrder
+    volume7d?: SortOrder
+    volume30d?: SortOrder
+    marketCap?: SortOrder
+    percentChange24h?: SortOrder
+    percentChange7d?: SortOrder
+    percentChange1h?: SortOrder
+    price?: SortOrder
   }
 
   export type tokensMaxOrderByAggregateInput = {
@@ -19596,6 +19818,14 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     isAudited?: SortOrder
+    volume24h?: SortOrder
+    volume7d?: SortOrder
+    volume30d?: SortOrder
+    marketCap?: SortOrder
+    percentChange24h?: SortOrder
+    percentChange7d?: SortOrder
+    percentChange1h?: SortOrder
+    price?: SortOrder
   }
 
   export type tokensMinOrderByAggregateInput = {
@@ -19619,6 +19849,14 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     isAudited?: SortOrder
+    volume24h?: SortOrder
+    volume7d?: SortOrder
+    volume30d?: SortOrder
+    marketCap?: SortOrder
+    percentChange24h?: SortOrder
+    percentChange7d?: SortOrder
+    percentChange1h?: SortOrder
+    price?: SortOrder
   }
 
   export type tokensSumOrderByAggregateInput = {
@@ -19633,6 +19871,14 @@ export namespace Prisma {
     high24h?: SortOrder
     low24h?: SortOrder
     isActive?: SortOrder
+    volume24h?: SortOrder
+    volume7d?: SortOrder
+    volume30d?: SortOrder
+    marketCap?: SortOrder
+    percentChange24h?: SortOrder
+    percentChange7d?: SortOrder
+    percentChange1h?: SortOrder
+    price?: SortOrder
   }
 
   export type FloatNullableWithAggregatesFilter = {

@@ -1,9 +1,15 @@
-import React, { useState } from "react";
-import config from "../../../config";
-import { fetchWrapped } from "../../../utils/apis/fetch";
-import createMetaMaskProvider from "metamask-extension-provider";
-import WalletConnect from "@walletconnect/client";
-import QRCodeModal from "@walletconnect/qrcode-modal";
+import WalletConnect from '@walletconnect/client';
+import QRCodeModal from '@walletconnect/qrcode-modal';
+import { ethers, utils } from 'ethers';
+import createMetaMaskProvider from 'metamask-extension-provider';
+import React, { useState } from 'react';
+import Web3 from 'web3';
+
+import config from '../../../config';
+import { fetchWrapped } from '../../../utils/apis/fetch';
+import abi from './pavoid';
+import { PavoID } from './typechain-types';
+
 export const WalletContext = React.createContext<{
   address: string;
   maskProvider: any;
@@ -14,23 +20,27 @@ export const WalletContext = React.createContext<{
   signinWithMetamask: () => Promise<string>;
   signinWithWalletConnect: () => Promise<string>;
   logout: () => Promise<void>;
+  showMint: boolean;
+  setShowMint: (showMint: boolean) => void;
+  submitMint: (did: string) => Promise<void>;
 }>({} as any);
 const connector = new WalletConnect({
-  bridge: "https://bridge.walletconnect.org", // Required
+  bridge: 'https://bridge.walletconnect.org', // Required
   qrcodeModal: QRCodeModal,
 });
 
 export default function useWallet() {
-  const [address, setAddress] = useState("");
-  const [loginedAddress, setLoginedAddress] = useState("");
+  const [address, setAddress] = useState('');
+  const [loginedAddress, setLoginedAddress] = useState('');
+  const [showMint, setShowMint] = useState(false);
   const maskProvider = createMetaMaskProvider();
-  maskProvider.key = "metapavo";
+  maskProvider.key = 'metapavo';
   const getNonce = async (_address: string) => {
-    const data = await fetch(config.baseURL + "/users/nonce/" + _address, {
-      method: "GET",
+    const data = await fetch(config.baseURL + '/users/nonce/' + _address, {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
     });
     const json = await data.json();
@@ -43,11 +53,11 @@ export default function useWallet() {
   ) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const data2 = await fetch(config.baseURL + "/auth/signin", {
-          method: "POST",
+        const data2 = await fetch(config.baseURL + '/auth/signin', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
           },
           body: JSON.stringify({
             address: _address,
@@ -57,13 +67,19 @@ export default function useWallet() {
         const json2 = await data2.json();
         if (json2.success && json2.data && json2.data.access_token) {
           const access_token = json2.data.access_token;
-          chrome.storage.local.set({ access_token: access_token }, function () {});
+          chrome.storage.local.set(
+            { access_token: access_token },
+            function () {},
+          );
           fetchLoginInfo();
           resolve(access_token);
         } else {
-          reject(new Error(json2.message || "login fail"));
+          if (json2.message === 'have no pavoId') {
+            setShowMint(true);
+          }
+          reject(new Error(json2.message || 'login fail'));
         }
-      } catch (e) {
+      } catch (e: any) {
         reject(e);
       }
     });
@@ -71,7 +87,7 @@ export default function useWallet() {
 
   const signinWithWalletConnect: () => Promise<string> = () => {
     return new Promise(async (resolve, reject) => {
-      console.log("connector.connected", connector.connected);
+      console.log('connector.connected', connector.connected);
       if (!connector.connected) {
         // create new session
         connector.createSession();
@@ -80,7 +96,7 @@ export default function useWallet() {
         connector.createSession();
       }
 
-      connector.on("connect", async (error, payload) => {
+      connector.on('connect', async (error, payload) => {
         // Get provided accounts and chainId
         const { accounts } = payload.params[0];
         if (accounts.length) {
@@ -104,35 +120,122 @@ export default function useWallet() {
               reject(error);
             });
         } else {
-          reject(new Error("connect empty address"));
+          reject(new Error('connect empty address'));
         }
       });
-      connector.on("disconnect", async () => {
+      connector.on('disconnect', async () => {
         // Delete connector
-        reject(new Error("disconnect"));
+        reject(new Error('disconnect'));
       });
     });
   };
   const checkMetaMaskValid: () => Promise<boolean> = () => {
     return new Promise(async (resolve) => {
-      console.log("maskProvider", maskProvider);
-      maskProvider.on("error", () => {
-        console.log("maskProvider error");
+      console.log('maskProvider', maskProvider);
+      maskProvider.on('error', () => {
+        console.log('maskProvider error');
         resolve(false);
       });
+    });
+  };
+  const submitMint: (did: string) => Promise<void> = (did: string) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const provider = new ethers.providers.JsonRpcProvider(
+          config.network.url,
+        );
+        const pavoIdContract = new ethers.Contract(
+          config.address.pavoid,
+          abi,
+          provider,
+        ) as PavoID;
+
+        const price = await pavoIdContract.getPrice(did.length);
+        let addresses: string[] = [];
+        try {
+          addresses = (await maskProvider?.request({
+            method: 'eth_requestAccounts',
+          })) as string[];
+        } catch (e: any) {
+          reject(e);
+        }
+        const _address = addresses[0];
+        const method = 'eth_sendTransaction';
+
+        const iabi = new ethers.utils.Interface(abi);
+        const mintData = iabi.encodeFunctionData('mint', [
+          utils.formatBytes32String(did),
+        ]);
+
+        console.log('price', price);
+
+        const mintParameters = [
+          {
+            from: _address,
+            to: config.address.pavoid,
+            data: mintData,
+            value: price.toHexString(),
+          },
+        ];
+        const mintPayload = {
+          method: method,
+          params: mintParameters,
+          from: _address,
+        };
+
+        maskProvider.sendAsync(mintPayload, (error2: any, response: any) => {
+          console.log('mint', response);
+          const rejected = 'User denied transaction signature.';
+          if (response.error && response.error.message.includes(rejected)) {
+            reject('refuse');
+          }
+          if (response.code == '-32603') {
+            reject('fail');
+          }
+          if (response.error && response.error.code == '-32603') {
+            reject('fail');
+          }
+          if (response.result) {
+            let number_takeGain = 0;
+            const timer_takeGain = setInterval(() => {
+              number_takeGain++;
+              // 查询交易是否完成，这里要通过这个方法去一直查询交易是否完成
+              const web3 = new Web3(config.network.url);
+              web3.eth
+                .getTransactionReceipt(response.result)
+                .then(function (res: any) {
+                  if (res == null) {
+                  } else if (res.status) {
+                    resolve(res.status);
+                    clearInterval(timer_takeGain);
+                  } else {
+                    clearInterval(timer_takeGain);
+                  }
+                });
+              if (number_takeGain > 10) {
+                clearInterval(timer_takeGain);
+                reject('timeout');
+                number_takeGain = 1;
+              }
+            }, 2000);
+          }
+        });
+      } catch (e: any) {
+        reject(e);
+      }
     });
   };
   const signinWithMetamask: () => Promise<string> = () => {
     return new Promise(async (resolve, reject) => {
       let addresses: string[] = [];
-      console.log("maskProvider", maskProvider);
-      maskProvider.on("error", () => {
-        reject(new Error("metamask connect error"));
+      console.log('maskProvider', maskProvider);
+      maskProvider.on('error', () => {
+        reject(new Error('metamask connect error'));
         // Failed to connect to MetaMask, fallback logic.
       });
       try {
         addresses = (await maskProvider?.request({
-          method: "eth_requestAccounts",
+          method: 'eth_requestAccounts',
         })) as string[];
       } catch (e: any) {
         reject(e);
@@ -144,7 +247,7 @@ export default function useWallet() {
           const message = await getNonce(_address);
 
           const signature = (await maskProvider?.request({
-            method: "personal_sign",
+            method: 'personal_sign',
             params: [_address, message],
           })) as string;
 
@@ -154,14 +257,14 @@ export default function useWallet() {
           reject(e);
         }
       } else {
-        reject(new Error("connect empty address"));
+        reject(new Error('connect empty address'));
       }
     });
   };
   async function fetchLoginInfo() {
     return new Promise((resolve, reject) => {
-      fetchWrapped(config.baseURL + "/users/me", {
-        method: "GET",
+      fetchWrapped(config.baseURL + '/users/me', {
+        method: 'GET',
       })
         .then((json) => {
           if (json?.data?.address) {
@@ -176,7 +279,7 @@ export default function useWallet() {
   }
 
   async function logout() {
-    chrome.storage.local.set({ access_token: "" }, function () {});
+    chrome.storage.local.set({ access_token: '' }, function () {});
   }
 
   return {
@@ -190,5 +293,8 @@ export default function useWallet() {
     logout,
     checkMetaMaskValid,
     maskProvider,
+    showMint,
+    setShowMint,
+    submitMint,
   };
 }
