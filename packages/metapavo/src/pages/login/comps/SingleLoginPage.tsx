@@ -88,6 +88,9 @@ const SingleLoginPage = () => {
             <ConnectWallet
               loginSuccess={() => {
                 setTimeout(() => window.close(), 2000);
+                chrome.runtime.sendMessage({
+                  cmd: 'login_success',
+                });
               }}
             />
           </ButtonContainer>

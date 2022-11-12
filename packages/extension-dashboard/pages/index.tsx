@@ -51,6 +51,16 @@ const Home: NextPage = () => {
     setLogoURL(_logoURL);
     const _indexLogoURL = chrome?.runtime?.getURL('images/index-logo-2.png');
     setIndexLogoURL(_indexLogoURL);
+
+    chrome?.runtime?.onMessage.addListener(function (
+      request,
+      sender,
+      sendResponse,
+    ) {
+      if (request.cmd === 'login_success') {
+        window.location.reload();
+      }
+    });
   }, []);
 
   return (

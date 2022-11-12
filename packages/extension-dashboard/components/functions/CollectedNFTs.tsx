@@ -32,17 +32,27 @@ export default function CollectedNFTs() {
     } catch (e) {}
     const res = await getUsersFavs();
     if (res && res.data) {
-      res.data.map((fav) => {
-        if (fav.project) {
-          fav.project = projectLinksWrapper(fav.project);
-        }
-      });
+      const data = res.data
+        .map((fav) => {
+          if (fav.project) {
+            fav.project = projectLinksWrapper(fav.project);
+          }
+          return fav;
+        })
+        .sort((n1, n2) => {
+          return Number(n2.project?.nftProjectInfo?.stats[0]?.floorPrice) -
+            Number(n1.project?.nftProjectInfo?.stats[0]?.floorPrice) >
+            0
+            ? 1
+            : -1;
+        });
+
       const _group = [];
-      for (let i = 0; i < res.data.length; i += 4) {
-        _group.push(res.data.slice(i, i + 4));
+      for (let i = 0; i < data.length; i += 4) {
+        _group.push(data.slice(i, i + 4));
       }
       setGroupedFavs(_group);
-      localStorage.setItem('myfavs', JSON.stringify(res.data));
+      localStorage.setItem('myfavs', JSON.stringify(data));
     }
   };
   useEffect(() => {
