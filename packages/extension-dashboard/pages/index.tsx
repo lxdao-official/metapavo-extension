@@ -28,7 +28,7 @@ function AddressSPAN(props: { address: string }) {
 
   if (isLoading) return <AddressButton>{props.address}</AddressButton>;
   if (isError) return <AddressButton>{props.address}</AddressButton>;
-  return <AddressButton>{data}</AddressButton>;
+  return <AddressButton>{data || props.address}</AddressButton>;
 }
 
 const Home: NextPage = () => {

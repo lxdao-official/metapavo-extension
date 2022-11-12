@@ -72,7 +72,7 @@ export default function ConnectWallet(props: {
       toast.success('login success, this window will close in 3 seconds', {});
     } catch (e: any) {
       console.error(e);
-      toast.error('login fail: ' + e.message);
+      toast.error('login fail: ' + e.error?.message || e.message);
     }
     setLoading(false);
   }
@@ -86,7 +86,7 @@ export default function ConnectWallet(props: {
       props.loginSuccess && props.loginSuccess(access_token);
       toast.success('login success, this window will close in 3 seconds', {});
     } catch (e: any) {
-      toast.error('login fail: ' + e.message);
+      toast.error('login fail: ' + e.error?.message || e.message);
     }
     setLoadingWalletConnect(false);
   }
@@ -96,11 +96,14 @@ export default function ConnectWallet(props: {
     setMinting(true);
 
     try {
+      const loading = toast.loading('minting, please wait...');
       await submitMint(did);
+      toast.dismiss(loading);
       toast.success('mint did success, please login again', {});
       setShowMint(false);
     } catch (e: any) {
-      toast.error('mint fail: ' + e.message);
+      console.log(e);
+      toast.error('mint fail: ' + e.error?.message || e.message);
     }
     setMinting(false);
   }

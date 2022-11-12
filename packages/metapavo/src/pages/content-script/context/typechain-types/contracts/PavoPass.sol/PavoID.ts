@@ -34,17 +34,25 @@ export interface PavoIDInterface extends utils.Interface {
     "NOT_CURRENT_OWNER()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "didToTokenId(string)": FunctionFragment;
+    "didhashToTokenId(bytes32)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getDidMinLength()": FunctionFragment;
     "getOpen()": FunctionFragment;
-    "getPrice(uint256)": FunctionFragment;
+    "getPrice(string)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(bytes)": FunctionFragment;
-    "mintByOwner(address,bytes)": FunctionFragment;
+    "maxLenth()": FunctionFragment;
+    "minLenth()": FunctionFragment;
+    "mint(string)": FunctionFragment;
+    "mintByOwner(address,string)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "price1Letter()": FunctionFragment;
+    "price2Letter()": FunctionFragment;
+    "price3Letter()": FunctionFragment;
+    "price4Letter()": FunctionFragment;
+    "price5Letter()": FunctionFragment;
+    "resolve(string)": FunctionFragment;
+    "resolveTokenId(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
@@ -58,9 +66,10 @@ export interface PavoIDInterface extends utils.Interface {
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "updateDidMaxLength(uint8)": FunctionFragment;
     "updateDidMinLength(uint8)": FunctionFragment;
     "updateOpen(bool)": FunctionFragment;
-    "updatePrice(uint256)": FunctionFragment;
+    "updatePrice(uint256[])": FunctionFragment;
     "withdraw(address)": FunctionFragment;
   };
 
@@ -70,17 +79,25 @@ export interface PavoIDInterface extends utils.Interface {
       | "NOT_CURRENT_OWNER"
       | "approve"
       | "balanceOf"
-      | "didToTokenId"
+      | "didhashToTokenId"
       | "getApproved"
-      | "getDidMinLength"
       | "getOpen"
       | "getPrice"
       | "isApprovedForAll"
+      | "maxLenth"
+      | "minLenth"
       | "mint"
       | "mintByOwner"
       | "name"
       | "owner"
       | "ownerOf"
+      | "price1Letter"
+      | "price2Letter"
+      | "price3Letter"
+      | "price4Letter"
+      | "price5Letter"
+      | "resolve"
+      | "resolveTokenId"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
@@ -94,6 +111,7 @@ export interface PavoIDInterface extends utils.Interface {
       | "totalSupply"
       | "transferFrom"
       | "transferOwnership"
+      | "updateDidMaxLength"
       | "updateDidMinLength"
       | "updateOpen"
       | "updatePrice"
@@ -117,38 +135,64 @@ export interface PavoIDInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "didToTokenId",
-    values: [PromiseOrValue<string>]
+    functionFragment: "didhashToTokenId",
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
-  encodeFunctionData(
-    functionFragment: "getDidMinLength",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "getOpen", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getPrice",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(functionFragment: "maxLenth", values?: undefined): string;
+  encodeFunctionData(functionFragment: "minLenth", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [PromiseOrValue<BytesLike>]
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "mintByOwner",
-    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "price1Letter",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "price2Letter",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "price3Letter",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "price4Letter",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "price5Letter",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "resolve",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "resolveTokenId",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -214,6 +258,10 @@ export interface PavoIDInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "updateDidMaxLength",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "updateDidMinLength",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -223,7 +271,7 @@ export interface PavoIDInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "updatePrice",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<BigNumberish>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "withdraw",
@@ -241,15 +289,11 @@ export interface PavoIDInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "didToTokenId",
+    functionFragment: "didhashToTokenId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getDidMinLength",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getOpen", data: BytesLike): Result;
@@ -258,6 +302,8 @@ export interface PavoIDInterface extends utils.Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "maxLenth", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "minLenth", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "mintByOwner",
@@ -266,6 +312,31 @@ export interface PavoIDInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "price1Letter",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "price2Letter",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "price3Letter",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "price4Letter",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "price5Letter",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "resolve", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "resolveTokenId",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
     data: BytesLike
@@ -310,6 +381,10 @@ export interface PavoIDInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "updateDidMaxLength",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -454,8 +529,8 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    didToTokenId(
-      arg0: PromiseOrValue<string>,
+    didhashToTokenId(
+      arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -464,12 +539,10 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    getDidMinLength(overrides?: CallOverrides): Promise<[number]>;
-
     getOpen(overrides?: CallOverrides): Promise<[boolean]>;
 
     getPrice(
-      _len: PromiseOrValue<BigNumberish>,
+      name: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -479,14 +552,18 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    maxLenth(overrides?: CallOverrides): Promise<[number]>;
+
+    minLenth(overrides?: CallOverrides): Promise<[number]>;
+
     mint(
-      did: PromiseOrValue<BytesLike>,
+      did: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     mintByOwner(
       _to: PromiseOrValue<string>,
-      did: PromiseOrValue<BytesLike>,
+      did: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -495,6 +572,26 @@ export interface PavoID extends BaseContract {
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    price1Letter(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    price2Letter(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    price3Letter(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    price4Letter(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    price5Letter(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    resolve(
+      did: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    resolveTokenId(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
@@ -566,6 +663,11 @@ export interface PavoID extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    updateDidMaxLength(
+      _maxLenth: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     updateDidMinLength(
       _minLenth: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -577,7 +679,7 @@ export interface PavoID extends BaseContract {
     ): Promise<ContractTransaction>;
 
     updatePrice(
-      _priceBase: PromiseOrValue<BigNumberish>,
+      _rentPrices: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -602,8 +704,8 @@ export interface PavoID extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  didToTokenId(
-    arg0: PromiseOrValue<string>,
+  didhashToTokenId(
+    arg0: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -612,12 +714,10 @@ export interface PavoID extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getDidMinLength(overrides?: CallOverrides): Promise<number>;
-
   getOpen(overrides?: CallOverrides): Promise<boolean>;
 
   getPrice(
-    _len: PromiseOrValue<BigNumberish>,
+    name: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -627,14 +727,18 @@ export interface PavoID extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  maxLenth(overrides?: CallOverrides): Promise<number>;
+
+  minLenth(overrides?: CallOverrides): Promise<number>;
+
   mint(
-    did: PromiseOrValue<BytesLike>,
+    did: PromiseOrValue<string>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   mintByOwner(
     _to: PromiseOrValue<string>,
-    did: PromiseOrValue<BytesLike>,
+    did: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -643,6 +747,26 @@ export interface PavoID extends BaseContract {
   owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  price1Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+  price2Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+  price3Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+  price4Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+  price5Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+  resolve(
+    did: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  resolveTokenId(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
@@ -714,6 +838,11 @@ export interface PavoID extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  updateDidMaxLength(
+    _maxLenth: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   updateDidMinLength(
     _minLenth: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -725,7 +854,7 @@ export interface PavoID extends BaseContract {
   ): Promise<ContractTransaction>;
 
   updatePrice(
-    _priceBase: PromiseOrValue<BigNumberish>,
+    _rentPrices: PromiseOrValue<BigNumberish>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -750,8 +879,8 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    didToTokenId(
-      arg0: PromiseOrValue<string>,
+    didhashToTokenId(
+      arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -760,12 +889,10 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getDidMinLength(overrides?: CallOverrides): Promise<number>;
-
     getOpen(overrides?: CallOverrides): Promise<boolean>;
 
     getPrice(
-      _len: PromiseOrValue<BigNumberish>,
+      name: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -775,14 +902,15 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    mint(
-      did: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    maxLenth(overrides?: CallOverrides): Promise<number>;
+
+    minLenth(overrides?: CallOverrides): Promise<number>;
+
+    mint(did: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
 
     mintByOwner(
       _to: PromiseOrValue<string>,
-      did: PromiseOrValue<BytesLike>,
+      did: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -791,6 +919,26 @@ export interface PavoID extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    price1Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    price2Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    price3Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    price4Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    price5Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    resolve(
+      did: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    resolveTokenId(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
@@ -862,6 +1010,11 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    updateDidMaxLength(
+      _maxLenth: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     updateDidMinLength(
       _minLenth: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -873,7 +1026,7 @@ export interface PavoID extends BaseContract {
     ): Promise<void>;
 
     updatePrice(
-      _priceBase: PromiseOrValue<BigNumberish>,
+      _rentPrices: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -967,8 +1120,8 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    didToTokenId(
-      arg0: PromiseOrValue<string>,
+    didhashToTokenId(
+      arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -977,12 +1130,10 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getDidMinLength(overrides?: CallOverrides): Promise<BigNumber>;
-
     getOpen(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPrice(
-      _len: PromiseOrValue<BigNumberish>,
+      name: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -992,14 +1143,18 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    maxLenth(overrides?: CallOverrides): Promise<BigNumber>;
+
+    minLenth(overrides?: CallOverrides): Promise<BigNumber>;
+
     mint(
-      did: PromiseOrValue<BytesLike>,
+      did: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     mintByOwner(
       _to: PromiseOrValue<string>,
-      did: PromiseOrValue<BytesLike>,
+      did: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1008,6 +1163,26 @@ export interface PavoID extends BaseContract {
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    price1Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    price2Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    price3Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    price4Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    price5Letter(overrides?: CallOverrides): Promise<BigNumber>;
+
+    resolve(
+      did: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    resolveTokenId(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1079,6 +1254,11 @@ export interface PavoID extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    updateDidMaxLength(
+      _maxLenth: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     updateDidMinLength(
       _minLenth: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1090,7 +1270,7 @@ export interface PavoID extends BaseContract {
     ): Promise<BigNumber>;
 
     updatePrice(
-      _priceBase: PromiseOrValue<BigNumberish>,
+      _rentPrices: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1118,8 +1298,8 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    didToTokenId(
-      arg0: PromiseOrValue<string>,
+    didhashToTokenId(
+      arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1128,12 +1308,10 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getDidMinLength(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     getOpen(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPrice(
-      _len: PromiseOrValue<BigNumberish>,
+      name: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1143,14 +1321,18 @@ export interface PavoID extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    maxLenth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    minLenth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     mint(
-      did: PromiseOrValue<BytesLike>,
+      did: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     mintByOwner(
       _to: PromiseOrValue<string>,
-      did: PromiseOrValue<BytesLike>,
+      did: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1159,6 +1341,26 @@ export interface PavoID extends BaseContract {
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    price1Letter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    price2Letter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    price3Letter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    price4Letter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    price5Letter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    resolve(
+      did: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    resolveTokenId(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1230,6 +1432,11 @@ export interface PavoID extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    updateDidMaxLength(
+      _maxLenth: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     updateDidMinLength(
       _minLenth: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1241,7 +1448,7 @@ export interface PavoID extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     updatePrice(
-      _priceBase: PromiseOrValue<BigNumberish>,
+      _rentPrices: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

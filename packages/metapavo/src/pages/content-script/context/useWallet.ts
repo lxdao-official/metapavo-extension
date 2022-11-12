@@ -35,6 +35,8 @@ export default function useWallet() {
   const [showMint, setShowMint] = useState(false);
   const maskProvider = createMetaMaskProvider();
   maskProvider.key = 'metapavo';
+  const provider = new ethers.providers.Web3Provider(maskProvider);
+
   const getNonce = async (_address: string) => {
     const data = await fetch(config.baseURL + '/users/nonce/' + _address, {
       method: 'GET',
@@ -138,118 +140,146 @@ export default function useWallet() {
       });
     });
   };
+  async function switchNetwork() {
+    try {
+      await provider.send('wallet_switchEthereumChain', [
+        {
+          chainId: config.network.chainId,
+        },
+      ]);
+    } catch (error: any) {
+      console.log(error);
+      if ((error.code = 4902)) {
+        return await addNetwork();
+      }
+      throw error;
+    }
+  }
+  //添加网络
+  async function addNetwork() {
+    try {
+      return await provider.send('wallet_addEthereumChain', [
+        {
+          chainId: config.network.chainId,
+          chainName: config.network.name,
+          rpcUrls: [config.network.url],
+        },
+      ]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const submitMint: (did: string) => Promise<void> = (did: string) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const provider = new ethers.providers.JsonRpcProvider(
-          config.network.url,
-        );
-        const pavoIdContract = new ethers.Contract(
-          config.address.pavoid,
-          abi,
-          provider,
-        ) as PavoID;
-
-        const price = await pavoIdContract.getPrice(did.length);
-        let addresses: string[] = [];
+        await switchNetwork();
         try {
-          addresses = (await maskProvider?.request({
-            method: 'eth_requestAccounts',
-          })) as string[];
+          // MetaMask requires requesting permission to connect users accounts
+          await provider.send('eth_requestAccounts', []);
         } catch (e: any) {
           reject(e);
         }
-        const _address = addresses[0];
-        const method = 'eth_sendTransaction';
+        const pavoIdContract = new ethers.Contract(
+          config.address.pavoid,
+          abi,
+          provider.getSigner(),
+        ) as PavoID;
+        pavoIdContract.connect(provider.getSigner());
+        const price = await pavoIdContract.getPrice(did);
 
-        const iabi = new ethers.utils.Interface(abi);
-        const mintData = iabi.encodeFunctionData('mint', [
-          utils.formatBytes32String(did),
-        ]);
-
-        console.log('price', price);
-
-        const mintParameters = [
-          {
-            from: _address,
-            to: config.address.pavoid,
-            data: mintData,
-            value: price.toHexString(),
-          },
-        ];
-        const mintPayload = {
-          method: method,
-          params: mintParameters,
-          from: _address,
-        };
-
-        maskProvider.sendAsync(mintPayload, (error2: any, response: any) => {
-          console.log('mint', response);
-          const rejected = 'User denied transaction signature.';
-          if (response.error && response.error.message.includes(rejected)) {
-            reject('refuse');
-          }
-          if (response.code == '-32603') {
-            reject('fail');
-          }
-          if (response.error && response.error.code == '-32603') {
-            reject('fail');
-          }
-          if (response.result) {
-            let number_takeGain = 0;
-            const timer_takeGain = setInterval(() => {
-              number_takeGain++;
-              // 查询交易是否完成，这里要通过这个方法去一直查询交易是否完成
-              const web3 = new Web3(config.network.url);
-              web3.eth
-                .getTransactionReceipt(response.result)
-                .then(function (res: any) {
-                  if (res == null) {
-                  } else if (res.status) {
-                    resolve(res.status);
-                    clearInterval(timer_takeGain);
-                  } else {
-                    clearInterval(timer_takeGain);
-                  }
-                });
-              if (number_takeGain > 10) {
-                clearInterval(timer_takeGain);
-                reject('timeout');
-                number_takeGain = 1;
-              }
-            }, 2000);
-          }
+        const tx = await pavoIdContract.mint(did, {
+          value: price,
         });
+        await tx.wait();
+        // const method = 'eth_sendTransaction';
+
+        // const iabi = new ethers.utils.Interface(abi);
+        // const mintData = iabi.encodeFunctionData('mint', [
+        //   utils.formatBytes32String(did),
+        // ]);
+
+        // console.log('price', price);
+
+        // const mintParameters = [
+        //   {
+        //     from: _address,
+        //     to: config.address.pavoid,
+        //     data: mintData,
+        //     value: price.toHexString(),
+        //   },
+        // ];
+        // const mintPayload = {
+        //   method: method,
+        //   params: mintParameters,
+        //   from: _address,
+        // };
+
+        // maskProvider.sendAsync(mintPayload, (error2: any, response: any) => {
+        //   console.log('mint', response);
+        //   const rejected = 'User denied transaction signature.';
+        //   if (response.error && response.error.message.includes(rejected)) {
+        //     reject('refuse');
+        //   }
+        //   if (response.code == '-32603') {
+        //     reject('fail');
+        //   }
+        //   if (response.error && response.error.code == '-32603') {
+        //     reject('fail');
+        //   }
+        //   if (response.result) {
+        //     let number_takeGain = 0;
+        //     const timer_takeGain = setInterval(() => {
+        //       number_takeGain++;
+        //       // 查询交易是否完成，这里要通过这个方法去一直查询交易是否完成
+        //       const web3 = new Web3(config.network.url);
+        //       web3.eth
+        //         .getTransactionReceipt(response.result)
+        //         .then(function (res: any) {
+        //           if (res == null) {
+        //           } else if (res.status) {
+        //             resolve(res.status);
+        //             clearInterval(timer_takeGain);
+        //           } else {
+        //             clearInterval(timer_takeGain);
+        //           }
+        //         });
+        //       if (number_takeGain > 10) {
+        //         clearInterval(timer_takeGain);
+        //         reject('timeout');
+        //         number_takeGain = 1;
+        //       }
+        //     }, 2000);
+        //   }
+        // });
       } catch (e: any) {
+        console.error(e);
         reject(e);
       }
     });
   };
   const signinWithMetamask: () => Promise<string> = () => {
     return new Promise(async (resolve, reject) => {
-      let addresses: string[] = [];
       console.log('maskProvider', maskProvider);
+
       maskProvider.on('error', () => {
         reject(new Error('metamask connect error'));
         // Failed to connect to MetaMask, fallback logic.
       });
+
       try {
-        addresses = (await maskProvider?.request({
-          method: 'eth_requestAccounts',
-        })) as string[];
+        // MetaMask requires requesting permission to connect users accounts
+        await provider.send('eth_requestAccounts', []);
       } catch (e: any) {
         reject(e);
       }
-      const _address = addresses[0];
+      const signer = provider.getSigner();
+      const _address = await signer.getAddress();
       if (_address) {
         setAddress(address);
         try {
           const message = await getNonce(_address);
 
-          const signature = (await maskProvider?.request({
-            method: 'personal_sign',
-            params: [_address, message],
-          })) as string;
+          const signature = await signer.signMessage(message);
 
           const access_token = await signIn(_address, signature);
           resolve(access_token);

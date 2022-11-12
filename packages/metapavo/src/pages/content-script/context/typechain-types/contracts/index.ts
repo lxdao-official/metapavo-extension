@@ -7,3 +7,6 @@ import type * as ownership from "./ownership";
 export type { ownership };
 import type * as sbt from "./sbt";
 export type { sbt };
+export type { DID } from "./DID";
+export type { Metadata } from "./Metadata";
+export type { Price } from "./Price";

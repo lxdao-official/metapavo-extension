@@ -283,12 +283,12 @@ export default [
   {
     inputs: [
       {
-        internalType: 'string',
+        internalType: 'bytes32',
         name: '',
-        type: 'string',
+        type: 'bytes32',
       },
     ],
-    name: 'didToTokenId',
+    name: 'didhashToTokenId',
     outputs: [
       {
         internalType: 'uint256',
@@ -320,19 +320,6 @@ export default [
   },
   {
     inputs: [],
-    name: 'getDidMinLength',
-    outputs: [
-      {
-        internalType: 'uint8',
-        name: '',
-        type: 'uint8',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
     name: 'getOpen',
     outputs: [
       {
@@ -347,9 +334,9 @@ export default [
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: '_len',
-        type: 'uint256',
+        internalType: 'string',
+        name: 'name',
+        type: 'string',
       },
     ],
     name: 'getPrice',
@@ -388,11 +375,37 @@ export default [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'maxLenth',
+    outputs: [
+      {
+        internalType: 'uint8',
+        name: '',
+        type: 'uint8',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'minLenth',
+    outputs: [
+      {
+        internalType: 'uint8',
+        name: '',
+        type: 'uint8',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
-        internalType: 'bytes',
+        internalType: 'string',
         name: 'did',
-        type: 'bytes',
+        type: 'string',
       },
     ],
     name: 'mint',
@@ -408,9 +421,9 @@ export default [
         type: 'address',
       },
       {
-        internalType: 'bytes',
+        internalType: 'string',
         name: 'did',
-        type: 'bytes',
+        type: 'string',
       },
     ],
     name: 'mintByOwner',
@@ -458,6 +471,109 @@ export default [
         internalType: 'address',
         name: '',
         type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'price1Letter',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'price2Letter',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'price3Letter',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'price4Letter',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'price5Letter',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: 'did',
+        type: 'string',
+      },
+    ],
+    name: 'resolve',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'tokenId',
+        type: 'uint256',
+      },
+    ],
+    name: 'resolveTokenId',
+    outputs: [
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
       },
     ],
     stateMutability: 'view',
@@ -694,6 +810,19 @@ export default [
     inputs: [
       {
         internalType: 'uint8',
+        name: '_maxLenth',
+        type: 'uint8',
+      },
+    ],
+    name: 'updateDidMaxLength',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint8',
         name: '_minLenth',
         type: 'uint8',
       },
@@ -719,9 +848,9 @@ export default [
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: '_priceBase',
-        type: 'uint256',
+        internalType: 'uint256[]',
+        name: '_rentPrices',
+        type: 'uint256[]',
       },
     ],
     name: 'updatePrice',

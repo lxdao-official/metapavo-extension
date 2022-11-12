@@ -4,3 +4,6 @@
 export * as pavoPassSol from "./PavoPass.sol";
 export * as ownership from "./ownership";
 export * as sbt from "./sbt";
+export { DID__factory } from "./DID__factory";
+export { Metadata__factory } from "./Metadata__factory";
+export { Price__factory } from "./Price__factory";

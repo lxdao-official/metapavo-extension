@@ -13,6 +13,14 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "DID",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DID__factory>;
+    getContractFactory(
+      name: "Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Metadata__factory>;
+    getContractFactory(
       name: "Ownable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Ownable__factory>;
@@ -20,6 +28,10 @@ declare module "hardhat/types/runtime" {
       name: "PavoID",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PavoID__factory>;
+    getContractFactory(
+      name: "Price",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Price__factory>;
     getContractFactory(
       name: "SBT",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -38,6 +50,16 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.IERC721A__factory>;
 
     getContractAt(
+      name: "DID",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DID>;
+    getContractAt(
+      name: "Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Metadata>;
+    getContractAt(
       name: "Ownable",
       address: string,
       signer?: ethers.Signer
@@ -47,6 +69,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.PavoID>;
+    getContractAt(
+      name: "Price",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Price>;
     getContractAt(
       name: "SBT",
       address: string,
