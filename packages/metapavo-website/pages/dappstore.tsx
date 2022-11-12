@@ -1,10 +1,10 @@
 import { Box, Link, Tab, Tabs, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
 import DebouncedInput from '../components/DebouncedInput';
 import LayoutDapps from '../components/LayoutDapps';
+import SearchTab from '../components/SearchTab';
 import TabPanel from '../components/TabPanel';
 
 const menu = (item: any, active: boolean) => (
@@ -24,9 +24,8 @@ const menu = (item: any, active: boolean) => (
   </Box>
 );
 export default function Dappstore() {
-  const theme = useTheme();
   const [keyword, setKeyword] = useState('');
-  const [activeMenu, setActiveMenu] = useState('63205c0948436d6190fe93b8');
+  const [activeMenu, setActiveMenu] = useState('');
   const [page, setPage] = useState(1);
   const [menuList, setMenuList] = useState([]);
   const [DappCardList, setDapps] = useState([]);
@@ -38,6 +37,7 @@ export default function Dappstore() {
   const [storyTab, setStoryTab] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [collected, setCollected] = useState('');
+  const [showSearchMenu, setSearchMenu] = useState(false);
 
   const moreBtn = (text: string) => (
     <Box
@@ -241,11 +241,6 @@ export default function Dappstore() {
   const storyCard = (item: any) => {
     let dapps = item.story_dapps_relations;
     let showMore = false;
-    const length = item.story_dapps_relations.length;
-    if (length > 5) {
-      showMore = true;
-      dapps = item.story_dapps_relations.slice(0, 5);
-    }
     return (
       <Box
         sx={{
@@ -348,10 +343,9 @@ export default function Dappstore() {
 
     const json1 = await r1.json();
     setMenuList(json1.data);
+    setActiveMenu(json1.data[0].id);
   };
   const getDapps = async () => {
-    console.log('getDapps', page);
-    //https://api.metapavo.xyz/dapps/by_page?pageIndex=2&pageSize=2&categoryId=63205c3b48436d6190fe93bc
     const r2: any = await fetch(
       `${HTTPURL}/dapps/by_page?pageIndex=${page}&pageSize=8&categoryId=${activeMenu}`,
       {
@@ -369,7 +363,6 @@ export default function Dappstore() {
     for (let i = 0; i < pages; i++) {
       arr.push(i + 1);
     }
-    console.log(json2.data, arr);
     setDappsCount(arr);
     setDapps(data);
   };
@@ -416,125 +409,142 @@ export default function Dappstore() {
     getDapps();
   }, [activeMenu, page, keyword]);
   return (
-    <LayoutDapps title="admin" description={'admin'}>
-      <Box
-        height="220px"
-        width="100%"
-        sx={{
-          background: '#F9F9F9',
-          padding: '55.5px 0',
-        }}
-      >
-        <Box display="flex" justifyContent="center" marginBottom="32px">
-          <Typography
-            sx={{
-              background:
-                'linear-gradient(89.77deg, #6EDFA3 3.4%, #2292F9 54.78%, #7F56D9 100.87%)',
-              backgroundClip: 'text',
-              textFillColor: 'transparent',
-            }}
-            textTransform="capitalize"
-            marginRight="0.32rem"
-          >
-            MetaPavo
-          </Typography>
-          <Typography> all the web3 you want is here</Typography>
-        </Box>
-        <Box maxWidth="1328px" margin="auto">
-          <DebouncedInput
-            placeholder="Search collection/address/.."
-            sx={{ background: '#fff', minHeight: '48px' }}
-            onChange={(val: any) => {
-              setKeyword(val);
-              setPage(1);
-            }}
-          />
-        </Box>
-      </Box>
-      <Box maxWidth="1328px" margin="auto">
-        <Typography
-          fontWeight={600}
-          fontSize="32px"
-          lineHeight="30px"
-          color="#101828"
-          marginBottom={3}
-          marginTop={3}
+    <Box onClick={() => setSearchMenu(false)}>
+      <LayoutDapps title="admin" description={'admin'}>
+        <Box
+          height="220px"
+          width="100%"
+          sx={{
+            background: '#F9F9F9',
+            padding: '55.5px 0',
+          }}
         >
-          Dapps
-        </Typography>
-        <Box display="flex" gap={1} marginBottom={1} flexWrap="wrap">
-          {menuList && menuList.length > 0
-            ? menuList.map((item: any) => (
-                <Box
-                  onClick={() => {
-                    setActiveMenu(item.id);
-                    setPage(1);
-                  }}
-                  width="auto"
-                  key={item.id}
-                >
-                  {menu(item, activeMenu == item.id)}
-                </Box>
-              ))
-            : null}
-        </Box>
-        <Box display="flex" gap={2} flexWrap="wrap">
-          {DappCardList && DappCardList.length > 0
-            ? DappCardList.map((card) => DappCard(card))
-            : null}
+          <Box display="flex" justifyContent="center" marginBottom="32px">
+            <Typography
+              sx={{
+                background:
+                  'linear-gradient(89.77deg, #6EDFA3 3.4%, #2292F9 54.78%, #7F56D9 100.87%)',
+                backgroundClip: 'text',
+                textFillColor: 'transparent',
+              }}
+              textTransform="capitalize"
+              marginRight="0.32rem"
+            >
+              MetaPavo
+            </Typography>
+            <Typography> all the web3 you want is here</Typography>
+          </Box>
+          <Box
+            maxWidth="1328px"
+            sx={{ position: 'relative', margin: { xs: '32px', md: 'auto' } }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setSearchMenu(true);
+            }}
+          >
+            <DebouncedInput
+              placeholder="Search collection/address/.."
+              sx={{ background: '#fff', minHeight: '48px' }}
+              onChange={(val: any) => {
+                setKeyword(val);
+                setPage(1);
+              }}
+              onFocus={() => {}}
+              onBlur={() => {}}
+            />
+            {showSearchMenu && <SearchTab keywords={keyword} />}
+          </Box>
         </Box>
         <Box
-          display="flex"
-          justifyContent="center"
-          marginTop="31px"
-          marginBottom="36px"
-          gap={1}
+          maxWidth="1328px"
+          zIndex={1}
+          sx={{ margin: { xs: '32px', md: 'auto' } }}
         >
-          {DappCardCount.map((count) => (
-            <Box
-              key={count}
-              sx={{
-                width: '16px',
-                height: '16px',
-                background: page == count ? '#6047FC' : '#D0D5DD',
-                borderRadius: '50%',
-              }}
-              onClick={() => {
-                page == count ? null : setPage(count);
-              }}
-            ></Box>
-          ))}
-        </Box>
-        <Typography
-          fontWeight={600}
-          fontSize="32px"
-          lineHeight="30px"
-          color="#101828"
-          marginBottom={3}
-          marginTop={3}
-        >
-          Story
-        </Typography>
-        <Tabs value={storyTab} onChange={handleChange}>
-          {storyMenu.map((menu: any) => (
-            <Tab label={menu.title} value={menu.id} />
-          ))}
-        </Tabs>
-        <Box>
-          {storyMenu.map((menu: any) => (
-            <TabPanel value={storyTab} index={menu.id}>
-              <Box>
+          <Typography
+            fontWeight={600}
+            fontSize="32px"
+            lineHeight="30px"
+            color="#101828"
+            marginBottom={3}
+            marginTop={3}
+          >
+            Dapps
+          </Typography>
+          <Box display="flex" gap={1} marginBottom={1} flexWrap="wrap">
+            {menuList && menuList.length > 0
+              ? menuList.map((item: any) => (
+                  <Box
+                    onClick={() => {
+                      setActiveMenu(item.id);
+                      setPage(1);
+                    }}
+                    width="auto"
+                    key={item.id}
+                  >
+                    {menu(item, activeMenu == item.id)}
+                  </Box>
+                ))
+              : null}
+          </Box>
+          <Box display="flex" gap={2} flexWrap="wrap">
+            {DappCardList && DappCardList.length > 0
+              ? DappCardList.map((card) => DappCard(card))
+              : null}
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="center"
+            marginTop="31px"
+            marginBottom="36px"
+            gap={1}
+          >
+            {DappCardCount.map((count) => (
+              <Box
+                key={count}
+                sx={{
+                  width: '16px',
+                  height: '16px',
+                  background: page == count ? '#6047FC' : '#D0D5DD',
+                  borderRadius: '50%',
+                }}
+                onClick={() => {
+                  page == count ? null : setPage(count);
+                }}
+              ></Box>
+            ))}
+          </Box>
+          <Typography
+            fontWeight={600}
+            fontSize="32px"
+            lineHeight="30px"
+            color="#101828"
+            marginBottom={3}
+            marginTop={3}
+          >
+            Story
+          </Typography>
+          <Tabs value={storyTab} onChange={handleChange}>
+            {storyMenu.map((menu: any) => (
+              <Tab label={menu.title} value={menu.id} />
+            ))}
+          </Tabs>
+          <Box>
+            {storyMenu.map((menu: any) => (
+              <TabPanel value={storyTab} index={menu.id}>
                 <Box>
-                  {storyList && storyList.length > 0
-                    ? storyList.map((story) => storyCard(story))
-                    : null}
+                  <Box>
+                    {storyList && storyList.length > 0
+                      ? storyList.map((story) => storyCard(story))
+                      : null}
+                  </Box>
+                  {hasMore && moreBtn('view more')}
                 </Box>
-                {hasMore && moreBtn('view more')}
-              </Box>
-            </TabPanel>
-          ))}
+              </TabPanel>
+            ))}
+          </Box>
         </Box>
-      </Box>
-    </LayoutDapps>
+      </LayoutDapps>
+    </Box>
   );
 }

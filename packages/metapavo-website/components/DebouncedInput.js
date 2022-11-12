@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { InputAdornment } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import TextInput from './TextInput';
 
 // copy from https://usehooks.com/useDebounce/
@@ -22,7 +23,7 @@ function useDebounce(value, delay) {
         clearTimeout(handler);
       };
     },
-    [value, delay] // Only re-call effect if value or delay changes
+    [value, delay], // Only re-call effect if value or delay changes
   );
 
   return debouncedValue;
@@ -52,7 +53,7 @@ function DebounceInput(props) {
       InputProps={{
         endAdornment: (
           <InputAdornment sx={{ padding: '15px' }}>
-            <SearchIcon sx={{color:"#416AFC"}}/>
+            <SearchIcon sx={{ color: '#416AFC' }} />
           </InputAdornment>
         ),
       }}
@@ -60,6 +61,8 @@ function DebounceInput(props) {
       onChange={(value) => {
         setValue(value);
       }}
+      onFocus={() => props.onFocus()}
+      onBlur={() => props.onBlur()}
     />
   );
 }
