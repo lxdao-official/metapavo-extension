@@ -1,4 +1,4 @@
-import { Box, Link, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Grid, Link, Tab, Tabs, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -6,6 +6,7 @@ import DebouncedInput from '../components/DebouncedInput';
 import LayoutDapps from '../components/LayoutDapps';
 import SearchTab from '../components/SearchTab';
 import TabPanel from '../components/TabPanel';
+import { dapps } from '../types';
 
 const menu = (item: any, active: boolean) => (
   <Box
@@ -72,7 +73,7 @@ export default function Dappstore() {
       </Box>
     </Box>
   );
-  const DappCard = (item: any) => (
+  const DappCard = (item: dapps) => (
     <Link
       color={'inherit'}
       sx={{
@@ -82,9 +83,8 @@ export default function Dappstore() {
       target="_blank"
     >
       <Box
-        padding={3}
+        padding={2}
         maxWidth="320px"
-        height="248px"
         sx={{
           background: '#FFFFFF',
           border: '0.5px solid #D0D5DD',
@@ -92,14 +92,15 @@ export default function Dappstore() {
         }}
         key={item.id}
       >
-        <Box marginBottom={3} display="flex">
+        <Box marginBottom={1} display="flex">
           <Box
-            width="80px"
-            height="80px"
+            width="50px"
+            height="50px"
             marginRight={2}
             sx={{
-              border: '0.5px solid #D0D5DD',
+              // border: '0.5px solid #D0D5DD',
               borderRadius: '18px',
+              overflow: 'hidden',
             }}
           >
             <img src={item.logo} style={{ width: '100%' }} />
@@ -108,31 +109,48 @@ export default function Dappstore() {
             <Typography
               color="#101828"
               fontWeight="600"
-              fontSize="20px"
-              lineHeight="24px"
-              marginBottom={1}
+              fontSize="16px"
+              height="24px"
+              overflow={'hidden'}
+              textOverflow={'ellipsis'}
+              lineHeight="20px"
             >
               {item.title}
             </Typography>
-            <Box
-              sx={{
-                width: '55px',
-                height: '24px',
-                background: 'rgba(77, 204, 158, 0.1)',
-                borderRadius: '2px',
-                textAlign: 'center',
-                fontSize: '14px',
-                lineHeight: '24px',
-                color: '#4DCC9E',
-                textTransform: 'capitalize',
-              }}
-            >
-              wallet
-            </Box>
+            {item.dapp_categories.map((cat: any) => (
+              <Box
+                sx={{
+                  height: '24px',
+                  background: 'rgba(77, 204, 158, 0.1)',
+                  borderRadius: '2px',
+                  textAlign: 'center',
+                  padding: '0 8px',
+                  display: 'inline-block',
+                  fontSize: '12px',
+                  lineHeight: '24px',
+                  color: '#4DCC9E',
+                  textTransform: 'capitalize',
+                }}
+              >
+                {cat.title}
+              </Box>
+            ))}
           </Box>
         </Box>
-        <Box marginBottom={3}>
-          <Typography>{item.desc}</Typography>
+        <Box
+          marginBottom={1}
+          style={{
+            height: '48px',
+            fontSize: '14px',
+          }}
+        >
+          <Typography
+            style={{
+              fontSize: '14px',
+            }}
+          >
+            {item.desc}
+          </Typography>
         </Box>
         <Box display="flex" justifyContent="space-between">
           <Box display="flex">
@@ -347,7 +365,7 @@ export default function Dappstore() {
   };
   const getDapps = async () => {
     const r2: any = await fetch(
-      `${HTTPURL}/dapps/by_page?pageIndex=${page}&pageSize=8&categoryId=${activeMenu}`,
+      `${HTTPURL}/dapps/by_page?pageIndex=${page}&pageSize=15&categoryId=${activeMenu}`,
       {
         method: 'GET',
         headers: {
@@ -358,7 +376,7 @@ export default function Dappstore() {
     );
     const json2 = await r2.json();
     let data = json2.data.data;
-    const pages = Math.ceil(json2.data.totalCount / 8);
+    const pages = Math.ceil(json2.data.totalCount / 15);
     let arr = [];
     for (let i = 0; i < pages; i++) {
       arr.push(i + 1);
@@ -481,16 +499,31 @@ export default function Dappstore() {
                     }}
                     width="auto"
                     key={item.id}
+                    style={{
+                      cursor: 'pointer',
+                    }}
                   >
                     {menu(item, activeMenu == item.id)}
                   </Box>
                 ))
               : null}
           </Box>
-          <Box display="flex" gap={2} flexWrap="wrap">
-            {DappCardList && DappCardList.length > 0
-              ? DappCardList.map((card) => DappCard(card))
-              : null}
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            style={{
+              marginTop: '20px',
+            }}
+          >
+            {DappCardList && DappCardList.length > 0 ? (
+              <Grid container spacing={2} columns={15}>
+                {DappCardList.map((card: any) => (
+                  <Grid item xs={3} key={card.id}>
+                    {DappCard(card)}
+                  </Grid>
+                ))}
+              </Grid>
+            ) : null}
           </Box>
           <Box
             display="flex"
