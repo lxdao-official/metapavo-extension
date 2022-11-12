@@ -29,6 +29,7 @@ import { getUserDapps } from '../../utils/apis/nft_api';
 import { getLang } from '../../utils/lang';
 import CardModule from '../CardModule';
 import DappCard from '../cards/DappCard';
+import AddDappModal from '../functions/AddDappModal';
 
 type UserDapp = user_dapps & {
   dapp: dapps;
@@ -48,7 +49,10 @@ export default function InstallDAPPs() {
       console.log('visitlog', visitlog);
       setDapps(visitlog);
     } else if (activeCategoryId == 'ungrouped') {
-      setDapps(allDapps.map((d) => d.dapp));
+      const _list = allDapps.filter((_dapp) => {
+        return !_dapp.user_dapps_catogories_id;
+      });
+      setDapps(_list.map((d) => d.dapp));
     } else {
       const _list = allDapps.filter((_dapp) => {
         return activeCategoryId == _dapp.user_dapps_catogories_id;
@@ -56,7 +60,7 @@ export default function InstallDAPPs() {
       setDapps(_list.map((d) => d.dapp));
     }
   };
-  const loadFavs = async () => {
+  const loadUserDapps = async () => {
     try {
       const cache = localStorage.getItem('userdapps');
       if (cache) {
@@ -86,7 +90,7 @@ export default function InstallDAPPs() {
       },
     );
     if (res && res.data) {
-      loadFavs();
+      loadUserDapps();
       loadUsersCategories();
     }
   }
@@ -104,14 +108,14 @@ export default function InstallDAPPs() {
         },
       );
       toast.success('uninstalled');
-      await loadFavs();
+      await loadUserDapps();
     } catch (e) {
       toast.error('uninstall failed');
     }
     toast.dismiss(loading);
   }
   useEffect(() => {
-    loadFavs();
+    loadUserDapps();
     loadUsersCategories();
   }, []);
 
@@ -201,23 +205,6 @@ export default function InstallDAPPs() {
               >
                 {getLang('recently_visited')}
               </div>
-              <div
-                onClick={() => {
-                  activeCategory('ungrouped');
-                }}
-                style={{
-                  fontSize: '12px',
-                  padding: '0px 10px',
-                  lineHeight: '26px',
-                  borderRadius: '13px',
-                  cursor: 'pointer',
-                  background:
-                    activeCategoryId == 'ungrouped' ? '#9f50ff' : '#fff',
-                  color: activeCategoryId == 'ungrouped' ? '#fff' : '#444',
-                }}
-              >
-                {getLang('ungrouped')}
-              </div>
 
               {user_categories.map((cat) => (
                 <div
@@ -238,6 +225,23 @@ export default function InstallDAPPs() {
                   {cat.title}
                 </div>
               ))}
+              <div
+                onClick={() => {
+                  activeCategory('ungrouped');
+                }}
+                style={{
+                  fontSize: '12px',
+                  padding: '0px 10px',
+                  lineHeight: '26px',
+                  borderRadius: '13px',
+                  cursor: 'pointer',
+                  background:
+                    activeCategoryId == 'ungrouped' ? '#9f50ff' : '#fff',
+                  color: activeCategoryId == 'ungrouped' ? '#fff' : '#444',
+                }}
+              >
+                {getLang('ungrouped')}
+              </div>
               <Box
                 onClick={() => {
                   showModal();
@@ -393,6 +397,14 @@ export default function InstallDAPPs() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <AddDappModal
+        onSuccess={(dapp_id, selectedCatId) => {
+          loadUserDapps();
+          if (selectedCatId) {
+            activeCategory(selectedCatId);
+          }
+        }}
+      />
     </Box>
   );
 }

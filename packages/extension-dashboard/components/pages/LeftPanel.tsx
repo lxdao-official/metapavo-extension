@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { getLang } from '../../utils/lang';
 import { getListConfig, setListConfig } from '../../utils/localStore/store';
 import CardModule from '../CardModule';
-import CollectedNFTs from '../functions/CollectedNFTs';
-import InstallDAPPs from '../functions/InstallDAPPs';
-import ReadLaters from '../functions/ReadLaters';
-import VisitHistories from '../functions/VisitHistories';
+import CollectedNFTs from '../modules/CollectedNFTs';
+import InstallDAPPs from '../modules/InstallDAPPs';
+import ReadLaters from '../modules/ReadLaters';
+import VisitHistories from '../modules/VisitHistories';
 
 const allModules = [
   'InstallDAPPs',

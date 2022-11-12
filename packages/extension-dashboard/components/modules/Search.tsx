@@ -161,8 +161,8 @@ export default function Search() {
               <Grid container spacing={1}>
                 {dapps.map((dapp) => {
                   return (
-                    <Grid item xs={2}>
-                      <DappCard dapp={dapp} />
+                    <Grid item xs={3}>
+                      <DappCard dapp={dapp} showPick={true} />
                     </Grid>
                   );
                 })}
@@ -198,7 +198,7 @@ export default function Search() {
                 {nfts.map((nft) => {
                   return (
                     <Grid item xs={4}>
-                      <NFTCard activeProject={nft} />
+                      <NFTCard activeProject={nft} showPick={true} />
                     </Grid>
                   );
                 })}
@@ -235,7 +235,7 @@ export default function Search() {
                 {tokens.map((token) => {
                   return (
                     <Grid item xs={4}>
-                      <CoinNormalCard token={token} />
+                      <CoinNormalCard token={token} showPick={true} />
                     </Grid>
                   );
                 })}

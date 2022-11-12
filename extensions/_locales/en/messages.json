@@ -154,5 +154,8 @@
   },
   "MyNFTs": {
     "message": "My NFTs"
+  },
+  "Please_choose_category": {
+    "message": "Please choose category"
   }
 }

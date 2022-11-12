@@ -5,6 +5,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import globalEvent from '../../context/EventBus';
 import { UserContext } from '../../context/useUser';
 import { getUsersFavs } from '../../utils/apis/nft_api';
 import { projectLinksWrapper } from '../../utils/apis/project_wrapper';
@@ -56,6 +57,9 @@ export default function CollectedNFTs() {
     }
   };
   useEffect(() => {
+    globalEvent.on('reloadFavs', () => {
+      loadFavs();
+    });
     loadFavs();
   }, []);
   return (

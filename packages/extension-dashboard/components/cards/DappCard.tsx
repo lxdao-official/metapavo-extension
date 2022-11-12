@@ -6,10 +6,16 @@ import {
 } from '@mui/material';
 
 import config from '../../config';
+import globalEvent from '../../context/EventBus';
 import { dapps } from '../../utils/apis';
 import { addViewLog } from '../../utils/apis/dapps_api';
+import Pick from './Pick';
 
-export default function DappCard(props: { dapp: dapps }) {
+export default function DappCard(props: {
+  dapp: dapps;
+  showPick?: boolean;
+  onPick?: (dapp: dapps) => void;
+}) {
   const blankImage = chrome.runtime.getURL('images/placeholder.png');
   const toLink = () => {
     addViewLog(props.dapp);
@@ -75,6 +81,18 @@ export default function DappCard(props: { dapp: dapps }) {
             </div>
           }
         ></ListItemText>
+        {props.showPick ? (
+          <Pick
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              alignContent: 'center',
+            }}
+            onPick={function (e: string): void {
+              globalEvent.emit('pick_dapp', props.dapp);
+            }}
+          />
+        ) : null}
       </ListItemButton>
     </ListItem>
   );

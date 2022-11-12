@@ -1,4 +1,4 @@
-import { dapps } from '.';
+import { dapps, user_dapps_catogories } from '.';
 import config from '../../config';
 import { fetchWrapped } from './fetch';
 
@@ -27,4 +27,29 @@ export function addViewLog(dapp: dapps) {
 export function getViewLogs() {
   const logs = localStorage.getItem('dapp_viewLogs');
   return logs ? JSON.parse(logs) : [];
+}
+
+export function installDapp(dapp_id: string, category_id?: string) {
+  return fetchWrapped(
+    `${config.baseURL}/dapps/${dapp_id}/install?categoryId=${category_id}`,
+    {
+      method: 'GET',
+    },
+  );
+}
+
+export async function fetchUsersCategory(): Promise<user_dapps_catogories[]> {
+  const res = await fetchWrapped(
+    `${config.baseURL}/dapps/user_dapp_categories`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  if (res && res.success) {
+    return res.data;
+  }
+  return [];
 }

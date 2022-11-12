@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 
 import CardModule from '../../components/CardModule';
 import { getLang } from '../../utils/lang';
-import CoinPrices from '../functions/CoinPrices';
-import CollectedNFTs from '../functions/CollectedNFTs';
-import GasFees from '../functions/GasFees';
-import InstallDAPPs from '../functions/InstallDAPPs';
-import ReadLaters from '../functions/ReadLaters';
-import Search from '../functions/Search';
-import VisitHistories from '../functions/VisitHistories';
+import CoinPrices from '../modules/CoinPrices';
+import CollectedNFTs from '../modules/CollectedNFTs';
+import GasFees from '../modules/GasFees';
+import InstallDAPPs from '../modules/InstallDAPPs';
+import ReadLaters from '../modules/ReadLaters';
+import Search from '../modules/Search';
+import VisitHistories from '../modules/VisitHistories';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 

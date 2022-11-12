@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useContext } from 'react';
 import toast from 'react-hot-toast';
 
+import globalEvent from '../../context/EventBus';
 import {
   addFavByProjectId,
   isFaved,
@@ -13,8 +14,12 @@ import { AutoDecimal } from '../../utils/decimals';
 import { getLang } from '../../utils/lang';
 import { linkImages } from '../../utils/linkImages';
 import { NFTCardRoot } from '../styles';
+import Pick from './Pick';
 
-export default function NFTCard(props: { activeProject: IProjectV2 }) {
+export default function NFTCard(props: {
+  activeProject: IProjectV2;
+  showPick?: boolean;
+}) {
   const activeProject = props.activeProject;
   const blankImage = chrome.runtime.getURL('images/placeholder.png');
   const [links, setLinks] = React.useState<any[]>([]);
@@ -158,6 +163,20 @@ export default function NFTCard(props: { activeProject: IProjectV2 }) {
           ))}
         </div>
       </div>
+      {props.showPick ? (
+        <Pick
+          style={{
+            position: 'absolute',
+            bottom: '5px',
+            right: '5px',
+            cursor: 'pointer',
+          }}
+          onPick={async function (e: string) {
+            await addFavByProjectId(activeProject.id);
+            toast.success('collect nft to dashboard success');
+          }}
+        />
+      ) : null}
     </NFTCardRoot>
   );
 }

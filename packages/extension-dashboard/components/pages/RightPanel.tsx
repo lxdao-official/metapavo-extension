@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { getLang } from '../../utils/lang';
 import { getListConfig, setListConfig } from '../../utils/localStore/store';
 import CardModule from '../CardModule';
-import CoinPrices from '../functions/CoinPrices';
-import GasFees from '../functions/GasFees';
-import MyNFTs from '../functions/MyNFTs';
+import CoinPrices from '../modules/CoinPrices';
+import GasFees from '../modules/GasFees';
+import MyNFTs from '../modules/MyNFTs';
 
 const allModules = ['GasFees', 'CoinPrices', 'MyNFTs'];
 export default function RightPanel() {

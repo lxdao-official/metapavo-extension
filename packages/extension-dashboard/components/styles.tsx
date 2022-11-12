@@ -161,7 +161,9 @@ export const NFTCardRoot = styled.div`
   border: 1px solid #efefef;
   border-radius: 5px;
   background: #fff;
+
   padding: 10px;
+  position: relative;
 
   .mp-success-hd {
     display: flex;
@@ -288,6 +290,7 @@ export const TokenCardRoot = styled.div`
   border-radius: 5px;
   background: #fff;
   padding: 10px;
+  position: relative;
 
   .mp-success-hd {
     display: flex;
@@ -341,6 +344,9 @@ export const TokenCardRoot = styled.div`
     line-height: 20px;
     color: #979797;
     display: block;
+    flex: 1;
+    text-align: right;
+    padding-top: 20px;
     svg {
       vertical-align: -2px;
       margin-right: 3px;
@@ -350,7 +356,7 @@ export const TokenCardRoot = styled.div`
     display: flex;
     position: relative;
     justify-content: space-between;
-    margin-top: 5px;
+    margin-top: 20px;
     button {
       width: 72px;
       height: 25px;

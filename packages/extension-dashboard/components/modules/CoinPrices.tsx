@@ -7,6 +7,7 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import globalEvent from '../../context/EventBus';
 import { getLang } from '../../utils/lang';
 import CardModule from '../CardModule';
 import CoinPriceCard from '../cards/CoinPriceCard';
@@ -27,9 +28,19 @@ export default function CoinPrices(props: {
       setsymbols(['BTC', 'ETH']);
     }
   }
-
+  async function addToken() {
+    const newList = [...symbols, addSymbol];
+    localStorage.setItem(STORE_KEY, JSON.stringify(newList));
+    loadConfig();
+    hideModal();
+    toast.success('Add token success');
+  }
   useEffect(() => {
     loadConfig();
+    globalEvent.on('add_token', (_symbol: string) => {
+      setshowModalState(true);
+      setaddSymbol(_symbol);
+    });
   }, []);
 
   const [showModalState, setshowModalState] = useState(false);
@@ -135,6 +146,7 @@ export default function CoinPrices(props: {
               color="primary"
               size="lg"
               placeholder="input token's symbol"
+              value={addSymbol}
               onChange={(e) => {
                 e.target.value && setaddSymbol(e.target.value.toUpperCase());
               }}
@@ -148,11 +160,7 @@ export default function CoinPrices(props: {
               auto
               onClick={async () => {
                 if (addSymbol) {
-                  symbols.push(addSymbol);
-                  localStorage.setItem(STORE_KEY, JSON.stringify(symbols));
-                  setsymbols(symbols);
-                  hideModal();
-                  toast.success('Add token success');
+                  addToken();
                 }
               }}
             >
