@@ -1,6 +1,4 @@
-import styled, { keyframes } from 'styled-components';
-
-import { colorfulButtonStyle } from '../../../../styles/common-colorful-button';
+import styled, { keyframes } from "styled-components";
 
 const transform = keyframes`
   0%,
@@ -57,7 +55,7 @@ const dangerboom = keyframes`
   }
   `;
 export const GasBox = styled.div`
-  content: '';
+  content: "";
   display: block;
   height: 50px;
   width: 50px;
@@ -98,16 +96,11 @@ export const RootElement = styled.div`
   transition: all 0.6s ease-in;
   //background: linear-gradient(91.75deg, #7DE2AC 0%, #389DFA 49.26%, #9F50FF 97.76%);
   // --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #21d4fd, inset -40px 10px 100px #3551fd;
-  --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #7de2ac,
-    inset -40px 10px 100px #9f50ff;
+  --shades: inset 10px 0 40px #b721ff, inset -10px 0 20px #7de2ac, inset -40px 10px 100px #9f50ff;
   --error-shades: inset 10px 0 40px #ff0000, inset -10px 0 20px #ff0000,
     inset -40px 10px 100px #ff0000;
   * {
     font-family: Source Sans Pro, Helvetica Neue, Arial, sans-serif !important;
-  }
-  #metapavo-box-gas {
-    display: flex;
-    justify-content: center;
   }
   :hover #metapavo-box-gas {
     opacity: 1;
@@ -162,36 +155,20 @@ export const RootElement = styled.div`
   }
 `;
 
-export const SuccessRootElement = styled.div`
-  opacity: 0;
-
-  position: absolute;
-  width: 327px;
-  height: 167px;
-  box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16),
-    0px 0px 1px rgba(0, 0, 0, 0.4);
-  border-radius: 16px;
-  transition: all 0.75s ease-in-out 0s;
-  transform-origin: 100% 100%;
-  right: -11px;
-  bottom: 55px;
+export const NFTCardRoot = styled.div`
+  width: 100%;
+  border: 1px solid #efefef;
+  border-radius: 5px;
   background: #fff;
-  &.mp-success-show {
-    opacity: 1;
-  }
-  &.mp-success-hide {
-    opacity: 0;
-    transform: scale(0);
-  }
+
+  padding: 10px;
+  position: relative;
 
   .mp-success-hd {
     display: flex;
     justify-content: flex-start;
-    height: 50px;
-    padding-left: 20px;
+    height: 30px;
     align-items: center;
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
-    padding-right: 40px;
     img {
       width: 24px;
       height: 24px;
@@ -207,53 +184,38 @@ export const SuccessRootElement = styled.div`
     .mp-success-title {
       height: 19px;
       margin-left: 8px;
-      font-family: 'Inter';
+      font-family: "Inter";
       font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
+      font-weight: 500;
+      font-size: 14px;
       line-height: 19px;
       display: flex;
 
       text-align: left;
       color: #252525;
       overflow: hidden;
+      align-items: flex-start;
     }
     .mp-success-verified {
       margin-left: 8px;
+      min-width: 16px;
     }
   }
-  .mp-success-close {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    right: 15px;
-    top: 12px;
-    cursor: pointer;
-    z-index: 100;
-  }
+
   .mp-success-bd {
     display: flex;
     flex-wrap: wrap;
-    padding: 10px;
-    padding-left: 20px;
   }
   .mp-success-bd-price {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 25px;
-
-    display: flex;
-    align-items: center;
-    color: #979797;
     width: 100%;
-    height: 25px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin-top: 6px;
   }
   .mp-success-price-item {
-    padding-right: 10px;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 20px;
+    color: #979797;
+    display: block;
     svg {
       vertical-align: -2px;
       margin-right: 3px;
@@ -263,16 +225,11 @@ export const SuccessRootElement = styled.div`
     display: flex;
     position: relative;
     justify-content: space-between;
-    margin: 0px 20px;
+    margin-top: 5px;
     button {
       width: 72px;
       height: 25px;
-      background: linear-gradient(
-        91.75deg,
-        #7de2ac 0%,
-        #389dfa 49.26%,
-        #9f50ff 97.76%
-      );
+      background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
       border-radius: 4px;
       color: #fff;
       font-size: 12px;
@@ -282,7 +239,7 @@ export const SuccessRootElement = styled.div`
     }
   }
   .mp-success-links-left {
-    width: 255px;
+    width: 80%;
     overflow-x: auto;
     position: relative;
     bahavior: smooth;
@@ -291,32 +248,26 @@ export const SuccessRootElement = styled.div`
     }
   }
 
-  .mp-success-links-left-inner {
+  .mp-success-links-left {
     display: flex;
     justify-content: flex-start;
-    line-height: 40px;
-    height: 25px;
+    line-height: 20px;
+    height: 20px;
     align-items: center;
     gap: 6px 6px;
     a {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       box-sizing: content-box;
       display: block;
       img {
-        width: 20px;
-        height: 20px;
-        max-width: 20px;
-        min-width: 20px;
+        width: 16px;
+        height: 16px;
+        max-width: 16px;
+        min-width: 16px;
         vertical-align: 5px;
         display: block;
       }
-    }
-    .dividor {
-      border: 0.5px solid #979797;
-      margin-top: 0px;
-      height: 10px;
-      width: 0px;
     }
   }
 `;
@@ -325,30 +276,123 @@ export const AddWatchButton = styled.button`
   padding-right: 20px !important;
   padding-left: 10px !important;
   font-size: 12px !important;
-
-  ${colorfulButtonStyle}
 `;
 
-export const CircleRootElement = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+export const TokenCardRoot = styled.div`
+  width: 100%;
+  border: 1px solid #efefef;
+  border-radius: 5px;
   background: #fff;
-  box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16),
-    0px 0px 1px rgba(0, 0, 0, 0.4);
-  color: #444;
-  line-height: 40px;
-  text-align: center;
-  transition: all 0.75s ease-in-out 0s;
-  transform-origin: 100% 100%;
-  position: absolute;
-  &.mp-circle-show {
-    opacity: 1;
+  padding: 10px;
+  position: relative;
+
+  .mp-success-hd {
+    display: flex;
+    justify-content: flex-start;
+    height: 30px;
+    align-items: center;
+    img {
+      width: 24px;
+      height: 24px;
+
+      border-radius: 5px;
+
+      /* Inside auto layout */
+
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+    }
+    .mp-success-title {
+      height: 19px;
+      margin-left: 8px;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 19px;
+      display: flex;
+
+      text-align: left;
+      color: #252525;
+      overflow: hidden;
+      align-items: flex-start;
+    }
+    .mp-success-verified {
+      margin-left: 8px;
+      min-width: 16px;
+    }
   }
-  &.mp-circle-hide {
-    opacity: 0;
-    transform: scale(0);
+
+  .mp-success-bd {
+    display: flex;
+    flex-wrap: wrap;
   }
-  .mp-circle-btn {
+  .mp-success-bd-price {
+    width: 100%;
+    margin-top: 6px;
+  }
+  .mp-success-price-item {
+    font-style: normal;
+    font-size: 12px;
+    line-height: 20px;
+    color: #979797;
+    display: block;
+    flex: 1;
+    text-align: right;
+    padding-top: 20px;
+    svg {
+      vertical-align: -2px;
+      margin-right: 3px;
+    }
+  }
+  .mp-success-links {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    margin-top: 20px;
+    button {
+      width: 72px;
+      height: 25px;
+      background: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
+      border-radius: 4px;
+      color: #fff;
+      font-size: 12px;
+      line-height: 25px;
+      border: none;
+      cursor: pointer;
+    }
+  }
+  .mp-success-links-left {
+    width: 80%;
+    overflow-x: auto;
+    position: relative;
+    bahavior: smooth;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .mp-success-links-left {
+    display: flex;
+    justify-content: flex-start;
+    line-height: 20px;
+    height: 20px;
+    align-items: center;
+    gap: 6px 6px;
+    a {
+      width: 16px;
+      height: 16px;
+      box-sizing: content-box;
+      display: block;
+      img {
+        width: 16px;
+        height: 16px;
+        max-width: 16px;
+        min-width: 16px;
+        vertical-align: 5px;
+        display: block;
+      }
+    }
   }
 `;

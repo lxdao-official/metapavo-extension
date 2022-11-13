@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Toaster } from 'react-hot-toast';
 
 import Ball from './components/pavo-ball/ball';
+import SearchWrapper from './components/search/SearchWrapper';
 import useGlobal, { GlobalContext } from './context/useGlobal';
 import useWallet, { WalletContext } from './context/useWallet';
 import './scripts/tag';
@@ -77,6 +78,7 @@ function Root() {
       <GlobalContext.Provider value={useG}>
         <WalletContext.Provider value={wallet}>
           <Ball />
+          <SearchWrapper />
         </WalletContext.Provider>
       </GlobalContext.Provider>
     </ThemeProvider>

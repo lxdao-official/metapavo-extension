@@ -2,17 +2,17 @@ import { Box, Grid } from '@mui/material';
 import { Input, Loading } from '@nextui-org/react';
 import { useEffect, useRef, useState } from 'react';
 
-import styles from '../../styles/Home.module.css';
-import { dapps, tokens } from '../../utils/apis';
-import { searchDapps } from '../../utils/apis/dapps_api';
-import { searchProjectsV2 } from '../../utils/apis/nft_api_v2';
-import { projectLinksWrapper } from '../../utils/apis/project_wrapper';
-import { searchTokens } from '../../utils/apis/tokens_api';
-import { IProjectV2 } from '../../utils/apis/types';
-import { getLang } from '../../utils/lang';
+import { IProjectV2 } from '../../../../../utils/apis/types';
+import { getLang } from '../../../../../utils/lang';
 import CoinNormalCard from '../cards/CoinNormalCard';
 import DappCard from '../cards/DappCard';
 import NFTCard from '../cards/NFTCard';
+import styles from '../styles/Home.module.css';
+import { dapps, tokens } from '../utils/apis';
+import { searchDapps } from '../utils/apis/dapps_api';
+import { searchProjectsV2 } from '../utils/apis/nft_api_v2';
+import { projectLinksWrapper } from '../utils/apis/project_wrapper';
+import { searchTokens } from '../utils/apis/tokens_api';
 
 export default function Search() {
   const [keyword, setKeyword] = useState('');
@@ -81,6 +81,7 @@ export default function Search() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [wrapperRef]);
+  useEffect(() => {}, []);
   return (
     <div className={styles.searchBg}>
       <Box
@@ -96,19 +97,22 @@ export default function Search() {
           clearable
           width="100%"
           shadow={false}
+          autoFocus={true}
           css={{
-            height: '40px',
+            height: '60px',
             background: '#fff',
             border: 'none',
             textAlign: 'center',
             fontSize: '14px',
-            borderRadius: '20px',
-            borderBottomLeftRadius: inputFocus ? '0px' : '20px',
-            borderBottomRightRadius: inputFocus ? '0px' : '20px',
+            borderRadius: '30px',
+            borderBottomLeftRadius: inputFocus ? '0px' : '30px',
+            borderBottomRightRadius: inputFocus ? '0px' : '30px',
             '& label': {
-              borderRadius: '20px',
-              borderBottomLeftRadius: inputFocus ? '0px' : '20px',
-              borderBottomRightRadius: inputFocus ? '0px' : '20px',
+              borderRadius: '30px',
+              height: '60px',
+              fontSize: '16px',
+              borderBottomLeftRadius: inputFocus ? '0px' : '30px',
+              borderBottomRightRadius: inputFocus ? '0px' : '30px',
             },
           }}
           onChange={(e) => {
@@ -129,7 +133,7 @@ export default function Search() {
           <Box
             style={{
               position: 'absolute',
-              top: '40px',
+              top: '60px',
               left: '0',
               width: '100%',
               overflowY: 'auto',

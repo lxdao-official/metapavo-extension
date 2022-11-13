@@ -1,21 +1,20 @@
-import { Box, Grid } from '@mui/material';
-import { Input, Loading } from '@nextui-org/react';
-import { useEffect, useRef, useState } from 'react';
-
-import styles from '../../styles/Home.module.css';
-import { dapps, tokens } from '../../utils/apis';
-import { searchDapps } from '../../utils/apis/dapps_api';
-import { searchProjectsV2 } from '../../utils/apis/nft_api_v2';
-import { projectLinksWrapper } from '../../utils/apis/project_wrapper';
-import { searchTokens } from '../../utils/apis/tokens_api';
-import { IProjectV2 } from '../../utils/apis/types';
-import { getLang } from '../../utils/lang';
-import CoinNormalCard from '../cards/CoinNormalCard';
-import DappCard from '../cards/DappCard';
-import NFTCard from '../cards/NFTCard';
+import CoinNormalCard from "../cards/CoinNormalCard";
+import DappCard from "../cards/DappCard";
+import NFTCard from "../cards/NFTCard";
+import styles from "../styles/Home.module.css";
+import { dapps, tokens } from "../utils/apis";
+import { searchDapps } from "../utils/apis/dapps_api";
+import { searchProjectsV2 } from "../utils/apis/nft_api_v2";
+import { projectLinksWrapper } from "../utils/apis/project_wrapper";
+import { searchTokens } from "../utils/apis/tokens_api";
+import { IProjectV2 } from "../utils/apis/types";
+import { getLang } from "../utils/lang";
+import { Box, Grid } from "@mui/material";
+import { Input, Loading } from "@nextui-org/react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Search() {
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState("");
   const [inputFocus, setInputFocus] = useState(false);
   const [dappsSearching, setDappsSearching] = useState(false);
   const [dapps, setDapps] = useState<dapps[]>([]);
@@ -76,18 +75,18 @@ export default function Search() {
         setInputFocus(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [wrapperRef]);
   return (
     <div className={styles.searchBg}>
       <Box
         style={{
-          width: '700px',
-          margin: '0 auto',
-          position: 'relative',
+          width: "700px",
+          margin: "0 auto",
+          position: "relative",
         }}
         ref={wrapperRef}
       >
@@ -97,18 +96,18 @@ export default function Search() {
           width="100%"
           shadow={false}
           css={{
-            height: '40px',
-            background: '#fff',
-            border: 'none',
-            textAlign: 'center',
-            fontSize: '14px',
-            borderRadius: '20px',
-            borderBottomLeftRadius: inputFocus ? '0px' : '20px',
-            borderBottomRightRadius: inputFocus ? '0px' : '20px',
-            '& label': {
-              borderRadius: '20px',
-              borderBottomLeftRadius: inputFocus ? '0px' : '20px',
-              borderBottomRightRadius: inputFocus ? '0px' : '20px',
+            height: "40px",
+            background: "#fff",
+            border: "none",
+            textAlign: "center",
+            fontSize: "14px",
+            borderRadius: "20px",
+            borderBottomLeftRadius: inputFocus ? "0px" : "20px",
+            borderBottomRightRadius: inputFocus ? "0px" : "20px",
+            "& label": {
+              borderRadius: "20px",
+              borderBottomLeftRadius: inputFocus ? "0px" : "20px",
+              borderBottomRightRadius: inputFocus ? "0px" : "20px",
             },
           }}
           onChange={(e) => {
@@ -120,7 +119,7 @@ export default function Search() {
           }}
           onKeyDown={(e) => {
             // enter press
-            if (e.code == 'Enter') {
+            if (e.code == "Enter") {
               window.location.href = `https://www.google.com/search?q=${keyword}`;
             }
           }}
@@ -128,25 +127,25 @@ export default function Search() {
         {inputFocus && (
           <Box
             style={{
-              position: 'absolute',
-              top: '40px',
-              left: '0',
-              width: '100%',
-              overflowY: 'auto',
-              background: '#fff',
-              borderRadius: '20px',
-              borderTopLeftRadius: '0px',
-              borderTopRightRadius: '0px',
-              padding: '20px',
-              boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
+              position: "absolute",
+              top: "40px",
+              left: "0",
+              width: "100%",
+              overflowY: "auto",
+              background: "#fff",
+              borderRadius: "20px",
+              borderTopLeftRadius: "0px",
+              borderTopRightRadius: "0px",
+              padding: "20px",
+              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
               zIndex: 999,
             }}
           >
             <div
               style={{
-                lineHeight: '30px',
-                fontSize: '14px',
-                color: '#444',
+                lineHeight: "30px",
+                fontSize: "14px",
+                color: "#444",
                 fontWeight: 500,
               }}
             >
@@ -169,20 +168,20 @@ export default function Search() {
             ) : (
               <div
                 style={{
-                  textAlign: 'left',
-                  fontSize: '12px',
-                  color: '#666',
-                  lineHeight: '40px',
+                  textAlign: "left",
+                  fontSize: "12px",
+                  color: "#666",
+                  lineHeight: "40px",
                 }}
               >
-                {getLang('No_results')}
+                {getLang("No_results")}
               </div>
             )}
             <div
               style={{
-                lineHeight: '30px',
-                fontSize: '14px',
-                color: '#444',
+                lineHeight: "30px",
+                fontSize: "14px",
+                color: "#444",
                 fontWeight: 500,
               }}
             >
@@ -205,22 +204,22 @@ export default function Search() {
             ) : (
               <div
                 style={{
-                  textAlign: 'left',
-                  fontSize: '12px',
-                  color: '#666',
-                  lineHeight: '40px',
+                  textAlign: "left",
+                  fontSize: "12px",
+                  color: "#666",
+                  lineHeight: "40px",
                 }}
               >
-                {getLang('No_results')}
+                {getLang("No_results")}
               </div>
             )}
             <div
               style={{
-                lineHeight: '30px',
-                fontSize: '14px',
-                color: '#444',
+                lineHeight: "30px",
+                fontSize: "14px",
+                color: "#444",
                 fontWeight: 500,
-                marginTop: '10px',
+                marginTop: "10px",
               }}
             >
               Tokens
@@ -242,13 +241,13 @@ export default function Search() {
             ) : (
               <div
                 style={{
-                  textAlign: 'left',
-                  fontSize: '12px',
-                  color: '#666',
-                  lineHeight: '40px',
+                  textAlign: "left",
+                  fontSize: "12px",
+                  color: "#666",
+                  lineHeight: "40px",
                 }}
               >
-                {getLang('No_results')}
+                {getLang("No_results")}
               </div>
             )}
           </Box>

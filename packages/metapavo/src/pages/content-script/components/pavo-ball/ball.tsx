@@ -1,3 +1,4 @@
+import { Button, Tooltip } from '@nextui-org/react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { getLang } from '../../../../utils/lang';
@@ -17,6 +18,7 @@ function Ball() {
   const gasRef = useRef<HTMLDivElement>(null);
   const useG = useContext(GlobalContext);
   const [gas, setGas] = useState(0);
+  const { showSearch, setShowSearch } = useContext(GlobalContext);
   function dragElement() {
     if (!gasRef.current) return;
     var pos1 = 0,
@@ -50,6 +52,7 @@ function Ball() {
       if (new Date().getTime() - mousedownTimestamp < 300) {
         if (!useG.addRootClass) {
           // 点击事件
+          setShowSearch(true);
         }
       }
       closeDragElement();
@@ -141,6 +144,12 @@ function Ball() {
     document.body.addEventListener('click', () => {
       setMenuOpen(false);
     });
+    document.body.addEventListener('keydown', (e) => {
+      if (e.code === 'KeyP' && e.metaKey) {
+        setShowSearch(true);
+        e.preventDefault();
+      }
+    });
   }
   function noDisplay7() {
     setHide(true);
@@ -195,23 +204,37 @@ function Ball() {
             setMenuOpen(true);
           }}
         >
-          <div id="metapavo-gas-text">
-            {gas}
-            <br />
-            <span
-              style={{
-                fontSize: '12px',
-                fontWeight: '400',
-                opacity: '0.8',
-                transform: 'scale(0.7)',
-                display: 'block',
-                marginTop: '4px',
-                color: '#fff',
-              }}
-            >
-              GAS
-            </span>
-          </div>
+          <Tooltip
+            content={
+              <Button
+                onClick={() => {
+                  noDisplay7();
+                }}
+                size="sm"
+              >
+                {getLang('nodisplay7')}
+              </Button>
+            }
+            placement="left"
+          >
+            <div id="metapavo-gas-text">
+              {gas}
+              <br />
+              <span
+                style={{
+                  fontSize: '12px',
+                  fontWeight: '400',
+                  opacity: '0.8',
+                  transform: 'scale(0.7)',
+                  display: 'block',
+                  marginTop: '4px',
+                  color: '#fff',
+                }}
+              >
+                GAS
+              </span>
+            </div>
+          </Tooltip>
         </GasBox>
         <DangerPopup
           state={
@@ -223,9 +246,6 @@ function Ball() {
             useG.addRootClass === 'metapavo-main-box-success' ? 'show' : 'hide'
           }
         />
-        <CirclePopup2
-          state={activeCorner === 2 ? 'show' : 'hide'}
-        ></CirclePopup2>
       </RootElement>
     </>
   );

@@ -20,6 +20,8 @@ export const GlobalContext = React.createContext<{
   showSuccess: () => void;
   setAddRootClass: (addRootClass: string) => void;
   refreshActiveProject: () => void;
+  showSearch: boolean;
+  setShowSearch: (showSearch: boolean) => void;
 }>({} as any);
 function useGlobal() {
   const [activeProject, _setActiveProject] = React.useState<IProjectV2 | null>(
@@ -85,6 +87,7 @@ function useGlobal() {
     }
   }
 
+  const [showSearch, setShowSearch] = React.useState(false);
   return {
     activeProject,
     setActiveProject,
@@ -97,6 +100,8 @@ function useGlobal() {
     refreshActiveProject,
     activeTokenId,
     setActiveTokenId,
+    showSearch,
+    setShowSearch,
   };
 }
 export default useGlobal;
