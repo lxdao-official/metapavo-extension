@@ -352,3 +352,35 @@ export const CircleRootElement = styled.div`
   .mp-circle-btn {
   }
 `;
+
+export const DappPopupRootElement = styled.div`
+  position: absolute;
+  width: 257px;
+  box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16),
+    0px 0px 1px rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  transition: all 0.75s ease-in-out 0s;
+  transform-origin: 100% 100%;
+  right: -11px;
+  bottom: 55px;
+  background: #fff;
+
+  padding: 16px;
+  padding-top: 10px;
+  &.mp-success-show {
+    opacity: 1;
+  }
+  &.mp-success-hide {
+    opacity: 0;
+    transform: scale(0);
+  }
+  .mp-success-close {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 15px;
+    top: 12px;
+    cursor: pointer;
+    z-index: 100;
+  }
+`;

@@ -12,6 +12,7 @@ import { projectLinksWrapper } from '../../utils/apis/project_wrapper';
 import { favs } from '../../utils/apis/types';
 import { getLang } from '../../utils/lang';
 import NFTCard from '../cards/NFTCard';
+import NoLogin from './common/NoLogin';
 
 export default function CollectedNFTs() {
   const { token } = useContext(UserContext);
@@ -129,18 +130,7 @@ export default function CollectedNFTs() {
           </>
         )
       ) : (
-        <div
-          style={{
-            textAlign: 'left',
-            width: '100%',
-            fontSize: '14px',
-            lineHeight: '50px',
-            paddingLeft: '10px',
-            color: '#666',
-          }}
-        >
-          {getLang('not_login_for_module')}
-        </div>
+        <NoLogin />
       )}
     </Box>
   );

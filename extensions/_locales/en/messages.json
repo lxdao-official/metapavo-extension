@@ -144,7 +144,10 @@
     "message": "Recent Visited"
   },
   "not_login_for_module": {
-    "message": "Please login to use this module"
+    "message": "Please login to view this module"
+  },
+  "click_to_login": {
+    "message": "Click to login"
   },
   "low24h": {
     "message": "Low 24h"
@@ -157,5 +160,11 @@
   },
   "Please_choose_category": {
     "message": "Please choose category"
+  },
+  "add_to_read_later": {
+    "message": "Add to Read Later"
+  },
+  "install_dapp": {
+    "message": "Install DAPP"
   }
 }

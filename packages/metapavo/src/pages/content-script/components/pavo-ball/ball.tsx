@@ -1,10 +1,16 @@
 import { Button, Tooltip } from '@nextui-org/react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
+import { dapps } from '../../../../utils/apis';
 import { getLang } from '../../../../utils/lang';
+import { addItem } from '../../../../utils/read-later';
+import { recognizerDapp } from '../../../../utils/recognizer/dapp';
 import { GlobalContext } from '../../context/useGlobal';
+import { getLogo } from '../search/utils/getLogo';
 import CirclePopup2 from './status/circle2';
 import DangerPopup from './status/danger';
+import DappPopup from './status/dapp';
 import SuccessPopup from './status/success';
 import { GasBox, RootElement } from './styles';
 
@@ -107,8 +113,19 @@ function Ball() {
     }
   }
 
+  const [activeDapp, setActiveDapp] = useState<dapps | null>(null);
+  async function checkDapp() {
+    const res = await recognizerDapp();
+    if (res) {
+      setActiveDapp(res);
+      useG.setAddRootClass('metapavo-main-box-dapp');
+    } else {
+      setActiveDapp(null);
+    }
+  }
   function init() {
     useG.checkPlatform();
+    checkDapp();
     if (rootRef.current) {
       rootRef.current.style.right = '50px';
       rootRef.current.style.bottom = '50px';
@@ -167,7 +184,15 @@ function Ball() {
       setHide(true);
     }
   }, []);
-
+  async function addReadLater() {
+    try {
+      const logo = await getLogo(window.location.host);
+      await addItem(window.location.href, document.title, logo);
+      toast.success('add to read later success!');
+    } catch (e) {
+      toast.error('add to read later failed!');
+    }
+  }
   // 左上 右上 右下 左下
   const [activeCorner, setActiveCorner] = useState<0 | 1 | 2 | 3>(0);
 
@@ -206,16 +231,40 @@ function Ball() {
         >
           <Tooltip
             content={
-              <Button
-                onClick={() => {
-                  noDisplay7();
+              <div
+                style={{
+                  padding: '5px 3px',
                 }}
-                size="sm"
               >
-                {getLang('nodisplay7')}
-              </Button>
+                <div>
+                  <Button
+                    onClick={() => {
+                      addReadLater();
+                    }}
+                    size="sm"
+                    color="default"
+                  >
+                    {getLang('add_to_read_later')}
+                  </Button>
+                </div>
+                <div
+                  style={{
+                    marginTop: '10px',
+                  }}
+                >
+                  <Button
+                    onClick={() => {
+                      noDisplay7();
+                    }}
+                    size="sm"
+                    color="default"
+                  >
+                    {getLang('nodisplay7')}
+                  </Button>
+                </div>
+              </div>
             }
-            placement="left"
+            placement="leftStart"
           >
             <div id="metapavo-gas-text">
               {gas}
@@ -236,6 +285,9 @@ function Ball() {
             </div>
           </Tooltip>
         </GasBox>
+        {activeDapp && useG.addRootClass === 'metapavo-main-box-dapp' && (
+          <DappPopup dapp={activeDapp} />
+        )}
         <DangerPopup
           state={
             useG.addRootClass === 'metapavo-main-box-danger' ? 'show' : 'hide'

@@ -102,7 +102,7 @@
     "message": "我的 NFT"
   },
   "nodisplay7": {
-    "message": "7 天内不在此网站显示"
+    "message": "在此站隐藏7天"
   },
   "Read_Laters": {
     "message": "稍后读"
@@ -146,6 +146,9 @@
   "not_login_for_module": {
     "message": "查看此信息前请先登录"
   },
+  "click_to_login": {
+    "message": "点击登录"
+  },
   "low24h": {
     "message": "24h 最低价"
   },
@@ -157,5 +160,11 @@
   },
   "Please_choose_category": {
     "message": "请选择分类"
+  },
+  "add_to_read_later": {
+    "message": "添加到稍后读"
+  },
+  "install_dapp": {
+    "message": "安装 DAPP"
   }
 }

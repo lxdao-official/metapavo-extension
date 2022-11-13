@@ -30,6 +30,7 @@ import { getLang } from '../../utils/lang';
 import CardModule from '../CardModule';
 import DappCard from '../cards/DappCard';
 import AddDappModal from '../functions/AddDappModal';
+import NoLogin from './common/NoLogin';
 
 type UserDapp = user_dapps & {
   dapp: dapps;
@@ -334,18 +335,7 @@ export default function InstallDAPPs() {
           </Grid>
         </>
       ) : (
-        <div
-          style={{
-            textAlign: 'left',
-            width: '100%',
-            fontSize: '14px',
-            lineHeight: '50px',
-            paddingLeft: '10px',
-            color: '#666',
-          }}
-        >
-          {getLang('not_login_for_module')}
-        </div>
+        <NoLogin />
       )}
       <Modal
         closeButton
