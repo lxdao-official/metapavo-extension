@@ -8,7 +8,9 @@ import AddDappModal from '../../search/cards/AddDappModal';
 import DappCardDetail from '../../search/cards/DappCardDetail';
 import { DappPopupRootElement } from '../styles';
 
-export default function DappPopup(props: { dapp: dapps }) {
+export default function DappPopup(props: {
+  dapp: { installed: boolean } & dapps;
+}) {
   const [showModalState, setshowModalState] = useState(false);
   const { setAddRootClass } = useContext(GlobalContext);
   return (
@@ -16,13 +18,13 @@ export default function DappPopup(props: { dapp: dapps }) {
       <div
         style={{
           lineHeight: '30px',
-          fontSize: '12px',
+          fontSize: '13px',
           color: '#444',
           fontWeight: 300,
           textAlign: 'left',
         }}
       >
-        识别到 DAPP
+        {getLang('recognize_dapp')}
       </div>
       <DappCardDetail dapp={props.dapp} />
       <div
@@ -31,18 +33,31 @@ export default function DappPopup(props: { dapp: dapps }) {
           justifyContent: 'flex-end',
         }}
       >
-        <Button
-          style={{
-            marginTop: '10px',
-            minWidth: '100px',
-          }}
-          size="sm"
-          onClick={() => {
-            setshowModalState(true);
-          }}
-        >
-          {getLang('install_dapp')}
-        </Button>
+        {props.dapp.installed ? (
+          <Button
+            style={{
+              marginTop: '10px',
+              minWidth: '100px',
+            }}
+            ghost={true}
+            size="sm"
+          >
+            {getLang('installed_dapp')}
+          </Button>
+        ) : (
+          <Button
+            style={{
+              marginTop: '10px',
+              minWidth: '100px',
+            }}
+            size="sm"
+            onClick={() => {
+              setshowModalState(true);
+            }}
+          >
+            {getLang('install_dapp')}
+          </Button>
+        )}
       </div>
       <AddDappModal dapp={props.dapp} showModalState={showModalState} />
       <div

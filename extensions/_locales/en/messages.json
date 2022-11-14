@@ -166,5 +166,11 @@
   },
   "install_dapp": {
     "message": "Install DAPP"
+  },
+  "installed_dapp": {
+    "message": "Installed DAPP"
+  },
+  "recognize_dapp": {
+    "message": "Recognized DAPP"
   }
 }

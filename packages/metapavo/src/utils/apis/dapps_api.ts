@@ -54,8 +54,14 @@ export async function fetchUsersCategory(): Promise<user_dapps_catogories[]> {
   return [];
 }
 
-export async function fetchByHost(host: string): Promise<dapps | null> {
-  const res = await fetchWrapped(`${config.baseURL}/dapps/host/${host}`, {});
+export async function fetchByHost(
+  host: string,
+): Promise<({ installed: boolean } & dapps) | null> {
+  const res = await fetchWrapped(
+    `${config.baseURL}/dapps/host/${host}`,
+    {},
+    false,
+  );
   if (res && res.success && res.data.length) {
     return res.data[0];
   }

@@ -156,6 +156,9 @@ export const RootElement = styled.div`
   }
 `;
 
+export const DappCardRoot = styled.div`
+  position: relative;
+`;
 export const NFTCardRoot = styled.div`
   width: 100%;
   border: 1px solid #efefef;
@@ -164,7 +167,12 @@ export const NFTCardRoot = styled.div`
 
   padding: 10px;
   position: relative;
-
+  & .metapavo-pick-btn {
+    display: none;
+  }
+  &:hover .metapavo-pick-btn {
+    display: block;
+  }
   .mp-success-hd {
     display: flex;
     justify-content: flex-start;
@@ -291,7 +299,14 @@ export const TokenCardRoot = styled.div`
   background: #fff;
   padding: 10px;
   position: relative;
-
+  .metapavo-pick-btn {
+    display: none;
+  }
+  &:hover {
+    .metapavo-pick-btn {
+      display: block;
+    }
+  }
   .mp-success-hd {
     display: flex;
     justify-content: flex-start;

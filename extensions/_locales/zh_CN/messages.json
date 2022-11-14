@@ -166,5 +166,11 @@
   },
   "install_dapp": {
     "message": "安装 DAPP"
+  },
+  "installed_dapp": {
+    "message": "已安装 DAPP"
+  },
+  "recognize_dapp": {
+    "message": "识别到 DAPP"
   }
 }

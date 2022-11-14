@@ -62,8 +62,18 @@ export default function CoinPriceCard(props: { symbol: string }) {
     const labelX = labelRect.x;
     const labelWidth = labelRect.width;
     const overflow = labelWidth + labelX > chartWidth;
+    const labelY = labelRect.y;
+    let y = labelY;
+
+    if (labelY < 0) {
+      y = 0;
+    }
+    if (labelY + labelRect.height < params.rect.height) {
+      y = params.rect.height - labelRect.height;
+    }
     return {
       x: overflow ? chartWidth - labelWidth : labelX,
+      y: y,
     };
   };
 

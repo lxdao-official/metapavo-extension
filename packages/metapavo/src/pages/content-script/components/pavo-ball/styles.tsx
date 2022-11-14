@@ -379,7 +379,7 @@ export const DappPopupRootElement = styled.div`
     width: 24px;
     height: 24px;
     right: 15px;
-    top: 12px;
+    top: 18px;
     cursor: pointer;
     z-index: 100;
   }

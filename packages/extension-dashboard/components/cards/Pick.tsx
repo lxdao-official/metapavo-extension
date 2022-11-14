@@ -6,11 +6,11 @@ export default function Pick(props: {
   onPick: (value: string) => void;
 }) {
   return (
-    <div style={{ ...props.style }}>
+    <div style={{ ...props.style }} className="metapavo-pick-btn">
       <Tooltip content="Add to dashboard" placement="top">
         <svg
-          width="16"
-          height="16"
+          width="20"
+          height="20"
           viewBox="0 0 12 13"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

@@ -114,6 +114,9 @@ export default function Search() {
               borderBottomLeftRadius: inputFocus ? '0px' : '30px',
               borderBottomRightRadius: inputFocus ? '0px' : '30px',
             },
+            '& .nextui-input-clear-button': {
+              right: '10px',
+            },
           }}
           onChange={(e) => {
             setKeyword(e.target.value);
