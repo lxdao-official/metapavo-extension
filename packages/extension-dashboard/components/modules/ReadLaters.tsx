@@ -65,6 +65,7 @@ export default function ReadLaters() {
                         onClick={() => {
                           window.location.href = `${u.link}`;
                         }}
+                        title={u.title}
                       >
                         <ListItemButton style={{ padding: '3px 8px' }}>
                           <ListItemIcon

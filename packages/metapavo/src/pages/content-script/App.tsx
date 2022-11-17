@@ -27,6 +27,7 @@ const style = document.createElement('style');
 style.innerText = `
 @import url('https://rsms.me/inter/inter.css');
 #metapavo-root *{
+  box-sizing: border-box;
   font-family: "Inter", Roboto, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif !important;
 }
 #metapavo-root svg{

@@ -27,6 +27,45 @@ export type users = {
   created_at: Date
   updated_at: Date | null
   deleted_at: Date | null
+  score: number
+  today_score: number
+  inviter_user_id: string | null
+}
+
+/**
+ * Model invites
+ * 
+ */
+export type invites = {
+  id: string
+  user_id: string
+  used_by_user_id: string | null
+  used_at: Date | null
+  created_at: Date
+  updated_at: Date
+}
+
+/**
+ * Model scores
+ * 
+ */
+export type scores = {
+  id: string
+  user_id: string
+  score: number
+  created_at: Date
+  updated_at: Date
+}
+
+/**
+ * Model checkins
+ * 
+ */
+export type checkins = {
+  id: string
+  unbreak_days: number
+  user_id: string
+  created_at: Date
 }
 
 /**
@@ -258,6 +297,58 @@ export type tokens = {
   price: number | null
 }
 
+/**
+ * Model links
+ * 
+ */
+export type links = {
+  id: string
+  title: string
+  url: string
+  icon: string | null
+  create_user_id: string | null
+  created_at: Date
+  updated_at: Date | null
+}
+
+/**
+ * Model linktags
+ * 
+ */
+export type linktags = {
+  id: string
+  title: string
+  desc: string | null
+  create_user_id: string | null
+  created_at: Date
+  updated_at: Date | null
+}
+
+/**
+ * Model linktag_relations
+ * 
+ */
+export type linktag_relations = {
+  id: number
+  linktag_id: string
+  link_id: string
+  created_at: Date
+  updated_at: Date | null
+}
+
+/**
+ * Model userlinks
+ * 
+ */
+export type userlinks = {
+  id: string
+  user_id: string
+  link_id: string
+  tag_id: string | null
+  created_at: Date
+  updated_at: Date | null
+}
+
 
 /**
  * Enums
@@ -433,6 +524,36 @@ export class PrismaClient<
   get users(): Prisma.usersDelegate<GlobalReject>;
 
   /**
+   * `prisma.invites`: Exposes CRUD operations for the **invites** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Invites
+    * const invites = await prisma.invites.findMany()
+    * ```
+    */
+  get invites(): Prisma.invitesDelegate<GlobalReject>;
+
+  /**
+   * `prisma.scores`: Exposes CRUD operations for the **scores** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Scores
+    * const scores = await prisma.scores.findMany()
+    * ```
+    */
+  get scores(): Prisma.scoresDelegate<GlobalReject>;
+
+  /**
+   * `prisma.checkins`: Exposes CRUD operations for the **checkins** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Checkins
+    * const checkins = await prisma.checkins.findMany()
+    * ```
+    */
+  get checkins(): Prisma.checkinsDelegate<GlobalReject>;
+
+  /**
    * `prisma.whitelists`: Exposes CRUD operations for the **whitelists** model.
     * Example usage:
     * ```ts
@@ -581,6 +702,46 @@ export class PrismaClient<
     * ```
     */
   get tokens(): Prisma.tokensDelegate<GlobalReject>;
+
+  /**
+   * `prisma.links`: Exposes CRUD operations for the **links** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Links
+    * const links = await prisma.links.findMany()
+    * ```
+    */
+  get links(): Prisma.linksDelegate<GlobalReject>;
+
+  /**
+   * `prisma.linktags`: Exposes CRUD operations for the **linktags** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Linktags
+    * const linktags = await prisma.linktags.findMany()
+    * ```
+    */
+  get linktags(): Prisma.linktagsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.linktag_relations`: Exposes CRUD operations for the **linktag_relations** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Linktag_relations
+    * const linktag_relations = await prisma.linktag_relations.findMany()
+    * ```
+    */
+  get linktag_relations(): Prisma.linktag_relationsDelegate<GlobalReject>;
+
+  /**
+   * `prisma.userlinks`: Exposes CRUD operations for the **userlinks** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Userlinks
+    * const userlinks = await prisma.userlinks.findMany()
+    * ```
+    */
+  get userlinks(): Prisma.userlinksDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -998,6 +1159,9 @@ export namespace Prisma {
 
   export const ModelName: {
     users: 'users',
+    invites: 'invites',
+    scores: 'scores',
+    checkins: 'checkins',
     whitelists: 'whitelists',
     favs: 'favs',
     visit_histories: 'visit_histories',
@@ -1012,7 +1176,11 @@ export namespace Prisma {
     story_categories: 'story_categories',
     story_categories_relations: 'story_categories_relations',
     story_dapps_relations: 'story_dapps_relations',
-    tokens: 'tokens'
+    tokens: 'tokens',
+    links: 'links',
+    linktags: 'linktags',
+    linktag_relations: 'linktag_relations',
+    userlinks: 'userlinks'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1178,11 +1346,19 @@ export namespace Prisma {
   export type UsersCountOutputType = {
     user_dapps: number
     user_dapps_catogories: number
+    invites: number
+    checkins: number
+    scores: number
+    userlinks: number
   }
 
   export type UsersCountOutputTypeSelect = {
     user_dapps?: boolean
     user_dapps_catogories?: boolean
+    invites?: boolean
+    checkins?: boolean
+    scores?: boolean
+    userlinks?: boolean
   }
 
   export type UsersCountOutputTypeGetPayload<
@@ -1473,6 +1649,108 @@ export namespace Prisma {
 
 
   /**
+   * Count Type LinksCountOutputType
+   */
+
+
+  export type LinksCountOutputType = {
+    linktag_relations: number
+    userlinks: number
+  }
+
+  export type LinksCountOutputTypeSelect = {
+    linktag_relations?: boolean
+    userlinks?: boolean
+  }
+
+  export type LinksCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | LinksCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? LinksCountOutputType
+    : S extends undefined
+    ? never
+    : S extends LinksCountOutputTypeArgs
+    ?'include' extends U
+    ? LinksCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof LinksCountOutputType ? LinksCountOutputType[P] : never
+  } 
+    : LinksCountOutputType
+  : LinksCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * LinksCountOutputType without action
+   */
+  export type LinksCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the LinksCountOutputType
+     * 
+    **/
+    select?: LinksCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type LinktagsCountOutputType
+   */
+
+
+  export type LinktagsCountOutputType = {
+    linktag_relations: number
+    userlinks: number
+  }
+
+  export type LinktagsCountOutputTypeSelect = {
+    linktag_relations?: boolean
+    userlinks?: boolean
+  }
+
+  export type LinktagsCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | LinktagsCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? LinktagsCountOutputType
+    : S extends undefined
+    ? never
+    : S extends LinktagsCountOutputTypeArgs
+    ?'include' extends U
+    ? LinktagsCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof LinktagsCountOutputType ? LinktagsCountOutputType[P] : never
+  } 
+    : LinktagsCountOutputType
+  : LinktagsCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * LinktagsCountOutputType without action
+   */
+  export type LinktagsCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the LinktagsCountOutputType
+     * 
+    **/
+    select?: LinktagsCountOutputTypeSelect | null
+  }
+
+
+
+  /**
    * Models
    */
 
@@ -1483,8 +1761,20 @@ export namespace Prisma {
 
   export type AggregateUsers = {
     _count: UsersCountAggregateOutputType | null
+    _avg: UsersAvgAggregateOutputType | null
+    _sum: UsersSumAggregateOutputType | null
     _min: UsersMinAggregateOutputType | null
     _max: UsersMaxAggregateOutputType | null
+  }
+
+  export type UsersAvgAggregateOutputType = {
+    score: number | null
+    today_score: number | null
+  }
+
+  export type UsersSumAggregateOutputType = {
+    score: number | null
+    today_score: number | null
   }
 
   export type UsersMinAggregateOutputType = {
@@ -1496,6 +1786,9 @@ export namespace Prisma {
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
+    score: number | null
+    today_score: number | null
+    inviter_user_id: string | null
   }
 
   export type UsersMaxAggregateOutputType = {
@@ -1507,6 +1800,9 @@ export namespace Prisma {
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
+    score: number | null
+    today_score: number | null
+    inviter_user_id: string | null
   }
 
   export type UsersCountAggregateOutputType = {
@@ -1520,9 +1816,22 @@ export namespace Prisma {
     created_at: number
     updated_at: number
     deleted_at: number
+    score: number
+    today_score: number
+    inviter_user_id: number
     _all: number
   }
 
+
+  export type UsersAvgAggregateInputType = {
+    score?: true
+    today_score?: true
+  }
+
+  export type UsersSumAggregateInputType = {
+    score?: true
+    today_score?: true
+  }
 
   export type UsersMinAggregateInputType = {
     id?: true
@@ -1533,6 +1842,9 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     deleted_at?: true
+    score?: true
+    today_score?: true
+    inviter_user_id?: true
   }
 
   export type UsersMaxAggregateInputType = {
@@ -1544,6 +1856,9 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     deleted_at?: true
+    score?: true
+    today_score?: true
+    inviter_user_id?: true
   }
 
   export type UsersCountAggregateInputType = {
@@ -1557,6 +1872,9 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     deleted_at?: true
+    score?: true
+    today_score?: true
+    inviter_user_id?: true
     _all?: true
   }
 
@@ -1603,6 +1921,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UsersAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UsersSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UsersMinAggregateInputType
@@ -1633,6 +1963,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UsersCountAggregateInputType | true
+    _avg?: UsersAvgAggregateInputType
+    _sum?: UsersSumAggregateInputType
     _min?: UsersMinAggregateInputType
     _max?: UsersMaxAggregateInputType
   }
@@ -1649,7 +1981,12 @@ export namespace Prisma {
     created_at: Date
     updated_at: Date | null
     deleted_at: Date | null
+    score: number
+    today_score: number
+    inviter_user_id: string | null
     _count: UsersCountAggregateOutputType | null
+    _avg: UsersAvgAggregateOutputType | null
+    _sum: UsersSumAggregateOutputType | null
     _min: UsersMinAggregateOutputType | null
     _max: UsersMaxAggregateOutputType | null
   }
@@ -1681,12 +2018,23 @@ export namespace Prisma {
     deleted_at?: boolean
     user_dapps?: boolean | user_dappsFindManyArgs
     user_dapps_catogories?: boolean | user_dapps_catogoriesFindManyArgs
+    score?: boolean
+    today_score?: boolean
+    invites?: boolean | invitesFindManyArgs
+    checkins?: boolean | checkinsFindManyArgs
+    scores?: boolean | scoresFindManyArgs
+    inviter_user_id?: boolean
+    userlinks?: boolean | userlinksFindManyArgs
     _count?: boolean | UsersCountOutputTypeArgs
   }
 
   export type usersInclude = {
     user_dapps?: boolean | user_dappsFindManyArgs
     user_dapps_catogories?: boolean | user_dapps_catogoriesFindManyArgs
+    invites?: boolean | invitesFindManyArgs
+    checkins?: boolean | checkinsFindManyArgs
+    scores?: boolean | scoresFindManyArgs
+    userlinks?: boolean | userlinksFindManyArgs
     _count?: boolean | UsersCountOutputTypeArgs
   }
 
@@ -1703,6 +2051,10 @@ export namespace Prisma {
     [P in TrueKeys<S['include']>]:
         P extends 'user_dapps' ? Array < user_dappsGetPayload<S['include'][P]>>  :
         P extends 'user_dapps_catogories' ? Array < user_dapps_catogoriesGetPayload<S['include'][P]>>  :
+        P extends 'invites' ? Array < invitesGetPayload<S['include'][P]>>  :
+        P extends 'checkins' ? Array < checkinsGetPayload<S['include'][P]>>  :
+        P extends 'scores' ? Array < scoresGetPayload<S['include'][P]>>  :
+        P extends 'userlinks' ? Array < userlinksGetPayload<S['include'][P]>>  :
         P extends '_count' ? UsersCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : 'select' extends U
@@ -1710,6 +2062,10 @@ export namespace Prisma {
     [P in TrueKeys<S['select']>]:
         P extends 'user_dapps' ? Array < user_dappsGetPayload<S['select'][P]>>  :
         P extends 'user_dapps_catogories' ? Array < user_dapps_catogoriesGetPayload<S['select'][P]>>  :
+        P extends 'invites' ? Array < invitesGetPayload<S['select'][P]>>  :
+        P extends 'checkins' ? Array < checkinsGetPayload<S['select'][P]>>  :
+        P extends 'scores' ? Array < scoresGetPayload<S['select'][P]>>  :
+        P extends 'userlinks' ? Array < userlinksGetPayload<S['select'][P]>>  :
         P extends '_count' ? UsersCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof users ? users[P] : never
   } 
     : users
@@ -2054,6 +2410,14 @@ export namespace Prisma {
 
     user_dapps_catogories<T extends user_dapps_catogoriesFindManyArgs = {}>(args?: Subset<T, user_dapps_catogoriesFindManyArgs>): CheckSelect<T, PrismaPromise<Array<user_dapps_catogories>>, PrismaPromise<Array<user_dapps_catogoriesGetPayload<T>>>>;
 
+    invites<T extends invitesFindManyArgs = {}>(args?: Subset<T, invitesFindManyArgs>): CheckSelect<T, PrismaPromise<Array<invites>>, PrismaPromise<Array<invitesGetPayload<T>>>>;
+
+    checkins<T extends checkinsFindManyArgs = {}>(args?: Subset<T, checkinsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<checkins>>, PrismaPromise<Array<checkinsGetPayload<T>>>>;
+
+    scores<T extends scoresFindManyArgs = {}>(args?: Subset<T, scoresFindManyArgs>): CheckSelect<T, PrismaPromise<Array<scores>>, PrismaPromise<Array<scoresGetPayload<T>>>>;
+
+    userlinks<T extends userlinksFindManyArgs = {}>(args?: Subset<T, userlinksFindManyArgs>): CheckSelect<T, PrismaPromise<Array<userlinks>>, PrismaPromise<Array<userlinksGetPayload<T>>>>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2378,6 +2742,2666 @@ export namespace Prisma {
      * 
     **/
     include?: usersInclude | null
+  }
+
+
+
+  /**
+   * Model invites
+   */
+
+
+  export type AggregateInvites = {
+    _count: InvitesCountAggregateOutputType | null
+    _min: InvitesMinAggregateOutputType | null
+    _max: InvitesMaxAggregateOutputType | null
+  }
+
+  export type InvitesMinAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    used_by_user_id: string | null
+    used_at: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type InvitesMaxAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    used_by_user_id: string | null
+    used_at: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type InvitesCountAggregateOutputType = {
+    id: number
+    user_id: number
+    used_by_user_id: number
+    used_at: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type InvitesMinAggregateInputType = {
+    id?: true
+    user_id?: true
+    used_by_user_id?: true
+    used_at?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type InvitesMaxAggregateInputType = {
+    id?: true
+    user_id?: true
+    used_by_user_id?: true
+    used_at?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type InvitesCountAggregateInputType = {
+    id?: true
+    user_id?: true
+    used_by_user_id?: true
+    used_at?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type InvitesAggregateArgs = {
+    /**
+     * Filter which invites to aggregate.
+     * 
+    **/
+    where?: invitesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of invites to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<invitesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: invitesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` invites from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` invites.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned invites
+    **/
+    _count?: true | InvitesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvitesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvitesMaxAggregateInputType
+  }
+
+  export type GetInvitesAggregateType<T extends InvitesAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvites]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvites[P]>
+      : GetScalarType<T[P], AggregateInvites[P]>
+  }
+
+
+
+
+  export type InvitesGroupByArgs = {
+    where?: invitesWhereInput
+    orderBy?: Enumerable<invitesOrderByWithAggregationInput>
+    by: Array<InvitesScalarFieldEnum>
+    having?: invitesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvitesCountAggregateInputType | true
+    _min?: InvitesMinAggregateInputType
+    _max?: InvitesMaxAggregateInputType
+  }
+
+
+  export type InvitesGroupByOutputType = {
+    id: string
+    user_id: string
+    used_by_user_id: string | null
+    used_at: Date | null
+    created_at: Date
+    updated_at: Date
+    _count: InvitesCountAggregateOutputType | null
+    _min: InvitesMinAggregateOutputType | null
+    _max: InvitesMaxAggregateOutputType | null
+  }
+
+  type GetInvitesGroupByPayload<T extends InvitesGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<InvitesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvitesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvitesGroupByOutputType[P]>
+            : GetScalarType<T[P], InvitesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type invitesSelect = {
+    id?: boolean
+    user_id?: boolean
+    user?: boolean | usersArgs
+    used_by_user_id?: boolean
+    used_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type invitesInclude = {
+    user?: boolean | usersArgs
+  }
+
+  export type invitesGetPayload<
+    S extends boolean | null | undefined | invitesArgs,
+    U = keyof S
+      > = S extends true
+        ? invites
+    : S extends undefined
+    ? never
+    : S extends invitesArgs | invitesFindManyArgs
+    ?'include' extends U
+    ? invites  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? usersGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? usersGetPayload<S['select'][P]> :  P extends keyof invites ? invites[P] : never
+  } 
+    : invites
+  : invites
+
+
+  type invitesCountArgs = Merge<
+    Omit<invitesFindManyArgs, 'select' | 'include'> & {
+      select?: InvitesCountAggregateInputType | true
+    }
+  >
+
+  export interface invitesDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Invites that matches the filter.
+     * @param {invitesFindUniqueArgs} args - Arguments to find a Invites
+     * @example
+     * // Get one Invites
+     * const invites = await prisma.invites.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends invitesFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, invitesFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'invites'> extends True ? CheckSelect<T, Prisma__invitesClient<invites>, Prisma__invitesClient<invitesGetPayload<T>>> : CheckSelect<T, Prisma__invitesClient<invites | null >, Prisma__invitesClient<invitesGetPayload<T> | null >>
+
+    /**
+     * Find the first Invites that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {invitesFindFirstArgs} args - Arguments to find a Invites
+     * @example
+     * // Get one Invites
+     * const invites = await prisma.invites.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends invitesFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, invitesFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'invites'> extends True ? CheckSelect<T, Prisma__invitesClient<invites>, Prisma__invitesClient<invitesGetPayload<T>>> : CheckSelect<T, Prisma__invitesClient<invites | null >, Prisma__invitesClient<invitesGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Invites that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {invitesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Invites
+     * const invites = await prisma.invites.findMany()
+     * 
+     * // Get first 10 Invites
+     * const invites = await prisma.invites.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invitesWithIdOnly = await prisma.invites.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends invitesFindManyArgs>(
+      args?: SelectSubset<T, invitesFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<invites>>, PrismaPromise<Array<invitesGetPayload<T>>>>
+
+    /**
+     * Create a Invites.
+     * @param {invitesCreateArgs} args - Arguments to create a Invites.
+     * @example
+     * // Create one Invites
+     * const Invites = await prisma.invites.create({
+     *   data: {
+     *     // ... data to create a Invites
+     *   }
+     * })
+     * 
+    **/
+    create<T extends invitesCreateArgs>(
+      args: SelectSubset<T, invitesCreateArgs>
+    ): CheckSelect<T, Prisma__invitesClient<invites>, Prisma__invitesClient<invitesGetPayload<T>>>
+
+    /**
+     * Create many Invites.
+     *     @param {invitesCreateManyArgs} args - Arguments to create many Invites.
+     *     @example
+     *     // Create many Invites
+     *     const invites = await prisma.invites.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends invitesCreateManyArgs>(
+      args?: SelectSubset<T, invitesCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Invites.
+     * @param {invitesDeleteArgs} args - Arguments to delete one Invites.
+     * @example
+     * // Delete one Invites
+     * const Invites = await prisma.invites.delete({
+     *   where: {
+     *     // ... filter to delete one Invites
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends invitesDeleteArgs>(
+      args: SelectSubset<T, invitesDeleteArgs>
+    ): CheckSelect<T, Prisma__invitesClient<invites>, Prisma__invitesClient<invitesGetPayload<T>>>
+
+    /**
+     * Update one Invites.
+     * @param {invitesUpdateArgs} args - Arguments to update one Invites.
+     * @example
+     * // Update one Invites
+     * const invites = await prisma.invites.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends invitesUpdateArgs>(
+      args: SelectSubset<T, invitesUpdateArgs>
+    ): CheckSelect<T, Prisma__invitesClient<invites>, Prisma__invitesClient<invitesGetPayload<T>>>
+
+    /**
+     * Delete zero or more Invites.
+     * @param {invitesDeleteManyArgs} args - Arguments to filter Invites to delete.
+     * @example
+     * // Delete a few Invites
+     * const { count } = await prisma.invites.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends invitesDeleteManyArgs>(
+      args?: SelectSubset<T, invitesDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {invitesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Invites
+     * const invites = await prisma.invites.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends invitesUpdateManyArgs>(
+      args: SelectSubset<T, invitesUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Invites.
+     * @param {invitesUpsertArgs} args - Arguments to update or create a Invites.
+     * @example
+     * // Update or create a Invites
+     * const invites = await prisma.invites.upsert({
+     *   create: {
+     *     // ... data to create a Invites
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Invites we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends invitesUpsertArgs>(
+      args: SelectSubset<T, invitesUpsertArgs>
+    ): CheckSelect<T, Prisma__invitesClient<invites>, Prisma__invitesClient<invitesGetPayload<T>>>
+
+    /**
+     * Count the number of Invites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {invitesCountArgs} args - Arguments to filter Invites to count.
+     * @example
+     * // Count the number of Invites
+     * const count = await prisma.invites.count({
+     *   where: {
+     *     // ... the filter for the Invites we want to count
+     *   }
+     * })
+    **/
+    count<T extends invitesCountArgs>(
+      args?: Subset<T, invitesCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvitesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Invites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvitesAggregateArgs>(args: Subset<T, InvitesAggregateArgs>): PrismaPromise<GetInvitesAggregateType<T>>
+
+    /**
+     * Group by Invites.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvitesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvitesGroupByArgs['orderBy'] }
+        : { orderBy?: InvitesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvitesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvitesGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for invites.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__invitesClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends usersArgs = {}>(args?: Subset<T, usersArgs>): CheckSelect<T, Prisma__usersClient<users | null >, Prisma__usersClient<usersGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * invites findUnique
+   */
+  export type invitesFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the invites
+     * 
+    **/
+    select?: invitesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: invitesInclude | null
+    /**
+     * Throw an Error if a invites can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which invites to fetch.
+     * 
+    **/
+    where: invitesWhereUniqueInput
+  }
+
+
+  /**
+   * invites findFirst
+   */
+  export type invitesFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the invites
+     * 
+    **/
+    select?: invitesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: invitesInclude | null
+    /**
+     * Throw an Error if a invites can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which invites to fetch.
+     * 
+    **/
+    where?: invitesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of invites to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<invitesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for invites.
+     * 
+    **/
+    cursor?: invitesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` invites from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` invites.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of invites.
+     * 
+    **/
+    distinct?: Enumerable<InvitesScalarFieldEnum>
+  }
+
+
+  /**
+   * invites findMany
+   */
+  export type invitesFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the invites
+     * 
+    **/
+    select?: invitesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: invitesInclude | null
+    /**
+     * Filter, which invites to fetch.
+     * 
+    **/
+    where?: invitesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of invites to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<invitesOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing invites.
+     * 
+    **/
+    cursor?: invitesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` invites from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` invites.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<InvitesScalarFieldEnum>
+  }
+
+
+  /**
+   * invites create
+   */
+  export type invitesCreateArgs = {
+    /**
+     * Select specific fields to fetch from the invites
+     * 
+    **/
+    select?: invitesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: invitesInclude | null
+    /**
+     * The data needed to create a invites.
+     * 
+    **/
+    data: XOR<invitesCreateInput, invitesUncheckedCreateInput>
+  }
+
+
+  /**
+   * invites createMany
+   */
+  export type invitesCreateManyArgs = {
+    /**
+     * The data used to create many invites.
+     * 
+    **/
+    data: Enumerable<invitesCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * invites update
+   */
+  export type invitesUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the invites
+     * 
+    **/
+    select?: invitesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: invitesInclude | null
+    /**
+     * The data needed to update a invites.
+     * 
+    **/
+    data: XOR<invitesUpdateInput, invitesUncheckedUpdateInput>
+    /**
+     * Choose, which invites to update.
+     * 
+    **/
+    where: invitesWhereUniqueInput
+  }
+
+
+  /**
+   * invites updateMany
+   */
+  export type invitesUpdateManyArgs = {
+    /**
+     * The data used to update invites.
+     * 
+    **/
+    data: XOR<invitesUpdateManyMutationInput, invitesUncheckedUpdateManyInput>
+    /**
+     * Filter which invites to update
+     * 
+    **/
+    where?: invitesWhereInput
+  }
+
+
+  /**
+   * invites upsert
+   */
+  export type invitesUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the invites
+     * 
+    **/
+    select?: invitesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: invitesInclude | null
+    /**
+     * The filter to search for the invites to update in case it exists.
+     * 
+    **/
+    where: invitesWhereUniqueInput
+    /**
+     * In case the invites found by the `where` argument doesn't exist, create a new invites with this data.
+     * 
+    **/
+    create: XOR<invitesCreateInput, invitesUncheckedCreateInput>
+    /**
+     * In case the invites was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<invitesUpdateInput, invitesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * invites delete
+   */
+  export type invitesDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the invites
+     * 
+    **/
+    select?: invitesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: invitesInclude | null
+    /**
+     * Filter which invites to delete.
+     * 
+    **/
+    where: invitesWhereUniqueInput
+  }
+
+
+  /**
+   * invites deleteMany
+   */
+  export type invitesDeleteManyArgs = {
+    /**
+     * Filter which invites to delete
+     * 
+    **/
+    where?: invitesWhereInput
+  }
+
+
+  /**
+   * invites without action
+   */
+  export type invitesArgs = {
+    /**
+     * Select specific fields to fetch from the invites
+     * 
+    **/
+    select?: invitesSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: invitesInclude | null
+  }
+
+
+
+  /**
+   * Model scores
+   */
+
+
+  export type AggregateScores = {
+    _count: ScoresCountAggregateOutputType | null
+    _avg: ScoresAvgAggregateOutputType | null
+    _sum: ScoresSumAggregateOutputType | null
+    _min: ScoresMinAggregateOutputType | null
+    _max: ScoresMaxAggregateOutputType | null
+  }
+
+  export type ScoresAvgAggregateOutputType = {
+    score: number | null
+  }
+
+  export type ScoresSumAggregateOutputType = {
+    score: number | null
+  }
+
+  export type ScoresMinAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    score: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ScoresMaxAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    score: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ScoresCountAggregateOutputType = {
+    id: number
+    user_id: number
+    score: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type ScoresAvgAggregateInputType = {
+    score?: true
+  }
+
+  export type ScoresSumAggregateInputType = {
+    score?: true
+  }
+
+  export type ScoresMinAggregateInputType = {
+    id?: true
+    user_id?: true
+    score?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ScoresMaxAggregateInputType = {
+    id?: true
+    user_id?: true
+    score?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ScoresCountAggregateInputType = {
+    id?: true
+    user_id?: true
+    score?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type ScoresAggregateArgs = {
+    /**
+     * Filter which scores to aggregate.
+     * 
+    **/
+    where?: scoresWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of scores to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<scoresOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: scoresWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` scores from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` scores.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned scores
+    **/
+    _count?: true | ScoresCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ScoresAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScoresSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScoresMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScoresMaxAggregateInputType
+  }
+
+  export type GetScoresAggregateType<T extends ScoresAggregateArgs> = {
+        [P in keyof T & keyof AggregateScores]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScores[P]>
+      : GetScalarType<T[P], AggregateScores[P]>
+  }
+
+
+
+
+  export type ScoresGroupByArgs = {
+    where?: scoresWhereInput
+    orderBy?: Enumerable<scoresOrderByWithAggregationInput>
+    by: Array<ScoresScalarFieldEnum>
+    having?: scoresScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScoresCountAggregateInputType | true
+    _avg?: ScoresAvgAggregateInputType
+    _sum?: ScoresSumAggregateInputType
+    _min?: ScoresMinAggregateInputType
+    _max?: ScoresMaxAggregateInputType
+  }
+
+
+  export type ScoresGroupByOutputType = {
+    id: string
+    user_id: string
+    score: number
+    created_at: Date
+    updated_at: Date
+    _count: ScoresCountAggregateOutputType | null
+    _avg: ScoresAvgAggregateOutputType | null
+    _sum: ScoresSumAggregateOutputType | null
+    _min: ScoresMinAggregateOutputType | null
+    _max: ScoresMaxAggregateOutputType | null
+  }
+
+  type GetScoresGroupByPayload<T extends ScoresGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<ScoresGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScoresGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScoresGroupByOutputType[P]>
+            : GetScalarType<T[P], ScoresGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type scoresSelect = {
+    id?: boolean
+    user_id?: boolean
+    user?: boolean | usersArgs
+    score?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type scoresInclude = {
+    user?: boolean | usersArgs
+  }
+
+  export type scoresGetPayload<
+    S extends boolean | null | undefined | scoresArgs,
+    U = keyof S
+      > = S extends true
+        ? scores
+    : S extends undefined
+    ? never
+    : S extends scoresArgs | scoresFindManyArgs
+    ?'include' extends U
+    ? scores  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? usersGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? usersGetPayload<S['select'][P]> :  P extends keyof scores ? scores[P] : never
+  } 
+    : scores
+  : scores
+
+
+  type scoresCountArgs = Merge<
+    Omit<scoresFindManyArgs, 'select' | 'include'> & {
+      select?: ScoresCountAggregateInputType | true
+    }
+  >
+
+  export interface scoresDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Scores that matches the filter.
+     * @param {scoresFindUniqueArgs} args - Arguments to find a Scores
+     * @example
+     * // Get one Scores
+     * const scores = await prisma.scores.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends scoresFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, scoresFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'scores'> extends True ? CheckSelect<T, Prisma__scoresClient<scores>, Prisma__scoresClient<scoresGetPayload<T>>> : CheckSelect<T, Prisma__scoresClient<scores | null >, Prisma__scoresClient<scoresGetPayload<T> | null >>
+
+    /**
+     * Find the first Scores that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {scoresFindFirstArgs} args - Arguments to find a Scores
+     * @example
+     * // Get one Scores
+     * const scores = await prisma.scores.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends scoresFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, scoresFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'scores'> extends True ? CheckSelect<T, Prisma__scoresClient<scores>, Prisma__scoresClient<scoresGetPayload<T>>> : CheckSelect<T, Prisma__scoresClient<scores | null >, Prisma__scoresClient<scoresGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Scores that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {scoresFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Scores
+     * const scores = await prisma.scores.findMany()
+     * 
+     * // Get first 10 Scores
+     * const scores = await prisma.scores.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scoresWithIdOnly = await prisma.scores.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends scoresFindManyArgs>(
+      args?: SelectSubset<T, scoresFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<scores>>, PrismaPromise<Array<scoresGetPayload<T>>>>
+
+    /**
+     * Create a Scores.
+     * @param {scoresCreateArgs} args - Arguments to create a Scores.
+     * @example
+     * // Create one Scores
+     * const Scores = await prisma.scores.create({
+     *   data: {
+     *     // ... data to create a Scores
+     *   }
+     * })
+     * 
+    **/
+    create<T extends scoresCreateArgs>(
+      args: SelectSubset<T, scoresCreateArgs>
+    ): CheckSelect<T, Prisma__scoresClient<scores>, Prisma__scoresClient<scoresGetPayload<T>>>
+
+    /**
+     * Create many Scores.
+     *     @param {scoresCreateManyArgs} args - Arguments to create many Scores.
+     *     @example
+     *     // Create many Scores
+     *     const scores = await prisma.scores.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends scoresCreateManyArgs>(
+      args?: SelectSubset<T, scoresCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Scores.
+     * @param {scoresDeleteArgs} args - Arguments to delete one Scores.
+     * @example
+     * // Delete one Scores
+     * const Scores = await prisma.scores.delete({
+     *   where: {
+     *     // ... filter to delete one Scores
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends scoresDeleteArgs>(
+      args: SelectSubset<T, scoresDeleteArgs>
+    ): CheckSelect<T, Prisma__scoresClient<scores>, Prisma__scoresClient<scoresGetPayload<T>>>
+
+    /**
+     * Update one Scores.
+     * @param {scoresUpdateArgs} args - Arguments to update one Scores.
+     * @example
+     * // Update one Scores
+     * const scores = await prisma.scores.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends scoresUpdateArgs>(
+      args: SelectSubset<T, scoresUpdateArgs>
+    ): CheckSelect<T, Prisma__scoresClient<scores>, Prisma__scoresClient<scoresGetPayload<T>>>
+
+    /**
+     * Delete zero or more Scores.
+     * @param {scoresDeleteManyArgs} args - Arguments to filter Scores to delete.
+     * @example
+     * // Delete a few Scores
+     * const { count } = await prisma.scores.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends scoresDeleteManyArgs>(
+      args?: SelectSubset<T, scoresDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Scores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {scoresUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Scores
+     * const scores = await prisma.scores.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends scoresUpdateManyArgs>(
+      args: SelectSubset<T, scoresUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Scores.
+     * @param {scoresUpsertArgs} args - Arguments to update or create a Scores.
+     * @example
+     * // Update or create a Scores
+     * const scores = await prisma.scores.upsert({
+     *   create: {
+     *     // ... data to create a Scores
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Scores we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends scoresUpsertArgs>(
+      args: SelectSubset<T, scoresUpsertArgs>
+    ): CheckSelect<T, Prisma__scoresClient<scores>, Prisma__scoresClient<scoresGetPayload<T>>>
+
+    /**
+     * Count the number of Scores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {scoresCountArgs} args - Arguments to filter Scores to count.
+     * @example
+     * // Count the number of Scores
+     * const count = await prisma.scores.count({
+     *   where: {
+     *     // ... the filter for the Scores we want to count
+     *   }
+     * })
+    **/
+    count<T extends scoresCountArgs>(
+      args?: Subset<T, scoresCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScoresCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Scores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoresAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScoresAggregateArgs>(args: Subset<T, ScoresAggregateArgs>): PrismaPromise<GetScoresAggregateType<T>>
+
+    /**
+     * Group by Scores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoresGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScoresGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScoresGroupByArgs['orderBy'] }
+        : { orderBy?: ScoresGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScoresGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScoresGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for scores.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__scoresClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends usersArgs = {}>(args?: Subset<T, usersArgs>): CheckSelect<T, Prisma__usersClient<users | null >, Prisma__usersClient<usersGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * scores findUnique
+   */
+  export type scoresFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the scores
+     * 
+    **/
+    select?: scoresSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: scoresInclude | null
+    /**
+     * Throw an Error if a scores can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which scores to fetch.
+     * 
+    **/
+    where: scoresWhereUniqueInput
+  }
+
+
+  /**
+   * scores findFirst
+   */
+  export type scoresFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the scores
+     * 
+    **/
+    select?: scoresSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: scoresInclude | null
+    /**
+     * Throw an Error if a scores can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which scores to fetch.
+     * 
+    **/
+    where?: scoresWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of scores to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<scoresOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for scores.
+     * 
+    **/
+    cursor?: scoresWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` scores from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` scores.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of scores.
+     * 
+    **/
+    distinct?: Enumerable<ScoresScalarFieldEnum>
+  }
+
+
+  /**
+   * scores findMany
+   */
+  export type scoresFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the scores
+     * 
+    **/
+    select?: scoresSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: scoresInclude | null
+    /**
+     * Filter, which scores to fetch.
+     * 
+    **/
+    where?: scoresWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of scores to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<scoresOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing scores.
+     * 
+    **/
+    cursor?: scoresWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` scores from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` scores.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<ScoresScalarFieldEnum>
+  }
+
+
+  /**
+   * scores create
+   */
+  export type scoresCreateArgs = {
+    /**
+     * Select specific fields to fetch from the scores
+     * 
+    **/
+    select?: scoresSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: scoresInclude | null
+    /**
+     * The data needed to create a scores.
+     * 
+    **/
+    data: XOR<scoresCreateInput, scoresUncheckedCreateInput>
+  }
+
+
+  /**
+   * scores createMany
+   */
+  export type scoresCreateManyArgs = {
+    /**
+     * The data used to create many scores.
+     * 
+    **/
+    data: Enumerable<scoresCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * scores update
+   */
+  export type scoresUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the scores
+     * 
+    **/
+    select?: scoresSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: scoresInclude | null
+    /**
+     * The data needed to update a scores.
+     * 
+    **/
+    data: XOR<scoresUpdateInput, scoresUncheckedUpdateInput>
+    /**
+     * Choose, which scores to update.
+     * 
+    **/
+    where: scoresWhereUniqueInput
+  }
+
+
+  /**
+   * scores updateMany
+   */
+  export type scoresUpdateManyArgs = {
+    /**
+     * The data used to update scores.
+     * 
+    **/
+    data: XOR<scoresUpdateManyMutationInput, scoresUncheckedUpdateManyInput>
+    /**
+     * Filter which scores to update
+     * 
+    **/
+    where?: scoresWhereInput
+  }
+
+
+  /**
+   * scores upsert
+   */
+  export type scoresUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the scores
+     * 
+    **/
+    select?: scoresSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: scoresInclude | null
+    /**
+     * The filter to search for the scores to update in case it exists.
+     * 
+    **/
+    where: scoresWhereUniqueInput
+    /**
+     * In case the scores found by the `where` argument doesn't exist, create a new scores with this data.
+     * 
+    **/
+    create: XOR<scoresCreateInput, scoresUncheckedCreateInput>
+    /**
+     * In case the scores was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<scoresUpdateInput, scoresUncheckedUpdateInput>
+  }
+
+
+  /**
+   * scores delete
+   */
+  export type scoresDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the scores
+     * 
+    **/
+    select?: scoresSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: scoresInclude | null
+    /**
+     * Filter which scores to delete.
+     * 
+    **/
+    where: scoresWhereUniqueInput
+  }
+
+
+  /**
+   * scores deleteMany
+   */
+  export type scoresDeleteManyArgs = {
+    /**
+     * Filter which scores to delete
+     * 
+    **/
+    where?: scoresWhereInput
+  }
+
+
+  /**
+   * scores without action
+   */
+  export type scoresArgs = {
+    /**
+     * Select specific fields to fetch from the scores
+     * 
+    **/
+    select?: scoresSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: scoresInclude | null
+  }
+
+
+
+  /**
+   * Model checkins
+   */
+
+
+  export type AggregateCheckins = {
+    _count: CheckinsCountAggregateOutputType | null
+    _avg: CheckinsAvgAggregateOutputType | null
+    _sum: CheckinsSumAggregateOutputType | null
+    _min: CheckinsMinAggregateOutputType | null
+    _max: CheckinsMaxAggregateOutputType | null
+  }
+
+  export type CheckinsAvgAggregateOutputType = {
+    unbreak_days: number | null
+  }
+
+  export type CheckinsSumAggregateOutputType = {
+    unbreak_days: number | null
+  }
+
+  export type CheckinsMinAggregateOutputType = {
+    id: string | null
+    unbreak_days: number | null
+    user_id: string | null
+    created_at: Date | null
+  }
+
+  export type CheckinsMaxAggregateOutputType = {
+    id: string | null
+    unbreak_days: number | null
+    user_id: string | null
+    created_at: Date | null
+  }
+
+  export type CheckinsCountAggregateOutputType = {
+    id: number
+    unbreak_days: number
+    user_id: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type CheckinsAvgAggregateInputType = {
+    unbreak_days?: true
+  }
+
+  export type CheckinsSumAggregateInputType = {
+    unbreak_days?: true
+  }
+
+  export type CheckinsMinAggregateInputType = {
+    id?: true
+    unbreak_days?: true
+    user_id?: true
+    created_at?: true
+  }
+
+  export type CheckinsMaxAggregateInputType = {
+    id?: true
+    unbreak_days?: true
+    user_id?: true
+    created_at?: true
+  }
+
+  export type CheckinsCountAggregateInputType = {
+    id?: true
+    unbreak_days?: true
+    user_id?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type CheckinsAggregateArgs = {
+    /**
+     * Filter which checkins to aggregate.
+     * 
+    **/
+    where?: checkinsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of checkins to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<checkinsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: checkinsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` checkins from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` checkins.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned checkins
+    **/
+    _count?: true | CheckinsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CheckinsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CheckinsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CheckinsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CheckinsMaxAggregateInputType
+  }
+
+  export type GetCheckinsAggregateType<T extends CheckinsAggregateArgs> = {
+        [P in keyof T & keyof AggregateCheckins]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCheckins[P]>
+      : GetScalarType<T[P], AggregateCheckins[P]>
+  }
+
+
+
+
+  export type CheckinsGroupByArgs = {
+    where?: checkinsWhereInput
+    orderBy?: Enumerable<checkinsOrderByWithAggregationInput>
+    by: Array<CheckinsScalarFieldEnum>
+    having?: checkinsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CheckinsCountAggregateInputType | true
+    _avg?: CheckinsAvgAggregateInputType
+    _sum?: CheckinsSumAggregateInputType
+    _min?: CheckinsMinAggregateInputType
+    _max?: CheckinsMaxAggregateInputType
+  }
+
+
+  export type CheckinsGroupByOutputType = {
+    id: string
+    unbreak_days: number
+    user_id: string
+    created_at: Date
+    _count: CheckinsCountAggregateOutputType | null
+    _avg: CheckinsAvgAggregateOutputType | null
+    _sum: CheckinsSumAggregateOutputType | null
+    _min: CheckinsMinAggregateOutputType | null
+    _max: CheckinsMaxAggregateOutputType | null
+  }
+
+  type GetCheckinsGroupByPayload<T extends CheckinsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<CheckinsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CheckinsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CheckinsGroupByOutputType[P]>
+            : GetScalarType<T[P], CheckinsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type checkinsSelect = {
+    id?: boolean
+    unbreak_days?: boolean
+    user_id?: boolean
+    user?: boolean | usersArgs
+    created_at?: boolean
+  }
+
+  export type checkinsInclude = {
+    user?: boolean | usersArgs
+  }
+
+  export type checkinsGetPayload<
+    S extends boolean | null | undefined | checkinsArgs,
+    U = keyof S
+      > = S extends true
+        ? checkins
+    : S extends undefined
+    ? never
+    : S extends checkinsArgs | checkinsFindManyArgs
+    ?'include' extends U
+    ? checkins  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? usersGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? usersGetPayload<S['select'][P]> :  P extends keyof checkins ? checkins[P] : never
+  } 
+    : checkins
+  : checkins
+
+
+  type checkinsCountArgs = Merge<
+    Omit<checkinsFindManyArgs, 'select' | 'include'> & {
+      select?: CheckinsCountAggregateInputType | true
+    }
+  >
+
+  export interface checkinsDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Checkins that matches the filter.
+     * @param {checkinsFindUniqueArgs} args - Arguments to find a Checkins
+     * @example
+     * // Get one Checkins
+     * const checkins = await prisma.checkins.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends checkinsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, checkinsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'checkins'> extends True ? CheckSelect<T, Prisma__checkinsClient<checkins>, Prisma__checkinsClient<checkinsGetPayload<T>>> : CheckSelect<T, Prisma__checkinsClient<checkins | null >, Prisma__checkinsClient<checkinsGetPayload<T> | null >>
+
+    /**
+     * Find the first Checkins that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {checkinsFindFirstArgs} args - Arguments to find a Checkins
+     * @example
+     * // Get one Checkins
+     * const checkins = await prisma.checkins.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends checkinsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, checkinsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'checkins'> extends True ? CheckSelect<T, Prisma__checkinsClient<checkins>, Prisma__checkinsClient<checkinsGetPayload<T>>> : CheckSelect<T, Prisma__checkinsClient<checkins | null >, Prisma__checkinsClient<checkinsGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Checkins that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {checkinsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Checkins
+     * const checkins = await prisma.checkins.findMany()
+     * 
+     * // Get first 10 Checkins
+     * const checkins = await prisma.checkins.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const checkinsWithIdOnly = await prisma.checkins.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends checkinsFindManyArgs>(
+      args?: SelectSubset<T, checkinsFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<checkins>>, PrismaPromise<Array<checkinsGetPayload<T>>>>
+
+    /**
+     * Create a Checkins.
+     * @param {checkinsCreateArgs} args - Arguments to create a Checkins.
+     * @example
+     * // Create one Checkins
+     * const Checkins = await prisma.checkins.create({
+     *   data: {
+     *     // ... data to create a Checkins
+     *   }
+     * })
+     * 
+    **/
+    create<T extends checkinsCreateArgs>(
+      args: SelectSubset<T, checkinsCreateArgs>
+    ): CheckSelect<T, Prisma__checkinsClient<checkins>, Prisma__checkinsClient<checkinsGetPayload<T>>>
+
+    /**
+     * Create many Checkins.
+     *     @param {checkinsCreateManyArgs} args - Arguments to create many Checkins.
+     *     @example
+     *     // Create many Checkins
+     *     const checkins = await prisma.checkins.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends checkinsCreateManyArgs>(
+      args?: SelectSubset<T, checkinsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Checkins.
+     * @param {checkinsDeleteArgs} args - Arguments to delete one Checkins.
+     * @example
+     * // Delete one Checkins
+     * const Checkins = await prisma.checkins.delete({
+     *   where: {
+     *     // ... filter to delete one Checkins
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends checkinsDeleteArgs>(
+      args: SelectSubset<T, checkinsDeleteArgs>
+    ): CheckSelect<T, Prisma__checkinsClient<checkins>, Prisma__checkinsClient<checkinsGetPayload<T>>>
+
+    /**
+     * Update one Checkins.
+     * @param {checkinsUpdateArgs} args - Arguments to update one Checkins.
+     * @example
+     * // Update one Checkins
+     * const checkins = await prisma.checkins.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends checkinsUpdateArgs>(
+      args: SelectSubset<T, checkinsUpdateArgs>
+    ): CheckSelect<T, Prisma__checkinsClient<checkins>, Prisma__checkinsClient<checkinsGetPayload<T>>>
+
+    /**
+     * Delete zero or more Checkins.
+     * @param {checkinsDeleteManyArgs} args - Arguments to filter Checkins to delete.
+     * @example
+     * // Delete a few Checkins
+     * const { count } = await prisma.checkins.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends checkinsDeleteManyArgs>(
+      args?: SelectSubset<T, checkinsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Checkins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {checkinsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Checkins
+     * const checkins = await prisma.checkins.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends checkinsUpdateManyArgs>(
+      args: SelectSubset<T, checkinsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Checkins.
+     * @param {checkinsUpsertArgs} args - Arguments to update or create a Checkins.
+     * @example
+     * // Update or create a Checkins
+     * const checkins = await prisma.checkins.upsert({
+     *   create: {
+     *     // ... data to create a Checkins
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Checkins we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends checkinsUpsertArgs>(
+      args: SelectSubset<T, checkinsUpsertArgs>
+    ): CheckSelect<T, Prisma__checkinsClient<checkins>, Prisma__checkinsClient<checkinsGetPayload<T>>>
+
+    /**
+     * Count the number of Checkins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {checkinsCountArgs} args - Arguments to filter Checkins to count.
+     * @example
+     * // Count the number of Checkins
+     * const count = await prisma.checkins.count({
+     *   where: {
+     *     // ... the filter for the Checkins we want to count
+     *   }
+     * })
+    **/
+    count<T extends checkinsCountArgs>(
+      args?: Subset<T, checkinsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CheckinsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Checkins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckinsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CheckinsAggregateArgs>(args: Subset<T, CheckinsAggregateArgs>): PrismaPromise<GetCheckinsAggregateType<T>>
+
+    /**
+     * Group by Checkins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckinsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CheckinsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CheckinsGroupByArgs['orderBy'] }
+        : { orderBy?: CheckinsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CheckinsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCheckinsGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for checkins.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__checkinsClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends usersArgs = {}>(args?: Subset<T, usersArgs>): CheckSelect<T, Prisma__usersClient<users | null >, Prisma__usersClient<usersGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * checkins findUnique
+   */
+  export type checkinsFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the checkins
+     * 
+    **/
+    select?: checkinsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: checkinsInclude | null
+    /**
+     * Throw an Error if a checkins can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which checkins to fetch.
+     * 
+    **/
+    where: checkinsWhereUniqueInput
+  }
+
+
+  /**
+   * checkins findFirst
+   */
+  export type checkinsFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the checkins
+     * 
+    **/
+    select?: checkinsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: checkinsInclude | null
+    /**
+     * Throw an Error if a checkins can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which checkins to fetch.
+     * 
+    **/
+    where?: checkinsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of checkins to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<checkinsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for checkins.
+     * 
+    **/
+    cursor?: checkinsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` checkins from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` checkins.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of checkins.
+     * 
+    **/
+    distinct?: Enumerable<CheckinsScalarFieldEnum>
+  }
+
+
+  /**
+   * checkins findMany
+   */
+  export type checkinsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the checkins
+     * 
+    **/
+    select?: checkinsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: checkinsInclude | null
+    /**
+     * Filter, which checkins to fetch.
+     * 
+    **/
+    where?: checkinsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of checkins to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<checkinsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing checkins.
+     * 
+    **/
+    cursor?: checkinsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` checkins from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` checkins.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<CheckinsScalarFieldEnum>
+  }
+
+
+  /**
+   * checkins create
+   */
+  export type checkinsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the checkins
+     * 
+    **/
+    select?: checkinsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: checkinsInclude | null
+    /**
+     * The data needed to create a checkins.
+     * 
+    **/
+    data: XOR<checkinsCreateInput, checkinsUncheckedCreateInput>
+  }
+
+
+  /**
+   * checkins createMany
+   */
+  export type checkinsCreateManyArgs = {
+    /**
+     * The data used to create many checkins.
+     * 
+    **/
+    data: Enumerable<checkinsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * checkins update
+   */
+  export type checkinsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the checkins
+     * 
+    **/
+    select?: checkinsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: checkinsInclude | null
+    /**
+     * The data needed to update a checkins.
+     * 
+    **/
+    data: XOR<checkinsUpdateInput, checkinsUncheckedUpdateInput>
+    /**
+     * Choose, which checkins to update.
+     * 
+    **/
+    where: checkinsWhereUniqueInput
+  }
+
+
+  /**
+   * checkins updateMany
+   */
+  export type checkinsUpdateManyArgs = {
+    /**
+     * The data used to update checkins.
+     * 
+    **/
+    data: XOR<checkinsUpdateManyMutationInput, checkinsUncheckedUpdateManyInput>
+    /**
+     * Filter which checkins to update
+     * 
+    **/
+    where?: checkinsWhereInput
+  }
+
+
+  /**
+   * checkins upsert
+   */
+  export type checkinsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the checkins
+     * 
+    **/
+    select?: checkinsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: checkinsInclude | null
+    /**
+     * The filter to search for the checkins to update in case it exists.
+     * 
+    **/
+    where: checkinsWhereUniqueInput
+    /**
+     * In case the checkins found by the `where` argument doesn't exist, create a new checkins with this data.
+     * 
+    **/
+    create: XOR<checkinsCreateInput, checkinsUncheckedCreateInput>
+    /**
+     * In case the checkins was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<checkinsUpdateInput, checkinsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * checkins delete
+   */
+  export type checkinsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the checkins
+     * 
+    **/
+    select?: checkinsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: checkinsInclude | null
+    /**
+     * Filter which checkins to delete.
+     * 
+    **/
+    where: checkinsWhereUniqueInput
+  }
+
+
+  /**
+   * checkins deleteMany
+   */
+  export type checkinsDeleteManyArgs = {
+    /**
+     * Filter which checkins to delete
+     * 
+    **/
+    where?: checkinsWhereInput
+  }
+
+
+  /**
+   * checkins without action
+   */
+  export type checkinsArgs = {
+    /**
+     * Select specific fields to fetch from the checkins
+     * 
+    **/
+    select?: checkinsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: checkinsInclude | null
   }
 
 
@@ -16011,6 +19035,3566 @@ export namespace Prisma {
 
 
   /**
+   * Model links
+   */
+
+
+  export type AggregateLinks = {
+    _count: LinksCountAggregateOutputType | null
+    _min: LinksMinAggregateOutputType | null
+    _max: LinksMaxAggregateOutputType | null
+  }
+
+  export type LinksMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    url: string | null
+    icon: string | null
+    create_user_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type LinksMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    url: string | null
+    icon: string | null
+    create_user_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type LinksCountAggregateOutputType = {
+    id: number
+    title: number
+    url: number
+    icon: number
+    create_user_id: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type LinksMinAggregateInputType = {
+    id?: true
+    title?: true
+    url?: true
+    icon?: true
+    create_user_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type LinksMaxAggregateInputType = {
+    id?: true
+    title?: true
+    url?: true
+    icon?: true
+    create_user_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type LinksCountAggregateInputType = {
+    id?: true
+    title?: true
+    url?: true
+    icon?: true
+    create_user_id?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type LinksAggregateArgs = {
+    /**
+     * Filter which links to aggregate.
+     * 
+    **/
+    where?: linksWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of links to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<linksOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: linksWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` links from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` links.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned links
+    **/
+    _count?: true | LinksCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LinksMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LinksMaxAggregateInputType
+  }
+
+  export type GetLinksAggregateType<T extends LinksAggregateArgs> = {
+        [P in keyof T & keyof AggregateLinks]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLinks[P]>
+      : GetScalarType<T[P], AggregateLinks[P]>
+  }
+
+
+
+
+  export type LinksGroupByArgs = {
+    where?: linksWhereInput
+    orderBy?: Enumerable<linksOrderByWithAggregationInput>
+    by: Array<LinksScalarFieldEnum>
+    having?: linksScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LinksCountAggregateInputType | true
+    _min?: LinksMinAggregateInputType
+    _max?: LinksMaxAggregateInputType
+  }
+
+
+  export type LinksGroupByOutputType = {
+    id: string
+    title: string
+    url: string
+    icon: string | null
+    create_user_id: string | null
+    created_at: Date
+    updated_at: Date | null
+    _count: LinksCountAggregateOutputType | null
+    _min: LinksMinAggregateOutputType | null
+    _max: LinksMaxAggregateOutputType | null
+  }
+
+  type GetLinksGroupByPayload<T extends LinksGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<LinksGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LinksGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LinksGroupByOutputType[P]>
+            : GetScalarType<T[P], LinksGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type linksSelect = {
+    id?: boolean
+    title?: boolean
+    url?: boolean
+    icon?: boolean
+    create_user_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    linktag_relations?: boolean | linktag_relationsFindManyArgs
+    userlinks?: boolean | userlinksFindManyArgs
+    _count?: boolean | LinksCountOutputTypeArgs
+  }
+
+  export type linksInclude = {
+    linktag_relations?: boolean | linktag_relationsFindManyArgs
+    userlinks?: boolean | userlinksFindManyArgs
+    _count?: boolean | LinksCountOutputTypeArgs
+  }
+
+  export type linksGetPayload<
+    S extends boolean | null | undefined | linksArgs,
+    U = keyof S
+      > = S extends true
+        ? links
+    : S extends undefined
+    ? never
+    : S extends linksArgs | linksFindManyArgs
+    ?'include' extends U
+    ? links  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'linktag_relations' ? Array < linktag_relationsGetPayload<S['include'][P]>>  :
+        P extends 'userlinks' ? Array < userlinksGetPayload<S['include'][P]>>  :
+        P extends '_count' ? LinksCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'linktag_relations' ? Array < linktag_relationsGetPayload<S['select'][P]>>  :
+        P extends 'userlinks' ? Array < userlinksGetPayload<S['select'][P]>>  :
+        P extends '_count' ? LinksCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof links ? links[P] : never
+  } 
+    : links
+  : links
+
+
+  type linksCountArgs = Merge<
+    Omit<linksFindManyArgs, 'select' | 'include'> & {
+      select?: LinksCountAggregateInputType | true
+    }
+  >
+
+  export interface linksDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Links that matches the filter.
+     * @param {linksFindUniqueArgs} args - Arguments to find a Links
+     * @example
+     * // Get one Links
+     * const links = await prisma.links.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends linksFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, linksFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'links'> extends True ? CheckSelect<T, Prisma__linksClient<links>, Prisma__linksClient<linksGetPayload<T>>> : CheckSelect<T, Prisma__linksClient<links | null >, Prisma__linksClient<linksGetPayload<T> | null >>
+
+    /**
+     * Find the first Links that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linksFindFirstArgs} args - Arguments to find a Links
+     * @example
+     * // Get one Links
+     * const links = await prisma.links.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends linksFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, linksFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'links'> extends True ? CheckSelect<T, Prisma__linksClient<links>, Prisma__linksClient<linksGetPayload<T>>> : CheckSelect<T, Prisma__linksClient<links | null >, Prisma__linksClient<linksGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Links that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linksFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Links
+     * const links = await prisma.links.findMany()
+     * 
+     * // Get first 10 Links
+     * const links = await prisma.links.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const linksWithIdOnly = await prisma.links.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends linksFindManyArgs>(
+      args?: SelectSubset<T, linksFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<links>>, PrismaPromise<Array<linksGetPayload<T>>>>
+
+    /**
+     * Create a Links.
+     * @param {linksCreateArgs} args - Arguments to create a Links.
+     * @example
+     * // Create one Links
+     * const Links = await prisma.links.create({
+     *   data: {
+     *     // ... data to create a Links
+     *   }
+     * })
+     * 
+    **/
+    create<T extends linksCreateArgs>(
+      args: SelectSubset<T, linksCreateArgs>
+    ): CheckSelect<T, Prisma__linksClient<links>, Prisma__linksClient<linksGetPayload<T>>>
+
+    /**
+     * Create many Links.
+     *     @param {linksCreateManyArgs} args - Arguments to create many Links.
+     *     @example
+     *     // Create many Links
+     *     const links = await prisma.links.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends linksCreateManyArgs>(
+      args?: SelectSubset<T, linksCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Links.
+     * @param {linksDeleteArgs} args - Arguments to delete one Links.
+     * @example
+     * // Delete one Links
+     * const Links = await prisma.links.delete({
+     *   where: {
+     *     // ... filter to delete one Links
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends linksDeleteArgs>(
+      args: SelectSubset<T, linksDeleteArgs>
+    ): CheckSelect<T, Prisma__linksClient<links>, Prisma__linksClient<linksGetPayload<T>>>
+
+    /**
+     * Update one Links.
+     * @param {linksUpdateArgs} args - Arguments to update one Links.
+     * @example
+     * // Update one Links
+     * const links = await prisma.links.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends linksUpdateArgs>(
+      args: SelectSubset<T, linksUpdateArgs>
+    ): CheckSelect<T, Prisma__linksClient<links>, Prisma__linksClient<linksGetPayload<T>>>
+
+    /**
+     * Delete zero or more Links.
+     * @param {linksDeleteManyArgs} args - Arguments to filter Links to delete.
+     * @example
+     * // Delete a few Links
+     * const { count } = await prisma.links.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends linksDeleteManyArgs>(
+      args?: SelectSubset<T, linksDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Links.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linksUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Links
+     * const links = await prisma.links.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends linksUpdateManyArgs>(
+      args: SelectSubset<T, linksUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Links.
+     * @param {linksUpsertArgs} args - Arguments to update or create a Links.
+     * @example
+     * // Update or create a Links
+     * const links = await prisma.links.upsert({
+     *   create: {
+     *     // ... data to create a Links
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Links we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends linksUpsertArgs>(
+      args: SelectSubset<T, linksUpsertArgs>
+    ): CheckSelect<T, Prisma__linksClient<links>, Prisma__linksClient<linksGetPayload<T>>>
+
+    /**
+     * Count the number of Links.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linksCountArgs} args - Arguments to filter Links to count.
+     * @example
+     * // Count the number of Links
+     * const count = await prisma.links.count({
+     *   where: {
+     *     // ... the filter for the Links we want to count
+     *   }
+     * })
+    **/
+    count<T extends linksCountArgs>(
+      args?: Subset<T, linksCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LinksCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Links.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinksAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LinksAggregateArgs>(args: Subset<T, LinksAggregateArgs>): PrismaPromise<GetLinksAggregateType<T>>
+
+    /**
+     * Group by Links.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinksGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LinksGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LinksGroupByArgs['orderBy'] }
+        : { orderBy?: LinksGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LinksGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLinksGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for links.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__linksClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    linktag_relations<T extends linktag_relationsFindManyArgs = {}>(args?: Subset<T, linktag_relationsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<linktag_relations>>, PrismaPromise<Array<linktag_relationsGetPayload<T>>>>;
+
+    userlinks<T extends userlinksFindManyArgs = {}>(args?: Subset<T, userlinksFindManyArgs>): CheckSelect<T, PrismaPromise<Array<userlinks>>, PrismaPromise<Array<userlinksGetPayload<T>>>>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * links findUnique
+   */
+  export type linksFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the links
+     * 
+    **/
+    select?: linksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linksInclude | null
+    /**
+     * Throw an Error if a links can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which links to fetch.
+     * 
+    **/
+    where: linksWhereUniqueInput
+  }
+
+
+  /**
+   * links findFirst
+   */
+  export type linksFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the links
+     * 
+    **/
+    select?: linksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linksInclude | null
+    /**
+     * Throw an Error if a links can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which links to fetch.
+     * 
+    **/
+    where?: linksWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of links to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<linksOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for links.
+     * 
+    **/
+    cursor?: linksWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` links from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` links.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of links.
+     * 
+    **/
+    distinct?: Enumerable<LinksScalarFieldEnum>
+  }
+
+
+  /**
+   * links findMany
+   */
+  export type linksFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the links
+     * 
+    **/
+    select?: linksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linksInclude | null
+    /**
+     * Filter, which links to fetch.
+     * 
+    **/
+    where?: linksWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of links to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<linksOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing links.
+     * 
+    **/
+    cursor?: linksWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` links from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` links.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<LinksScalarFieldEnum>
+  }
+
+
+  /**
+   * links create
+   */
+  export type linksCreateArgs = {
+    /**
+     * Select specific fields to fetch from the links
+     * 
+    **/
+    select?: linksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linksInclude | null
+    /**
+     * The data needed to create a links.
+     * 
+    **/
+    data: XOR<linksCreateInput, linksUncheckedCreateInput>
+  }
+
+
+  /**
+   * links createMany
+   */
+  export type linksCreateManyArgs = {
+    /**
+     * The data used to create many links.
+     * 
+    **/
+    data: Enumerable<linksCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * links update
+   */
+  export type linksUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the links
+     * 
+    **/
+    select?: linksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linksInclude | null
+    /**
+     * The data needed to update a links.
+     * 
+    **/
+    data: XOR<linksUpdateInput, linksUncheckedUpdateInput>
+    /**
+     * Choose, which links to update.
+     * 
+    **/
+    where: linksWhereUniqueInput
+  }
+
+
+  /**
+   * links updateMany
+   */
+  export type linksUpdateManyArgs = {
+    /**
+     * The data used to update links.
+     * 
+    **/
+    data: XOR<linksUpdateManyMutationInput, linksUncheckedUpdateManyInput>
+    /**
+     * Filter which links to update
+     * 
+    **/
+    where?: linksWhereInput
+  }
+
+
+  /**
+   * links upsert
+   */
+  export type linksUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the links
+     * 
+    **/
+    select?: linksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linksInclude | null
+    /**
+     * The filter to search for the links to update in case it exists.
+     * 
+    **/
+    where: linksWhereUniqueInput
+    /**
+     * In case the links found by the `where` argument doesn't exist, create a new links with this data.
+     * 
+    **/
+    create: XOR<linksCreateInput, linksUncheckedCreateInput>
+    /**
+     * In case the links was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<linksUpdateInput, linksUncheckedUpdateInput>
+  }
+
+
+  /**
+   * links delete
+   */
+  export type linksDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the links
+     * 
+    **/
+    select?: linksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linksInclude | null
+    /**
+     * Filter which links to delete.
+     * 
+    **/
+    where: linksWhereUniqueInput
+  }
+
+
+  /**
+   * links deleteMany
+   */
+  export type linksDeleteManyArgs = {
+    /**
+     * Filter which links to delete
+     * 
+    **/
+    where?: linksWhereInput
+  }
+
+
+  /**
+   * links without action
+   */
+  export type linksArgs = {
+    /**
+     * Select specific fields to fetch from the links
+     * 
+    **/
+    select?: linksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linksInclude | null
+  }
+
+
+
+  /**
+   * Model linktags
+   */
+
+
+  export type AggregateLinktags = {
+    _count: LinktagsCountAggregateOutputType | null
+    _min: LinktagsMinAggregateOutputType | null
+    _max: LinktagsMaxAggregateOutputType | null
+  }
+
+  export type LinktagsMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    desc: string | null
+    create_user_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type LinktagsMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    desc: string | null
+    create_user_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type LinktagsCountAggregateOutputType = {
+    id: number
+    title: number
+    desc: number
+    create_user_id: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type LinktagsMinAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    create_user_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type LinktagsMaxAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    create_user_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type LinktagsCountAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    create_user_id?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type LinktagsAggregateArgs = {
+    /**
+     * Filter which linktags to aggregate.
+     * 
+    **/
+    where?: linktagsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of linktags to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<linktagsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: linktagsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` linktags from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` linktags.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned linktags
+    **/
+    _count?: true | LinktagsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LinktagsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LinktagsMaxAggregateInputType
+  }
+
+  export type GetLinktagsAggregateType<T extends LinktagsAggregateArgs> = {
+        [P in keyof T & keyof AggregateLinktags]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLinktags[P]>
+      : GetScalarType<T[P], AggregateLinktags[P]>
+  }
+
+
+
+
+  export type LinktagsGroupByArgs = {
+    where?: linktagsWhereInput
+    orderBy?: Enumerable<linktagsOrderByWithAggregationInput>
+    by: Array<LinktagsScalarFieldEnum>
+    having?: linktagsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LinktagsCountAggregateInputType | true
+    _min?: LinktagsMinAggregateInputType
+    _max?: LinktagsMaxAggregateInputType
+  }
+
+
+  export type LinktagsGroupByOutputType = {
+    id: string
+    title: string
+    desc: string | null
+    create_user_id: string | null
+    created_at: Date
+    updated_at: Date | null
+    _count: LinktagsCountAggregateOutputType | null
+    _min: LinktagsMinAggregateOutputType | null
+    _max: LinktagsMaxAggregateOutputType | null
+  }
+
+  type GetLinktagsGroupByPayload<T extends LinktagsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<LinktagsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LinktagsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LinktagsGroupByOutputType[P]>
+            : GetScalarType<T[P], LinktagsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type linktagsSelect = {
+    id?: boolean
+    title?: boolean
+    desc?: boolean
+    create_user_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    linktag_relations?: boolean | linktag_relationsFindManyArgs
+    userlinks?: boolean | userlinksFindManyArgs
+    _count?: boolean | LinktagsCountOutputTypeArgs
+  }
+
+  export type linktagsInclude = {
+    linktag_relations?: boolean | linktag_relationsFindManyArgs
+    userlinks?: boolean | userlinksFindManyArgs
+    _count?: boolean | LinktagsCountOutputTypeArgs
+  }
+
+  export type linktagsGetPayload<
+    S extends boolean | null | undefined | linktagsArgs,
+    U = keyof S
+      > = S extends true
+        ? linktags
+    : S extends undefined
+    ? never
+    : S extends linktagsArgs | linktagsFindManyArgs
+    ?'include' extends U
+    ? linktags  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'linktag_relations' ? Array < linktag_relationsGetPayload<S['include'][P]>>  :
+        P extends 'userlinks' ? Array < userlinksGetPayload<S['include'][P]>>  :
+        P extends '_count' ? LinktagsCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'linktag_relations' ? Array < linktag_relationsGetPayload<S['select'][P]>>  :
+        P extends 'userlinks' ? Array < userlinksGetPayload<S['select'][P]>>  :
+        P extends '_count' ? LinktagsCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof linktags ? linktags[P] : never
+  } 
+    : linktags
+  : linktags
+
+
+  type linktagsCountArgs = Merge<
+    Omit<linktagsFindManyArgs, 'select' | 'include'> & {
+      select?: LinktagsCountAggregateInputType | true
+    }
+  >
+
+  export interface linktagsDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Linktags that matches the filter.
+     * @param {linktagsFindUniqueArgs} args - Arguments to find a Linktags
+     * @example
+     * // Get one Linktags
+     * const linktags = await prisma.linktags.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends linktagsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, linktagsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'linktags'> extends True ? CheckSelect<T, Prisma__linktagsClient<linktags>, Prisma__linktagsClient<linktagsGetPayload<T>>> : CheckSelect<T, Prisma__linktagsClient<linktags | null >, Prisma__linktagsClient<linktagsGetPayload<T> | null >>
+
+    /**
+     * Find the first Linktags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linktagsFindFirstArgs} args - Arguments to find a Linktags
+     * @example
+     * // Get one Linktags
+     * const linktags = await prisma.linktags.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends linktagsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, linktagsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'linktags'> extends True ? CheckSelect<T, Prisma__linktagsClient<linktags>, Prisma__linktagsClient<linktagsGetPayload<T>>> : CheckSelect<T, Prisma__linktagsClient<linktags | null >, Prisma__linktagsClient<linktagsGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Linktags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linktagsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Linktags
+     * const linktags = await prisma.linktags.findMany()
+     * 
+     * // Get first 10 Linktags
+     * const linktags = await prisma.linktags.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const linktagsWithIdOnly = await prisma.linktags.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends linktagsFindManyArgs>(
+      args?: SelectSubset<T, linktagsFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<linktags>>, PrismaPromise<Array<linktagsGetPayload<T>>>>
+
+    /**
+     * Create a Linktags.
+     * @param {linktagsCreateArgs} args - Arguments to create a Linktags.
+     * @example
+     * // Create one Linktags
+     * const Linktags = await prisma.linktags.create({
+     *   data: {
+     *     // ... data to create a Linktags
+     *   }
+     * })
+     * 
+    **/
+    create<T extends linktagsCreateArgs>(
+      args: SelectSubset<T, linktagsCreateArgs>
+    ): CheckSelect<T, Prisma__linktagsClient<linktags>, Prisma__linktagsClient<linktagsGetPayload<T>>>
+
+    /**
+     * Create many Linktags.
+     *     @param {linktagsCreateManyArgs} args - Arguments to create many Linktags.
+     *     @example
+     *     // Create many Linktags
+     *     const linktags = await prisma.linktags.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends linktagsCreateManyArgs>(
+      args?: SelectSubset<T, linktagsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Linktags.
+     * @param {linktagsDeleteArgs} args - Arguments to delete one Linktags.
+     * @example
+     * // Delete one Linktags
+     * const Linktags = await prisma.linktags.delete({
+     *   where: {
+     *     // ... filter to delete one Linktags
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends linktagsDeleteArgs>(
+      args: SelectSubset<T, linktagsDeleteArgs>
+    ): CheckSelect<T, Prisma__linktagsClient<linktags>, Prisma__linktagsClient<linktagsGetPayload<T>>>
+
+    /**
+     * Update one Linktags.
+     * @param {linktagsUpdateArgs} args - Arguments to update one Linktags.
+     * @example
+     * // Update one Linktags
+     * const linktags = await prisma.linktags.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends linktagsUpdateArgs>(
+      args: SelectSubset<T, linktagsUpdateArgs>
+    ): CheckSelect<T, Prisma__linktagsClient<linktags>, Prisma__linktagsClient<linktagsGetPayload<T>>>
+
+    /**
+     * Delete zero or more Linktags.
+     * @param {linktagsDeleteManyArgs} args - Arguments to filter Linktags to delete.
+     * @example
+     * // Delete a few Linktags
+     * const { count } = await prisma.linktags.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends linktagsDeleteManyArgs>(
+      args?: SelectSubset<T, linktagsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Linktags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linktagsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Linktags
+     * const linktags = await prisma.linktags.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends linktagsUpdateManyArgs>(
+      args: SelectSubset<T, linktagsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Linktags.
+     * @param {linktagsUpsertArgs} args - Arguments to update or create a Linktags.
+     * @example
+     * // Update or create a Linktags
+     * const linktags = await prisma.linktags.upsert({
+     *   create: {
+     *     // ... data to create a Linktags
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Linktags we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends linktagsUpsertArgs>(
+      args: SelectSubset<T, linktagsUpsertArgs>
+    ): CheckSelect<T, Prisma__linktagsClient<linktags>, Prisma__linktagsClient<linktagsGetPayload<T>>>
+
+    /**
+     * Count the number of Linktags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linktagsCountArgs} args - Arguments to filter Linktags to count.
+     * @example
+     * // Count the number of Linktags
+     * const count = await prisma.linktags.count({
+     *   where: {
+     *     // ... the filter for the Linktags we want to count
+     *   }
+     * })
+    **/
+    count<T extends linktagsCountArgs>(
+      args?: Subset<T, linktagsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LinktagsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Linktags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinktagsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LinktagsAggregateArgs>(args: Subset<T, LinktagsAggregateArgs>): PrismaPromise<GetLinktagsAggregateType<T>>
+
+    /**
+     * Group by Linktags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LinktagsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LinktagsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LinktagsGroupByArgs['orderBy'] }
+        : { orderBy?: LinktagsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LinktagsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLinktagsGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for linktags.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__linktagsClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    linktag_relations<T extends linktag_relationsFindManyArgs = {}>(args?: Subset<T, linktag_relationsFindManyArgs>): CheckSelect<T, PrismaPromise<Array<linktag_relations>>, PrismaPromise<Array<linktag_relationsGetPayload<T>>>>;
+
+    userlinks<T extends userlinksFindManyArgs = {}>(args?: Subset<T, userlinksFindManyArgs>): CheckSelect<T, PrismaPromise<Array<userlinks>>, PrismaPromise<Array<userlinksGetPayload<T>>>>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * linktags findUnique
+   */
+  export type linktagsFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the linktags
+     * 
+    **/
+    select?: linktagsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktagsInclude | null
+    /**
+     * Throw an Error if a linktags can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which linktags to fetch.
+     * 
+    **/
+    where: linktagsWhereUniqueInput
+  }
+
+
+  /**
+   * linktags findFirst
+   */
+  export type linktagsFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the linktags
+     * 
+    **/
+    select?: linktagsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktagsInclude | null
+    /**
+     * Throw an Error if a linktags can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which linktags to fetch.
+     * 
+    **/
+    where?: linktagsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of linktags to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<linktagsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for linktags.
+     * 
+    **/
+    cursor?: linktagsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` linktags from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` linktags.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of linktags.
+     * 
+    **/
+    distinct?: Enumerable<LinktagsScalarFieldEnum>
+  }
+
+
+  /**
+   * linktags findMany
+   */
+  export type linktagsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the linktags
+     * 
+    **/
+    select?: linktagsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktagsInclude | null
+    /**
+     * Filter, which linktags to fetch.
+     * 
+    **/
+    where?: linktagsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of linktags to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<linktagsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing linktags.
+     * 
+    **/
+    cursor?: linktagsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` linktags from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` linktags.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<LinktagsScalarFieldEnum>
+  }
+
+
+  /**
+   * linktags create
+   */
+  export type linktagsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the linktags
+     * 
+    **/
+    select?: linktagsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktagsInclude | null
+    /**
+     * The data needed to create a linktags.
+     * 
+    **/
+    data: XOR<linktagsCreateInput, linktagsUncheckedCreateInput>
+  }
+
+
+  /**
+   * linktags createMany
+   */
+  export type linktagsCreateManyArgs = {
+    /**
+     * The data used to create many linktags.
+     * 
+    **/
+    data: Enumerable<linktagsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * linktags update
+   */
+  export type linktagsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the linktags
+     * 
+    **/
+    select?: linktagsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktagsInclude | null
+    /**
+     * The data needed to update a linktags.
+     * 
+    **/
+    data: XOR<linktagsUpdateInput, linktagsUncheckedUpdateInput>
+    /**
+     * Choose, which linktags to update.
+     * 
+    **/
+    where: linktagsWhereUniqueInput
+  }
+
+
+  /**
+   * linktags updateMany
+   */
+  export type linktagsUpdateManyArgs = {
+    /**
+     * The data used to update linktags.
+     * 
+    **/
+    data: XOR<linktagsUpdateManyMutationInput, linktagsUncheckedUpdateManyInput>
+    /**
+     * Filter which linktags to update
+     * 
+    **/
+    where?: linktagsWhereInput
+  }
+
+
+  /**
+   * linktags upsert
+   */
+  export type linktagsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the linktags
+     * 
+    **/
+    select?: linktagsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktagsInclude | null
+    /**
+     * The filter to search for the linktags to update in case it exists.
+     * 
+    **/
+    where: linktagsWhereUniqueInput
+    /**
+     * In case the linktags found by the `where` argument doesn't exist, create a new linktags with this data.
+     * 
+    **/
+    create: XOR<linktagsCreateInput, linktagsUncheckedCreateInput>
+    /**
+     * In case the linktags was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<linktagsUpdateInput, linktagsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * linktags delete
+   */
+  export type linktagsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the linktags
+     * 
+    **/
+    select?: linktagsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktagsInclude | null
+    /**
+     * Filter which linktags to delete.
+     * 
+    **/
+    where: linktagsWhereUniqueInput
+  }
+
+
+  /**
+   * linktags deleteMany
+   */
+  export type linktagsDeleteManyArgs = {
+    /**
+     * Filter which linktags to delete
+     * 
+    **/
+    where?: linktagsWhereInput
+  }
+
+
+  /**
+   * linktags without action
+   */
+  export type linktagsArgs = {
+    /**
+     * Select specific fields to fetch from the linktags
+     * 
+    **/
+    select?: linktagsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktagsInclude | null
+  }
+
+
+
+  /**
+   * Model linktag_relations
+   */
+
+
+  export type AggregateLinktag_relations = {
+    _count: Linktag_relationsCountAggregateOutputType | null
+    _avg: Linktag_relationsAvgAggregateOutputType | null
+    _sum: Linktag_relationsSumAggregateOutputType | null
+    _min: Linktag_relationsMinAggregateOutputType | null
+    _max: Linktag_relationsMaxAggregateOutputType | null
+  }
+
+  export type Linktag_relationsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Linktag_relationsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Linktag_relationsMinAggregateOutputType = {
+    id: number | null
+    linktag_id: string | null
+    link_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Linktag_relationsMaxAggregateOutputType = {
+    id: number | null
+    linktag_id: string | null
+    link_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Linktag_relationsCountAggregateOutputType = {
+    id: number
+    linktag_id: number
+    link_id: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Linktag_relationsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type Linktag_relationsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type Linktag_relationsMinAggregateInputType = {
+    id?: true
+    linktag_id?: true
+    link_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Linktag_relationsMaxAggregateInputType = {
+    id?: true
+    linktag_id?: true
+    link_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Linktag_relationsCountAggregateInputType = {
+    id?: true
+    linktag_id?: true
+    link_id?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Linktag_relationsAggregateArgs = {
+    /**
+     * Filter which linktag_relations to aggregate.
+     * 
+    **/
+    where?: linktag_relationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of linktag_relations to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<linktag_relationsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: linktag_relationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` linktag_relations from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` linktag_relations.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned linktag_relations
+    **/
+    _count?: true | Linktag_relationsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Linktag_relationsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Linktag_relationsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Linktag_relationsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Linktag_relationsMaxAggregateInputType
+  }
+
+  export type GetLinktag_relationsAggregateType<T extends Linktag_relationsAggregateArgs> = {
+        [P in keyof T & keyof AggregateLinktag_relations]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLinktag_relations[P]>
+      : GetScalarType<T[P], AggregateLinktag_relations[P]>
+  }
+
+
+
+
+  export type Linktag_relationsGroupByArgs = {
+    where?: linktag_relationsWhereInput
+    orderBy?: Enumerable<linktag_relationsOrderByWithAggregationInput>
+    by: Array<Linktag_relationsScalarFieldEnum>
+    having?: linktag_relationsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Linktag_relationsCountAggregateInputType | true
+    _avg?: Linktag_relationsAvgAggregateInputType
+    _sum?: Linktag_relationsSumAggregateInputType
+    _min?: Linktag_relationsMinAggregateInputType
+    _max?: Linktag_relationsMaxAggregateInputType
+  }
+
+
+  export type Linktag_relationsGroupByOutputType = {
+    id: number
+    linktag_id: string
+    link_id: string
+    created_at: Date
+    updated_at: Date | null
+    _count: Linktag_relationsCountAggregateOutputType | null
+    _avg: Linktag_relationsAvgAggregateOutputType | null
+    _sum: Linktag_relationsSumAggregateOutputType | null
+    _min: Linktag_relationsMinAggregateOutputType | null
+    _max: Linktag_relationsMaxAggregateOutputType | null
+  }
+
+  type GetLinktag_relationsGroupByPayload<T extends Linktag_relationsGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<Linktag_relationsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Linktag_relationsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Linktag_relationsGroupByOutputType[P]>
+            : GetScalarType<T[P], Linktag_relationsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type linktag_relationsSelect = {
+    id?: boolean
+    linktag?: boolean | linktagsArgs
+    linktag_id?: boolean
+    link?: boolean | linksArgs
+    link_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type linktag_relationsInclude = {
+    linktag?: boolean | linktagsArgs
+    link?: boolean | linksArgs
+  }
+
+  export type linktag_relationsGetPayload<
+    S extends boolean | null | undefined | linktag_relationsArgs,
+    U = keyof S
+      > = S extends true
+        ? linktag_relations
+    : S extends undefined
+    ? never
+    : S extends linktag_relationsArgs | linktag_relationsFindManyArgs
+    ?'include' extends U
+    ? linktag_relations  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'linktag' ? linktagsGetPayload<S['include'][P]> :
+        P extends 'link' ? linksGetPayload<S['include'][P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'linktag' ? linktagsGetPayload<S['select'][P]> :
+        P extends 'link' ? linksGetPayload<S['select'][P]> :  P extends keyof linktag_relations ? linktag_relations[P] : never
+  } 
+    : linktag_relations
+  : linktag_relations
+
+
+  type linktag_relationsCountArgs = Merge<
+    Omit<linktag_relationsFindManyArgs, 'select' | 'include'> & {
+      select?: Linktag_relationsCountAggregateInputType | true
+    }
+  >
+
+  export interface linktag_relationsDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Linktag_relations that matches the filter.
+     * @param {linktag_relationsFindUniqueArgs} args - Arguments to find a Linktag_relations
+     * @example
+     * // Get one Linktag_relations
+     * const linktag_relations = await prisma.linktag_relations.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends linktag_relationsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, linktag_relationsFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'linktag_relations'> extends True ? CheckSelect<T, Prisma__linktag_relationsClient<linktag_relations>, Prisma__linktag_relationsClient<linktag_relationsGetPayload<T>>> : CheckSelect<T, Prisma__linktag_relationsClient<linktag_relations | null >, Prisma__linktag_relationsClient<linktag_relationsGetPayload<T> | null >>
+
+    /**
+     * Find the first Linktag_relations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linktag_relationsFindFirstArgs} args - Arguments to find a Linktag_relations
+     * @example
+     * // Get one Linktag_relations
+     * const linktag_relations = await prisma.linktag_relations.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends linktag_relationsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, linktag_relationsFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'linktag_relations'> extends True ? CheckSelect<T, Prisma__linktag_relationsClient<linktag_relations>, Prisma__linktag_relationsClient<linktag_relationsGetPayload<T>>> : CheckSelect<T, Prisma__linktag_relationsClient<linktag_relations | null >, Prisma__linktag_relationsClient<linktag_relationsGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Linktag_relations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linktag_relationsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Linktag_relations
+     * const linktag_relations = await prisma.linktag_relations.findMany()
+     * 
+     * // Get first 10 Linktag_relations
+     * const linktag_relations = await prisma.linktag_relations.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const linktag_relationsWithIdOnly = await prisma.linktag_relations.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends linktag_relationsFindManyArgs>(
+      args?: SelectSubset<T, linktag_relationsFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<linktag_relations>>, PrismaPromise<Array<linktag_relationsGetPayload<T>>>>
+
+    /**
+     * Create a Linktag_relations.
+     * @param {linktag_relationsCreateArgs} args - Arguments to create a Linktag_relations.
+     * @example
+     * // Create one Linktag_relations
+     * const Linktag_relations = await prisma.linktag_relations.create({
+     *   data: {
+     *     // ... data to create a Linktag_relations
+     *   }
+     * })
+     * 
+    **/
+    create<T extends linktag_relationsCreateArgs>(
+      args: SelectSubset<T, linktag_relationsCreateArgs>
+    ): CheckSelect<T, Prisma__linktag_relationsClient<linktag_relations>, Prisma__linktag_relationsClient<linktag_relationsGetPayload<T>>>
+
+    /**
+     * Create many Linktag_relations.
+     *     @param {linktag_relationsCreateManyArgs} args - Arguments to create many Linktag_relations.
+     *     @example
+     *     // Create many Linktag_relations
+     *     const linktag_relations = await prisma.linktag_relations.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends linktag_relationsCreateManyArgs>(
+      args?: SelectSubset<T, linktag_relationsCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Linktag_relations.
+     * @param {linktag_relationsDeleteArgs} args - Arguments to delete one Linktag_relations.
+     * @example
+     * // Delete one Linktag_relations
+     * const Linktag_relations = await prisma.linktag_relations.delete({
+     *   where: {
+     *     // ... filter to delete one Linktag_relations
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends linktag_relationsDeleteArgs>(
+      args: SelectSubset<T, linktag_relationsDeleteArgs>
+    ): CheckSelect<T, Prisma__linktag_relationsClient<linktag_relations>, Prisma__linktag_relationsClient<linktag_relationsGetPayload<T>>>
+
+    /**
+     * Update one Linktag_relations.
+     * @param {linktag_relationsUpdateArgs} args - Arguments to update one Linktag_relations.
+     * @example
+     * // Update one Linktag_relations
+     * const linktag_relations = await prisma.linktag_relations.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends linktag_relationsUpdateArgs>(
+      args: SelectSubset<T, linktag_relationsUpdateArgs>
+    ): CheckSelect<T, Prisma__linktag_relationsClient<linktag_relations>, Prisma__linktag_relationsClient<linktag_relationsGetPayload<T>>>
+
+    /**
+     * Delete zero or more Linktag_relations.
+     * @param {linktag_relationsDeleteManyArgs} args - Arguments to filter Linktag_relations to delete.
+     * @example
+     * // Delete a few Linktag_relations
+     * const { count } = await prisma.linktag_relations.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends linktag_relationsDeleteManyArgs>(
+      args?: SelectSubset<T, linktag_relationsDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Linktag_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linktag_relationsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Linktag_relations
+     * const linktag_relations = await prisma.linktag_relations.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends linktag_relationsUpdateManyArgs>(
+      args: SelectSubset<T, linktag_relationsUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Linktag_relations.
+     * @param {linktag_relationsUpsertArgs} args - Arguments to update or create a Linktag_relations.
+     * @example
+     * // Update or create a Linktag_relations
+     * const linktag_relations = await prisma.linktag_relations.upsert({
+     *   create: {
+     *     // ... data to create a Linktag_relations
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Linktag_relations we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends linktag_relationsUpsertArgs>(
+      args: SelectSubset<T, linktag_relationsUpsertArgs>
+    ): CheckSelect<T, Prisma__linktag_relationsClient<linktag_relations>, Prisma__linktag_relationsClient<linktag_relationsGetPayload<T>>>
+
+    /**
+     * Count the number of Linktag_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {linktag_relationsCountArgs} args - Arguments to filter Linktag_relations to count.
+     * @example
+     * // Count the number of Linktag_relations
+     * const count = await prisma.linktag_relations.count({
+     *   where: {
+     *     // ... the filter for the Linktag_relations we want to count
+     *   }
+     * })
+    **/
+    count<T extends linktag_relationsCountArgs>(
+      args?: Subset<T, linktag_relationsCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Linktag_relationsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Linktag_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Linktag_relationsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Linktag_relationsAggregateArgs>(args: Subset<T, Linktag_relationsAggregateArgs>): PrismaPromise<GetLinktag_relationsAggregateType<T>>
+
+    /**
+     * Group by Linktag_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Linktag_relationsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Linktag_relationsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Linktag_relationsGroupByArgs['orderBy'] }
+        : { orderBy?: Linktag_relationsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Linktag_relationsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLinktag_relationsGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for linktag_relations.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__linktag_relationsClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    linktag<T extends linktagsArgs = {}>(args?: Subset<T, linktagsArgs>): CheckSelect<T, Prisma__linktagsClient<linktags | null >, Prisma__linktagsClient<linktagsGetPayload<T> | null >>;
+
+    link<T extends linksArgs = {}>(args?: Subset<T, linksArgs>): CheckSelect<T, Prisma__linksClient<links | null >, Prisma__linksClient<linksGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * linktag_relations findUnique
+   */
+  export type linktag_relationsFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the linktag_relations
+     * 
+    **/
+    select?: linktag_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktag_relationsInclude | null
+    /**
+     * Throw an Error if a linktag_relations can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which linktag_relations to fetch.
+     * 
+    **/
+    where: linktag_relationsWhereUniqueInput
+  }
+
+
+  /**
+   * linktag_relations findFirst
+   */
+  export type linktag_relationsFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the linktag_relations
+     * 
+    **/
+    select?: linktag_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktag_relationsInclude | null
+    /**
+     * Throw an Error if a linktag_relations can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which linktag_relations to fetch.
+     * 
+    **/
+    where?: linktag_relationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of linktag_relations to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<linktag_relationsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for linktag_relations.
+     * 
+    **/
+    cursor?: linktag_relationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` linktag_relations from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` linktag_relations.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of linktag_relations.
+     * 
+    **/
+    distinct?: Enumerable<Linktag_relationsScalarFieldEnum>
+  }
+
+
+  /**
+   * linktag_relations findMany
+   */
+  export type linktag_relationsFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the linktag_relations
+     * 
+    **/
+    select?: linktag_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktag_relationsInclude | null
+    /**
+     * Filter, which linktag_relations to fetch.
+     * 
+    **/
+    where?: linktag_relationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of linktag_relations to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<linktag_relationsOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing linktag_relations.
+     * 
+    **/
+    cursor?: linktag_relationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` linktag_relations from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` linktag_relations.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<Linktag_relationsScalarFieldEnum>
+  }
+
+
+  /**
+   * linktag_relations create
+   */
+  export type linktag_relationsCreateArgs = {
+    /**
+     * Select specific fields to fetch from the linktag_relations
+     * 
+    **/
+    select?: linktag_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktag_relationsInclude | null
+    /**
+     * The data needed to create a linktag_relations.
+     * 
+    **/
+    data: XOR<linktag_relationsCreateInput, linktag_relationsUncheckedCreateInput>
+  }
+
+
+  /**
+   * linktag_relations createMany
+   */
+  export type linktag_relationsCreateManyArgs = {
+    /**
+     * The data used to create many linktag_relations.
+     * 
+    **/
+    data: Enumerable<linktag_relationsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * linktag_relations update
+   */
+  export type linktag_relationsUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the linktag_relations
+     * 
+    **/
+    select?: linktag_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktag_relationsInclude | null
+    /**
+     * The data needed to update a linktag_relations.
+     * 
+    **/
+    data: XOR<linktag_relationsUpdateInput, linktag_relationsUncheckedUpdateInput>
+    /**
+     * Choose, which linktag_relations to update.
+     * 
+    **/
+    where: linktag_relationsWhereUniqueInput
+  }
+
+
+  /**
+   * linktag_relations updateMany
+   */
+  export type linktag_relationsUpdateManyArgs = {
+    /**
+     * The data used to update linktag_relations.
+     * 
+    **/
+    data: XOR<linktag_relationsUpdateManyMutationInput, linktag_relationsUncheckedUpdateManyInput>
+    /**
+     * Filter which linktag_relations to update
+     * 
+    **/
+    where?: linktag_relationsWhereInput
+  }
+
+
+  /**
+   * linktag_relations upsert
+   */
+  export type linktag_relationsUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the linktag_relations
+     * 
+    **/
+    select?: linktag_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktag_relationsInclude | null
+    /**
+     * The filter to search for the linktag_relations to update in case it exists.
+     * 
+    **/
+    where: linktag_relationsWhereUniqueInput
+    /**
+     * In case the linktag_relations found by the `where` argument doesn't exist, create a new linktag_relations with this data.
+     * 
+    **/
+    create: XOR<linktag_relationsCreateInput, linktag_relationsUncheckedCreateInput>
+    /**
+     * In case the linktag_relations was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<linktag_relationsUpdateInput, linktag_relationsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * linktag_relations delete
+   */
+  export type linktag_relationsDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the linktag_relations
+     * 
+    **/
+    select?: linktag_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktag_relationsInclude | null
+    /**
+     * Filter which linktag_relations to delete.
+     * 
+    **/
+    where: linktag_relationsWhereUniqueInput
+  }
+
+
+  /**
+   * linktag_relations deleteMany
+   */
+  export type linktag_relationsDeleteManyArgs = {
+    /**
+     * Filter which linktag_relations to delete
+     * 
+    **/
+    where?: linktag_relationsWhereInput
+  }
+
+
+  /**
+   * linktag_relations without action
+   */
+  export type linktag_relationsArgs = {
+    /**
+     * Select specific fields to fetch from the linktag_relations
+     * 
+    **/
+    select?: linktag_relationsSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: linktag_relationsInclude | null
+  }
+
+
+
+  /**
+   * Model userlinks
+   */
+
+
+  export type AggregateUserlinks = {
+    _count: UserlinksCountAggregateOutputType | null
+    _min: UserlinksMinAggregateOutputType | null
+    _max: UserlinksMaxAggregateOutputType | null
+  }
+
+  export type UserlinksMinAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    link_id: string | null
+    tag_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type UserlinksMaxAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    link_id: string | null
+    tag_id: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type UserlinksCountAggregateOutputType = {
+    id: number
+    user_id: number
+    link_id: number
+    tag_id: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type UserlinksMinAggregateInputType = {
+    id?: true
+    user_id?: true
+    link_id?: true
+    tag_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type UserlinksMaxAggregateInputType = {
+    id?: true
+    user_id?: true
+    link_id?: true
+    tag_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type UserlinksCountAggregateInputType = {
+    id?: true
+    user_id?: true
+    link_id?: true
+    tag_id?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type UserlinksAggregateArgs = {
+    /**
+     * Filter which userlinks to aggregate.
+     * 
+    **/
+    where?: userlinksWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of userlinks to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<userlinksOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: userlinksWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` userlinks from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` userlinks.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned userlinks
+    **/
+    _count?: true | UserlinksCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserlinksMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserlinksMaxAggregateInputType
+  }
+
+  export type GetUserlinksAggregateType<T extends UserlinksAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserlinks]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserlinks[P]>
+      : GetScalarType<T[P], AggregateUserlinks[P]>
+  }
+
+
+
+
+  export type UserlinksGroupByArgs = {
+    where?: userlinksWhereInput
+    orderBy?: Enumerable<userlinksOrderByWithAggregationInput>
+    by: Array<UserlinksScalarFieldEnum>
+    having?: userlinksScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserlinksCountAggregateInputType | true
+    _min?: UserlinksMinAggregateInputType
+    _max?: UserlinksMaxAggregateInputType
+  }
+
+
+  export type UserlinksGroupByOutputType = {
+    id: string
+    user_id: string
+    link_id: string
+    tag_id: string | null
+    created_at: Date
+    updated_at: Date | null
+    _count: UserlinksCountAggregateOutputType | null
+    _min: UserlinksMinAggregateOutputType | null
+    _max: UserlinksMaxAggregateOutputType | null
+  }
+
+  type GetUserlinksGroupByPayload<T extends UserlinksGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<UserlinksGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserlinksGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserlinksGroupByOutputType[P]>
+            : GetScalarType<T[P], UserlinksGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type userlinksSelect = {
+    id?: boolean
+    user_id?: boolean
+    link_id?: boolean
+    tag_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    user?: boolean | usersArgs
+    link?: boolean | linksArgs
+    linktag?: boolean | linktagsArgs
+  }
+
+  export type userlinksInclude = {
+    user?: boolean | usersArgs
+    link?: boolean | linksArgs
+    linktag?: boolean | linktagsArgs
+  }
+
+  export type userlinksGetPayload<
+    S extends boolean | null | undefined | userlinksArgs,
+    U = keyof S
+      > = S extends true
+        ? userlinks
+    : S extends undefined
+    ? never
+    : S extends userlinksArgs | userlinksFindManyArgs
+    ?'include' extends U
+    ? userlinks  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? usersGetPayload<S['include'][P]> :
+        P extends 'link' ? linksGetPayload<S['include'][P]> :
+        P extends 'linktag' ? linktagsGetPayload<S['include'][P]> | null :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? usersGetPayload<S['select'][P]> :
+        P extends 'link' ? linksGetPayload<S['select'][P]> :
+        P extends 'linktag' ? linktagsGetPayload<S['select'][P]> | null :  P extends keyof userlinks ? userlinks[P] : never
+  } 
+    : userlinks
+  : userlinks
+
+
+  type userlinksCountArgs = Merge<
+    Omit<userlinksFindManyArgs, 'select' | 'include'> & {
+      select?: UserlinksCountAggregateInputType | true
+    }
+  >
+
+  export interface userlinksDelegate<GlobalRejectSettings> {
+    /**
+     * Find zero or one Userlinks that matches the filter.
+     * @param {userlinksFindUniqueArgs} args - Arguments to find a Userlinks
+     * @example
+     * // Get one Userlinks
+     * const userlinks = await prisma.userlinks.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends userlinksFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, userlinksFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'userlinks'> extends True ? CheckSelect<T, Prisma__userlinksClient<userlinks>, Prisma__userlinksClient<userlinksGetPayload<T>>> : CheckSelect<T, Prisma__userlinksClient<userlinks | null >, Prisma__userlinksClient<userlinksGetPayload<T> | null >>
+
+    /**
+     * Find the first Userlinks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {userlinksFindFirstArgs} args - Arguments to find a Userlinks
+     * @example
+     * // Get one Userlinks
+     * const userlinks = await prisma.userlinks.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends userlinksFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, userlinksFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'userlinks'> extends True ? CheckSelect<T, Prisma__userlinksClient<userlinks>, Prisma__userlinksClient<userlinksGetPayload<T>>> : CheckSelect<T, Prisma__userlinksClient<userlinks | null >, Prisma__userlinksClient<userlinksGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Userlinks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {userlinksFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Userlinks
+     * const userlinks = await prisma.userlinks.findMany()
+     * 
+     * // Get first 10 Userlinks
+     * const userlinks = await prisma.userlinks.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userlinksWithIdOnly = await prisma.userlinks.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends userlinksFindManyArgs>(
+      args?: SelectSubset<T, userlinksFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<userlinks>>, PrismaPromise<Array<userlinksGetPayload<T>>>>
+
+    /**
+     * Create a Userlinks.
+     * @param {userlinksCreateArgs} args - Arguments to create a Userlinks.
+     * @example
+     * // Create one Userlinks
+     * const Userlinks = await prisma.userlinks.create({
+     *   data: {
+     *     // ... data to create a Userlinks
+     *   }
+     * })
+     * 
+    **/
+    create<T extends userlinksCreateArgs>(
+      args: SelectSubset<T, userlinksCreateArgs>
+    ): CheckSelect<T, Prisma__userlinksClient<userlinks>, Prisma__userlinksClient<userlinksGetPayload<T>>>
+
+    /**
+     * Create many Userlinks.
+     *     @param {userlinksCreateManyArgs} args - Arguments to create many Userlinks.
+     *     @example
+     *     // Create many Userlinks
+     *     const userlinks = await prisma.userlinks.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends userlinksCreateManyArgs>(
+      args?: SelectSubset<T, userlinksCreateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Userlinks.
+     * @param {userlinksDeleteArgs} args - Arguments to delete one Userlinks.
+     * @example
+     * // Delete one Userlinks
+     * const Userlinks = await prisma.userlinks.delete({
+     *   where: {
+     *     // ... filter to delete one Userlinks
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends userlinksDeleteArgs>(
+      args: SelectSubset<T, userlinksDeleteArgs>
+    ): CheckSelect<T, Prisma__userlinksClient<userlinks>, Prisma__userlinksClient<userlinksGetPayload<T>>>
+
+    /**
+     * Update one Userlinks.
+     * @param {userlinksUpdateArgs} args - Arguments to update one Userlinks.
+     * @example
+     * // Update one Userlinks
+     * const userlinks = await prisma.userlinks.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends userlinksUpdateArgs>(
+      args: SelectSubset<T, userlinksUpdateArgs>
+    ): CheckSelect<T, Prisma__userlinksClient<userlinks>, Prisma__userlinksClient<userlinksGetPayload<T>>>
+
+    /**
+     * Delete zero or more Userlinks.
+     * @param {userlinksDeleteManyArgs} args - Arguments to filter Userlinks to delete.
+     * @example
+     * // Delete a few Userlinks
+     * const { count } = await prisma.userlinks.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends userlinksDeleteManyArgs>(
+      args?: SelectSubset<T, userlinksDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Userlinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {userlinksUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Userlinks
+     * const userlinks = await prisma.userlinks.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends userlinksUpdateManyArgs>(
+      args: SelectSubset<T, userlinksUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Userlinks.
+     * @param {userlinksUpsertArgs} args - Arguments to update or create a Userlinks.
+     * @example
+     * // Update or create a Userlinks
+     * const userlinks = await prisma.userlinks.upsert({
+     *   create: {
+     *     // ... data to create a Userlinks
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Userlinks we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends userlinksUpsertArgs>(
+      args: SelectSubset<T, userlinksUpsertArgs>
+    ): CheckSelect<T, Prisma__userlinksClient<userlinks>, Prisma__userlinksClient<userlinksGetPayload<T>>>
+
+    /**
+     * Count the number of Userlinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {userlinksCountArgs} args - Arguments to filter Userlinks to count.
+     * @example
+     * // Count the number of Userlinks
+     * const count = await prisma.userlinks.count({
+     *   where: {
+     *     // ... the filter for the Userlinks we want to count
+     *   }
+     * })
+    **/
+    count<T extends userlinksCountArgs>(
+      args?: Subset<T, userlinksCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserlinksCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Userlinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserlinksAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserlinksAggregateArgs>(args: Subset<T, UserlinksAggregateArgs>): PrismaPromise<GetUserlinksAggregateType<T>>
+
+    /**
+     * Group by Userlinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserlinksGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserlinksGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserlinksGroupByArgs['orderBy'] }
+        : { orderBy?: UserlinksGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserlinksGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserlinksGroupByPayload<T> : PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for userlinks.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__userlinksClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends usersArgs = {}>(args?: Subset<T, usersArgs>): CheckSelect<T, Prisma__usersClient<users | null >, Prisma__usersClient<usersGetPayload<T> | null >>;
+
+    link<T extends linksArgs = {}>(args?: Subset<T, linksArgs>): CheckSelect<T, Prisma__linksClient<links | null >, Prisma__linksClient<linksGetPayload<T> | null >>;
+
+    linktag<T extends linktagsArgs = {}>(args?: Subset<T, linktagsArgs>): CheckSelect<T, Prisma__linktagsClient<linktags | null >, Prisma__linktagsClient<linktagsGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+  // Custom InputTypes
+
+  /**
+   * userlinks findUnique
+   */
+  export type userlinksFindUniqueArgs = {
+    /**
+     * Select specific fields to fetch from the userlinks
+     * 
+    **/
+    select?: userlinksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: userlinksInclude | null
+    /**
+     * Throw an Error if a userlinks can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which userlinks to fetch.
+     * 
+    **/
+    where: userlinksWhereUniqueInput
+  }
+
+
+  /**
+   * userlinks findFirst
+   */
+  export type userlinksFindFirstArgs = {
+    /**
+     * Select specific fields to fetch from the userlinks
+     * 
+    **/
+    select?: userlinksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: userlinksInclude | null
+    /**
+     * Throw an Error if a userlinks can't be found
+     * 
+    **/
+    rejectOnNotFound?: RejectOnNotFound
+    /**
+     * Filter, which userlinks to fetch.
+     * 
+    **/
+    where?: userlinksWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of userlinks to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<userlinksOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for userlinks.
+     * 
+    **/
+    cursor?: userlinksWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` userlinks from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` userlinks.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of userlinks.
+     * 
+    **/
+    distinct?: Enumerable<UserlinksScalarFieldEnum>
+  }
+
+
+  /**
+   * userlinks findMany
+   */
+  export type userlinksFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the userlinks
+     * 
+    **/
+    select?: userlinksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: userlinksInclude | null
+    /**
+     * Filter, which userlinks to fetch.
+     * 
+    **/
+    where?: userlinksWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of userlinks to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<userlinksOrderByWithRelationAndSearchRelevanceInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing userlinks.
+     * 
+    **/
+    cursor?: userlinksWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` userlinks from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` userlinks.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<UserlinksScalarFieldEnum>
+  }
+
+
+  /**
+   * userlinks create
+   */
+  export type userlinksCreateArgs = {
+    /**
+     * Select specific fields to fetch from the userlinks
+     * 
+    **/
+    select?: userlinksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: userlinksInclude | null
+    /**
+     * The data needed to create a userlinks.
+     * 
+    **/
+    data: XOR<userlinksCreateInput, userlinksUncheckedCreateInput>
+  }
+
+
+  /**
+   * userlinks createMany
+   */
+  export type userlinksCreateManyArgs = {
+    /**
+     * The data used to create many userlinks.
+     * 
+    **/
+    data: Enumerable<userlinksCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * userlinks update
+   */
+  export type userlinksUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the userlinks
+     * 
+    **/
+    select?: userlinksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: userlinksInclude | null
+    /**
+     * The data needed to update a userlinks.
+     * 
+    **/
+    data: XOR<userlinksUpdateInput, userlinksUncheckedUpdateInput>
+    /**
+     * Choose, which userlinks to update.
+     * 
+    **/
+    where: userlinksWhereUniqueInput
+  }
+
+
+  /**
+   * userlinks updateMany
+   */
+  export type userlinksUpdateManyArgs = {
+    /**
+     * The data used to update userlinks.
+     * 
+    **/
+    data: XOR<userlinksUpdateManyMutationInput, userlinksUncheckedUpdateManyInput>
+    /**
+     * Filter which userlinks to update
+     * 
+    **/
+    where?: userlinksWhereInput
+  }
+
+
+  /**
+   * userlinks upsert
+   */
+  export type userlinksUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the userlinks
+     * 
+    **/
+    select?: userlinksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: userlinksInclude | null
+    /**
+     * The filter to search for the userlinks to update in case it exists.
+     * 
+    **/
+    where: userlinksWhereUniqueInput
+    /**
+     * In case the userlinks found by the `where` argument doesn't exist, create a new userlinks with this data.
+     * 
+    **/
+    create: XOR<userlinksCreateInput, userlinksUncheckedCreateInput>
+    /**
+     * In case the userlinks was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<userlinksUpdateInput, userlinksUncheckedUpdateInput>
+  }
+
+
+  /**
+   * userlinks delete
+   */
+  export type userlinksDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the userlinks
+     * 
+    **/
+    select?: userlinksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: userlinksInclude | null
+    /**
+     * Filter which userlinks to delete.
+     * 
+    **/
+    where: userlinksWhereUniqueInput
+  }
+
+
+  /**
+   * userlinks deleteMany
+   */
+  export type userlinksDeleteManyArgs = {
+    /**
+     * Filter which userlinks to delete
+     * 
+    **/
+    where?: userlinksWhereInput
+  }
+
+
+  /**
+   * userlinks without action
+   */
+  export type userlinksArgs = {
+    /**
+     * Select specific fields to fetch from the userlinks
+     * 
+    **/
+    select?: userlinksSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: userlinksInclude | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -16027,10 +22611,46 @@ export namespace Prisma {
     settings: 'settings',
     created_at: 'created_at',
     updated_at: 'updated_at',
-    deleted_at: 'deleted_at'
+    deleted_at: 'deleted_at',
+    score: 'score',
+    today_score: 'today_score',
+    inviter_user_id: 'inviter_user_id'
   };
 
   export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+  export const InvitesScalarFieldEnum: {
+    id: 'id',
+    user_id: 'user_id',
+    used_by_user_id: 'used_by_user_id',
+    used_at: 'used_at',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type InvitesScalarFieldEnum = (typeof InvitesScalarFieldEnum)[keyof typeof InvitesScalarFieldEnum]
+
+
+  export const ScoresScalarFieldEnum: {
+    id: 'id',
+    user_id: 'user_id',
+    score: 'score',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type ScoresScalarFieldEnum = (typeof ScoresScalarFieldEnum)[keyof typeof ScoresScalarFieldEnum]
+
+
+  export const CheckinsScalarFieldEnum: {
+    id: 'id',
+    unbreak_days: 'unbreak_days',
+    user_id: 'user_id',
+    created_at: 'created_at'
+  };
+
+  export type CheckinsScalarFieldEnum = (typeof CheckinsScalarFieldEnum)[keyof typeof CheckinsScalarFieldEnum]
 
 
   export const WhitelistsScalarFieldEnum: {
@@ -16247,6 +22867,54 @@ export namespace Prisma {
   export type TokensScalarFieldEnum = (typeof TokensScalarFieldEnum)[keyof typeof TokensScalarFieldEnum]
 
 
+  export const LinksScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    url: 'url',
+    icon: 'icon',
+    create_user_id: 'create_user_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type LinksScalarFieldEnum = (typeof LinksScalarFieldEnum)[keyof typeof LinksScalarFieldEnum]
+
+
+  export const LinktagsScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    desc: 'desc',
+    create_user_id: 'create_user_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type LinktagsScalarFieldEnum = (typeof LinktagsScalarFieldEnum)[keyof typeof LinktagsScalarFieldEnum]
+
+
+  export const Linktag_relationsScalarFieldEnum: {
+    id: 'id',
+    linktag_id: 'linktag_id',
+    link_id: 'link_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Linktag_relationsScalarFieldEnum = (typeof Linktag_relationsScalarFieldEnum)[keyof typeof Linktag_relationsScalarFieldEnum]
+
+
+  export const UserlinksScalarFieldEnum: {
+    id: 'id',
+    user_id: 'user_id',
+    link_id: 'link_id',
+    tag_id: 'tag_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type UserlinksScalarFieldEnum = (typeof UserlinksScalarFieldEnum)[keyof typeof UserlinksScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -16284,10 +22952,36 @@ export namespace Prisma {
     id: 'id',
     address: 'address',
     name: 'name',
-    nonce: 'nonce'
+    nonce: 'nonce',
+    inviter_user_id: 'inviter_user_id'
   };
 
   export type usersOrderByRelevanceFieldEnum = (typeof usersOrderByRelevanceFieldEnum)[keyof typeof usersOrderByRelevanceFieldEnum]
+
+
+  export const invitesOrderByRelevanceFieldEnum: {
+    id: 'id',
+    user_id: 'user_id',
+    used_by_user_id: 'used_by_user_id'
+  };
+
+  export type invitesOrderByRelevanceFieldEnum = (typeof invitesOrderByRelevanceFieldEnum)[keyof typeof invitesOrderByRelevanceFieldEnum]
+
+
+  export const scoresOrderByRelevanceFieldEnum: {
+    id: 'id',
+    user_id: 'user_id'
+  };
+
+  export type scoresOrderByRelevanceFieldEnum = (typeof scoresOrderByRelevanceFieldEnum)[keyof typeof scoresOrderByRelevanceFieldEnum]
+
+
+  export const checkinsOrderByRelevanceFieldEnum: {
+    id: 'id',
+    user_id: 'user_id'
+  };
+
+  export type checkinsOrderByRelevanceFieldEnum = (typeof checkinsOrderByRelevanceFieldEnum)[keyof typeof checkinsOrderByRelevanceFieldEnum]
 
 
   export const whitelistsOrderByRelevanceFieldEnum: {
@@ -16430,6 +23124,45 @@ export namespace Prisma {
   export type tokensOrderByRelevanceFieldEnum = (typeof tokensOrderByRelevanceFieldEnum)[keyof typeof tokensOrderByRelevanceFieldEnum]
 
 
+  export const linksOrderByRelevanceFieldEnum: {
+    id: 'id',
+    title: 'title',
+    url: 'url',
+    icon: 'icon',
+    create_user_id: 'create_user_id'
+  };
+
+  export type linksOrderByRelevanceFieldEnum = (typeof linksOrderByRelevanceFieldEnum)[keyof typeof linksOrderByRelevanceFieldEnum]
+
+
+  export const linktagsOrderByRelevanceFieldEnum: {
+    id: 'id',
+    title: 'title',
+    desc: 'desc',
+    create_user_id: 'create_user_id'
+  };
+
+  export type linktagsOrderByRelevanceFieldEnum = (typeof linktagsOrderByRelevanceFieldEnum)[keyof typeof linktagsOrderByRelevanceFieldEnum]
+
+
+  export const linktag_relationsOrderByRelevanceFieldEnum: {
+    linktag_id: 'linktag_id',
+    link_id: 'link_id'
+  };
+
+  export type linktag_relationsOrderByRelevanceFieldEnum = (typeof linktag_relationsOrderByRelevanceFieldEnum)[keyof typeof linktag_relationsOrderByRelevanceFieldEnum]
+
+
+  export const userlinksOrderByRelevanceFieldEnum: {
+    id: 'id',
+    user_id: 'user_id',
+    link_id: 'link_id',
+    tag_id: 'tag_id'
+  };
+
+  export type userlinksOrderByRelevanceFieldEnum = (typeof userlinksOrderByRelevanceFieldEnum)[keyof typeof userlinksOrderByRelevanceFieldEnum]
+
+
   /**
    * Deep Input Types
    */
@@ -16451,6 +23184,13 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter | Date | string | null
     user_dapps?: User_dappsListRelationFilter
     user_dapps_catogories?: User_dapps_catogoriesListRelationFilter
+    score?: IntFilter | number
+    today_score?: IntFilter | number
+    invites?: InvitesListRelationFilter
+    checkins?: CheckinsListRelationFilter
+    scores?: ScoresListRelationFilter
+    inviter_user_id?: StringNullableFilter | string | null
+    userlinks?: UserlinksListRelationFilter
   }
 
   export type usersOrderByWithRelationAndSearchRelevanceInput = {
@@ -16466,6 +23206,13 @@ export namespace Prisma {
     deleted_at?: SortOrder
     user_dapps?: user_dappsOrderByRelationAggregateInput
     user_dapps_catogories?: user_dapps_catogoriesOrderByRelationAggregateInput
+    score?: SortOrder
+    today_score?: SortOrder
+    invites?: invitesOrderByRelationAggregateInput
+    checkins?: checkinsOrderByRelationAggregateInput
+    scores?: scoresOrderByRelationAggregateInput
+    inviter_user_id?: SortOrder
+    userlinks?: userlinksOrderByRelationAggregateInput
     _relevance?: usersOrderByRelevanceInput
   }
 
@@ -16485,9 +23232,14 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
+    score?: SortOrder
+    today_score?: SortOrder
+    inviter_user_id?: SortOrder
     _count?: usersCountOrderByAggregateInput
+    _avg?: usersAvgOrderByAggregateInput
     _max?: usersMaxOrderByAggregateInput
     _min?: usersMinOrderByAggregateInput
+    _sum?: usersSumOrderByAggregateInput
   }
 
   export type usersScalarWhereWithAggregatesInput = {
@@ -16504,6 +23256,157 @@ export namespace Prisma {
     created_at?: DateTimeWithAggregatesFilter | Date | string
     updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
     deleted_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    score?: IntWithAggregatesFilter | number
+    today_score?: IntWithAggregatesFilter | number
+    inviter_user_id?: StringNullableWithAggregatesFilter | string | null
+  }
+
+  export type invitesWhereInput = {
+    AND?: Enumerable<invitesWhereInput>
+    OR?: Enumerable<invitesWhereInput>
+    NOT?: Enumerable<invitesWhereInput>
+    id?: StringFilter | string
+    user_id?: StringFilter | string
+    user?: XOR<UsersRelationFilter, usersWhereInput>
+    used_by_user_id?: StringNullableFilter | string | null
+    used_at?: DateTimeNullableFilter | Date | string | null
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+  }
+
+  export type invitesOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    user?: usersOrderByWithRelationAndSearchRelevanceInput
+    used_by_user_id?: SortOrder
+    used_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _relevance?: invitesOrderByRelevanceInput
+  }
+
+  export type invitesWhereUniqueInput = {
+    id?: string
+  }
+
+  export type invitesOrderByWithAggregationInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    used_by_user_id?: SortOrder
+    used_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: invitesCountOrderByAggregateInput
+    _max?: invitesMaxOrderByAggregateInput
+    _min?: invitesMinOrderByAggregateInput
+  }
+
+  export type invitesScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<invitesScalarWhereWithAggregatesInput>
+    OR?: Enumerable<invitesScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<invitesScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    user_id?: StringWithAggregatesFilter | string
+    used_by_user_id?: StringNullableWithAggregatesFilter | string | null
+    used_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type scoresWhereInput = {
+    AND?: Enumerable<scoresWhereInput>
+    OR?: Enumerable<scoresWhereInput>
+    NOT?: Enumerable<scoresWhereInput>
+    id?: StringFilter | string
+    user_id?: StringFilter | string
+    user?: XOR<UsersRelationFilter, usersWhereInput>
+    score?: IntFilter | number
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+  }
+
+  export type scoresOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    user?: usersOrderByWithRelationAndSearchRelevanceInput
+    score?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _relevance?: scoresOrderByRelevanceInput
+  }
+
+  export type scoresWhereUniqueInput = {
+    id?: string
+  }
+
+  export type scoresOrderByWithAggregationInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    score?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: scoresCountOrderByAggregateInput
+    _avg?: scoresAvgOrderByAggregateInput
+    _max?: scoresMaxOrderByAggregateInput
+    _min?: scoresMinOrderByAggregateInput
+    _sum?: scoresSumOrderByAggregateInput
+  }
+
+  export type scoresScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<scoresScalarWhereWithAggregatesInput>
+    OR?: Enumerable<scoresScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<scoresScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    user_id?: StringWithAggregatesFilter | string
+    score?: IntWithAggregatesFilter | number
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type checkinsWhereInput = {
+    AND?: Enumerable<checkinsWhereInput>
+    OR?: Enumerable<checkinsWhereInput>
+    NOT?: Enumerable<checkinsWhereInput>
+    id?: StringFilter | string
+    unbreak_days?: IntFilter | number
+    user_id?: StringFilter | string
+    user?: XOR<UsersRelationFilter, usersWhereInput>
+    created_at?: DateTimeFilter | Date | string
+  }
+
+  export type checkinsOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    unbreak_days?: SortOrder
+    user_id?: SortOrder
+    user?: usersOrderByWithRelationAndSearchRelevanceInput
+    created_at?: SortOrder
+    _relevance?: checkinsOrderByRelevanceInput
+  }
+
+  export type checkinsWhereUniqueInput = {
+    id?: string
+  }
+
+  export type checkinsOrderByWithAggregationInput = {
+    id?: SortOrder
+    unbreak_days?: SortOrder
+    user_id?: SortOrder
+    created_at?: SortOrder
+    _count?: checkinsCountOrderByAggregateInput
+    _avg?: checkinsAvgOrderByAggregateInput
+    _max?: checkinsMaxOrderByAggregateInput
+    _min?: checkinsMinOrderByAggregateInput
+    _sum?: checkinsSumOrderByAggregateInput
+  }
+
+  export type checkinsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<checkinsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<checkinsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<checkinsScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    unbreak_days?: IntWithAggregatesFilter | number
+    user_id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type whitelistsWhereInput = {
@@ -17455,6 +24358,226 @@ export namespace Prisma {
     price?: FloatNullableWithAggregatesFilter | number | null
   }
 
+  export type linksWhereInput = {
+    AND?: Enumerable<linksWhereInput>
+    OR?: Enumerable<linksWhereInput>
+    NOT?: Enumerable<linksWhereInput>
+    id?: StringFilter | string
+    title?: StringFilter | string
+    url?: StringFilter | string
+    icon?: StringNullableFilter | string | null
+    create_user_id?: StringNullableFilter | string | null
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+    linktag_relations?: Linktag_relationsListRelationFilter
+    userlinks?: UserlinksListRelationFilter
+  }
+
+  export type linksOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    icon?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    linktag_relations?: linktag_relationsOrderByRelationAggregateInput
+    userlinks?: userlinksOrderByRelationAggregateInput
+    _relevance?: linksOrderByRelevanceInput
+  }
+
+  export type linksWhereUniqueInput = {
+    id?: string
+  }
+
+  export type linksOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    icon?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: linksCountOrderByAggregateInput
+    _max?: linksMaxOrderByAggregateInput
+    _min?: linksMinOrderByAggregateInput
+  }
+
+  export type linksScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<linksScalarWhereWithAggregatesInput>
+    OR?: Enumerable<linksScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<linksScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    title?: StringWithAggregatesFilter | string
+    url?: StringWithAggregatesFilter | string
+    icon?: StringNullableWithAggregatesFilter | string | null
+    create_user_id?: StringNullableWithAggregatesFilter | string | null
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type linktagsWhereInput = {
+    AND?: Enumerable<linktagsWhereInput>
+    OR?: Enumerable<linktagsWhereInput>
+    NOT?: Enumerable<linktagsWhereInput>
+    id?: StringFilter | string
+    title?: StringFilter | string
+    desc?: StringNullableFilter | string | null
+    create_user_id?: StringNullableFilter | string | null
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+    linktag_relations?: Linktag_relationsListRelationFilter
+    userlinks?: UserlinksListRelationFilter
+  }
+
+  export type linktagsOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    linktag_relations?: linktag_relationsOrderByRelationAggregateInput
+    userlinks?: userlinksOrderByRelationAggregateInput
+    _relevance?: linktagsOrderByRelevanceInput
+  }
+
+  export type linktagsWhereUniqueInput = {
+    id?: string
+  }
+
+  export type linktagsOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: linktagsCountOrderByAggregateInput
+    _max?: linktagsMaxOrderByAggregateInput
+    _min?: linktagsMinOrderByAggregateInput
+  }
+
+  export type linktagsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<linktagsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<linktagsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<linktagsScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    title?: StringWithAggregatesFilter | string
+    desc?: StringNullableWithAggregatesFilter | string | null
+    create_user_id?: StringNullableWithAggregatesFilter | string | null
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type linktag_relationsWhereInput = {
+    AND?: Enumerable<linktag_relationsWhereInput>
+    OR?: Enumerable<linktag_relationsWhereInput>
+    NOT?: Enumerable<linktag_relationsWhereInput>
+    id?: IntFilter | number
+    linktag?: XOR<LinktagsRelationFilter, linktagsWhereInput>
+    linktag_id?: StringFilter | string
+    link?: XOR<LinksRelationFilter, linksWhereInput>
+    link_id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type linktag_relationsOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    linktag?: linktagsOrderByWithRelationAndSearchRelevanceInput
+    linktag_id?: SortOrder
+    link?: linksOrderByWithRelationAndSearchRelevanceInput
+    link_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _relevance?: linktag_relationsOrderByRelevanceInput
+  }
+
+  export type linktag_relationsWhereUniqueInput = {
+    id?: number
+  }
+
+  export type linktag_relationsOrderByWithAggregationInput = {
+    id?: SortOrder
+    linktag_id?: SortOrder
+    link_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: linktag_relationsCountOrderByAggregateInput
+    _avg?: linktag_relationsAvgOrderByAggregateInput
+    _max?: linktag_relationsMaxOrderByAggregateInput
+    _min?: linktag_relationsMinOrderByAggregateInput
+    _sum?: linktag_relationsSumOrderByAggregateInput
+  }
+
+  export type linktag_relationsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<linktag_relationsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<linktag_relationsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<linktag_relationsScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    linktag_id?: StringWithAggregatesFilter | string
+    link_id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
+  export type userlinksWhereInput = {
+    AND?: Enumerable<userlinksWhereInput>
+    OR?: Enumerable<userlinksWhereInput>
+    NOT?: Enumerable<userlinksWhereInput>
+    id?: StringFilter | string
+    user_id?: StringFilter | string
+    link_id?: StringFilter | string
+    tag_id?: StringNullableFilter | string | null
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+    user?: XOR<UsersRelationFilter, usersWhereInput>
+    link?: XOR<LinksRelationFilter, linksWhereInput>
+    linktag?: XOR<LinktagsRelationFilter, linktagsWhereInput> | null
+  }
+
+  export type userlinksOrderByWithRelationAndSearchRelevanceInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    link_id?: SortOrder
+    tag_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    user?: usersOrderByWithRelationAndSearchRelevanceInput
+    link?: linksOrderByWithRelationAndSearchRelevanceInput
+    linktag?: linktagsOrderByWithRelationAndSearchRelevanceInput
+    _relevance?: userlinksOrderByRelevanceInput
+  }
+
+  export type userlinksWhereUniqueInput = {
+    id?: string
+  }
+
+  export type userlinksOrderByWithAggregationInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    link_id?: SortOrder
+    tag_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: userlinksCountOrderByAggregateInput
+    _max?: userlinksMaxOrderByAggregateInput
+    _min?: userlinksMinOrderByAggregateInput
+  }
+
+  export type userlinksScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<userlinksScalarWhereWithAggregatesInput>
+    OR?: Enumerable<userlinksScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<userlinksScalarWhereWithAggregatesInput>
+    id?: StringWithAggregatesFilter | string
+    user_id?: StringWithAggregatesFilter | string
+    link_id?: StringWithAggregatesFilter | string
+    tag_id?: StringNullableWithAggregatesFilter | string | null
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+  }
+
   export type usersCreateInput = {
     id?: string
     address?: string | null
@@ -17468,6 +24591,13 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     user_dapps?: user_dappsCreateNestedManyWithoutUserInput
     user_dapps_catogories?: user_dapps_catogoriesCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesCreateNestedManyWithoutUserInput
+    checkins?: checkinsCreateNestedManyWithoutUserInput
+    scores?: scoresCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksCreateNestedManyWithoutUserInput
   }
 
   export type usersUncheckedCreateInput = {
@@ -17483,6 +24613,13 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUserInput
     user_dapps_catogories?: user_dapps_catogoriesUncheckedCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesUncheckedCreateNestedManyWithoutUserInput
+    checkins?: checkinsUncheckedCreateNestedManyWithoutUserInput
+    scores?: scoresUncheckedCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type usersUpdateInput = {
@@ -17498,6 +24635,13 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_dapps?: user_dappsUpdateManyWithoutUserInput
     user_dapps_catogories?: user_dapps_catogoriesUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUpdateManyWithoutUserInput
+    checkins?: checkinsUpdateManyWithoutUserInput
+    scores?: scoresUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUpdateManyWithoutUserInput
   }
 
   export type usersUncheckedUpdateInput = {
@@ -17513,6 +24657,13 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_dapps?: user_dappsUncheckedUpdateManyWithoutUserInput
     user_dapps_catogories?: user_dapps_catogoriesUncheckedUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUncheckedUpdateManyWithoutUserInput
+    checkins?: checkinsUncheckedUpdateManyWithoutUserInput
+    scores?: scoresUncheckedUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUncheckedUpdateManyWithoutUserInput
   }
 
   export type usersCreateManyInput = {
@@ -17526,6 +24677,9 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    score?: number
+    today_score?: number
+    inviter_user_id?: string | null
   }
 
   export type usersUpdateManyMutationInput = {
@@ -17539,6 +24693,9 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type usersUncheckedUpdateManyInput = {
@@ -17552,6 +24709,174 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type invitesCreateInput = {
+    id?: string
+    user: usersCreateNestedOneWithoutInvitesInput
+    used_by_user_id?: string | null
+    used_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type invitesUncheckedCreateInput = {
+    id?: string
+    user_id: string
+    used_by_user_id?: string | null
+    used_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type invitesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user?: usersUpdateOneRequiredWithoutInvitesInput
+    used_by_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    used_by_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitesCreateManyInput = {
+    id?: string
+    user_id: string
+    used_by_user_id?: string | null
+    used_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type invitesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    used_by_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    used_by_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type scoresCreateInput = {
+    id?: string
+    user: usersCreateNestedOneWithoutScoresInput
+    score: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type scoresUncheckedCreateInput = {
+    id?: string
+    user_id: string
+    score: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type scoresUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user?: usersUpdateOneRequiredWithoutScoresInput
+    score?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type scoresUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type scoresCreateManyInput = {
+    id?: string
+    user_id: string
+    score: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type scoresUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type scoresUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type checkinsCreateInput = {
+    id?: string
+    unbreak_days?: number
+    user: usersCreateNestedOneWithoutCheckinsInput
+    created_at?: Date | string
+  }
+
+  export type checkinsUncheckedCreateInput = {
+    id?: string
+    unbreak_days?: number
+    user_id: string
+    created_at?: Date | string
+  }
+
+  export type checkinsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unbreak_days?: IntFieldUpdateOperationsInput | number
+    user?: usersUpdateOneRequiredWithoutCheckinsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type checkinsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unbreak_days?: IntFieldUpdateOperationsInput | number
+    user_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type checkinsCreateManyInput = {
+    id?: string
+    unbreak_days?: number
+    user_id: string
+    created_at?: Date | string
+  }
+
+  export type checkinsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unbreak_days?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type checkinsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unbreak_days?: IntFieldUpdateOperationsInput | number
+    user_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type whitelistsCreateInput = {
@@ -18747,6 +26072,266 @@ export namespace Prisma {
     price?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
+  export type linksCreateInput = {
+    id?: string
+    title: string
+    url: string
+    icon?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    linktag_relations?: linktag_relationsCreateNestedManyWithoutLinkInput
+    userlinks?: userlinksCreateNestedManyWithoutLinkInput
+  }
+
+  export type linksUncheckedCreateInput = {
+    id?: string
+    title: string
+    url: string
+    icon?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    linktag_relations?: linktag_relationsUncheckedCreateNestedManyWithoutLinkInput
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutLinkInput
+  }
+
+  export type linksUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    linktag_relations?: linktag_relationsUpdateManyWithoutLinkInput
+    userlinks?: userlinksUpdateManyWithoutLinkInput
+  }
+
+  export type linksUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    linktag_relations?: linktag_relationsUncheckedUpdateManyWithoutLinkInput
+    userlinks?: userlinksUncheckedUpdateManyWithoutLinkInput
+  }
+
+  export type linksCreateManyInput = {
+    id?: string
+    title: string
+    url: string
+    icon?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linksUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linksUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktagsCreateInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    linktag_relations?: linktag_relationsCreateNestedManyWithoutLinktagInput
+    userlinks?: userlinksCreateNestedManyWithoutLinktagInput
+  }
+
+  export type linktagsUncheckedCreateInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    linktag_relations?: linktag_relationsUncheckedCreateNestedManyWithoutLinktagInput
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutLinktagInput
+  }
+
+  export type linktagsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    linktag_relations?: linktag_relationsUpdateManyWithoutLinktagInput
+    userlinks?: userlinksUpdateManyWithoutLinktagInput
+  }
+
+  export type linktagsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    linktag_relations?: linktag_relationsUncheckedUpdateManyWithoutLinktagInput
+    userlinks?: userlinksUncheckedUpdateManyWithoutLinktagInput
+  }
+
+  export type linktagsCreateManyInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktagsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktagsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktag_relationsCreateInput = {
+    linktag: linktagsCreateNestedOneWithoutLinktag_relationsInput
+    link: linksCreateNestedOneWithoutLinktag_relationsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktag_relationsUncheckedCreateInput = {
+    id?: number
+    linktag_id: string
+    link_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktag_relationsUpdateInput = {
+    linktag?: linktagsUpdateOneRequiredWithoutLinktag_relationsInput
+    link?: linksUpdateOneRequiredWithoutLinktag_relationsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktag_relationsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    linktag_id?: StringFieldUpdateOperationsInput | string
+    link_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktag_relationsCreateManyInput = {
+    id?: number
+    linktag_id: string
+    link_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktag_relationsUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktag_relationsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    linktag_id?: StringFieldUpdateOperationsInput | string
+    link_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type userlinksCreateInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user: usersCreateNestedOneWithoutUserlinksInput
+    link: linksCreateNestedOneWithoutUserlinksInput
+    linktag?: linktagsCreateNestedOneWithoutUserlinksInput
+  }
+
+  export type userlinksUncheckedCreateInput = {
+    id?: string
+    user_id: string
+    link_id: string
+    tag_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type userlinksUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: usersUpdateOneRequiredWithoutUserlinksInput
+    link?: linksUpdateOneRequiredWithoutUserlinksInput
+    linktag?: linktagsUpdateOneWithoutUserlinksInput
+  }
+
+  export type userlinksUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    link_id?: StringFieldUpdateOperationsInput | string
+    tag_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type userlinksCreateManyInput = {
+    id?: string
+    user_id: string
+    link_id: string
+    tag_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type userlinksUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type userlinksUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    link_id?: StringFieldUpdateOperationsInput | string
+    tag_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type StringFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -18839,11 +26424,62 @@ export namespace Prisma {
     none?: user_dapps_catogoriesWhereInput
   }
 
+  export type IntFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
+  }
+
+  export type InvitesListRelationFilter = {
+    every?: invitesWhereInput
+    some?: invitesWhereInput
+    none?: invitesWhereInput
+  }
+
+  export type CheckinsListRelationFilter = {
+    every?: checkinsWhereInput
+    some?: checkinsWhereInput
+    none?: checkinsWhereInput
+  }
+
+  export type ScoresListRelationFilter = {
+    every?: scoresWhereInput
+    some?: scoresWhereInput
+    none?: scoresWhereInput
+  }
+
+  export type UserlinksListRelationFilter = {
+    every?: userlinksWhereInput
+    some?: userlinksWhereInput
+    none?: userlinksWhereInput
+  }
+
   export type user_dappsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type user_dapps_catogoriesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type invitesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type checkinsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type scoresOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type userlinksOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18864,6 +26500,14 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
+    score?: SortOrder
+    today_score?: SortOrder
+    inviter_user_id?: SortOrder
+  }
+
+  export type usersAvgOrderByAggregateInput = {
+    score?: SortOrder
+    today_score?: SortOrder
   }
 
   export type usersMaxOrderByAggregateInput = {
@@ -18875,6 +26519,9 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
+    score?: SortOrder
+    today_score?: SortOrder
+    inviter_user_id?: SortOrder
   }
 
   export type usersMinOrderByAggregateInput = {
@@ -18886,6 +26533,14 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
+    score?: SortOrder
+    today_score?: SortOrder
+    inviter_user_id?: SortOrder
+  }
+
+  export type usersSumOrderByAggregateInput = {
+    score?: SortOrder
+    today_score?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {
@@ -18978,7 +26633,7 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter
   }
 
-  export type IntFilter = {
+  export type IntWithAggregatesFilter = {
     equals?: number
     in?: Enumerable<number>
     notIn?: Enumerable<number>
@@ -18986,7 +26641,123 @@ export namespace Prisma {
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedIntFilter | number
+    not?: NestedIntWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedIntFilter
+    _min?: NestedIntFilter
+    _max?: NestedIntFilter
+  }
+
+  export type UsersRelationFilter = {
+    is?: usersWhereInput
+    isNot?: usersWhereInput
+  }
+
+  export type invitesOrderByRelevanceInput = {
+    fields: Enumerable<invitesOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type invitesCountOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    used_by_user_id?: SortOrder
+    used_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type invitesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    used_by_user_id?: SortOrder
+    used_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type invitesMinOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    used_by_user_id?: SortOrder
+    used_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type scoresOrderByRelevanceInput = {
+    fields: Enumerable<scoresOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type scoresCountOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    score?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type scoresAvgOrderByAggregateInput = {
+    score?: SortOrder
+  }
+
+  export type scoresMaxOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    score?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type scoresMinOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    score?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type scoresSumOrderByAggregateInput = {
+    score?: SortOrder
+  }
+
+  export type checkinsOrderByRelevanceInput = {
+    fields: Enumerable<checkinsOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type checkinsCountOrderByAggregateInput = {
+    id?: SortOrder
+    unbreak_days?: SortOrder
+    user_id?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type checkinsAvgOrderByAggregateInput = {
+    unbreak_days?: SortOrder
+  }
+
+  export type checkinsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    unbreak_days?: SortOrder
+    user_id?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type checkinsMinOrderByAggregateInput = {
+    id?: SortOrder
+    unbreak_days?: SortOrder
+    user_id?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type checkinsSumOrderByAggregateInput = {
+    unbreak_days?: SortOrder
   }
 
   export type whitelistsOrderByRelevanceInput = {
@@ -19022,22 +26793,6 @@ export namespace Prisma {
 
   export type whitelistsSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedIntFilter
-    _min?: NestedIntFilter
-    _max?: NestedIntFilter
   }
 
   export type IntNullableFilter = {
@@ -19430,11 +27185,6 @@ export namespace Prisma {
 
   export type dapp_categories_relationsSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type UsersRelationFilter = {
-    is?: usersWhereInput
-    isNot?: usersWhereInput
   }
 
   export type User_dapps_catogoriesRelationFilter = {
@@ -19897,6 +27647,166 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter
   }
 
+  export type Linktag_relationsListRelationFilter = {
+    every?: linktag_relationsWhereInput
+    some?: linktag_relationsWhereInput
+    none?: linktag_relationsWhereInput
+  }
+
+  export type linktag_relationsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type linksOrderByRelevanceInput = {
+    fields: Enumerable<linksOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type linksCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    icon?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type linksMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    icon?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type linksMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    icon?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type linktagsOrderByRelevanceInput = {
+    fields: Enumerable<linktagsOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type linktagsCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type linktagsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type linktagsMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    create_user_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type LinktagsRelationFilter = {
+    is?: linktagsWhereInput
+    isNot?: linktagsWhereInput
+  }
+
+  export type LinksRelationFilter = {
+    is?: linksWhereInput
+    isNot?: linksWhereInput
+  }
+
+  export type linktag_relationsOrderByRelevanceInput = {
+    fields: Enumerable<linktag_relationsOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type linktag_relationsCountOrderByAggregateInput = {
+    id?: SortOrder
+    linktag_id?: SortOrder
+    link_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type linktag_relationsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type linktag_relationsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    linktag_id?: SortOrder
+    link_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type linktag_relationsMinOrderByAggregateInput = {
+    id?: SortOrder
+    linktag_id?: SortOrder
+    link_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type linktag_relationsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type userlinksOrderByRelevanceInput = {
+    fields: Enumerable<userlinksOrderByRelevanceFieldEnum>
+    sort: SortOrder
+    search: string
+  }
+
+  export type userlinksCountOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    link_id?: SortOrder
+    tag_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type userlinksMaxOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    link_id?: SortOrder
+    tag_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type userlinksMinOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    link_id?: SortOrder
+    tag_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
   export type usersCreateroleInput = {
     set: Enumerable<Role>
   }
@@ -19915,6 +27825,34 @@ export namespace Prisma {
     connect?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
   }
 
+  export type invitesCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<invitesCreateWithoutUserInput>, Enumerable<invitesUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<invitesCreateOrConnectWithoutUserInput>
+    createMany?: invitesCreateManyUserInputEnvelope
+    connect?: Enumerable<invitesWhereUniqueInput>
+  }
+
+  export type checkinsCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<checkinsCreateWithoutUserInput>, Enumerable<checkinsUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<checkinsCreateOrConnectWithoutUserInput>
+    createMany?: checkinsCreateManyUserInputEnvelope
+    connect?: Enumerable<checkinsWhereUniqueInput>
+  }
+
+  export type scoresCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<scoresCreateWithoutUserInput>, Enumerable<scoresUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<scoresCreateOrConnectWithoutUserInput>
+    createMany?: scoresCreateManyUserInputEnvelope
+    connect?: Enumerable<scoresWhereUniqueInput>
+  }
+
+  export type userlinksCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutUserInput>, Enumerable<userlinksUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutUserInput>
+    createMany?: userlinksCreateManyUserInputEnvelope
+    connect?: Enumerable<userlinksWhereUniqueInput>
+  }
+
   export type user_dappsUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<Enumerable<user_dappsCreateWithoutUserInput>, Enumerable<user_dappsUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUserInput>
@@ -19927,6 +27865,34 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<user_dapps_catogoriesCreateOrConnectWithoutUserInput>
     createMany?: user_dapps_catogoriesCreateManyUserInputEnvelope
     connect?: Enumerable<user_dapps_catogoriesWhereUniqueInput>
+  }
+
+  export type invitesUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<invitesCreateWithoutUserInput>, Enumerable<invitesUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<invitesCreateOrConnectWithoutUserInput>
+    createMany?: invitesCreateManyUserInputEnvelope
+    connect?: Enumerable<invitesWhereUniqueInput>
+  }
+
+  export type checkinsUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<checkinsCreateWithoutUserInput>, Enumerable<checkinsUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<checkinsCreateOrConnectWithoutUserInput>
+    createMany?: checkinsCreateManyUserInputEnvelope
+    connect?: Enumerable<checkinsWhereUniqueInput>
+  }
+
+  export type scoresUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<scoresCreateWithoutUserInput>, Enumerable<scoresUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<scoresCreateOrConnectWithoutUserInput>
+    createMany?: scoresCreateManyUserInputEnvelope
+    connect?: Enumerable<scoresWhereUniqueInput>
+  }
+
+  export type userlinksUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutUserInput>, Enumerable<userlinksUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutUserInput>
+    createMany?: userlinksCreateManyUserInputEnvelope
+    connect?: Enumerable<userlinksWhereUniqueInput>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -19982,6 +27948,70 @@ export namespace Prisma {
     deleteMany?: Enumerable<user_dapps_catogoriesScalarWhereInput>
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type invitesUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<invitesCreateWithoutUserInput>, Enumerable<invitesUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<invitesCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<invitesUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: invitesCreateManyUserInputEnvelope
+    set?: Enumerable<invitesWhereUniqueInput>
+    disconnect?: Enumerable<invitesWhereUniqueInput>
+    delete?: Enumerable<invitesWhereUniqueInput>
+    connect?: Enumerable<invitesWhereUniqueInput>
+    update?: Enumerable<invitesUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<invitesUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<invitesScalarWhereInput>
+  }
+
+  export type checkinsUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<checkinsCreateWithoutUserInput>, Enumerable<checkinsUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<checkinsCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<checkinsUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: checkinsCreateManyUserInputEnvelope
+    set?: Enumerable<checkinsWhereUniqueInput>
+    disconnect?: Enumerable<checkinsWhereUniqueInput>
+    delete?: Enumerable<checkinsWhereUniqueInput>
+    connect?: Enumerable<checkinsWhereUniqueInput>
+    update?: Enumerable<checkinsUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<checkinsUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<checkinsScalarWhereInput>
+  }
+
+  export type scoresUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<scoresCreateWithoutUserInput>, Enumerable<scoresUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<scoresCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<scoresUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: scoresCreateManyUserInputEnvelope
+    set?: Enumerable<scoresWhereUniqueInput>
+    disconnect?: Enumerable<scoresWhereUniqueInput>
+    delete?: Enumerable<scoresWhereUniqueInput>
+    connect?: Enumerable<scoresWhereUniqueInput>
+    update?: Enumerable<scoresUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<scoresUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<scoresScalarWhereInput>
+  }
+
+  export type userlinksUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutUserInput>, Enumerable<userlinksUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<userlinksUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: userlinksCreateManyUserInputEnvelope
+    set?: Enumerable<userlinksWhereUniqueInput>
+    disconnect?: Enumerable<userlinksWhereUniqueInput>
+    delete?: Enumerable<userlinksWhereUniqueInput>
+    connect?: Enumerable<userlinksWhereUniqueInput>
+    update?: Enumerable<userlinksUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<userlinksUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<userlinksScalarWhereInput>
+  }
+
   export type user_dappsUncheckedUpdateManyWithoutUserInput = {
     create?: XOR<Enumerable<user_dappsCreateWithoutUserInput>, Enumerable<user_dappsUncheckedCreateWithoutUserInput>>
     connectOrCreate?: Enumerable<user_dappsCreateOrConnectWithoutUserInput>
@@ -20010,12 +28040,102 @@ export namespace Prisma {
     deleteMany?: Enumerable<user_dapps_catogoriesScalarWhereInput>
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type invitesUncheckedUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<invitesCreateWithoutUserInput>, Enumerable<invitesUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<invitesCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<invitesUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: invitesCreateManyUserInputEnvelope
+    set?: Enumerable<invitesWhereUniqueInput>
+    disconnect?: Enumerable<invitesWhereUniqueInput>
+    delete?: Enumerable<invitesWhereUniqueInput>
+    connect?: Enumerable<invitesWhereUniqueInput>
+    update?: Enumerable<invitesUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<invitesUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<invitesScalarWhereInput>
+  }
+
+  export type checkinsUncheckedUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<checkinsCreateWithoutUserInput>, Enumerable<checkinsUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<checkinsCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<checkinsUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: checkinsCreateManyUserInputEnvelope
+    set?: Enumerable<checkinsWhereUniqueInput>
+    disconnect?: Enumerable<checkinsWhereUniqueInput>
+    delete?: Enumerable<checkinsWhereUniqueInput>
+    connect?: Enumerable<checkinsWhereUniqueInput>
+    update?: Enumerable<checkinsUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<checkinsUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<checkinsScalarWhereInput>
+  }
+
+  export type scoresUncheckedUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<scoresCreateWithoutUserInput>, Enumerable<scoresUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<scoresCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<scoresUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: scoresCreateManyUserInputEnvelope
+    set?: Enumerable<scoresWhereUniqueInput>
+    disconnect?: Enumerable<scoresWhereUniqueInput>
+    delete?: Enumerable<scoresWhereUniqueInput>
+    connect?: Enumerable<scoresWhereUniqueInput>
+    update?: Enumerable<scoresUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<scoresUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<scoresScalarWhereInput>
+  }
+
+  export type userlinksUncheckedUpdateManyWithoutUserInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutUserInput>, Enumerable<userlinksUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<userlinksUpsertWithWhereUniqueWithoutUserInput>
+    createMany?: userlinksCreateManyUserInputEnvelope
+    set?: Enumerable<userlinksWhereUniqueInput>
+    disconnect?: Enumerable<userlinksWhereUniqueInput>
+    delete?: Enumerable<userlinksWhereUniqueInput>
+    connect?: Enumerable<userlinksWhereUniqueInput>
+    update?: Enumerable<userlinksUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<userlinksUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<userlinksScalarWhereInput>
+  }
+
+  export type usersCreateNestedOneWithoutInvitesInput = {
+    create?: XOR<usersCreateWithoutInvitesInput, usersUncheckedCreateWithoutInvitesInput>
+    connectOrCreate?: usersCreateOrConnectWithoutInvitesInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type usersUpdateOneRequiredWithoutInvitesInput = {
+    create?: XOR<usersCreateWithoutInvitesInput, usersUncheckedCreateWithoutInvitesInput>
+    connectOrCreate?: usersCreateOrConnectWithoutInvitesInput
+    upsert?: usersUpsertWithoutInvitesInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<usersUpdateWithoutInvitesInput, usersUncheckedUpdateWithoutInvitesInput>
+  }
+
+  export type usersCreateNestedOneWithoutScoresInput = {
+    create?: XOR<usersCreateWithoutScoresInput, usersUncheckedCreateWithoutScoresInput>
+    connectOrCreate?: usersCreateOrConnectWithoutScoresInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type usersUpdateOneRequiredWithoutScoresInput = {
+    create?: XOR<usersCreateWithoutScoresInput, usersUncheckedCreateWithoutScoresInput>
+    connectOrCreate?: usersCreateOrConnectWithoutScoresInput
+    upsert?: usersUpsertWithoutScoresInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<usersUpdateWithoutScoresInput, usersUncheckedUpdateWithoutScoresInput>
+  }
+
+  export type usersCreateNestedOneWithoutCheckinsInput = {
+    create?: XOR<usersCreateWithoutCheckinsInput, usersUncheckedCreateWithoutCheckinsInput>
+    connectOrCreate?: usersCreateOrConnectWithoutCheckinsInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type usersUpdateOneRequiredWithoutCheckinsInput = {
+    create?: XOR<usersCreateWithoutCheckinsInput, usersUncheckedCreateWithoutCheckinsInput>
+    connectOrCreate?: usersCreateOrConnectWithoutCheckinsInput
+    upsert?: usersUpsertWithoutCheckinsInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<usersUpdateWithoutCheckinsInput, usersUncheckedUpdateWithoutCheckinsInput>
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -20520,6 +28640,246 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type linktag_relationsCreateNestedManyWithoutLinkInput = {
+    create?: XOR<Enumerable<linktag_relationsCreateWithoutLinkInput>, Enumerable<linktag_relationsUncheckedCreateWithoutLinkInput>>
+    connectOrCreate?: Enumerable<linktag_relationsCreateOrConnectWithoutLinkInput>
+    createMany?: linktag_relationsCreateManyLinkInputEnvelope
+    connect?: Enumerable<linktag_relationsWhereUniqueInput>
+  }
+
+  export type userlinksCreateNestedManyWithoutLinkInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutLinkInput>, Enumerable<userlinksUncheckedCreateWithoutLinkInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutLinkInput>
+    createMany?: userlinksCreateManyLinkInputEnvelope
+    connect?: Enumerable<userlinksWhereUniqueInput>
+  }
+
+  export type linktag_relationsUncheckedCreateNestedManyWithoutLinkInput = {
+    create?: XOR<Enumerable<linktag_relationsCreateWithoutLinkInput>, Enumerable<linktag_relationsUncheckedCreateWithoutLinkInput>>
+    connectOrCreate?: Enumerable<linktag_relationsCreateOrConnectWithoutLinkInput>
+    createMany?: linktag_relationsCreateManyLinkInputEnvelope
+    connect?: Enumerable<linktag_relationsWhereUniqueInput>
+  }
+
+  export type userlinksUncheckedCreateNestedManyWithoutLinkInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutLinkInput>, Enumerable<userlinksUncheckedCreateWithoutLinkInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutLinkInput>
+    createMany?: userlinksCreateManyLinkInputEnvelope
+    connect?: Enumerable<userlinksWhereUniqueInput>
+  }
+
+  export type linktag_relationsUpdateManyWithoutLinkInput = {
+    create?: XOR<Enumerable<linktag_relationsCreateWithoutLinkInput>, Enumerable<linktag_relationsUncheckedCreateWithoutLinkInput>>
+    connectOrCreate?: Enumerable<linktag_relationsCreateOrConnectWithoutLinkInput>
+    upsert?: Enumerable<linktag_relationsUpsertWithWhereUniqueWithoutLinkInput>
+    createMany?: linktag_relationsCreateManyLinkInputEnvelope
+    set?: Enumerable<linktag_relationsWhereUniqueInput>
+    disconnect?: Enumerable<linktag_relationsWhereUniqueInput>
+    delete?: Enumerable<linktag_relationsWhereUniqueInput>
+    connect?: Enumerable<linktag_relationsWhereUniqueInput>
+    update?: Enumerable<linktag_relationsUpdateWithWhereUniqueWithoutLinkInput>
+    updateMany?: Enumerable<linktag_relationsUpdateManyWithWhereWithoutLinkInput>
+    deleteMany?: Enumerable<linktag_relationsScalarWhereInput>
+  }
+
+  export type userlinksUpdateManyWithoutLinkInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutLinkInput>, Enumerable<userlinksUncheckedCreateWithoutLinkInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutLinkInput>
+    upsert?: Enumerable<userlinksUpsertWithWhereUniqueWithoutLinkInput>
+    createMany?: userlinksCreateManyLinkInputEnvelope
+    set?: Enumerable<userlinksWhereUniqueInput>
+    disconnect?: Enumerable<userlinksWhereUniqueInput>
+    delete?: Enumerable<userlinksWhereUniqueInput>
+    connect?: Enumerable<userlinksWhereUniqueInput>
+    update?: Enumerable<userlinksUpdateWithWhereUniqueWithoutLinkInput>
+    updateMany?: Enumerable<userlinksUpdateManyWithWhereWithoutLinkInput>
+    deleteMany?: Enumerable<userlinksScalarWhereInput>
+  }
+
+  export type linktag_relationsUncheckedUpdateManyWithoutLinkInput = {
+    create?: XOR<Enumerable<linktag_relationsCreateWithoutLinkInput>, Enumerable<linktag_relationsUncheckedCreateWithoutLinkInput>>
+    connectOrCreate?: Enumerable<linktag_relationsCreateOrConnectWithoutLinkInput>
+    upsert?: Enumerable<linktag_relationsUpsertWithWhereUniqueWithoutLinkInput>
+    createMany?: linktag_relationsCreateManyLinkInputEnvelope
+    set?: Enumerable<linktag_relationsWhereUniqueInput>
+    disconnect?: Enumerable<linktag_relationsWhereUniqueInput>
+    delete?: Enumerable<linktag_relationsWhereUniqueInput>
+    connect?: Enumerable<linktag_relationsWhereUniqueInput>
+    update?: Enumerable<linktag_relationsUpdateWithWhereUniqueWithoutLinkInput>
+    updateMany?: Enumerable<linktag_relationsUpdateManyWithWhereWithoutLinkInput>
+    deleteMany?: Enumerable<linktag_relationsScalarWhereInput>
+  }
+
+  export type userlinksUncheckedUpdateManyWithoutLinkInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutLinkInput>, Enumerable<userlinksUncheckedCreateWithoutLinkInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutLinkInput>
+    upsert?: Enumerable<userlinksUpsertWithWhereUniqueWithoutLinkInput>
+    createMany?: userlinksCreateManyLinkInputEnvelope
+    set?: Enumerable<userlinksWhereUniqueInput>
+    disconnect?: Enumerable<userlinksWhereUniqueInput>
+    delete?: Enumerable<userlinksWhereUniqueInput>
+    connect?: Enumerable<userlinksWhereUniqueInput>
+    update?: Enumerable<userlinksUpdateWithWhereUniqueWithoutLinkInput>
+    updateMany?: Enumerable<userlinksUpdateManyWithWhereWithoutLinkInput>
+    deleteMany?: Enumerable<userlinksScalarWhereInput>
+  }
+
+  export type linktag_relationsCreateNestedManyWithoutLinktagInput = {
+    create?: XOR<Enumerable<linktag_relationsCreateWithoutLinktagInput>, Enumerable<linktag_relationsUncheckedCreateWithoutLinktagInput>>
+    connectOrCreate?: Enumerable<linktag_relationsCreateOrConnectWithoutLinktagInput>
+    createMany?: linktag_relationsCreateManyLinktagInputEnvelope
+    connect?: Enumerable<linktag_relationsWhereUniqueInput>
+  }
+
+  export type userlinksCreateNestedManyWithoutLinktagInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutLinktagInput>, Enumerable<userlinksUncheckedCreateWithoutLinktagInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutLinktagInput>
+    createMany?: userlinksCreateManyLinktagInputEnvelope
+    connect?: Enumerable<userlinksWhereUniqueInput>
+  }
+
+  export type linktag_relationsUncheckedCreateNestedManyWithoutLinktagInput = {
+    create?: XOR<Enumerable<linktag_relationsCreateWithoutLinktagInput>, Enumerable<linktag_relationsUncheckedCreateWithoutLinktagInput>>
+    connectOrCreate?: Enumerable<linktag_relationsCreateOrConnectWithoutLinktagInput>
+    createMany?: linktag_relationsCreateManyLinktagInputEnvelope
+    connect?: Enumerable<linktag_relationsWhereUniqueInput>
+  }
+
+  export type userlinksUncheckedCreateNestedManyWithoutLinktagInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutLinktagInput>, Enumerable<userlinksUncheckedCreateWithoutLinktagInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutLinktagInput>
+    createMany?: userlinksCreateManyLinktagInputEnvelope
+    connect?: Enumerable<userlinksWhereUniqueInput>
+  }
+
+  export type linktag_relationsUpdateManyWithoutLinktagInput = {
+    create?: XOR<Enumerable<linktag_relationsCreateWithoutLinktagInput>, Enumerable<linktag_relationsUncheckedCreateWithoutLinktagInput>>
+    connectOrCreate?: Enumerable<linktag_relationsCreateOrConnectWithoutLinktagInput>
+    upsert?: Enumerable<linktag_relationsUpsertWithWhereUniqueWithoutLinktagInput>
+    createMany?: linktag_relationsCreateManyLinktagInputEnvelope
+    set?: Enumerable<linktag_relationsWhereUniqueInput>
+    disconnect?: Enumerable<linktag_relationsWhereUniqueInput>
+    delete?: Enumerable<linktag_relationsWhereUniqueInput>
+    connect?: Enumerable<linktag_relationsWhereUniqueInput>
+    update?: Enumerable<linktag_relationsUpdateWithWhereUniqueWithoutLinktagInput>
+    updateMany?: Enumerable<linktag_relationsUpdateManyWithWhereWithoutLinktagInput>
+    deleteMany?: Enumerable<linktag_relationsScalarWhereInput>
+  }
+
+  export type userlinksUpdateManyWithoutLinktagInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutLinktagInput>, Enumerable<userlinksUncheckedCreateWithoutLinktagInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutLinktagInput>
+    upsert?: Enumerable<userlinksUpsertWithWhereUniqueWithoutLinktagInput>
+    createMany?: userlinksCreateManyLinktagInputEnvelope
+    set?: Enumerable<userlinksWhereUniqueInput>
+    disconnect?: Enumerable<userlinksWhereUniqueInput>
+    delete?: Enumerable<userlinksWhereUniqueInput>
+    connect?: Enumerable<userlinksWhereUniqueInput>
+    update?: Enumerable<userlinksUpdateWithWhereUniqueWithoutLinktagInput>
+    updateMany?: Enumerable<userlinksUpdateManyWithWhereWithoutLinktagInput>
+    deleteMany?: Enumerable<userlinksScalarWhereInput>
+  }
+
+  export type linktag_relationsUncheckedUpdateManyWithoutLinktagInput = {
+    create?: XOR<Enumerable<linktag_relationsCreateWithoutLinktagInput>, Enumerable<linktag_relationsUncheckedCreateWithoutLinktagInput>>
+    connectOrCreate?: Enumerable<linktag_relationsCreateOrConnectWithoutLinktagInput>
+    upsert?: Enumerable<linktag_relationsUpsertWithWhereUniqueWithoutLinktagInput>
+    createMany?: linktag_relationsCreateManyLinktagInputEnvelope
+    set?: Enumerable<linktag_relationsWhereUniqueInput>
+    disconnect?: Enumerable<linktag_relationsWhereUniqueInput>
+    delete?: Enumerable<linktag_relationsWhereUniqueInput>
+    connect?: Enumerable<linktag_relationsWhereUniqueInput>
+    update?: Enumerable<linktag_relationsUpdateWithWhereUniqueWithoutLinktagInput>
+    updateMany?: Enumerable<linktag_relationsUpdateManyWithWhereWithoutLinktagInput>
+    deleteMany?: Enumerable<linktag_relationsScalarWhereInput>
+  }
+
+  export type userlinksUncheckedUpdateManyWithoutLinktagInput = {
+    create?: XOR<Enumerable<userlinksCreateWithoutLinktagInput>, Enumerable<userlinksUncheckedCreateWithoutLinktagInput>>
+    connectOrCreate?: Enumerable<userlinksCreateOrConnectWithoutLinktagInput>
+    upsert?: Enumerable<userlinksUpsertWithWhereUniqueWithoutLinktagInput>
+    createMany?: userlinksCreateManyLinktagInputEnvelope
+    set?: Enumerable<userlinksWhereUniqueInput>
+    disconnect?: Enumerable<userlinksWhereUniqueInput>
+    delete?: Enumerable<userlinksWhereUniqueInput>
+    connect?: Enumerable<userlinksWhereUniqueInput>
+    update?: Enumerable<userlinksUpdateWithWhereUniqueWithoutLinktagInput>
+    updateMany?: Enumerable<userlinksUpdateManyWithWhereWithoutLinktagInput>
+    deleteMany?: Enumerable<userlinksScalarWhereInput>
+  }
+
+  export type linktagsCreateNestedOneWithoutLinktag_relationsInput = {
+    create?: XOR<linktagsCreateWithoutLinktag_relationsInput, linktagsUncheckedCreateWithoutLinktag_relationsInput>
+    connectOrCreate?: linktagsCreateOrConnectWithoutLinktag_relationsInput
+    connect?: linktagsWhereUniqueInput
+  }
+
+  export type linksCreateNestedOneWithoutLinktag_relationsInput = {
+    create?: XOR<linksCreateWithoutLinktag_relationsInput, linksUncheckedCreateWithoutLinktag_relationsInput>
+    connectOrCreate?: linksCreateOrConnectWithoutLinktag_relationsInput
+    connect?: linksWhereUniqueInput
+  }
+
+  export type linktagsUpdateOneRequiredWithoutLinktag_relationsInput = {
+    create?: XOR<linktagsCreateWithoutLinktag_relationsInput, linktagsUncheckedCreateWithoutLinktag_relationsInput>
+    connectOrCreate?: linktagsCreateOrConnectWithoutLinktag_relationsInput
+    upsert?: linktagsUpsertWithoutLinktag_relationsInput
+    connect?: linktagsWhereUniqueInput
+    update?: XOR<linktagsUpdateWithoutLinktag_relationsInput, linktagsUncheckedUpdateWithoutLinktag_relationsInput>
+  }
+
+  export type linksUpdateOneRequiredWithoutLinktag_relationsInput = {
+    create?: XOR<linksCreateWithoutLinktag_relationsInput, linksUncheckedCreateWithoutLinktag_relationsInput>
+    connectOrCreate?: linksCreateOrConnectWithoutLinktag_relationsInput
+    upsert?: linksUpsertWithoutLinktag_relationsInput
+    connect?: linksWhereUniqueInput
+    update?: XOR<linksUpdateWithoutLinktag_relationsInput, linksUncheckedUpdateWithoutLinktag_relationsInput>
+  }
+
+  export type usersCreateNestedOneWithoutUserlinksInput = {
+    create?: XOR<usersCreateWithoutUserlinksInput, usersUncheckedCreateWithoutUserlinksInput>
+    connectOrCreate?: usersCreateOrConnectWithoutUserlinksInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type linksCreateNestedOneWithoutUserlinksInput = {
+    create?: XOR<linksCreateWithoutUserlinksInput, linksUncheckedCreateWithoutUserlinksInput>
+    connectOrCreate?: linksCreateOrConnectWithoutUserlinksInput
+    connect?: linksWhereUniqueInput
+  }
+
+  export type linktagsCreateNestedOneWithoutUserlinksInput = {
+    create?: XOR<linktagsCreateWithoutUserlinksInput, linktagsUncheckedCreateWithoutUserlinksInput>
+    connectOrCreate?: linktagsCreateOrConnectWithoutUserlinksInput
+    connect?: linktagsWhereUniqueInput
+  }
+
+  export type usersUpdateOneRequiredWithoutUserlinksInput = {
+    create?: XOR<usersCreateWithoutUserlinksInput, usersUncheckedCreateWithoutUserlinksInput>
+    connectOrCreate?: usersCreateOrConnectWithoutUserlinksInput
+    upsert?: usersUpsertWithoutUserlinksInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<usersUpdateWithoutUserlinksInput, usersUncheckedUpdateWithoutUserlinksInput>
+  }
+
+  export type linksUpdateOneRequiredWithoutUserlinksInput = {
+    create?: XOR<linksCreateWithoutUserlinksInput, linksUncheckedCreateWithoutUserlinksInput>
+    connectOrCreate?: linksCreateOrConnectWithoutUserlinksInput
+    upsert?: linksUpsertWithoutUserlinksInput
+    connect?: linksWhereUniqueInput
+    update?: XOR<linksUpdateWithoutUserlinksInput, linksUncheckedUpdateWithoutUserlinksInput>
+  }
+
+  export type linktagsUpdateOneWithoutUserlinksInput = {
+    create?: XOR<linktagsCreateWithoutUserlinksInput, linktagsUncheckedCreateWithoutUserlinksInput>
+    connectOrCreate?: linktagsCreateOrConnectWithoutUserlinksInput
+    upsert?: linktagsUpsertWithoutUserlinksInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: linktagsWhereUniqueInput
+    update?: XOR<linktagsUpdateWithoutUserlinksInput, linktagsUncheckedUpdateWithoutUserlinksInput>
+  }
+
   export type NestedStringFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -20579,6 +28939,17 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
+  export type NestedIntFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
+  }
+
   export type NestedStringWithAggregatesFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -20595,17 +28966,6 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedStringFilter
     _max?: NestedStringFilter
-  }
-
-  export type NestedIntFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntFilter | number
   }
 
   export type NestedStringNullableWithAggregatesFilter = {
@@ -20838,6 +29198,104 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type invitesCreateWithoutUserInput = {
+    id?: string
+    used_by_user_id?: string | null
+    used_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type invitesUncheckedCreateWithoutUserInput = {
+    id?: string
+    used_by_user_id?: string | null
+    used_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type invitesCreateOrConnectWithoutUserInput = {
+    where: invitesWhereUniqueInput
+    create: XOR<invitesCreateWithoutUserInput, invitesUncheckedCreateWithoutUserInput>
+  }
+
+  export type invitesCreateManyUserInputEnvelope = {
+    data: Enumerable<invitesCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type checkinsCreateWithoutUserInput = {
+    id?: string
+    unbreak_days?: number
+    created_at?: Date | string
+  }
+
+  export type checkinsUncheckedCreateWithoutUserInput = {
+    id?: string
+    unbreak_days?: number
+    created_at?: Date | string
+  }
+
+  export type checkinsCreateOrConnectWithoutUserInput = {
+    where: checkinsWhereUniqueInput
+    create: XOR<checkinsCreateWithoutUserInput, checkinsUncheckedCreateWithoutUserInput>
+  }
+
+  export type checkinsCreateManyUserInputEnvelope = {
+    data: Enumerable<checkinsCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type scoresCreateWithoutUserInput = {
+    id?: string
+    score: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type scoresUncheckedCreateWithoutUserInput = {
+    id?: string
+    score: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type scoresCreateOrConnectWithoutUserInput = {
+    where: scoresWhereUniqueInput
+    create: XOR<scoresCreateWithoutUserInput, scoresUncheckedCreateWithoutUserInput>
+  }
+
+  export type scoresCreateManyUserInputEnvelope = {
+    data: Enumerable<scoresCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
+  export type userlinksCreateWithoutUserInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    link: linksCreateNestedOneWithoutUserlinksInput
+    linktag?: linktagsCreateNestedOneWithoutUserlinksInput
+  }
+
+  export type userlinksUncheckedCreateWithoutUserInput = {
+    id?: string
+    link_id: string
+    tag_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type userlinksCreateOrConnectWithoutUserInput = {
+    where: userlinksWhereUniqueInput
+    create: XOR<userlinksCreateWithoutUserInput, userlinksUncheckedCreateWithoutUserInput>
+  }
+
+  export type userlinksCreateManyUserInputEnvelope = {
+    data: Enumerable<userlinksCreateManyUserInput>
+    skipDuplicates?: boolean
+  }
+
   export type user_dappsUpsertWithWhereUniqueWithoutUserInput = {
     where: user_dappsWhereUniqueInput
     update: XOR<user_dappsUpdateWithoutUserInput, user_dappsUncheckedUpdateWithoutUserInput>
@@ -20893,6 +29351,397 @@ export namespace Prisma {
     created_at?: DateTimeFilter | Date | string
     updated_at?: DateTimeNullableFilter | Date | string | null
     user_id?: StringFilter | string
+  }
+
+  export type invitesUpsertWithWhereUniqueWithoutUserInput = {
+    where: invitesWhereUniqueInput
+    update: XOR<invitesUpdateWithoutUserInput, invitesUncheckedUpdateWithoutUserInput>
+    create: XOR<invitesCreateWithoutUserInput, invitesUncheckedCreateWithoutUserInput>
+  }
+
+  export type invitesUpdateWithWhereUniqueWithoutUserInput = {
+    where: invitesWhereUniqueInput
+    data: XOR<invitesUpdateWithoutUserInput, invitesUncheckedUpdateWithoutUserInput>
+  }
+
+  export type invitesUpdateManyWithWhereWithoutUserInput = {
+    where: invitesScalarWhereInput
+    data: XOR<invitesUpdateManyMutationInput, invitesUncheckedUpdateManyWithoutInvitesInput>
+  }
+
+  export type invitesScalarWhereInput = {
+    AND?: Enumerable<invitesScalarWhereInput>
+    OR?: Enumerable<invitesScalarWhereInput>
+    NOT?: Enumerable<invitesScalarWhereInput>
+    id?: StringFilter | string
+    user_id?: StringFilter | string
+    used_by_user_id?: StringNullableFilter | string | null
+    used_at?: DateTimeNullableFilter | Date | string | null
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+  }
+
+  export type checkinsUpsertWithWhereUniqueWithoutUserInput = {
+    where: checkinsWhereUniqueInput
+    update: XOR<checkinsUpdateWithoutUserInput, checkinsUncheckedUpdateWithoutUserInput>
+    create: XOR<checkinsCreateWithoutUserInput, checkinsUncheckedCreateWithoutUserInput>
+  }
+
+  export type checkinsUpdateWithWhereUniqueWithoutUserInput = {
+    where: checkinsWhereUniqueInput
+    data: XOR<checkinsUpdateWithoutUserInput, checkinsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type checkinsUpdateManyWithWhereWithoutUserInput = {
+    where: checkinsScalarWhereInput
+    data: XOR<checkinsUpdateManyMutationInput, checkinsUncheckedUpdateManyWithoutCheckinsInput>
+  }
+
+  export type checkinsScalarWhereInput = {
+    AND?: Enumerable<checkinsScalarWhereInput>
+    OR?: Enumerable<checkinsScalarWhereInput>
+    NOT?: Enumerable<checkinsScalarWhereInput>
+    id?: StringFilter | string
+    unbreak_days?: IntFilter | number
+    user_id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+  }
+
+  export type scoresUpsertWithWhereUniqueWithoutUserInput = {
+    where: scoresWhereUniqueInput
+    update: XOR<scoresUpdateWithoutUserInput, scoresUncheckedUpdateWithoutUserInput>
+    create: XOR<scoresCreateWithoutUserInput, scoresUncheckedCreateWithoutUserInput>
+  }
+
+  export type scoresUpdateWithWhereUniqueWithoutUserInput = {
+    where: scoresWhereUniqueInput
+    data: XOR<scoresUpdateWithoutUserInput, scoresUncheckedUpdateWithoutUserInput>
+  }
+
+  export type scoresUpdateManyWithWhereWithoutUserInput = {
+    where: scoresScalarWhereInput
+    data: XOR<scoresUpdateManyMutationInput, scoresUncheckedUpdateManyWithoutScoresInput>
+  }
+
+  export type scoresScalarWhereInput = {
+    AND?: Enumerable<scoresScalarWhereInput>
+    OR?: Enumerable<scoresScalarWhereInput>
+    NOT?: Enumerable<scoresScalarWhereInput>
+    id?: StringFilter | string
+    user_id?: StringFilter | string
+    score?: IntFilter | number
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeFilter | Date | string
+  }
+
+  export type userlinksUpsertWithWhereUniqueWithoutUserInput = {
+    where: userlinksWhereUniqueInput
+    update: XOR<userlinksUpdateWithoutUserInput, userlinksUncheckedUpdateWithoutUserInput>
+    create: XOR<userlinksCreateWithoutUserInput, userlinksUncheckedCreateWithoutUserInput>
+  }
+
+  export type userlinksUpdateWithWhereUniqueWithoutUserInput = {
+    where: userlinksWhereUniqueInput
+    data: XOR<userlinksUpdateWithoutUserInput, userlinksUncheckedUpdateWithoutUserInput>
+  }
+
+  export type userlinksUpdateManyWithWhereWithoutUserInput = {
+    where: userlinksScalarWhereInput
+    data: XOR<userlinksUpdateManyMutationInput, userlinksUncheckedUpdateManyWithoutUserlinksInput>
+  }
+
+  export type userlinksScalarWhereInput = {
+    AND?: Enumerable<userlinksScalarWhereInput>
+    OR?: Enumerable<userlinksScalarWhereInput>
+    NOT?: Enumerable<userlinksScalarWhereInput>
+    id?: StringFilter | string
+    user_id?: StringFilter | string
+    link_id?: StringFilter | string
+    tag_id?: StringNullableFilter | string | null
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type usersCreateWithoutInvitesInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    checkins?: checkinsCreateNestedManyWithoutUserInput
+    scores?: scoresCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksCreateNestedManyWithoutUserInput
+  }
+
+  export type usersUncheckedCreateWithoutInvitesInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    checkins?: checkinsUncheckedCreateNestedManyWithoutUserInput
+    scores?: scoresUncheckedCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type usersCreateOrConnectWithoutInvitesInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutInvitesInput, usersUncheckedCreateWithoutInvitesInput>
+  }
+
+  export type usersUpsertWithoutInvitesInput = {
+    update: XOR<usersUpdateWithoutInvitesInput, usersUncheckedUpdateWithoutInvitesInput>
+    create: XOR<usersCreateWithoutInvitesInput, usersUncheckedCreateWithoutInvitesInput>
+  }
+
+  export type usersUpdateWithoutInvitesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    checkins?: checkinsUpdateManyWithoutUserInput
+    scores?: scoresUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUpdateManyWithoutUserInput
+  }
+
+  export type usersUncheckedUpdateWithoutInvitesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    checkins?: checkinsUncheckedUpdateManyWithoutUserInput
+    scores?: scoresUncheckedUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUncheckedUpdateManyWithoutUserInput
+  }
+
+  export type usersCreateWithoutScoresInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesCreateNestedManyWithoutUserInput
+    checkins?: checkinsCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksCreateNestedManyWithoutUserInput
+  }
+
+  export type usersUncheckedCreateWithoutScoresInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesUncheckedCreateNestedManyWithoutUserInput
+    checkins?: checkinsUncheckedCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type usersCreateOrConnectWithoutScoresInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutScoresInput, usersUncheckedCreateWithoutScoresInput>
+  }
+
+  export type usersUpsertWithoutScoresInput = {
+    update: XOR<usersUpdateWithoutScoresInput, usersUncheckedUpdateWithoutScoresInput>
+    create: XOR<usersCreateWithoutScoresInput, usersUncheckedCreateWithoutScoresInput>
+  }
+
+  export type usersUpdateWithoutScoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUpdateManyWithoutUserInput
+    checkins?: checkinsUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUpdateManyWithoutUserInput
+  }
+
+  export type usersUncheckedUpdateWithoutScoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUncheckedUpdateManyWithoutUserInput
+    checkins?: checkinsUncheckedUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUncheckedUpdateManyWithoutUserInput
+  }
+
+  export type usersCreateWithoutCheckinsInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesCreateNestedManyWithoutUserInput
+    scores?: scoresCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksCreateNestedManyWithoutUserInput
+  }
+
+  export type usersUncheckedCreateWithoutCheckinsInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesUncheckedCreateNestedManyWithoutUserInput
+    scores?: scoresUncheckedCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type usersCreateOrConnectWithoutCheckinsInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutCheckinsInput, usersUncheckedCreateWithoutCheckinsInput>
+  }
+
+  export type usersUpsertWithoutCheckinsInput = {
+    update: XOR<usersUpdateWithoutCheckinsInput, usersUncheckedUpdateWithoutCheckinsInput>
+    create: XOR<usersCreateWithoutCheckinsInput, usersUncheckedCreateWithoutCheckinsInput>
+  }
+
+  export type usersUpdateWithoutCheckinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUpdateManyWithoutUserInput
+    scores?: scoresUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUpdateManyWithoutUserInput
+  }
+
+  export type usersUncheckedUpdateWithoutCheckinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUncheckedUpdateManyWithoutUserInput
+    scores?: scoresUncheckedUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUncheckedUpdateManyWithoutUserInput
   }
 
   export type dapp_categories_relationsCreateWithoutDappInput = {
@@ -21252,6 +30101,13 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     user_dapps_catogories?: user_dapps_catogoriesCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesCreateNestedManyWithoutUserInput
+    checkins?: checkinsCreateNestedManyWithoutUserInput
+    scores?: scoresCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksCreateNestedManyWithoutUserInput
   }
 
   export type usersUncheckedCreateWithoutUser_dappsInput = {
@@ -21266,6 +30122,13 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     user_dapps_catogories?: user_dapps_catogoriesUncheckedCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesUncheckedCreateNestedManyWithoutUserInput
+    checkins?: checkinsUncheckedCreateNestedManyWithoutUserInput
+    scores?: scoresUncheckedCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type usersCreateOrConnectWithoutUser_dappsInput = {
@@ -21354,6 +30217,13 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_dapps_catogories?: user_dapps_catogoriesUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUpdateManyWithoutUserInput
+    checkins?: checkinsUpdateManyWithoutUserInput
+    scores?: scoresUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUpdateManyWithoutUserInput
   }
 
   export type usersUncheckedUpdateWithoutUser_dappsInput = {
@@ -21368,6 +30238,13 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_dapps_catogories?: user_dapps_catogoriesUncheckedUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUncheckedUpdateManyWithoutUserInput
+    checkins?: checkinsUncheckedUpdateManyWithoutUserInput
+    scores?: scoresUncheckedUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUncheckedUpdateManyWithoutUserInput
   }
 
   export type user_dapps_catogoriesUpsertWithoutUser_dappsInput = {
@@ -21407,6 +30284,13 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     user_dapps?: user_dappsCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesCreateNestedManyWithoutUserInput
+    checkins?: checkinsCreateNestedManyWithoutUserInput
+    scores?: scoresCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksCreateNestedManyWithoutUserInput
   }
 
   export type usersUncheckedCreateWithoutUser_dapps_catogoriesInput = {
@@ -21421,6 +30305,13 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesUncheckedCreateNestedManyWithoutUserInput
+    checkins?: checkinsUncheckedCreateNestedManyWithoutUserInput
+    scores?: scoresUncheckedCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type usersCreateOrConnectWithoutUser_dapps_catogoriesInput = {
@@ -21471,6 +30362,13 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_dapps?: user_dappsUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUpdateManyWithoutUserInput
+    checkins?: checkinsUpdateManyWithoutUserInput
+    scores?: scoresUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUpdateManyWithoutUserInput
   }
 
   export type usersUncheckedUpdateWithoutUser_dapps_catogoriesInput = {
@@ -21485,6 +30383,13 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user_dapps?: user_dappsUncheckedUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUncheckedUpdateManyWithoutUserInput
+    checkins?: checkinsUncheckedUpdateManyWithoutUserInput
+    scores?: scoresUncheckedUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    userlinks?: userlinksUncheckedUpdateManyWithoutUserInput
   }
 
   export type user_dappsUpsertWithWhereUniqueWithoutUser_dapps_catogoriesInput = {
@@ -21899,6 +30804,481 @@ export namespace Prisma {
     user_dapps?: user_dappsUncheckedUpdateManyWithoutDappInput
   }
 
+  export type linktag_relationsCreateWithoutLinkInput = {
+    linktag: linktagsCreateNestedOneWithoutLinktag_relationsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktag_relationsUncheckedCreateWithoutLinkInput = {
+    id?: number
+    linktag_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktag_relationsCreateOrConnectWithoutLinkInput = {
+    where: linktag_relationsWhereUniqueInput
+    create: XOR<linktag_relationsCreateWithoutLinkInput, linktag_relationsUncheckedCreateWithoutLinkInput>
+  }
+
+  export type linktag_relationsCreateManyLinkInputEnvelope = {
+    data: Enumerable<linktag_relationsCreateManyLinkInput>
+    skipDuplicates?: boolean
+  }
+
+  export type userlinksCreateWithoutLinkInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user: usersCreateNestedOneWithoutUserlinksInput
+    linktag?: linktagsCreateNestedOneWithoutUserlinksInput
+  }
+
+  export type userlinksUncheckedCreateWithoutLinkInput = {
+    id?: string
+    user_id: string
+    tag_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type userlinksCreateOrConnectWithoutLinkInput = {
+    where: userlinksWhereUniqueInput
+    create: XOR<userlinksCreateWithoutLinkInput, userlinksUncheckedCreateWithoutLinkInput>
+  }
+
+  export type userlinksCreateManyLinkInputEnvelope = {
+    data: Enumerable<userlinksCreateManyLinkInput>
+    skipDuplicates?: boolean
+  }
+
+  export type linktag_relationsUpsertWithWhereUniqueWithoutLinkInput = {
+    where: linktag_relationsWhereUniqueInput
+    update: XOR<linktag_relationsUpdateWithoutLinkInput, linktag_relationsUncheckedUpdateWithoutLinkInput>
+    create: XOR<linktag_relationsCreateWithoutLinkInput, linktag_relationsUncheckedCreateWithoutLinkInput>
+  }
+
+  export type linktag_relationsUpdateWithWhereUniqueWithoutLinkInput = {
+    where: linktag_relationsWhereUniqueInput
+    data: XOR<linktag_relationsUpdateWithoutLinkInput, linktag_relationsUncheckedUpdateWithoutLinkInput>
+  }
+
+  export type linktag_relationsUpdateManyWithWhereWithoutLinkInput = {
+    where: linktag_relationsScalarWhereInput
+    data: XOR<linktag_relationsUpdateManyMutationInput, linktag_relationsUncheckedUpdateManyWithoutLinktag_relationsInput>
+  }
+
+  export type linktag_relationsScalarWhereInput = {
+    AND?: Enumerable<linktag_relationsScalarWhereInput>
+    OR?: Enumerable<linktag_relationsScalarWhereInput>
+    NOT?: Enumerable<linktag_relationsScalarWhereInput>
+    id?: IntFilter | number
+    linktag_id?: StringFilter | string
+    link_id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+  }
+
+  export type userlinksUpsertWithWhereUniqueWithoutLinkInput = {
+    where: userlinksWhereUniqueInput
+    update: XOR<userlinksUpdateWithoutLinkInput, userlinksUncheckedUpdateWithoutLinkInput>
+    create: XOR<userlinksCreateWithoutLinkInput, userlinksUncheckedCreateWithoutLinkInput>
+  }
+
+  export type userlinksUpdateWithWhereUniqueWithoutLinkInput = {
+    where: userlinksWhereUniqueInput
+    data: XOR<userlinksUpdateWithoutLinkInput, userlinksUncheckedUpdateWithoutLinkInput>
+  }
+
+  export type userlinksUpdateManyWithWhereWithoutLinkInput = {
+    where: userlinksScalarWhereInput
+    data: XOR<userlinksUpdateManyMutationInput, userlinksUncheckedUpdateManyWithoutUserlinksInput>
+  }
+
+  export type linktag_relationsCreateWithoutLinktagInput = {
+    link: linksCreateNestedOneWithoutLinktag_relationsInput
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktag_relationsUncheckedCreateWithoutLinktagInput = {
+    id?: number
+    link_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktag_relationsCreateOrConnectWithoutLinktagInput = {
+    where: linktag_relationsWhereUniqueInput
+    create: XOR<linktag_relationsCreateWithoutLinktagInput, linktag_relationsUncheckedCreateWithoutLinktagInput>
+  }
+
+  export type linktag_relationsCreateManyLinktagInputEnvelope = {
+    data: Enumerable<linktag_relationsCreateManyLinktagInput>
+    skipDuplicates?: boolean
+  }
+
+  export type userlinksCreateWithoutLinktagInput = {
+    id?: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    user: usersCreateNestedOneWithoutUserlinksInput
+    link: linksCreateNestedOneWithoutUserlinksInput
+  }
+
+  export type userlinksUncheckedCreateWithoutLinktagInput = {
+    id?: string
+    user_id: string
+    link_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type userlinksCreateOrConnectWithoutLinktagInput = {
+    where: userlinksWhereUniqueInput
+    create: XOR<userlinksCreateWithoutLinktagInput, userlinksUncheckedCreateWithoutLinktagInput>
+  }
+
+  export type userlinksCreateManyLinktagInputEnvelope = {
+    data: Enumerable<userlinksCreateManyLinktagInput>
+    skipDuplicates?: boolean
+  }
+
+  export type linktag_relationsUpsertWithWhereUniqueWithoutLinktagInput = {
+    where: linktag_relationsWhereUniqueInput
+    update: XOR<linktag_relationsUpdateWithoutLinktagInput, linktag_relationsUncheckedUpdateWithoutLinktagInput>
+    create: XOR<linktag_relationsCreateWithoutLinktagInput, linktag_relationsUncheckedCreateWithoutLinktagInput>
+  }
+
+  export type linktag_relationsUpdateWithWhereUniqueWithoutLinktagInput = {
+    where: linktag_relationsWhereUniqueInput
+    data: XOR<linktag_relationsUpdateWithoutLinktagInput, linktag_relationsUncheckedUpdateWithoutLinktagInput>
+  }
+
+  export type linktag_relationsUpdateManyWithWhereWithoutLinktagInput = {
+    where: linktag_relationsScalarWhereInput
+    data: XOR<linktag_relationsUpdateManyMutationInput, linktag_relationsUncheckedUpdateManyWithoutLinktag_relationsInput>
+  }
+
+  export type userlinksUpsertWithWhereUniqueWithoutLinktagInput = {
+    where: userlinksWhereUniqueInput
+    update: XOR<userlinksUpdateWithoutLinktagInput, userlinksUncheckedUpdateWithoutLinktagInput>
+    create: XOR<userlinksCreateWithoutLinktagInput, userlinksUncheckedCreateWithoutLinktagInput>
+  }
+
+  export type userlinksUpdateWithWhereUniqueWithoutLinktagInput = {
+    where: userlinksWhereUniqueInput
+    data: XOR<userlinksUpdateWithoutLinktagInput, userlinksUncheckedUpdateWithoutLinktagInput>
+  }
+
+  export type userlinksUpdateManyWithWhereWithoutLinktagInput = {
+    where: userlinksScalarWhereInput
+    data: XOR<userlinksUpdateManyMutationInput, userlinksUncheckedUpdateManyWithoutUserlinksInput>
+  }
+
+  export type linktagsCreateWithoutLinktag_relationsInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    userlinks?: userlinksCreateNestedManyWithoutLinktagInput
+  }
+
+  export type linktagsUncheckedCreateWithoutLinktag_relationsInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutLinktagInput
+  }
+
+  export type linktagsCreateOrConnectWithoutLinktag_relationsInput = {
+    where: linktagsWhereUniqueInput
+    create: XOR<linktagsCreateWithoutLinktag_relationsInput, linktagsUncheckedCreateWithoutLinktag_relationsInput>
+  }
+
+  export type linksCreateWithoutLinktag_relationsInput = {
+    id?: string
+    title: string
+    url: string
+    icon?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    userlinks?: userlinksCreateNestedManyWithoutLinkInput
+  }
+
+  export type linksUncheckedCreateWithoutLinktag_relationsInput = {
+    id?: string
+    title: string
+    url: string
+    icon?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    userlinks?: userlinksUncheckedCreateNestedManyWithoutLinkInput
+  }
+
+  export type linksCreateOrConnectWithoutLinktag_relationsInput = {
+    where: linksWhereUniqueInput
+    create: XOR<linksCreateWithoutLinktag_relationsInput, linksUncheckedCreateWithoutLinktag_relationsInput>
+  }
+
+  export type linktagsUpsertWithoutLinktag_relationsInput = {
+    update: XOR<linktagsUpdateWithoutLinktag_relationsInput, linktagsUncheckedUpdateWithoutLinktag_relationsInput>
+    create: XOR<linktagsCreateWithoutLinktag_relationsInput, linktagsUncheckedCreateWithoutLinktag_relationsInput>
+  }
+
+  export type linktagsUpdateWithoutLinktag_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userlinks?: userlinksUpdateManyWithoutLinktagInput
+  }
+
+  export type linktagsUncheckedUpdateWithoutLinktag_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userlinks?: userlinksUncheckedUpdateManyWithoutLinktagInput
+  }
+
+  export type linksUpsertWithoutLinktag_relationsInput = {
+    update: XOR<linksUpdateWithoutLinktag_relationsInput, linksUncheckedUpdateWithoutLinktag_relationsInput>
+    create: XOR<linksCreateWithoutLinktag_relationsInput, linksUncheckedCreateWithoutLinktag_relationsInput>
+  }
+
+  export type linksUpdateWithoutLinktag_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userlinks?: userlinksUpdateManyWithoutLinkInput
+  }
+
+  export type linksUncheckedUpdateWithoutLinktag_relationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    userlinks?: userlinksUncheckedUpdateManyWithoutLinkInput
+  }
+
+  export type usersCreateWithoutUserlinksInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesCreateNestedManyWithoutUserInput
+    checkins?: checkinsCreateNestedManyWithoutUserInput
+    scores?: scoresCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+  }
+
+  export type usersUncheckedCreateWithoutUserlinksInput = {
+    id?: string
+    address?: string | null
+    name?: string | null
+    nonce?: string | null
+    status?: UserStatus
+    role?: usersCreateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    user_dapps?: user_dappsUncheckedCreateNestedManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedCreateNestedManyWithoutUserInput
+    score?: number
+    today_score?: number
+    invites?: invitesUncheckedCreateNestedManyWithoutUserInput
+    checkins?: checkinsUncheckedCreateNestedManyWithoutUserInput
+    scores?: scoresUncheckedCreateNestedManyWithoutUserInput
+    inviter_user_id?: string | null
+  }
+
+  export type usersCreateOrConnectWithoutUserlinksInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutUserlinksInput, usersUncheckedCreateWithoutUserlinksInput>
+  }
+
+  export type linksCreateWithoutUserlinksInput = {
+    id?: string
+    title: string
+    url: string
+    icon?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    linktag_relations?: linktag_relationsCreateNestedManyWithoutLinkInput
+  }
+
+  export type linksUncheckedCreateWithoutUserlinksInput = {
+    id?: string
+    title: string
+    url: string
+    icon?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    linktag_relations?: linktag_relationsUncheckedCreateNestedManyWithoutLinkInput
+  }
+
+  export type linksCreateOrConnectWithoutUserlinksInput = {
+    where: linksWhereUniqueInput
+    create: XOR<linksCreateWithoutUserlinksInput, linksUncheckedCreateWithoutUserlinksInput>
+  }
+
+  export type linktagsCreateWithoutUserlinksInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    linktag_relations?: linktag_relationsCreateNestedManyWithoutLinktagInput
+  }
+
+  export type linktagsUncheckedCreateWithoutUserlinksInput = {
+    id?: string
+    title: string
+    desc?: string | null
+    create_user_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    linktag_relations?: linktag_relationsUncheckedCreateNestedManyWithoutLinktagInput
+  }
+
+  export type linktagsCreateOrConnectWithoutUserlinksInput = {
+    where: linktagsWhereUniqueInput
+    create: XOR<linktagsCreateWithoutUserlinksInput, linktagsUncheckedCreateWithoutUserlinksInput>
+  }
+
+  export type usersUpsertWithoutUserlinksInput = {
+    update: XOR<usersUpdateWithoutUserlinksInput, usersUncheckedUpdateWithoutUserlinksInput>
+    create: XOR<usersCreateWithoutUserlinksInput, usersUncheckedCreateWithoutUserlinksInput>
+  }
+
+  export type usersUpdateWithoutUserlinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUpdateManyWithoutUserInput
+    checkins?: checkinsUpdateManyWithoutUserInput
+    scores?: scoresUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type usersUncheckedUpdateWithoutUserlinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    nonce?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | UserStatus
+    role?: usersUpdateroleInput | Enumerable<Role>
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user_dapps?: user_dappsUncheckedUpdateManyWithoutUserInput
+    user_dapps_catogories?: user_dapps_catogoriesUncheckedUpdateManyWithoutUserInput
+    score?: IntFieldUpdateOperationsInput | number
+    today_score?: IntFieldUpdateOperationsInput | number
+    invites?: invitesUncheckedUpdateManyWithoutUserInput
+    checkins?: checkinsUncheckedUpdateManyWithoutUserInput
+    scores?: scoresUncheckedUpdateManyWithoutUserInput
+    inviter_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type linksUpsertWithoutUserlinksInput = {
+    update: XOR<linksUpdateWithoutUserlinksInput, linksUncheckedUpdateWithoutUserlinksInput>
+    create: XOR<linksCreateWithoutUserlinksInput, linksUncheckedCreateWithoutUserlinksInput>
+  }
+
+  export type linksUpdateWithoutUserlinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    linktag_relations?: linktag_relationsUpdateManyWithoutLinkInput
+  }
+
+  export type linksUncheckedUpdateWithoutUserlinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    linktag_relations?: linktag_relationsUncheckedUpdateManyWithoutLinkInput
+  }
+
+  export type linktagsUpsertWithoutUserlinksInput = {
+    update: XOR<linktagsUpdateWithoutUserlinksInput, linktagsUncheckedUpdateWithoutUserlinksInput>
+    create: XOR<linktagsCreateWithoutUserlinksInput, linktagsUncheckedCreateWithoutUserlinksInput>
+  }
+
+  export type linktagsUpdateWithoutUserlinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    linktag_relations?: linktag_relationsUpdateManyWithoutLinktagInput
+  }
+
+  export type linktagsUncheckedUpdateWithoutUserlinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: NullableStringFieldUpdateOperationsInput | string | null
+    create_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    linktag_relations?: linktag_relationsUncheckedUpdateManyWithoutLinktagInput
+  }
+
   export type user_dappsCreateManyUserInput = {
     id?: string
     dapp_id: string
@@ -21912,6 +31292,35 @@ export namespace Prisma {
     title: string
     desc?: string | null
     sort?: number
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type invitesCreateManyUserInput = {
+    id?: string
+    used_by_user_id?: string | null
+    used_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type checkinsCreateManyUserInput = {
+    id?: string
+    unbreak_days?: number
+    created_at?: Date | string
+  }
+
+  export type scoresCreateManyUserInput = {
+    id?: string
+    score: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type userlinksCreateManyUserInput = {
+    id?: string
+    link_id: string
+    tag_id?: string | null
     created_at?: Date | string
     updated_at?: Date | string | null
   }
@@ -21965,6 +31374,93 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     desc?: NullableStringFieldUpdateOperationsInput | string | null
     sort?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type invitesUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    used_by_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitesUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    used_by_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type invitesUncheckedUpdateManyWithoutInvitesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    used_by_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    used_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type checkinsUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unbreak_days?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type checkinsUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unbreak_days?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type checkinsUncheckedUpdateManyWithoutCheckinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    unbreak_days?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type scoresUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type scoresUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type scoresUncheckedUpdateManyWithoutScoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    score?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type userlinksUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    link?: linksUpdateOneRequiredWithoutUserlinksInput
+    linktag?: linktagsUpdateOneWithoutUserlinksInput
+  }
+
+  export type userlinksUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    link_id?: StringFieldUpdateOperationsInput | string
+    tag_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type userlinksUncheckedUpdateManyWithoutUserlinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    link_id?: StringFieldUpdateOperationsInput | string
+    tag_id?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -22161,6 +31657,101 @@ export namespace Prisma {
   export type story_categories_relationsUncheckedUpdateWithoutStory_categoriesInput = {
     id?: IntFieldUpdateOperationsInput | number
     story_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktag_relationsCreateManyLinkInput = {
+    id?: number
+    linktag_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type userlinksCreateManyLinkInput = {
+    id?: string
+    user_id: string
+    tag_id?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktag_relationsUpdateWithoutLinkInput = {
+    linktag?: linktagsUpdateOneRequiredWithoutLinktag_relationsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktag_relationsUncheckedUpdateWithoutLinkInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    linktag_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktag_relationsUncheckedUpdateManyWithoutLinktag_relationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    linktag_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type userlinksUpdateWithoutLinkInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: usersUpdateOneRequiredWithoutUserlinksInput
+    linktag?: linktagsUpdateOneWithoutUserlinksInput
+  }
+
+  export type userlinksUncheckedUpdateWithoutLinkInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    tag_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktag_relationsCreateManyLinktagInput = {
+    id?: number
+    link_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type userlinksCreateManyLinktagInput = {
+    id?: string
+    user_id: string
+    link_id: string
+    created_at?: Date | string
+    updated_at?: Date | string | null
+  }
+
+  export type linktag_relationsUpdateWithoutLinktagInput = {
+    link?: linksUpdateOneRequiredWithoutLinktag_relationsInput
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type linktag_relationsUncheckedUpdateWithoutLinktagInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    link_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type userlinksUpdateWithoutLinktagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: usersUpdateOneRequiredWithoutUserlinksInput
+    link?: linksUpdateOneRequiredWithoutUserlinksInput
+  }
+
+  export type userlinksUncheckedUpdateWithoutLinktagInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    link_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }

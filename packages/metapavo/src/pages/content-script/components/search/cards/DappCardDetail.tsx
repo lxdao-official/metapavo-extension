@@ -28,6 +28,7 @@ export default function DappCardDetail(props: {
         border: '1px solid #efefef',
         position: 'relative',
         marginBottom: '0',
+
         '& .icon': {
           display: 'none',
         },

@@ -45,6 +45,7 @@ export default function DappCard(props: {
         onClick={() => {
           toLink();
         }}
+        title={props.dapp.title}
       >
         <ListItemButton style={{ padding: '5px 10px' }}>
           <ListItemIcon

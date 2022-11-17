@@ -168,8 +168,7 @@ export const SuccessRootElement = styled.div`
   position: absolute;
   width: 327px;
   height: 167px;
-  box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16),
-    0px 0px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 1px 8px #dedede;
   border-radius: 16px;
   transition: all 0.75s ease-in-out 0s;
   transform-origin: 100% 100%;
@@ -356,8 +355,7 @@ export const CircleRootElement = styled.div`
 export const DappPopupRootElement = styled.div`
   position: absolute;
   width: 257px;
-  box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16),
-    0px 0px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 1px 8px #dedede;
   border-radius: 16px;
   transition: all 0.75s ease-in-out 0s;
   transform-origin: 100% 100%;
@@ -365,8 +363,6 @@ export const DappPopupRootElement = styled.div`
   bottom: 55px;
   background: #fff;
 
-  padding: 16px;
-  padding-top: 10px;
   &.mp-success-show {
     opacity: 1;
   }
@@ -379,7 +375,7 @@ export const DappPopupRootElement = styled.div`
     width: 24px;
     height: 24px;
     right: 15px;
-    top: 18px;
+    top: 13px;
     cursor: pointer;
     z-index: 100;
   }

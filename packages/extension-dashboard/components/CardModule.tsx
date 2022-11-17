@@ -100,7 +100,6 @@ export default function CardModule(props: {
         borderRadius: '10px',
         background: '#fff',
         marginBottom: '20px',
-        overflowX: 'hidden',
         opacity: 0.99,
       }}
       ref={ref}

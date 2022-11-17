@@ -17,47 +17,63 @@ export default function DappPopup(props: {
     <DappPopupRootElement>
       <div
         style={{
-          lineHeight: '30px',
-          fontSize: '13px',
+          lineHeight: '20px',
+          fontSize: '14px',
           color: '#444',
-          fontWeight: 300,
+          fontWeight: 500,
           textAlign: 'left',
+          paddingBottom: '10px',
+          borderBottom: '1px solid #eee',
+          paddingTop: '13px',
+          paddingLeft: '16px',
+          paddingRight: '16px',
         }}
       >
         {getLang('recognize_dapp')}
       </div>
-      <DappCardDetail dapp={props.dapp} />
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
+          padding: '15px',
         }}
       >
-        {props.dapp.installed ? (
-          <Button
-            style={{
-              marginTop: '10px',
-              minWidth: '100px',
-            }}
-            ghost={true}
-            size="sm"
-          >
-            {getLang('installed_dapp')}
-          </Button>
-        ) : (
-          <Button
-            style={{
-              marginTop: '10px',
-              minWidth: '100px',
-            }}
-            size="sm"
-            onClick={() => {
-              setshowModalState(true);
-            }}
-          >
-            {getLang('install_dapp')}
-          </Button>
-        )}
+        <DappCardDetail dapp={props.dapp} />
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
+          {props.dapp.installed ? (
+            <Button
+              style={{
+                marginTop: '10px',
+                minWidth: '100px',
+                borderWidth: '1px',
+                fontSize: '12px',
+              }}
+              ghost={true}
+              size="sm"
+            >
+              {getLang('installed_dapp')}
+            </Button>
+          ) : (
+            <Button
+              style={{
+                marginTop: '10px',
+                minWidth: '100px',
+                borderWidth: '1px',
+                fontSize: '12px',
+              }}
+              size="sm"
+              onClick={() => {
+                setshowModalState(true);
+              }}
+            >
+              {getLang('install_dapp')}
+            </Button>
+          )}
+        </div>
       </div>
       <AddDappModal dapp={props.dapp} showModalState={showModalState} />
       <div

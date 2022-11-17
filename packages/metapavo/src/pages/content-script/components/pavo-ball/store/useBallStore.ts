@@ -13,6 +13,7 @@ export default function useBallStore() {
 
   const rootRef = useRef<HTMLDivElement>(null);
   const gasRef = useRef<HTMLDivElement>(null);
+
   const useG = useContext(GlobalContext);
   const [gas, setGas] = useState(0);
   const { showSearch, setShowSearch } = useContext(GlobalContext);

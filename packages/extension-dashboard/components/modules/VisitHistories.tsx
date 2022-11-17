@@ -109,6 +109,7 @@ export default function VisitHistories() {
                         onClick={() => {
                           window.location.href = `${u.url}`;
                         }}
+                        title={u.title}
                       >
                         <ListItemButton style={{ padding: '3px 8px' }}>
                           <ListItemIcon
