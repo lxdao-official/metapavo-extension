@@ -1,17 +1,21 @@
-import { addFavByProjectId } from "../utils/apis/nft_api";
-import { IProjectV2 } from "../utils/apis/types";
-import { AutoDecimal } from "../utils/decimals";
-import { getLang } from "../utils/lang";
-import { linkImages } from "../utils/linkImages";
-import Pick from "./Pick";
-import { NFTCardRoot } from "./styles";
-import { Tooltip } from "@mui/material";
-import React, { useEffect } from "react";
-import toast from "react-hot-toast";
+import { Tooltip } from '@mui/material';
+import React, { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
-export default function NFTCard(props: { activeProject: IProjectV2; showPick?: boolean }) {
+import { addFavByProjectId } from '../utils/apis/nft_api';
+import { IProjectV2 } from '../utils/apis/types';
+import { AutoDecimal } from '../utils/decimals';
+import { getLang } from '../utils/lang';
+import { linkImages } from '../utils/linkImages';
+import Pick from './Pick';
+import { NFTCardRoot } from './styles';
+
+export default function NFTCard(props: {
+  activeProject: IProjectV2;
+  showPick?: boolean;
+}) {
   const activeProject = props.activeProject;
-  const blankImage = chrome.runtime.getURL("images/placeholder.png");
+  const blankImage = chrome.runtime.getURL('images/placeholder.png');
   const [links, setLinks] = React.useState<any[]>([]);
   useEffect(() => {
     const activeProject = props.activeProject;
@@ -20,22 +24,22 @@ export default function NFTCard(props: { activeProject: IProjectV2; showPick?: b
       [
         {
           link: activeProject?.links?.opensea,
-          label: "OpenSea",
+          label: 'OpenSea',
           img: linkImages.opensea,
         },
         {
           link: activeProject?.links?.twitter,
-          label: "Twitter",
+          label: 'Twitter',
           img: linkImages.twitter,
         },
         {
           link: activeProject?.links?.website,
-          label: "Website",
+          label: 'Website',
           img: linkImages.website,
         },
         {
           link: activeProject?.links?.gem,
-          label: "Gem",
+          label: 'Gem',
           img: linkImages.gem,
         },
       ].filter((i) => {
@@ -78,27 +82,29 @@ export default function NFTCard(props: { activeProject: IProjectV2; showPick?: b
       </div>
       <div className="mp-success-bd">
         <div className="mp-success-bd-price">
-          {" "}
+          {' '}
           <span className="mp-success-price-item">
-            {" "}
-            {getLang("Floor")}:{" "}
+            {' '}
+            {getLang('Floor')}:{' '}
             {activeProject?.nftProjectInfo?.stats[0]?.floorPrice
               ? AutoDecimal(activeProject.nftProjectInfo.stats[0].floorPrice)
-              : "-"}
+              : '-'}
             Ξ
           </span>
           <span className="mp-success-price-item">
-            {getLang("Volume")}(24h):{" "}
+            {getLang('Volume')}(24h):{' '}
             {activeProject?.nftProjectInfo?.stats[0]?.oneDayVolume
               ? AutoDecimal(activeProject.nftProjectInfo.stats[0]?.oneDayVolume)
-              : "-"}
+              : '-'}
             Ξ
             {activeProject?.nftProjectInfo?.stats[0]?.oneDayChange ? (
               <span
                 style={{
                   color:
-                    activeProject.nftProjectInfo.stats[0].oneDayChange > 0 ? "#3EAF3F" : "#E14942",
-                  paddingLeft: "5px",
+                    activeProject.nftProjectInfo.stats[0].oneDayChange > 0
+                      ? '#3EAF3F'
+                      : '#E14942',
+                  paddingLeft: '5px',
                   fontWeight: 500,
                 }}
               >
@@ -129,10 +135,13 @@ export default function NFTCard(props: { activeProject: IProjectV2; showPick?: b
                     />
                   </svg>
                 )}
-                {Number(activeProject.nftProjectInfo.stats[0].oneDayChange * 100).toFixed(0)}%
+                {Number(
+                  activeProject.nftProjectInfo.stats[0].oneDayChange * 100,
+                ).toFixed(0)}
+                %
               </span>
             ) : (
-              ""
+              ''
             )}
           </span>
         </div>
@@ -151,14 +160,18 @@ export default function NFTCard(props: { activeProject: IProjectV2; showPick?: b
       {props.showPick ? (
         <Pick
           style={{
-            position: "absolute",
-            bottom: "5px",
-            right: "5px",
-            cursor: "pointer",
+            position: 'absolute',
+            bottom: '5px',
+            right: '5px',
+            cursor: 'pointer',
           }}
           onPick={async function (e: string) {
-            await addFavByProjectId(activeProject.id);
-            toast.success("collect nft to dashboard success");
+            try {
+              await addFavByProjectId(activeProject.id);
+              toast.success('collect nft to dashboard success');
+            } catch (e: any) {
+              toast.error(e.message);
+            }
           }}
         />
       ) : null}

@@ -63,6 +63,11 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
       label: 'SudoSwap',
       img: linkImages.sudoswap,
     },
+    {
+      link: activeProject?.links?.tenderly,
+      label: 'Tenderly',
+      img: linkImages.tenderly,
+    },
   ].filter((i) => {
     return i.link;
   });

@@ -4,6 +4,8 @@ import type { Identifier, XYCoord } from 'dnd-core';
 import React, { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
+import { ModuleContext, useModule } from '../context/useModule';
+
 interface DragItem {
   index: number;
   id: string;
@@ -18,6 +20,7 @@ export default function CardModule(props: {
   index?: number;
   moveCard?: (dragIndex: number, hoverIndex: number) => void;
 }) {
+  const moduleContext = useModule();
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -93,39 +96,41 @@ export default function CardModule(props: {
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
   return (
-    <Box
-      style={{
-        margin: '0 auto',
-        padding: '16px',
-        borderRadius: '10px',
-        background: '#fff',
-        marginBottom: '20px',
-        opacity: 0.99,
-      }}
-      ref={ref}
-      data-handler-id={handlerId}
-    >
+    <ModuleContext.Provider value={moduleContext}>
       <Box
         style={{
-          fontSize: '18px',
-          fontWeight: 600,
-          lineHeight: '30px',
-          color: '#252525',
-          display: 'flex',
-          justifyContent: 'space-between',
+          margin: '0 auto',
+          padding: '16px',
+          borderRadius: '10px',
+          background: '#fff',
+          marginBottom: '20px',
+          opacity: 0.99,
         }}
+        ref={ref}
+        data-handler-id={handlerId}
       >
-        {props.title}
         <Box
           style={{
-            fontSize: '14px',
-            color: '#5B28EB',
+            fontSize: '18px',
+            fontWeight: 600,
+            lineHeight: '30px',
+            color: '#252525',
+            display: 'flex',
+            justifyContent: 'space-between',
           }}
         >
-          {props.extra}
+          {props.title}
+          <Box
+            style={{
+              fontSize: '14px',
+              color: '#5B28EB',
+            }}
+          >
+            {props.extra}
+          </Box>
         </Box>
+        <div>{props.children}</div>
       </Box>
-      <div>{props.children}</div>
-    </Box>
+    </ModuleContext.Provider>
   );
 }

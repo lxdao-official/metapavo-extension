@@ -17,8 +17,8 @@ export const WalletContext = React.createContext<{
   loginedAddress: string;
   setLoginedAddress: (loginedAddress: string) => void;
   fetchLoginInfo: () => Promise<string | null>;
-  signinWithMetamask: () => Promise<string>;
-  signinWithWalletConnect: () => Promise<string>;
+  signinWithMetamask: (invite_code: string) => Promise<string>;
+  signinWithWalletConnect: (invite_code: string) => Promise<string>;
   logout: () => Promise<void>;
   showMint: boolean;
   setShowMint: (showMint: boolean) => void;
@@ -41,17 +41,33 @@ export default function useWallet() {
   });
   const provider = new ethers.providers.Web3Provider(maskProvider);
 
-  const getNonce = async (_address: string) => {
-    const data = await fetch(config.baseURL + '/users/nonce/' + _address, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
-    const json = await data.json();
-    const message = json.data.signature_message;
-    return message;
+  const getNonce = async (_address: string, invite_code: string) => {
+    try {
+      const data = await fetch(
+        config.baseURL +
+          '/users/nonce/' +
+          _address +
+          '?invite_code=' +
+          invite_code,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        },
+      );
+
+      const json = await data.json();
+      if (json.success) {
+        const message = json.data.signature_message;
+        return message;
+      } else {
+        throw new Error(json.message);
+      }
+    } catch (e: any) {
+      throw new Error(e);
+    }
   };
   const signIn: (_address: string, _signature: string) => Promise<string> = (
     _address: string,
@@ -91,7 +107,9 @@ export default function useWallet() {
     });
   };
 
-  const signinWithWalletConnect: () => Promise<string> = () => {
+  const signinWithWalletConnect: (invite_code: string) => Promise<string> = (
+    invite_code,
+  ) => {
     return new Promise(async (resolve, reject) => {
       console.log('connector.connected', connector.connected);
       if (!connector.connected) {
@@ -108,7 +126,7 @@ export default function useWallet() {
         if (accounts.length) {
           const _address = accounts[0];
           setAddress(_address);
-          const message = await getNonce(_address);
+          const message = await getNonce(_address, invite_code);
           const msgParams = [
             message, // Required
             _address, // Required
@@ -200,17 +218,17 @@ export default function useWallet() {
       }
     });
   };
-  const signinWithMetamask: () => Promise<string> = () => {
+  const signinWithMetamask: (invite_code: string) => Promise<string> = (
+    invite_code,
+  ) => {
     return new Promise(async (resolve, reject) => {
       console.log('maskProvider', maskProvider);
-      await switchNetwork();
+      // await switchNetwork();
       maskProvider.on('error', () => {
         reject(new Error('metamask connect error'));
-        // Failed to connect to MetaMask, fallback logic.
       });
 
       try {
-        // MetaMask requires requesting permission to connect users accounts
         await provider.send('eth_requestAccounts', []);
       } catch (e: any) {
         reject(e);
@@ -220,7 +238,7 @@ export default function useWallet() {
       if (_address) {
         setAddress(address);
         try {
-          const message = await getNonce(_address);
+          const message = await getNonce(_address, invite_code);
 
           const signature = await signer.signMessage(message);
 

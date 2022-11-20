@@ -172,5 +172,32 @@
   },
   "recognize_dapp": {
     "message": "识别到 DAPP"
+  },
+  "invite_count": {
+    "message": "已邀请人数"
+  },
+  "Person": {
+    "message": "人"
+  },
+  "unbreak_checkin_days": {
+    "message": "连续签到天数"
+  },
+  "days": {
+    "message": "天"
+  },
+  "your_pavo_score": {
+    "message": "你的 Pavo 分"
+  },
+  "Invites_code": {
+    "message": "可用邀请码"
+  },
+  "no_invite_code": {
+    "message": "暂无可用邀请码"
+  },
+  "generate": {
+    "message": "生成"
+  },
+  "invite_code": {
+    "message": "邀请码"
   }
 }

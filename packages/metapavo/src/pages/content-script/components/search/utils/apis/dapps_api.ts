@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast';
+
 import { dapps, user_dapps_catogories } from '.';
 import config from '../../../../../../config';
 import { fetchWrapped } from './fetch';
@@ -39,17 +41,24 @@ export function installDapp(dapp_id: string, category_id?: string) {
 }
 
 export async function fetchUsersCategory(): Promise<user_dapps_catogories[]> {
-  const res = await fetchWrapped(
-    `${config.baseURL}/dapps/user_dapp_categories`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+  try {
+    const res = await fetchWrapped(
+      `${config.baseURL}/dapps/user_dapp_categories`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    },
-  );
-  if (res && res.success) {
-    return res.data;
+    );
+    if (res && res.success) {
+      return res.data;
+    } else {
+      toast.error(res.message);
+    }
+  } catch (e: any) {
+    toast.error(e.message);
   }
+
   return [];
 }

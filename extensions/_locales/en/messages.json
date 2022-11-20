@@ -172,5 +172,32 @@
   },
   "recognize_dapp": {
     "message": "Recognized DAPP"
+  },
+  "invite_count": {
+    "message": "Invite Count"
+  },
+  "Person": {
+    "message": "Person"
+  },
+  "unbreak_checkin_days": {
+    "message": "Unbreak Checkin Days"
+  },
+  "days": {
+    "message": "Days"
+  },
+  "your_pavo_score": {
+    "message": "Your Pavo Score"
+  },
+  "Invites_code": {
+    "message": "invites code"
+  },
+  "no_invite_code": {
+    "message": "no invite code"
+  },
+  "generate": {
+    "message": "generate"
+  },
+  "invite_code": {
+    "message": "invite code"
   }
 }

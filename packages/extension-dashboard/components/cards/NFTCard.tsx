@@ -172,8 +172,12 @@ export default function NFTCard(props: {
             cursor: 'pointer',
           }}
           onPick={async function (e: string) {
-            await addFavByProjectId(activeProject.id);
-            toast.success('collect nft to dashboard success');
+            try {
+              await addFavByProjectId(activeProject.id);
+              toast.success('collect nft to dashboard success');
+            } catch (e: any) {
+              toast.error(e.message);
+            }
           }}
         />
       ) : null}

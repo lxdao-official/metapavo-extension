@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 
 import { colorfulButtonStyle } from '../../../styles/common-colorful-button';
+import { getLang } from '../../../utils/lang';
 import { WalletContext } from '../../content-script/context/useWallet';
 
 //@ts-ignore
@@ -61,10 +62,11 @@ export default function ConnectWallet(props: {
   } = useContext(WalletContext);
   const [loading, setLoading] = useState(false);
   const [loadingWalletConnect, setLoadingWalletConnect] = useState(false);
+  const [invite_code, setInviteCode] = useState('');
   async function login() {
     try {
       setLoading(true);
-      const access_token = (await signinWithMetamask()) as string;
+      const access_token = (await signinWithMetamask(invite_code)) as string;
       if (!access_token) {
         throw new Error('access_token is empty');
       }
@@ -79,7 +81,9 @@ export default function ConnectWallet(props: {
   async function loginWithWalletConnect() {
     try {
       setLoadingWalletConnect(true);
-      const access_token = (await signinWithWalletConnect()) as string;
+      const access_token = (await signinWithWalletConnect(
+        invite_code,
+      )) as string;
       if (!access_token) {
         throw new Error('access_token is empty');
       }
@@ -153,6 +157,16 @@ export default function ConnectWallet(props: {
         </Box>
       ) : (
         <>
+          <Input
+            bordered
+            labelLeft={getLang('invite_code')}
+            placeholder="please input invite code"
+            style={{
+              width: '200px',
+            }}
+            onChange={(e) => setInviteCode(e.target.value)}
+          />
+          <br />
           <ButtonStyle
             onClick={() => {
               // openConnectModal();

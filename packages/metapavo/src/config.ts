@@ -1,6 +1,6 @@
 const config = {
   name: 'metapavo',
-  // baseURL: "http://localhost:8080",
+  // baseURL: 'http://localhost:8080',
   baseURL: 'https://api.metapavo.xyz',
   network: {
     url: 'https://goerli.infura.io/v3/f4dd6db18a6f4ea98151892c0fa8e074',

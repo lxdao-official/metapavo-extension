@@ -1,34 +1,56 @@
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Box, Grid } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Button, Tooltip } from '@nextui-org/react';
+import ClipboardJS from 'clipboard';
+import { useContext, useEffect, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
-import { getCheckinStatus, me } from '../../utils/apis/users_api';
+import { CheckinContext } from '../../context/useCheckin';
+import { generateTodayInvites } from '../../utils/apis/users_api';
+import { getLang } from '../../utils/lang';
 
 export default function Score() {
-  const [score, setScore] = useState(0);
-  const [checkinStatus, setCheckinStatus] = useState<{
-    checked: boolean;
-    unbreak_days: number;
-  }>({
-    checked: false,
-    unbreak_days: 0,
-  });
-  async function loadScoreInfo() {
-    const info = await me();
-    if (info) {
-      setScore(info.score);
-    }
-  }
-  async function loadCheckinStatus() {
-    const info = await getCheckinStatus();
-    if (info) {
-      setCheckinStatus(info);
-    }
-  }
+  const {
+    loadScoreInfo,
+    info,
+    setInfo,
+    awailableInvites,
+    loadAwailableInvites,
+  } = useContext(CheckinContext);
 
+  async function generate() {
+    const loading = toast.loading('Generating...');
+    try {
+      const res = await generateTodayInvites();
+      toast.success('Generate success');
+      loadAwailableInvites();
+    } catch (e) {
+      toast.error('Generate failed');
+    }
+    toast.dismiss(loading);
+  }
   useEffect(() => {
     loadScoreInfo();
-    loadCheckinStatus();
+    loadAwailableInvites();
   }, []);
+
+  const copyRef = useRef<any>(null);
+  useEffect(() => {
+    if (copyRef.current) {
+      const clip = new ClipboardJS(
+        document.getElementsByClassName('copy') as any,
+        {
+          // target: () => inputRef.current!,
+        },
+      );
+      clip.on('success', function () {
+        toast.success('copy success');
+      });
+      clip.on('error', () => {
+        toast.error('copy fail');
+      });
+    }
+  }, [copyRef.current]);
   return (
     <Box
       mt={2}
@@ -37,7 +59,7 @@ export default function Score() {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <div
             style={{
               background: '#fff',
@@ -59,11 +81,11 @@ export default function Score() {
               <div
                 style={{
                   color: '#6047FC',
-                  fontSize: '30px',
+                  fontSize: '20px',
                   lineHeight: '30px',
                 }}
               >
-                {score}
+                {info.score}
                 <span
                   style={{
                     color: '#999',
@@ -74,20 +96,28 @@ export default function Score() {
                 >
                   P
                 </span>
+                <HelpOutlineIcon
+                  fontSize={'small'}
+                  style={{
+                    marginLeft: '4px',
+                    fontSize: '12px',
+                    verticalAlign: '-2px',
+                  }}
+                />
               </div>
             </div>
             <div
               style={{
-                color: '#101010',
-                fontSize: '16px',
+                color: '#444',
+                fontSize: '14px',
                 lineHeight: '30px',
               }}
             >
-              Your Pavo Score
+              {getLang('your_pavo_score')}
             </div>
           </div>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <div
             style={{
               background: '#fff',
@@ -109,11 +139,11 @@ export default function Score() {
               <div
                 style={{
                   color: '#6047FC',
-                  fontSize: '30px',
+                  fontSize: '20px',
                   lineHeight: '30px',
                 }}
               >
-                {checkinStatus.unbreak_days}
+                {info.checkinStatus.unbreak_days}
                 <span
                   style={{
                     color: '#999',
@@ -122,22 +152,134 @@ export default function Score() {
                     lineHeight: '20px',
                   }}
                 >
-                  天
+                  {getLang('days')}
                 </span>
               </div>
             </div>
             <div
               style={{
-                color: '#101010',
-                fontSize: '16px',
+                color: '#444',
+                fontSize: '14px',
                 lineHeight: '30px',
               }}
             >
-              已连续签到
+              {getLang('unbreak_checkin_days')}
+            </div>
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div
+            style={{
+              background: '#fff',
+              textAlign: 'center',
+              fontFamily: 'Montserrat,sans-serif',
+            }}
+          >
+            <div
+              style={{
+                background: '#fff',
+                borderRadius: '10px',
+                border: '1px solid #efefef',
+                color: '#101010',
+                fontSize: '12px',
+                padding: '10px',
+                textAlign: 'center',
+              }}
+            >
+              <div
+                style={{
+                  color: '#6047FC',
+                  fontSize: '20px',
+                  lineHeight: '30px',
+                }}
+              >
+                {info.inviteCount}
+                <span
+                  style={{
+                    color: '#999',
+                    fontSize: '12px',
+                    paddingLeft: '5px',
+                    lineHeight: '20px',
+                  }}
+                >
+                  {getLang('Person')}
+                </span>
+                <HelpOutlineIcon
+                  fontSize={'small'}
+                  style={{
+                    marginLeft: '4px',
+                    fontSize: '12px',
+                    verticalAlign: '-2px',
+                  }}
+                />
+              </div>
+            </div>
+            <div
+              style={{
+                color: '#444',
+                fontSize: '14px',
+                lineHeight: '30px',
+              }}
+            >
+              {getLang('invite_count')}
             </div>
           </div>
         </Grid>
       </Grid>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          lineHeight: '30px',
+          marginTop: '10px',
+        }}
+      >
+        <span
+          style={{
+            fontSize: '14px',
+            color: '#444',
+          }}
+        >
+          {getLang('Invites_code')}
+        </span>
+        {awailableInvites.length ? (
+          awailableInvites.map((item, index) => {
+            return (
+              <div ref={copyRef}>
+                <Tooltip placement="top" content={'click to copy'}>
+                  <a
+                    style={{
+                      fontSize: '12px',
+                    }}
+                    className="copy"
+                    data-clipboard-text={
+                      'metapavo invite link: https://metapavo.xyz/invite/' +
+                      item.id
+                    }
+                  >
+                    {item.id}
+                  </a>
+                </Tooltip>
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <div
+              style={{
+                fontSize: '14px',
+                color: '#444',
+              }}
+            >
+              {getLang('no_invite_code')}
+              <a onClick={generate} style={{ marginLeft: '20px' }}>
+                {getLang('generate')}
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
     </Box>
   );
 }

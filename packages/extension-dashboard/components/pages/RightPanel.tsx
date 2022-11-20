@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 
+import { CheckinContext, useCheckin } from '../../context/useCheckin';
 import { getLang } from '../../utils/lang';
 import { getListConfig, setListConfig } from '../../utils/localStore/store';
 import CardModule from '../CardModule';
+import CheckIn from '../functions/CheckIn';
 import CoinPrices from '../modules/CoinPrices';
 import GasFees from '../modules/GasFees';
 import MyNFTs from '../modules/MyNFTs';
+import Score from '../modules/Score';
 
-const allModules = ['GasFees', 'CoinPrices', 'MyNFTs'];
+const allModules = ['Score', 'GasFees', 'CoinPrices'];
 export default function RightPanel() {
   const [items, setItems] = useState<string[]>([]);
   const moveCard = (dragIndex: number, hoverIndex: number) => {
@@ -36,6 +39,7 @@ export default function RightPanel() {
       setItems(config);
     }
   }, []);
+  const checkInContext = useCheckin();
   return (
     <div
       style={{
@@ -45,6 +49,27 @@ export default function RightPanel() {
       {items.map((item, i) => {
         return (
           <>
+            {item === 'Score' && (
+              <CheckinContext.Provider value={checkInContext}>
+                <CardModule
+                  title="Score and Invites"
+                  id="Score"
+                  index={i}
+                  moveCard={moveCard}
+                  extra={
+                    <div
+                      style={{
+                        display: 'flex',
+                      }}
+                    >
+                      <CheckIn />
+                    </div>
+                  }
+                >
+                  <Score></Score>
+                </CardModule>
+              </CheckinContext.Provider>
+            )}
             {item === 'GasFees' && (
               <CardModule
                 title="Gas"

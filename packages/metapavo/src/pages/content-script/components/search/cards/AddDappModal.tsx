@@ -1,4 +1,12 @@
-import { Button, Checkbox, Input, Modal, Radio, Text } from '@nextui-org/react';
+import {
+  Button,
+  Checkbox,
+  Input,
+  Loading,
+  Modal,
+  Radio,
+  Text,
+} from '@nextui-org/react';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -35,12 +43,17 @@ export default function AddDappModal(props: {
   async function save() {
     if (dapp) {
       setsaveing(true);
-      const res = await installDapp(dapp.id, selectedCatId);
-      if (res) {
-        toast.success('Dapp installed successfully');
-        closeModalHandler();
-        props.onSuccess && props.onSuccess(dapp.id, selectedCatId);
+      try {
+        const res = await installDapp(dapp.id, selectedCatId);
+        if (res) {
+          toast.success('Dapp installed successfully');
+          closeModalHandler();
+          props.onSuccess && props.onSuccess(dapp.id, selectedCatId);
+        }
+      } catch (e: any) {
+        toast.error(e.message);
       }
+
       setsaveing(false);
     }
   }
@@ -82,8 +95,12 @@ export default function AddDappModal(props: {
         <Button auto flat color="error" onClick={closeModalHandler}>
           {getLang('Cancel')}
         </Button>
-        <Button auto onClick={save}>
-          {getLang('Submit')}
+        <Button auto onClick={save} disabled={saveing}>
+          {saveing ? (
+            <Loading type="spinner" color="currentColor" size="sm" />
+          ) : (
+            getLang('Submit')
+          )}
         </Button>
       </Modal.Footer>
     </Modal>

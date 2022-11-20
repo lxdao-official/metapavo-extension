@@ -354,7 +354,7 @@ export const CircleRootElement = styled.div`
 
 export const DappPopupRootElement = styled.div`
   position: absolute;
-  width: 257px;
+  width: 277px;
   box-shadow: 1px 1px 8px #dedede;
   border-radius: 16px;
   transition: all 0.75s ease-in-out 0s;

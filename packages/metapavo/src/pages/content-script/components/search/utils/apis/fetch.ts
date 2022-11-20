@@ -48,7 +48,7 @@ export const fetchWrapped: (
       } else {
         if (needLogin) {
           console.log('user not login');
-          throw reject(new NoAuthError('user not login'));
+          reject(new NoAuthError('user not login'));
         } else if (init) {
           init.headers = {
             'Content-Type': 'application/json',

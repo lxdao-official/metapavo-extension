@@ -13,6 +13,7 @@ const allModules = [
   'CollectedNFTs',
   'VisitHistories',
   'ReadLaters',
+  'MyNFTs',
 ];
 export default function LeftPanel() {
   const [items, setItems] = useState<string[]>([]);
