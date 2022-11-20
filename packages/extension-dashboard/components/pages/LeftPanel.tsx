@@ -1,7 +1,10 @@
+import { getLang } from 'extension-common/src/lang';
+import {
+  getListConfig,
+  setListConfig,
+} from 'extension-common/src/localStore/store';
 import { useEffect, useState } from 'react';
 
-import { getLang } from '../../utils/lang';
-import { getListConfig, setListConfig } from '../../utils/localStore/store';
 import CardModule from '../CardModule';
 import CollectedNFTs from '../modules/CollectedNFTs';
 import InstallDAPPs from '../modules/InstallDAPPs';

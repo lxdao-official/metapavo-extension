@@ -1,4 +1,5 @@
 import { NoSsr } from '@mui/material';
+import { colorfulTextStyle } from 'extension-common/src/common-colorful-button';
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -10,7 +11,6 @@ import { useEnsName } from 'wagmi';
 
 import { UserContext } from '../context/useUser';
 import styles from '../styles/Home.module.css';
-import { colorfulTextStyle } from '../utils/common-colorful-button';
 
 const IndexComponent = dynamic(() => import('../components/pages/Index'), {
   ssr: false,

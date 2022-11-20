@@ -1,4 +1,4 @@
-import { getLang } from '../../../utils/lang';
+import { getLang } from 'extension-common/src/lang';
 
 export default function NoLogin() {
   const loginUrl = chrome.runtime.getURL('login.html');

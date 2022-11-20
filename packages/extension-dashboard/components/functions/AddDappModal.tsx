@@ -1,11 +1,14 @@
 import { Button, Checkbox, Input, Modal, Radio, Text } from '@nextui-org/react';
+import { dapps, user_dapps_catogories } from 'extension-common/src/apis';
+import {
+  fetchUsersCategory,
+  installDapp,
+} from 'extension-common/src/apis/dapps_api';
+import { getLang } from 'extension-common/src/lang';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import globalEvent from '../../context/EventBus';
-import { dapps, user_dapps_catogories } from '../../utils/apis';
-import { fetchUsersCategory, installDapp } from '../../utils/apis/dapps_api';
-import { getLang } from '../../utils/lang';
 
 export default function AddDappModal(props: {
   onSuccess?: (dapp_id: string, selectedCatId?: string) => void;

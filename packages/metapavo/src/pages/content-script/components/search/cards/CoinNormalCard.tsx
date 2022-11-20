@@ -1,13 +1,17 @@
-import { tokens } from "../utils/apis";
-import { linkImages } from "../utils/linkImages";
-import Pick from "./Pick";
-import { TokenCardRoot } from "./styles";
-import { Tooltip } from "@nextui-org/react";
-import React from "react";
-import { useEffect } from "react";
+import { Tooltip } from '@nextui-org/react';
+import React from 'react';
+import { useEffect } from 'react';
 
-export default function CoinNormalCard(props: { token: tokens; showPick?: boolean }) {
-  const blankImage = chrome.runtime.getURL("images/placeholder.png");
+import { tokens } from '../utils/apis';
+import { linkImages } from '../utils/linkImages';
+import Pick from './Pick';
+import { TokenCardRoot } from './styles';
+
+export default function CoinNormalCard(props: {
+  token: tokens;
+  showPick?: boolean;
+}) {
+  const blankImage = chrome.runtime.getURL('images/placeholder.png');
   const [links, setLinks] = React.useState<any[]>([]);
   useEffect(() => {
     const activeProject = props.token;
@@ -15,12 +19,12 @@ export default function CoinNormalCard(props: { token: tokens; showPick?: boolea
     setLinks([
       {
         link: `https://app.uniswap.org/#/tokens/ethereum/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48${props.token.slug}/`,
-        label: "Uniswap",
+        label: 'Uniswap',
         img: linkImages.uniswap,
       },
       {
         link: `https://coinmarketcap.com/zh/currencies/${props.token.slug}/`,
-        label: "CoinMarketCap",
+        label: 'CoinMarketCap',
         img: linkImages.coinmarketcap,
       },
       // {
@@ -57,7 +61,7 @@ export default function CoinNormalCard(props: { token: tokens; showPick?: boolea
           className="mp-success-title"
           href={`https://coinmarketcap.com/zh/currencies/${props.token.slug}/`}
           style={{
-            fontSize: "13px",
+            fontSize: '13px',
           }}
         >
           {props.token.symbol}
@@ -86,26 +90,27 @@ export default function CoinNormalCard(props: { token: tokens; showPick?: boolea
             <span
               style={{
                 color:
-                  props.token.percentChange24h && props.token.percentChange24h > 0
-                    ? "#3EAF3F"
-                    : "#E14942",
+                  props.token.percentChange24h &&
+                  props.token.percentChange24h > 0
+                    ? '#3EAF3F'
+                    : '#E14942',
                 fontWeight: 500,
-                fontSize: "14px",
+                fontSize: '14px',
               }}
             >
               {`$${props.token.price.toFixed(3)}`}
             </span>
           ) : (
-            "-"
-          )}{" "}
+            '-'
+          )}{' '}
           <br />
           {props.token.percentChange24h ? (
             <span
               style={{
-                color: props.token.percentChange24h > 0 ? "#3EAF3F" : "#E14942",
-                paddingLeft: "5px",
+                color: props.token.percentChange24h > 0 ? '#3EAF3F' : '#E14942',
+                paddingLeft: '5px',
                 fontWeight: 500,
-                fontSize: "12px",
+                fontSize: '12px',
               }}
             >
               {props.token.percentChange24h > 0 ? (
@@ -138,7 +143,7 @@ export default function CoinNormalCard(props: { token: tokens; showPick?: boolea
               {Number(props.token.percentChange24h).toFixed(2)}%
             </span>
           ) : (
-            ""
+            ''
           )}
         </span>
       </div>
@@ -153,7 +158,7 @@ export default function CoinNormalCard(props: { token: tokens; showPick?: boolea
           ))}
         </div>
       </div>
-      {props.showPick ? (
+      {/* {props.showPick ? (
         <Pick
           style={{
             position: "absolute",
@@ -165,7 +170,7 @@ export default function CoinNormalCard(props: { token: tokens; showPick?: boolea
             // globalEvent.emit("add_token", props.token.symbol);
           }}
         />
-      ) : null}
+      ) : null} */}
     </TokenCardRoot>
   );
 }

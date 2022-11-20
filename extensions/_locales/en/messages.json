@@ -125,6 +125,9 @@
   "add_your_own_dapp_group": {
     "message": "add your own dapp group"
   },
+  "add_your_own_links_group": {
+    "message": "add your own links group"
+  },
   "Submit": {
     "message": "Submit"
   },
@@ -199,5 +202,11 @@
   },
   "invite_code": {
     "message": "invite code"
+  },
+  "first_login_tip": {
+    "message": "You must input invite code when you first login"
+  },
+  "no_links": {
+    "message": "No links in this group"
   }
 }

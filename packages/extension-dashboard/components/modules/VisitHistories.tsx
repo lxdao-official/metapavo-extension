@@ -6,13 +6,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import { getLogo } from 'extension-common/src/getLogo';
 import { useEffect, useRef, useState } from 'react';
 import { Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-import { getLogo } from '../../utils/getLogo';
 
 export default function VisitHistories() {
   const [websiteURL, setWebsiteURL] = useState<string>('');

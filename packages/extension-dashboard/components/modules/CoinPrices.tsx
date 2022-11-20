@@ -3,12 +3,12 @@ import { Box, Grid } from '@mui/material';
 import { Avatar, Badge, Button, Input, Modal, Text } from '@nextui-org/react';
 import { graphic } from 'echarts';
 import ReactECharts from 'echarts-for-react';
+import { getLang } from 'extension-common/src/lang';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import globalEvent from '../../context/EventBus';
-import { getLang } from '../../utils/lang';
 import CardModule from '../CardModule';
 import CoinPriceCard from '../cards/CoinPriceCard';
 

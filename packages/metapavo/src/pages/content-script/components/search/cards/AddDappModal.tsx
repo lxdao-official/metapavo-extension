@@ -69,6 +69,9 @@ export default function AddDappModal(props: {
       aria-labelledby="modal-title"
       open={showModalState}
       onClose={closeModalHandler}
+      css={{
+        zIndex: '100000000000000',
+      }}
     >
       <Modal.Header>
         <Text id="modal-title" size={18}>

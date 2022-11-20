@@ -17,16 +17,20 @@ import {
   Text,
   Tooltip,
 } from '@nextui-org/react';
+import {
+  dapps,
+  user_dapps,
+  user_dapps_catogories,
+} from 'extension-common/src/apis';
+import { getViewLogs } from 'extension-common/src/apis/dapps_api';
+import { fetchWrapped } from 'extension-common/src/apis/fetch';
+import { getUserDapps } from 'extension-common/src/apis/nft_api';
+import { getLang } from 'extension-common/src/lang';
 import { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import config from '../../config';
 import { UserContext } from '../../context/useUser';
-import { dapps, user_dapps, user_dapps_catogories } from '../../utils/apis';
-import { getViewLogs } from '../../utils/apis/dapps_api';
-import { fetchWrapped } from '../../utils/apis/fetch';
-import { getUserDapps } from '../../utils/apis/nft_api';
-import { getLang } from '../../utils/lang';
 import CardModule from '../CardModule';
 import DappCard from '../cards/DappCard';
 import AddDappModal from '../functions/AddDappModal';

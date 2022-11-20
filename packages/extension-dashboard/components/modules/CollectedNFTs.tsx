@@ -1,4 +1,8 @@
 import { Box, Grid } from '@mui/material';
+import { getUsersFavs } from 'extension-common/src/apis/nft_api';
+import { projectLinksWrapper } from 'extension-common/src/apis/project_wrapper';
+import { favs } from 'extension-common/src/apis/types';
+import { getLang } from 'extension-common/src/lang';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Pagination } from 'swiper';
 import 'swiper/css';
@@ -7,10 +11,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import globalEvent from '../../context/EventBus';
 import { UserContext } from '../../context/useUser';
-import { getUsersFavs } from '../../utils/apis/nft_api';
-import { projectLinksWrapper } from '../../utils/apis/project_wrapper';
-import { favs } from '../../utils/apis/types';
-import { getLang } from '../../utils/lang';
 import NFTCard from '../cards/NFTCard';
 import NoLogin from './common/NoLogin';
 

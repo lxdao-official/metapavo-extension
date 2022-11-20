@@ -1,9 +1,9 @@
+import { checkin } from 'extension-common/src/apis/users_api';
 import { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { CheckinContext } from '../../context/useCheckin';
 import { ModuleContext } from '../../context/useModule';
-import { checkin } from '../../utils/apis/users_api';
 
 export default function CheckIn() {
   const { info, setInfo, loadScoreInfo } = useContext(CheckinContext);

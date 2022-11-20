@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -6,5 +7,6 @@ const nextConfig = {
   },
   assetPrefix: './',
 };
+const withTM = require('next-transpile-modules')(['extension-common']); // pass the modules you would like to see transpiled
 
-module.exports = nextConfig;
+module.exports = withTM(nextConfig);

@@ -1,8 +1,8 @@
+import { users } from 'extension-common/src/apis';
+import { fetchWrapped } from 'extension-common/src/apis/fetch';
 import React, { useState } from 'react';
 
 import config from '../config';
-import { users } from '../utils/apis';
-import { fetchWrapped } from '../utils/apis/fetch';
 
 export const UserContext = React.createContext<{
   loginedAddress: string;

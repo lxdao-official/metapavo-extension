@@ -2,12 +2,12 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Box, Grid } from '@mui/material';
 import { Button, Tooltip } from '@nextui-org/react';
 import ClipboardJS from 'clipboard';
+import { generateTodayInvites } from 'extension-common/src/apis/users_api';
+import { getLang } from 'extension-common/src/lang';
 import { useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { CheckinContext } from '../../context/useCheckin';
-import { generateTodayInvites } from '../../utils/apis/users_api';
-import { getLang } from '../../utils/lang';
 
 export default function Score() {
   const {

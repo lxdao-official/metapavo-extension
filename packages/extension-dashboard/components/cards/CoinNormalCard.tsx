@@ -1,10 +1,10 @@
 import { Tooltip } from '@nextui-org/react';
+import { tokens } from 'extension-common/src/apis';
+import { linkImages } from 'extension-common/src/linkImages';
 import React from 'react';
 import { useEffect } from 'react';
 
 import globalEvent from '../../context/EventBus';
-import { tokens } from '../../utils/apis';
-import { linkImages } from '../../utils/linkImages';
 import { TokenCardRoot } from '../styles';
 import Pick from './Pick';
 

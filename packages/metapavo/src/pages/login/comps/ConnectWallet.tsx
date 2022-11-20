@@ -161,9 +161,11 @@ export default function ConnectWallet(props: {
             bordered
             labelLeft={getLang('invite_code')}
             placeholder="please input invite code"
+            label={getLang('first_login_tip')}
             style={{
               width: '200px',
             }}
+            color="warning"
             onChange={(e) => setInviteCode(e.target.value)}
           />
           <br />

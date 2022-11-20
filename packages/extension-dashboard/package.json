@@ -11,6 +11,8 @@
     "dev:extension:dashboard": "npm run dev"
   },
   "dependencies": {
+    "extension-common": "*",
+    "next-transpile-modules": "^10.0.0",
     "next": "^13.0.3-canary.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

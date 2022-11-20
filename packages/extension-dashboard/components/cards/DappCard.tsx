@@ -5,11 +5,11 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import { dapps } from 'extension-common/src/apis';
+import { addViewLog } from 'extension-common/src/apis/dapps_api';
 
 import config from '../../config';
 import globalEvent from '../../context/EventBus';
-import { dapps } from '../../utils/apis';
-import { addViewLog } from '../../utils/apis/dapps_api';
 import { DappCardRoot } from '../styles';
 import Pick from './Pick';
 

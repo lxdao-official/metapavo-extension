@@ -1,8 +1,10 @@
 import EventEmitter from 'eventemitter3';
+import { invites } from 'extension-common/src/apis';
+import {
+  getAwailableInvites,
+  meStatus,
+} from 'extension-common/src/apis/users_api';
 import React, { useState } from 'react';
-
-import { invites } from '../utils/apis';
-import { getAwailableInvites, meStatus } from '../utils/apis/users_api';
 
 export const CheckinContext = React.createContext<{
   info: {

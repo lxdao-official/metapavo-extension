@@ -123,7 +123,10 @@
     "message": "未分类"
   },
   "add_your_own_dapp_group": {
-    "message": "添加自定义分组"
+    "message": "添加自定义 DAPP 分组"
+  },
+  "add_your_own_links_group": {
+    "message": "添加自定义链接分组"
   },
   "Submit": {
     "message": "提交"
@@ -199,5 +202,11 @@
   },
   "invite_code": {
     "message": "邀请码"
+  },
+  "first_login_tip": {
+    "message": "如果是第一次登录，必须输入邀请码"
+  },
+  "no_links": {
+    "message": "本分类暂无链接"
   }
 }

@@ -6,6 +6,7 @@ export async function searchDapps(keyword: string): Promise<dapps[]> {
   const res = await fetchWrapped(
     `${config.baseURL}/dapps/search/${keyword}`,
     {},
+    false,
   );
   if (res && res.success) {
     return res.data;

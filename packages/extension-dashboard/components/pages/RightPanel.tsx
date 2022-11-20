@@ -1,8 +1,11 @@
+import { getLang } from 'extension-common/src/lang';
+import {
+  getListConfig,
+  setListConfig,
+} from 'extension-common/src/localStore/store';
 import { useEffect, useState } from 'react';
 
 import { CheckinContext, useCheckin } from '../../context/useCheckin';
-import { getLang } from '../../utils/lang';
-import { getListConfig, setListConfig } from '../../utils/localStore/store';
 import CardModule from '../CardModule';
 import CheckIn from '../functions/CheckIn';
 import CoinPrices from '../modules/CoinPrices';

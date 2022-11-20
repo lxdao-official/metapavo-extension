@@ -1,8 +1,8 @@
 import { Box, Button, Grid, Input, NoSsr } from '@mui/material';
+import { getLang } from 'extension-common/src/lang';
 import { useEffect, useState } from 'react';
 
 import CardModule from '../../components/CardModule';
-import { getLang } from '../../utils/lang';
 import CoinPrices from '../modules/CoinPrices';
 import CollectedNFTs from '../modules/CollectedNFTs';
 import GasFees from '../modules/GasFees';
