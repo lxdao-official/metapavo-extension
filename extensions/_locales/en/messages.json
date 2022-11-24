@@ -208,5 +208,14 @@
   },
   "no_links": {
     "message": "No links in this group"
+  },
+  "Score_and_Invites": {
+    "message": "Invites and Checkin"
+  },
+  "score_desc": {
+    "message": "Invite users to register successfully: 100P; Invite users to invite other users to successfully register 50P; Daily use 1P; Check in 5P; Check in 2 days continuous: 6P; Check in 3 days continuous: 7P;Check in 5 days continuous: 8P;Check in 10 days continuous: 9P;Check in 15 days continuous: 10P;Check in 20 days continuous: 11P;Check in 30 days continuous: 12P;Check in 50 days continuous: 13P;Check in 100 days continuous: 14P;"
+  },
+  "invite_desc": {
+    "message": "Users who hold metapavo did NFT; can generate 3 invitation codes per day; invite users to successfully register: 100 P; invite users to invite other users to register successfully: 50P;"
   }
 }

@@ -15,6 +15,10 @@ import {
   getUserLinks,
 } from 'extension-common/src/apis/links_api';
 import { getLang } from 'extension-common/src/lang';
+import {
+  getListConfig,
+  setListConfig,
+} from 'extension-common/src/localStore/store';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Pagination } from 'swiper';
@@ -34,7 +38,7 @@ export default function ReadLaters() {
   const [showAddCategory, setshowAddCategory] = useState(false);
   const [addCategoryTitle, setaddCategoryTitle] = useState('');
   const [addCategoryDesc, setaddCategoryDesc] = useState('');
-  const [activeCategoryId, setActiveCategoryId] = useState<string>('recent');
+  const [activeCategoryId, setActiveCategoryId] = useState<string>('ungrouped');
   const [user_categories, setuser_categories] = useState<linktags[]>([]);
   const [dapps, setDapps] = useState<links[]>([]);
   const [allDapps, setAllDapps] = useState<UserLink[]>([]);
@@ -59,9 +63,14 @@ export default function ReadLaters() {
     toast.dismiss(loading);
   }
   async function loadUsersCategories() {
+    const cache = getListConfig('readlater_category', []);
+    if (cache.length > 0) {
+      setuser_categories(cache);
+    }
     const res = await fetchUsersTags();
     if (res && res.length > 0) {
       setuser_categories(res as linktags[]);
+      setListConfig('readlater_category', res);
     }
   }
   function closeModalHandler() {
@@ -105,7 +114,16 @@ export default function ReadLaters() {
   };
   useEffect(() => {
     refreshDappsList();
+    if (activeCategoryId != 'ungrouped') {
+      localStorage.setItem('readlater_lastActiveTab', activeCategoryId);
+    }
   }, [activeCategoryId]);
+  useEffect(() => {
+    const lastActiveTab = localStorage.getItem('readlater_lastActiveTab');
+    if (lastActiveTab) {
+      setActiveCategoryId(lastActiveTab);
+    }
+  }, [user_categories]);
   const pageEle = useRef(null);
   // const loadList = async () => {
   //   try {
@@ -144,7 +162,7 @@ export default function ReadLaters() {
         >
           <div
             onClick={() => {
-              activeCategory('recent');
+              activeCategory('ungrouped');
             }}
             style={{
               fontSize: '12px',
@@ -152,13 +170,12 @@ export default function ReadLaters() {
               lineHeight: '26px',
               borderRadius: '13px',
               cursor: 'pointer',
-              background: activeCategoryId == 'recent' ? '#9f50ff' : '#fff',
-              color: activeCategoryId == 'recent' ? '#fff' : '#444',
+              background: activeCategoryId == 'ungrouped' ? '#9f50ff' : '#fff',
+              color: activeCategoryId == 'ungrouped' ? '#fff' : '#444',
             }}
           >
-            {getLang('recently_visited')}
+            {getLang('ungrouped')}
           </div>
-
           {user_categories.map((cat) => (
             <div
               onClick={() => {
@@ -177,22 +194,7 @@ export default function ReadLaters() {
               {cat.title}
             </div>
           ))}
-          <div
-            onClick={() => {
-              activeCategory('ungrouped');
-            }}
-            style={{
-              fontSize: '12px',
-              padding: '0px 10px',
-              lineHeight: '26px',
-              borderRadius: '13px',
-              cursor: 'pointer',
-              background: activeCategoryId == 'ungrouped' ? '#9f50ff' : '#fff',
-              color: activeCategoryId == 'ungrouped' ? '#fff' : '#444',
-            }}
-          >
-            {getLang('ungrouped')}
-          </div>
+
           <Box
             onClick={() => {
               showModal();

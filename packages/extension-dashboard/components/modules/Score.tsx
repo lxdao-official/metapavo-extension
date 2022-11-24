@@ -9,6 +9,8 @@ import toast from 'react-hot-toast';
 
 import { CheckinContext } from '../../context/useCheckin';
 
+const POINT_DESC = getLang('score_desc');
+const INVITE_DESC = getLang('invite_desc');
 export default function Score() {
   const {
     loadScoreInfo,
@@ -83,6 +85,9 @@ export default function Score() {
                   color: '#6047FC',
                   fontSize: '20px',
                   lineHeight: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
                 {info.score}
@@ -92,18 +97,27 @@ export default function Score() {
                     fontSize: '12px',
                     paddingLeft: '5px',
                     lineHeight: '20px',
+                    marginTop: '5px',
                   }}
                 >
                   P
                 </span>
-                <HelpOutlineIcon
-                  fontSize={'small'}
-                  style={{
-                    marginLeft: '4px',
-                    fontSize: '12px',
-                    verticalAlign: '-2px',
-                  }}
-                />
+                <Tooltip
+                  content={POINT_DESC.split(';').map((d) => {
+                    return <div>{d}</div>;
+                  })}
+                  placement="left"
+                >
+                  <HelpOutlineIcon
+                    fontSize={'small'}
+                    style={{
+                      marginLeft: '4px',
+                      fontSize: '12px',
+                      verticalAlign: '-2px',
+                      marginTop: '5px',
+                    }}
+                  />
+                </Tooltip>
               </div>
             </div>
             <div
@@ -111,6 +125,9 @@ export default function Score() {
                 color: '#444',
                 fontSize: '14px',
                 lineHeight: '30px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               {getLang('your_pavo_score')}
@@ -141,6 +158,9 @@ export default function Score() {
                   color: '#6047FC',
                   fontSize: '20px',
                   lineHeight: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
                 {info.checkinStatus.unbreak_days}
@@ -150,6 +170,7 @@ export default function Score() {
                     fontSize: '12px',
                     paddingLeft: '5px',
                     lineHeight: '20px',
+                    marginTop: '5px',
                   }}
                 >
                   {getLang('days')}
@@ -191,6 +212,9 @@ export default function Score() {
                   color: '#6047FC',
                   fontSize: '20px',
                   lineHeight: '30px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
                 {info.inviteCount}
@@ -200,18 +224,27 @@ export default function Score() {
                     fontSize: '12px',
                     paddingLeft: '5px',
                     lineHeight: '20px',
+                    marginTop: '5px',
                   }}
                 >
                   {getLang('Person')}
                 </span>
-                <HelpOutlineIcon
-                  fontSize={'small'}
-                  style={{
-                    marginLeft: '4px',
-                    fontSize: '12px',
-                    verticalAlign: '-2px',
-                  }}
-                />
+                <Tooltip
+                  content={INVITE_DESC.split(';').map((d) => {
+                    return <div>{d}</div>;
+                  })}
+                  placement="left"
+                >
+                  <HelpOutlineIcon
+                    fontSize={'small'}
+                    style={{
+                      marginLeft: '4px',
+                      fontSize: '12px',
+                      verticalAlign: '-2px',
+                      marginTop: '5px',
+                    }}
+                  />
+                </Tooltip>
               </div>
             </div>
             <div

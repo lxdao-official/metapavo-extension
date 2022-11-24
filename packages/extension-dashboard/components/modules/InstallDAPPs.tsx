@@ -26,6 +26,10 @@ import { getViewLogs } from 'extension-common/src/apis/dapps_api';
 import { fetchWrapped } from 'extension-common/src/apis/fetch';
 import { getUserDapps } from 'extension-common/src/apis/nft_api';
 import { getLang } from 'extension-common/src/lang';
+import {
+  getListConfig,
+  setListConfig,
+} from 'extension-common/src/localStore/store';
 import { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -147,6 +151,10 @@ export default function InstallDAPPs() {
     toast.dismiss(loading);
   }
   async function loadUsersCategories() {
+    const cache = getListConfig('user_dapps_catogories', []);
+    if (cache && cache.length) {
+      setuser_categories(cache);
+    }
     const res = await fetchWrapped(
       `${config.baseURL}/dapps/user_dapp_categories`,
       {
@@ -158,6 +166,7 @@ export default function InstallDAPPs() {
     );
     if (res && res.data) {
       setuser_categories(res.data as user_dapps_catogories[]);
+      setListConfig('user_dapps_catogories', res.data);
     }
   }
   function closeModalHandler() {
@@ -171,8 +180,19 @@ export default function InstallDAPPs() {
   }
 
   useEffect(() => {
+    const lastActiveTab = localStorage.getItem('installdapp_lastActiveTab');
+    if (lastActiveTab) {
+      setActiveCategoryId(lastActiveTab);
+    }
+  }, [user_categories]);
+  useEffect(() => {
     refreshDappsList();
   }, [activeCategoryId, allDapps]);
+  useEffect(() => {
+    if (activeCategoryId != 'recent') {
+      localStorage.setItem('installdapp_lastActiveTab', activeCategoryId);
+    }
+  }, [activeCategoryId]);
   return (
     <Box
       mt={1}

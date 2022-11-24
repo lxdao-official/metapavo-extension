@@ -1,25 +1,33 @@
-import { addAlarmForUser, getUsersAlarms, getUsersAlarmsNoLogin } from "../utils/apis/nft_api";
+import {
+  addAlarmForUser,
+  getUsersAlarms,
+  getUsersAlarmsNoLogin,
+} from '../utils/apis/nft_api';
 
 // eslint-disable-next-line no-console
-console.log("background script");
+console.log('background script');
 
 export {};
 let nowGas = 0;
 async function getNowGas() {
   let _nowGas = 0;
   const r3 = await fetch(
-    "https://app.defisaver.com/api/gas-price/1559/current",
+    'https://app.defisaver.com/api/gas-price/1559/current',
 
     {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     },
   );
 
   const json3 = await r3.json();
-  if (json3.blockPrices && json3.blockPrices.length && json3.blockPrices[0].baseFeePerGas) {
+  if (
+    json3.blockPrices &&
+    json3.blockPrices.length &&
+    json3.blockPrices[0].baseFeePerGas
+  ) {
     _nowGas = Math.floor(json3.blockPrices[0].baseFeePerGas);
   }
   return _nowGas;
@@ -37,7 +45,12 @@ function sendMessageToContentScript(message: any, callback: any) {
     });
   });
 }
-async function addAlarm(timestamp: number, content: string, url?: string, color?: string) {
+async function addAlarm(
+  timestamp: number,
+  content: string,
+  url?: string,
+  color?: string,
+) {
   chrome.alarms.create(`time_alarm:${content}`, {
     when: timestamp,
   });
@@ -68,19 +81,28 @@ async function restoreAlarmsFromServer() {
 }
 restoreAlarmsFromServer();
 
-chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.cmd === "getGas") sendResponse(nowGas);
-  if (request.cmd === "add_time_alarm") {
-    addAlarm(request.value.alarm_at, request.value.desc, request.value.url, request.value.color);
+chrome?.runtime?.onMessage.addListener(function (
+  request,
+  sender,
+  sendResponse,
+) {
+  if (request.cmd === 'getGas') sendResponse(nowGas);
+  if (request.cmd === 'add_time_alarm') {
+    addAlarm(
+      request.value.alarm_at,
+      request.value.desc,
+      request.value.url,
+      request.value.color,
+    );
   }
-  if (request.cmd === "get_all_time_alarm") {
+  if (request.cmd === 'get_all_time_alarm') {
     chrome.alarms.getAll((alarms) => {
       sendResponse(alarms);
     });
   }
-  if (request.cmd === "open_login") {
+  if (request.cmd === 'open_login') {
     chrome.tabs.create({
-      url: "login.html",
+      url: 'login.html',
     });
   }
 });
@@ -88,7 +110,7 @@ chrome?.runtime?.onMessage.addListener(function (request, sender, sendResponse) 
 async function repeat() {
   let gas = await getNowGas();
   if (gas > 0) {
-    sendMessageToContentScript({ cmd: "gasUpdate", value: gas }, function () {
+    sendMessageToContentScript({ cmd: 'gasUpdate', value: gas }, function () {
       // console.log("来自content的回复：" + response);
     });
     nowGas = gas;
@@ -98,19 +120,28 @@ repeat();
 
 chrome.alarms.clearAll();
 
-chrome.alarms.create("gasupdate", { delayInMinutes: 0.2 });
-const logoIcon = chrome.runtime.getURL("images/logo-128.png");
+chrome.alarms.create('gasupdate', { delayInMinutes: 0.2 });
+const logoIcon = chrome.runtime.getURL('images/logo-128.png');
 chrome.alarms.onAlarm.addListener(async (alarm) => {
-  if (alarm.name === "gasupdate") {
+  if (alarm.name === 'gasupdate') {
     repeat();
-    chrome.alarms.create("gasupdate", { delayInMinutes: 0.2 });
-  } else if (alarm.name.startsWith("time_alarm:")) {
+    chrome.alarms.create('gasupdate', { delayInMinutes: 0.2 });
+  } else if (alarm.name.startsWith('time_alarm:')) {
     chrome.notifications.create(alarm.name, {
-      type: "basic",
-      title: "Time Alarm",
+      type: 'basic',
+      title: 'Time Alarm',
       iconUrl: logoIcon,
       requireInteraction: true,
-      message: `you have a time alarm at this time [${alarm.name.replace("time_alarm:", "")}]`,
+      message: `you have a time alarm at this time [${alarm.name.replace(
+        'time_alarm:',
+        '',
+      )}]`,
     });
   }
+});
+
+chrome.action.onClicked.addListener(() => {
+  chrome.tabs.create({
+    url: 'dashboard/index.html',
+  });
 });

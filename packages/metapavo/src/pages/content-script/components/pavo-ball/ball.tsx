@@ -1,7 +1,10 @@
 import { Button, Tooltip } from '@nextui-org/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import { links } from '../../../../utils/apis';
 import { getLang } from '../../../../utils/lang';
+import AddLinksModal from '../search/cards/AddLinksModal';
+import { getLogo } from '../search/utils/getLogo';
 import DangerPopup from './status/danger';
 import DappPopup from './status/dapp';
 import SuccessPopup from './status/success';
@@ -25,6 +28,12 @@ function Ball() {
     init,
   } = useBallStore();
 
+  const [showAddLinksModal, setShowAddLinksModal] = useState(false);
+  const [link, setlink] = useState<{
+    title: string;
+    url: string;
+    icon: string | null;
+  }>();
   useEffect(() => {
     if (!inited) init();
     inited = true;
@@ -68,8 +77,13 @@ function Ball() {
               >
                 <div>
                   <Button
-                    onClick={() => {
-                      addReadLater();
+                    onClick={async () => {
+                      setShowAddLinksModal(true);
+                      setlink({
+                        title: document.title,
+                        url: window.location.href,
+                        icon: await getLogo(window.location.host),
+                      });
                     }}
                     size="sm"
                     color="default"
@@ -127,6 +141,10 @@ function Ball() {
           state={
             useG.addRootClass === 'metapavo-main-box-success' ? 'show' : 'hide'
           }
+        />
+        <AddLinksModal
+          showModalState={showAddLinksModal}
+          link={link as links}
         />
       </RootElement>
     </>

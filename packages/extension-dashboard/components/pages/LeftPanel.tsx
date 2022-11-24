@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import CardModule from '../CardModule';
 import CollectedNFTs from '../modules/CollectedNFTs';
 import InstallDAPPs from '../modules/InstallDAPPs';
+import MyNFTs from '../modules/MyNFTs';
 import ReadLaters from '../modules/ReadLaters';
 import VisitHistories from '../modules/VisitHistories';
 
@@ -107,6 +108,27 @@ export default function LeftPanel() {
                 moveCard={moveCard}
               >
                 <VisitHistories></VisitHistories>
+              </CardModule>
+            )}
+            {item === 'MyNFTs' && (
+              <CardModule
+                title={getLang('MyNFTs')}
+                extra={
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      gap: '0 15px',
+                    }}
+                  >
+                    <a href="https://opensea.io/account">OpenSea</a>
+                  </div>
+                }
+                id="MyNFTs"
+                index={i}
+                moveCard={moveCard}
+              >
+                <MyNFTs />
               </CardModule>
             )}
           </>

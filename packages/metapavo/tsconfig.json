@@ -18,5 +18,5 @@
     "noImplicitThis": false,
     "types": ["chrome"]
   },
-  "include": ["src"]
+  "include": ["src", "node_modules/extension-common"]
 }

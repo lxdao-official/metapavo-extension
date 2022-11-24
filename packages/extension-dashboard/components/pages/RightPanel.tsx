@@ -55,7 +55,7 @@ export default function RightPanel() {
             {item === 'Score' && (
               <CheckinContext.Provider value={checkInContext}>
                 <CardModule
-                  title="Score and Invites"
+                  title={getLang('Score_and_Invites')}
                   id="Score"
                   index={i}
                   moveCard={moveCard}
@@ -90,27 +90,6 @@ export default function RightPanel() {
                 index={i}
                 moveCard={moveCard}
               ></CoinPrices>
-            )}
-            {item === 'MyNFTs' && (
-              <CardModule
-                title={getLang('MyNFTs')}
-                extra={
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      gap: '0 15px',
-                    }}
-                  >
-                    <a href="https://opensea.io/account">OpenSea</a>
-                  </div>
-                }
-                id="MyNFTs"
-                index={i}
-                moveCard={moveCard}
-              >
-                <MyNFTs />
-              </CardModule>
             )}
           </>
         );

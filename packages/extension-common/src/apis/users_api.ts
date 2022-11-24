@@ -33,6 +33,8 @@ export async function checkin(): Promise<users | null> {
   });
   if (res && res.success) {
     return res.data;
+  } else {
+    throw new Error(res.message);
   }
   return null;
 }

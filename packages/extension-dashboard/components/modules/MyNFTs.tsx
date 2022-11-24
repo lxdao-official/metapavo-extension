@@ -91,7 +91,7 @@ export default function MyNFTs() {
                       {group.map((project) => {
                         if (project) {
                           return (
-                            <Grid item xs={6}>
+                            <Grid item xs={3}>
                               <NFTCard activeProject={project}></NFTCard>
                             </Grid>
                           );
