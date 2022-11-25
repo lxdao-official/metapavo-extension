@@ -1,11 +1,10 @@
+import { createVisitHistory } from 'extension-common/src/apis/nft_api';
+import { getNftByIdV2 } from 'extension-common/src/apis/nft_api_v2';
+import { projectLinksWrapper } from 'extension-common/src/apis/project_wrapper';
+import { IProjectV2 } from 'extension-common/src/apis/types';
+import { ScamResult } from 'extension-common/src/detector/src';
+import { Checker } from 'extension-common/src/recognizer/checkers';
 import React from 'react';
-
-import { createVisitHistory } from '../../../utils/apis/nft_api';
-import { getNftByIdV2 } from '../../../utils/apis/nft_api_v2';
-import { projectLinksWrapper } from '../../../utils/apis/project_wrapper';
-import { IProjectV2 } from '../../../utils/apis/types';
-import { ScamResult } from '../../../utils/detector/src';
-import { Checker } from '../../../utils/recognizer/checkers';
 
 type RecognizerStatus = 'danger' | 'warning' | 'success' | 'none';
 export const GlobalContext = React.createContext<{

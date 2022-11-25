@@ -31,6 +31,9 @@ export const projectLinksWrapper = (project: IProjectV2) => {
     nftnerds: project?.contractAddress
       ? `https://nftnerds.ai/collection/${project.contractAddress}/liveview`
       : undefined,
+    tenderly: project?.contractAddress
+      ? `https://dashboard.tenderly.co/contract/mainnet/${project.contractAddress}/source`
+      : undefined,
   };
   project.links = links;
   return project;

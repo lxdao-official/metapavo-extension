@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import { Input } from '@nextui-org/react';
+import { getLang } from 'extension-common/src/lang';
 import { useContext, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 
 import { colorfulButtonStyle } from '../../../styles/common-colorful-button';
-import { getLang } from '../../../utils/lang';
 import { WalletContext } from '../../content-script/context/useWallet';
 
 //@ts-ignore

@@ -1,13 +1,13 @@
 import { Tooltip } from '@mui/material';
+import { addFavByProjectId } from 'extension-common/src/apis/nft_api';
+import { IProjectV2 } from 'extension-common/src/apis/types';
+import { AutoDecimal } from 'extension-common/src/decimals';
+import { getLang } from 'extension-common/src/lang';
+import { linkImages } from 'extension-common/src/linkImages';
 import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 import config from '../../../../../config';
-import { addFavByProjectId } from '../utils/apis/nft_api';
-import { IProjectV2 } from '../utils/apis/types';
-import { AutoDecimal } from '../utils/decimals';
-import { getLang } from '../utils/lang';
-import { linkImages } from '../utils/linkImages';
 import Pick from './Pick';
 import { NFTCardRoot } from './styles';
 

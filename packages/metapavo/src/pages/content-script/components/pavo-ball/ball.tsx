@@ -1,10 +1,10 @@
 import { Button, Tooltip } from '@nextui-org/react';
+import { links } from 'extension-common/src/apis';
+import { getLogo } from 'extension-common/src/getLogo';
+import { getLang } from 'extension-common/src/lang';
 import { useEffect, useState } from 'react';
 
-import { links } from '../../../../utils/apis';
-import { getLang } from 'extension-common/src/lang';
 import AddLinksModal from '../search/cards/AddLinksModal';
-import { getLogo } from '../search/utils/getLogo';
 import DangerPopup from './status/danger';
 import DappPopup from './status/dapp';
 import SuccessPopup from './status/success';
@@ -23,7 +23,6 @@ function Ball() {
     gas,
     activeDapp,
     noDisplay7,
-    addReadLater,
     checkHide,
     init,
   } = useBallStore();

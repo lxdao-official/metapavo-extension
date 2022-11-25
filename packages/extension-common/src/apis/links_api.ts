@@ -55,3 +55,22 @@ export async function getUserLinks(
   }
   return null;
 }
+
+export async function installLink(link: links, tag_id?: string) {
+  const res = await fetchWrapped(
+    `${config.baseURL}/links/install?tag_id=${tag_id}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...link,
+      }),
+    },
+  );
+  if (res && res.success) {
+    return res.data;
+  }
+  throw new Error(res.message);
+}

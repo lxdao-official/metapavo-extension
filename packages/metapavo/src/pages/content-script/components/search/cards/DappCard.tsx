@@ -4,10 +4,10 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import { dapps } from 'extension-common/src/apis';
+import { addViewLog } from 'extension-common/src/apis/dapps_api';
 import { useState } from 'react';
 
-import { dapps } from '../utils/apis';
-import { addViewLog } from '../utils/apis/dapps_api';
 import AddDappModal from './AddDappModal';
 import Pick from './Pick';
 

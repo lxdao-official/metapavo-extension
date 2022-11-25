@@ -1,12 +1,12 @@
 import WalletConnect from '@walletconnect/client';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 import { ethers, utils } from 'ethers';
+import { fetchWrapped } from 'extension-common/src/apis/fetch';
 import createMetaMaskProvider from 'metamask-extension-provider';
 import React, { useState } from 'react';
 import Web3 from 'web3';
 
 import config from '../../../config';
-import { fetchWrapped } from '../../../utils/apis/fetch';
 import abi from './pavoid';
 import { PavoID } from './typechain-types';
 

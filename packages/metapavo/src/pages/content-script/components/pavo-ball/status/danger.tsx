@@ -1,7 +1,7 @@
+import { getLang } from 'extension-common/src/lang';
 import { useContext } from 'react';
 import styled from 'styled-components';
 
-import { getLang } from '../../../../../utils/lang';
 import { GlobalContext } from '../../../context/useGlobal';
 
 const RootElement = styled.div`

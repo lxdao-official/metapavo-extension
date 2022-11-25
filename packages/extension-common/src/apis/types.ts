@@ -91,6 +91,7 @@ export interface Links {
   nfteye?: string;
   nftnerds?: string;
   rss3?: string;
+  tenderly?: string;
 }
 export interface NftProjectInfo {
   id: number;

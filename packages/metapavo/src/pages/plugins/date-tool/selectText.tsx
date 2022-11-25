@@ -7,6 +7,7 @@ import {
   TextField,
 } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
+import { addAlarmForUser } from 'extension-common/src/apis/nft_api';
 import _ from 'lodash';
 import React, { useContext } from 'react';
 import { useEffect } from 'react';
@@ -14,7 +15,6 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { addAlarmForUser } from '../../../utils/apis/nft_api';
 import { GlobalContext } from '../../content-script/context/useGlobal';
 import { smartParseDate } from './util';
 

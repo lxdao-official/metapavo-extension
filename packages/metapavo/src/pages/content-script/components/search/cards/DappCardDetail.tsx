@@ -4,9 +4,9 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import { dapps } from 'extension-common/src/apis';
+import { addViewLog } from 'extension-common/src/apis/dapps_api';
 
-import { dapps } from '../utils/apis';
-import { addViewLog } from '../utils/apis/dapps_api';
 import Pick from './Pick';
 
 export default function DappCardDetail(props: {

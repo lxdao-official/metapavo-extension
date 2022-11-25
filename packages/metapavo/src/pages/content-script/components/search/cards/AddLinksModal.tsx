@@ -7,16 +7,15 @@ import {
   Radio,
   Text,
 } from '@nextui-org/react';
-import React from 'react';
-import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
-
-import { links, linktags, userlinks } from '../../../../../utils/apis';
+import { links, linktags, userlinks } from 'extension-common/src/apis';
 import {
   fetchUsersTags,
   installLink,
-} from '../../../../../utils/apis/links_api';
-import { getLang } from '../utils/lang';
+} from 'extension-common/src/apis/links_api';
+import { getLang } from 'extension-common/src/lang';
+import React from 'react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function AddLinksModal(props: {
   onSuccess?: (dapp_id: string, selectedCatId?: string) => void;

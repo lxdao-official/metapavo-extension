@@ -1,8 +1,8 @@
 import { Button } from '@nextui-org/react';
+import { dapps } from 'extension-common/src/apis';
+import { getLang } from 'extension-common/src/lang';
 import { useContext, useState } from 'react';
 
-import { dapps } from '../../../../../utils/apis';
-import { getLang } from '../../../../../utils/lang';
 import { GlobalContext } from '../../../context/useGlobal';
 import AddDappModal from '../../search/cards/AddDappModal';
 import DappCardDetail from '../../search/cards/DappCardDetail';

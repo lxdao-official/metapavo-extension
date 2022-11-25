@@ -1,8 +1,8 @@
 import { Tooltip } from '@mui/material';
+import { getLang } from 'extension-common/src/lang';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { getLang } from '../../../utils/lang';
 import ConnectWallet from './ConnectWallet';
 
 const Page = styled.div`

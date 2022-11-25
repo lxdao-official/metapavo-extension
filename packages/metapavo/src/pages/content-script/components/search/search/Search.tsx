@@ -1,18 +1,18 @@
 import { Box, Grid } from '@mui/material';
 import { Input, Loading } from '@nextui-org/react';
+import { dapps, tokens } from 'extension-common/src/apis';
+import { searchDapps } from 'extension-common/src/apis/dapps_api';
+import { searchProjectsV2 } from 'extension-common/src/apis/nft_api_v2';
+import { projectLinksWrapper } from 'extension-common/src/apis/project_wrapper';
+import { searchTokens } from 'extension-common/src/apis/tokens_api';
+import { IProjectV2 } from 'extension-common/src/apis/types';
+import { getLang } from 'extension-common/src/lang';
 import { useEffect, useRef, useState } from 'react';
 
-import { IProjectV2 } from '../../../../../utils/apis/types';
-import { getLang } from '../../../../../utils/lang';
 import CoinNormalCard from '../cards/CoinNormalCard';
 import DappCard from '../cards/DappCard';
 import NFTCard from '../cards/NFTCard';
 import styles from '../styles/Home.module.css';
-import { dapps, tokens } from '../utils/apis';
-import { searchDapps } from '../utils/apis/dapps_api';
-import { searchProjectsV2 } from '../utils/apis/nft_api_v2';
-import { projectLinksWrapper } from '../utils/apis/project_wrapper';
-import { searchTokens } from '../utils/apis/tokens_api';
 
 export default function Search() {
   const [keyword, setKeyword] = useState('');

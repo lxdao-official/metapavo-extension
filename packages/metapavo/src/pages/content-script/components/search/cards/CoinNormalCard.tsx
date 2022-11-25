@@ -1,9 +1,9 @@
 import { Tooltip } from '@nextui-org/react';
+import { tokens } from 'extension-common/src/apis';
+import { linkImages } from 'extension-common/src/linkImages';
 import React from 'react';
 import { useEffect } from 'react';
 
-import { tokens } from '../utils/apis';
-import { linkImages } from '../utils/linkImages';
 import Pick from './Pick';
 import { TokenCardRoot } from './styles';
 

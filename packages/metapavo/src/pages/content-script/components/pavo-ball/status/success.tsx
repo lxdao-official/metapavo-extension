@@ -1,17 +1,17 @@
 import { Tooltip } from '@mui/material';
+import {
+  addFavByProjectId,
+  isFaved,
+  removeFavByProjectId,
+} from 'extension-common/src/apis/nft_api';
+import { AutoDecimal } from 'extension-common/src/decimals';
+import { getLang } from 'extension-common/src/lang';
+import { linkImages } from 'extension-common/src/linkImages';
 import React, { useEffect } from 'react';
 import { useContext } from 'react';
 import toast from 'react-hot-toast';
 
 import config from '../../../../../config';
-import {
-  addFavByProjectId,
-  isFaved,
-  removeFavByProjectId,
-} from '../../../../../utils/apis/nft_api';
-import { AutoDecimal } from '../../../../../utils/decimals';
-import { getLang } from '../../../../../utils/lang';
-import { linkImages } from '../../../../../utils/linkImages';
 import { GlobalContext } from '../../../context/useGlobal';
 import { SuccessRootElement } from '../styles';
 

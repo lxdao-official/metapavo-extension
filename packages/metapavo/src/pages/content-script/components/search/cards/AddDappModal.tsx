@@ -7,13 +7,15 @@ import {
   Radio,
   Text,
 } from '@nextui-org/react';
+import { dapps, user_dapps_catogories } from 'extension-common/src/apis';
+import {
+  fetchUsersCategory,
+  installDapp,
+} from 'extension-common/src/apis/dapps_api';
+import { getLang } from 'extension-common/src/lang';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-
-import { dapps, user_dapps_catogories } from '../../../../../utils/apis';
-import { getLang } from '../../../../../utils/lang';
-import { fetchUsersCategory, installDapp } from '../utils/apis/dapps_api';
 
 export default function AddDappModal(props: {
   onSuccess?: (dapp_id: string, selectedCatId?: string) => void;

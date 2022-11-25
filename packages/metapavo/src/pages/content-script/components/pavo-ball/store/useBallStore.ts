@@ -1,11 +1,8 @@
+import { dapps } from 'extension-common/src/apis';
+import { recognizerDapp } from 'extension-common/src/recognizer/dapp';
 import React, { useContext, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
 
-import { addItem } from '../../../../../utils/read-later';
-import { recognizerDapp } from '../../../../../utils/recognizer/dapp';
 import { GlobalContext } from '../../../context/useGlobal';
-import { dapps } from '../../search/utils/apis';
-import { getLogo } from '../../search/utils/getLogo';
 
 export default function useBallStore() {
   const [hide, setHide] = React.useState(false);
@@ -28,15 +25,7 @@ export default function useBallStore() {
       String(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
     );
   }
-  async function addReadLater() {
-    try {
-      const logo = await getLogo(window.location.host);
-      await addItem(window.location.href, document.title, logo);
-      toast.success('add to read later success!');
-    } catch (e) {
-      toast.error('add to read later failed!');
-    }
-  }
+
   function checkHide() {
     const hideUntil = localStorage.getItem('metapavo-hide-until');
     if (hideUntil && Number(hideUntil) > new Date().getTime()) {
@@ -181,7 +170,6 @@ export default function useBallStore() {
     activeDapp,
     setActiveDapp,
     noDisplay7,
-    addReadLater,
     checkHide,
     checkDapp,
     dragElement,

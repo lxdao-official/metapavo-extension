@@ -41,4 +41,7 @@ export const linkImages = {
   get coinmarketcap() {
     return chrome.runtime.getURL('images/coinmarketcap.png');
   },
+  get tenderly() {
+    return chrome.runtime.getURL('images/tenderly.png');
+  },
 };
