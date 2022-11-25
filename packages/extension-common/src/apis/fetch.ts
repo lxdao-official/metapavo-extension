@@ -21,7 +21,7 @@ export const fetchWrapped: (
       return;
     }
     chrome.storage.local.get(['access_token'], function (data) {
-      if (needLogin && data && data.access_token) {
+      if (data && data.access_token) {
         const access_token = data.access_token;
         if (init && init?.headers) {
           init.headers = {
