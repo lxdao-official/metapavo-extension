@@ -2,7 +2,7 @@ import { Button, Tooltip } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 
 import { links } from '../../../../utils/apis';
-import { getLang } from '../../../../utils/lang';
+import { getLang } from 'extension-common/src/lang';
 import AddLinksModal from '../search/cards/AddLinksModal';
 import { getLogo } from '../search/utils/getLogo';
 import DangerPopup from './status/danger';

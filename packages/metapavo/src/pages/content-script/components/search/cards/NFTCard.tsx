@@ -2,6 +2,7 @@ import { Tooltip } from '@mui/material';
 import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
+import config from '../../../../../config';
 import { addFavByProjectId } from '../utils/apis/nft_api';
 import { IProjectV2 } from '../utils/apis/types';
 import { AutoDecimal } from '../utils/decimals';
@@ -57,7 +58,12 @@ export default function NFTCard(props: {
             (e.target as HTMLImageElement).src = blankImage;
           }}
         />
-        <a className="mp-success-title" href={activeProject?.links?.opensea}>
+        <a
+          className="mp-success-title"
+          href={`${config.baseURL}/jump/nft?id=${
+            activeProject.id
+          }&url=${encodeURIComponent(activeProject?.links?.opensea || '')}`}
+        >
           {activeProject?.name}
         </a>
         {activeProject?.contractData?.isVerified ? (
@@ -150,7 +156,13 @@ export default function NFTCard(props: {
         <div className="mp-success-links-left">
           {links.map((link, index) => (
             <Tooltip title={link.label} placement="top" arrow>
-              <a href={link.link} target="_blank" rel="noreferrer">
+              <a
+                href={`${config.baseURL}/jump/nft?id=${
+                  activeProject.id
+                }&url=${encodeURIComponent(link.link)}`}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <img src={link.img} alt="" />
               </a>
             </Tooltip>

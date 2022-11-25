@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useContext } from 'react';
 import toast from 'react-hot-toast';
 
+import config from '../../../../../config';
 import {
   addFavByProjectId,
   isFaved,
@@ -271,7 +272,13 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
           <div className="mp-success-links-left-inner">
             {mainLinks.map((link, index) => (
               <Tooltip title={link.label} placement="top" arrow>
-                <a href={link.link} target="_blank" rel="noreferrer">
+                <a
+                  href={`${config.baseURL}/jump/nft?id=${
+                    activeProject?.id
+                  }&url=${encodeURIComponent(link.link || '')}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img src={link.img} alt="" />
                 </a>
               </Tooltip>
@@ -279,7 +286,13 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
             <a className="dividor"></a>
             {links.map((link, index) => (
               <Tooltip title={link.label} placement="top" arrow>
-                <a href={link.link} target="_blank" rel="noreferrer">
+                <a
+                  href={`${config.baseURL}/jump/nft?id=${
+                    activeProject?.id
+                  }&url=${encodeURIComponent(link.link || '')}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img src={link.img} alt="" />
                 </a>
               </Tooltip>

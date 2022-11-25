@@ -340,6 +340,7 @@ module.exports = function (webpackEnv) {
           [paths.appSrc],
           [
             paths.appPackageJson,
+            paths.appCommon,
             reactRefreshRuntimeEntry,
             reactRefreshWebpackPluginRuntimeEntry,
             babelRuntimeEntry,
