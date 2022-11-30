@@ -217,5 +217,17 @@
   },
   "invite_desc": {
     "message": "Users who hold metapavo did NFT; can generate 3 invitation codes per day; invite users to successfully register: 100 P; invite users to invite other users to register successfully: 50P;"
+  },
+  "generate_invitecode_error": {
+    "message": "Only users who have completed tasks or have metapavo did NFT can invite, and 3 invitation codes can be generated per day"
+  },
+  "share_twitter_for_invitecode": {
+    "message": "Click here to go to twitter and ask for an invitation code. Please complete your wallet address in the tweet you send"
+  },
+  "get_invitecode": {
+    "message": "Get Invite Code"
+  },
+  "RSS3_Feeds": {
+    "message": "RSS3 Feeds"
   }
 }

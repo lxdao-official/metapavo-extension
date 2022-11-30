@@ -27,7 +27,7 @@ export default function Score() {
       toast.success('Generate success');
       loadAwailableInvites();
     } catch (e) {
-      toast.error('Generate failed');
+      toast.error('Generate failed!' + getLang('generate_invitecode_error'));
     }
     toast.dismiss(loading);
   }

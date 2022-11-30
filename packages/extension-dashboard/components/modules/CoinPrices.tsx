@@ -75,7 +75,7 @@ export default function CoinPrices(props: {
         <Grid container spacing={1}>
           {symbols.map((symbol) => {
             return (
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Box
                   sx={{
                     position: 'relative',

@@ -217,5 +217,44 @@
   },
   "invite_desc": {
     "message": "持有 metapavo did NFT 的用户;每天可以生成 3 个邀请码;邀请用户成功注册: 100 P;邀请用户邀请其他用户注册成功 50P;"
+  },
+  "generate_invitecode_error": {
+    "message": "完成任务或者持有 metapavo did NFT 的用户才可邀请，每天可以生成 3 个邀请码"
+  },
+  "share_twitter_for_invitecode": {
+    "message": "点击这里到 twitter 寻求邀请码，请在发送的 twitter 内容中补全你的钱包地址"
+  },
+  "get_invitecode": {
+    "message": "获得邀请码"
+  },
+  "RSS3_Feeds": {
+    "message": "RSS3 Feeds"
+  },
+  "governance_vote": {
+    "message": "投票"
+  },
+  "governance_propose": {
+    "message": "发起提案"
+  },
+  "collectible_transfer": {
+    "message": "NFT 交易"
+  },
+  "collectible_mint": {
+    "message": "NFT mint"
+  },
+  "collectible_burn": {
+    "message": "NFT 销毁"
+  },
+  "collectible_trade": {
+    "message": "购买 NFT"
+  },
+  "transaction_transfer": {
+    "message": "发送"
+  },
+  "cost": {
+    "message": "花费"
+  },
+  "exchange_swap": {
+    "message": "兑换"
   }
 }

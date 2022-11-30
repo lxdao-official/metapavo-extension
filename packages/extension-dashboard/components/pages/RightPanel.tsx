@@ -11,9 +11,10 @@ import CheckIn from '../functions/CheckIn';
 import CoinPrices from '../modules/CoinPrices';
 import GasFees from '../modules/GasFees';
 import MyNFTs from '../modules/MyNFTs';
+import RSS3Feeds from '../modules/RSS3Feeds';
 import Score from '../modules/Score';
 
-const allModules = ['Score', 'GasFees', 'CoinPrices'];
+const allModules = ['Score', 'GasFees', 'CoinPrices', 'RSS3Feeds'];
 export default function RightPanel() {
   const [items, setItems] = useState<string[]>([]);
   const moveCard = (dragIndex: number, hoverIndex: number) => {
@@ -84,12 +85,13 @@ export default function RightPanel() {
                 <GasFees></GasFees>
               </CardModule>
             )}
-            {item === 'CoinPrices' && (
-              <CoinPrices
-                id="CoinPrices"
+
+            {item === 'RSS3Feeds' && (
+              <RSS3Feeds
+                id="RSS3Feeds"
                 index={i}
                 moveCard={moveCard}
-              ></CoinPrices>
+              ></RSS3Feeds>
             )}
           </>
         );

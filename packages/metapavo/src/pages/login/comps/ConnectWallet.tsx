@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { Input } from '@nextui-org/react';
+import { Input, Tooltip } from '@nextui-org/react';
 import { getLang } from 'extension-common/src/lang';
 import { useContext, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -157,18 +157,41 @@ export default function ConnectWallet(props: {
         </Box>
       ) : (
         <>
-          <Input
-            bordered
-            labelLeft={getLang('invite_code')}
-            placeholder="please input invite code"
-            label={getLang('first_login_tip')}
-            style={{
-              width: '200px',
-            }}
-            color="warning"
-            onChange={(e) => setInviteCode(e.target.value)}
-          />
-          <br />
+          <div>
+            <Input
+              bordered
+              labelLeft={getLang('invite_code')}
+              placeholder="please input invite code"
+              label={getLang('first_login_tip')}
+              style={{
+                width: '200px',
+              }}
+              color="warning"
+              onChange={(e) => setInviteCode(e.target.value)}
+            />
+            <br />
+            <Tooltip content={getLang('share_twitter_for_invitecode')}>
+              <a
+                href={
+                  'https://twitter.com/intent/tweet?text=' +
+                  encodeURIComponent(
+                    `Request for @MetaPavo invitecode #request-metapavo-invite https://metapavo.xyz, my wallet address is: `,
+                  )
+                }
+                style={{
+                  fontSize: '14px',
+                  lineHeight: '18px',
+                  padding: '10px 0',
+                  display: 'block',
+                  margin: '0 auto',
+                  textAlign: 'center',
+                }}
+              >
+                {getLang('get_invitecode')}
+              </a>
+            </Tooltip>
+          </div>
+
           <ButtonStyle
             onClick={() => {
               // openConnectModal();

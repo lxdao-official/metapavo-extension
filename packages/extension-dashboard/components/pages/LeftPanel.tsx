@@ -6,6 +6,7 @@ import {
 import { useEffect, useState } from 'react';
 
 import CardModule from '../CardModule';
+import CoinPrices from '../modules/CoinPrices';
 import CollectedNFTs from '../modules/CollectedNFTs';
 import InstallDAPPs from '../modules/InstallDAPPs';
 import MyNFTs from '../modules/MyNFTs';
@@ -15,6 +16,7 @@ import VisitHistories from '../modules/VisitHistories';
 const allModules = [
   'InstallDAPPs',
   'CollectedNFTs',
+  'CoinPrices',
   'VisitHistories',
   'ReadLaters',
   'MyNFTs',
@@ -90,6 +92,13 @@ export default function LeftPanel() {
                 <CollectedNFTs></CollectedNFTs>
               </CardModule>
             )}
+            {item === 'CoinPrices' && (
+              <CoinPrices
+                id="CoinPrices"
+                index={i}
+                moveCard={moveCard}
+              ></CoinPrices>
+            )}
             {item === 'ReadLaters' && (
               <CardModule
                 title={getLang('Read_Laters')}
@@ -100,7 +109,7 @@ export default function LeftPanel() {
                 <ReadLaters></ReadLaters>
               </CardModule>
             )}
-            {item === 'VisitHistories' && (
+            {/* {item === 'VisitHistories' && (
               <CardModule
                 title={getLang('DASHBOARD_History')}
                 id="VisitHistories"
@@ -109,7 +118,7 @@ export default function LeftPanel() {
               >
                 <VisitHistories></VisitHistories>
               </CardModule>
-            )}
+            )} */}
             {item === 'MyNFTs' && (
               <CardModule
                 title={getLang('MyNFTs')}
