@@ -1,4 +1,4 @@
-import { Tooltip } from '@nextui-org/react';
+import { Switch, Tooltip } from '@nextui-org/react';
 import { getLang } from 'extension-common/src/lang';
 import {
   getListConfig,
@@ -6,6 +6,7 @@ import {
 } from 'extension-common/src/localStore/store';
 import { useEffect, useState } from 'react';
 
+import globalEvent from '../../context/EventBus';
 import CardModule from '../CardModule';
 import CoinPrices from '../modules/CoinPrices';
 import CollectedNFTs from '../modules/CollectedNFTs';
@@ -51,6 +52,13 @@ export default function LeftPanel() {
       setItems(config);
     }
   }, []);
+
+  const [myfavs_two_line, setMyFavsTwoLine] = useState<boolean>(false);
+
+  useEffect(() => {
+    const config = !!localStorage.getItem('myfavs_two_line');
+    setMyFavsTwoLine(config);
+  }, []);
   return (
     <div
       style={{
@@ -84,8 +92,35 @@ export default function LeftPanel() {
                       display: 'flex',
                       justifyContent: 'flex-end',
                       gap: '0 15px',
+                      fontSize: '12px',
                     }}
                   >
+                    <div
+                      style={{
+                        fontSize: '12px',
+                        color: '#666',
+                        fontWeight: 300,
+                      }}
+                    >
+                      <Switch
+                        color="primary"
+                        checked={myfavs_two_line}
+                        size="xs"
+                        style={{
+                          verticalAlign: '-5.5px',
+                          marginRight: '4px',
+                        }}
+                        onChange={(e) => {
+                          setMyFavsTwoLine(e.target.checked);
+                          localStorage.setItem(
+                            'myfavs_two_line',
+                            e.target.checked ? '1' : '',
+                          );
+                          globalEvent.emit('reloadFavs');
+                        }}
+                      ></Switch>
+                      <span>显示两行</span>
+                    </div>
                     <a href="https://opensea.io/account">OpenSea</a>
                     <a href="https://www.gem.xyz">GEM</a>
                   </div>

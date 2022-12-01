@@ -249,13 +249,13 @@
     "message": "NFT POAP"
   },
   "collectible_trade": {
-    "message": "购买 NFT"
+    "message": "NFT 销售"
   },
   "transaction_transfer": {
     "message": "发送"
   },
   "cost": {
-    "message": "花费"
+    "message": "费用"
   },
   "exchange_swap": {
     "message": "兑换"

@@ -15,141 +15,13 @@ import {
   getListConfig,
   setListConfig,
 } from 'extension-common/src/localStore/store';
+import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import parser from 'rss-parser-browser';
-import Unidata, { Note, Notes } from 'unidata.js';
 
+import { getFeedTitle } from '../../common/theme/RSS3';
 import { UserContext } from '../../context/useUser';
 import CardModule from '../CardModule';
-
-export function getFeedTitle(feed: RSS3Feed) {
-  const tag = feed.tag;
-  const type = feed.type;
-  const metadata = feed.metadata;
-
-  try {
-    if (tag == 'transaction') {
-      if (type == 'transfer') {
-        if (feed.parent.tag == 'collectible') {
-          return (
-            <span>{`[${getLang('cost')}] ${metadata.value_display} ${
-              metadata.symbol
-            }`}</span>
-          );
-        }
-        return (
-          <span>
-            [{getLang(tag + '_' + type)}]
-            {` ${metadata.value_display} ${metadata.symbol}`}
-          </span>
-        );
-      }
-    }
-    if (tag == 'exchange') {
-      if (type == 'swap') {
-        return (
-          <span>
-            [{getLang(tag + '_' + type)}]
-            {` ${metadata.from.value_display} ${metadata.from.symbol} to ${metadata.to.value_display} ${metadata.to.symbol}`}
-          </span>
-        );
-      } else if (type == 'liquidity') {
-        return (
-          <span>
-            [{getLang(tag + '_' + type)}]
-            {` ${metadata.action} ${metadata.from.value_display} ${metadata.from.symbol} to ${metadata.to.value_display} ${metadata.to.symbol}`}
-          </span>
-        );
-      } else if (type == 'bridge') {
-        return (
-          <span>
-            [{getLang(tag + '_' + type)}]
-            {` ${metadata.token.value_display} ${metadata.token.symbol} to ${metadata.target_network.name}`}
-          </span>
-        );
-      } else {
-        return (
-          <span>
-            [{getLang(tag + '_' + type)}]
-            {` ${metadata.value_display} ${metadata.symbol}`}
-          </span>
-        );
-      }
-    }
-
-    if (tag == 'collectible') {
-      if (type == 'transfer' || type == 'mint' || type == 'burn') {
-        return (
-          <>
-            [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
-          </>
-        );
-      }
-      if (type == 'trade') {
-        return (
-          <>
-            [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
-            <span>
-              Cost: {metadata.cost.value_display} {metadata.cost.symbol}
-            </span>
-          </>
-        );
-      } else if (type == 'poap') {
-        return (
-          <>
-            [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
-          </>
-        );
-      }
-    }
-
-    if (tag == 'governance') {
-      if (type == 'vote') {
-        return (
-          <>
-            [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[0]!}> {metadata.proposal.title}</a>
-          </>
-        );
-      }
-      if (type == 'propose') {
-        return (
-          <>
-            [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[0]!}> {metadata.title}</a>
-          </>
-        );
-      }
-    }
-
-    if (tag == 'donation') {
-      if (type == 'launch') {
-        return (
-          <>
-            [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[0]!}> {metadata.title}</a>
-          </>
-        );
-      } else if (type == 'donate') {
-        return (
-          <>
-            [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[0]!}> {metadata.title}</a>
-            <span>
-              Donate: {metadata.token.value_display} {metadata.token.symbol}
-            </span>
-          </>
-        );
-      }
-    }
-  } catch (e) {}
-
-  return getLang(tag + '_' + type);
-}
 
 export default function RSS3Feeds(props: {
   id?: string;
@@ -164,12 +36,16 @@ export default function RSS3Feeds(props: {
   const [addressList, setAddressList] = useState<string[]>([]);
   const [cursor, setCursor] = useState<string | null>(null);
 
-  async function loadFeeds(address: string, cursor: string | null) {
+  async function loadFeeds(
+    address: string,
+    cursor: string | null,
+    reload = false,
+  ) {
     setLoading(true);
     const result = await getFeeds(address, cursor);
     setCursor(result.cursor);
-    setFeeds(
-      feeds.concat(
+    if (reload) {
+      setFeeds(
         result?.result
           .map((r) => {
             // @ts-ignore
@@ -177,12 +53,31 @@ export default function RSS3Feeds(props: {
               return {
                 ...a,
                 parent: r,
+                timestamp: r.timestamp,
               };
             });
           })
           .flat() || [],
-      ),
-    );
+      );
+    } else {
+      setFeeds(
+        feeds.concat(
+          result?.result
+            .map((r) => {
+              // @ts-ignore
+              return r.actions.map((a) => {
+                return {
+                  ...a,
+                  parent: r,
+                  timestamp: r.timestamp,
+                };
+              });
+            })
+            .flat() || [],
+        ),
+      );
+    }
+
     setLoading(false);
   }
   useEffect(() => {
@@ -194,12 +89,11 @@ export default function RSS3Feeds(props: {
     if (activeAddress) {
       setCursor(null);
       setFeeds([]);
-      loadFeeds(activeAddress, null);
+      loadFeeds(activeAddress, null, true);
+    } else {
+      setFeeds([]);
     }
   }, [activeAddress]);
-  // useEffect(() => {
-  //   if()
-  // }, [addressList]);
 
   const [showAddCategory, setshowAddCategory] = useState(false);
   const [addCategoryTitle, setaddCategoryTitle] = useState('');
@@ -357,26 +251,53 @@ export default function RSS3Feeds(props: {
                   fontSize: '12px',
                 }}
               >
-                <div>
-                  {getFeedTitle(feed)}
-                  <a href={feed.related_urls[0]}>
-                    <img
-                      src={linkImages.etherscan}
-                      style={{
-                        width: '12px',
-                        height: '12px',
-                        marginLeft: '5px',
-                        verticalAlign: '-2px',
-                      }}
-                    />
-                  </a>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    lineHeight: '30px',
+                  }}
+                >
+                  <div
+                    style={{
+                      flex: 1,
+                    }}
+                  >
+                    {getFeedTitle(feed)}
+                    <a href={feed.related_urls[0]} target={'_blank'}>
+                      <img
+                        src={linkImages.etherscan}
+                        style={{
+                          width: '12px',
+                          height: '12px',
+                          marginLeft: '5px',
+                          verticalAlign: '-2px',
+                        }}
+                      />
+                    </a>
+                  </div>
+                  <span
+                    style={{
+                      color: '#999',
+                      paddingLeft: '10px',
+                    }}
+                  >
+                    {moment(feed.timestamp).fromNow()}
+                  </span>
                 </div>
-                <div>
+                <div
+                  style={{
+                    color: '#999',
+                  }}
+                >
                   {feed.address_from && (
                     <span>
                       from:{' '}
                       <a
                         href={`https://etherscan.io/address/${feed.address_from}`}
+                        target={'_blank'}
                       >
                         {feed.address_from.substring(0, 20)}...
                       </a>{' '}
@@ -387,6 +308,7 @@ export default function RSS3Feeds(props: {
                       to:{' '}
                       <a
                         href={`https://etherscan.io/address/${feed.address_to}`}
+                        target={'_blank'}
                       >
                         {feed.address_to.substring(0, 20)}...
                       </a>

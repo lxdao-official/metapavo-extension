@@ -19,14 +19,16 @@ export default function CollectedNFTs() {
   const [groupedFavs, setGroupedFavs] = useState<favs[][]>([]);
   const pageEle = useRef(null);
   const loadFavs = async () => {
+    const isTwoLine = !!localStorage.getItem('myfavs_two_line');
     try {
       const cache = localStorage.getItem('myfavs');
+
       if (cache) {
         const cacheJson = JSON.parse(cache);
         const _group = [];
         if (cacheJson.length) {
-          for (let i = 0; i < cacheJson.length; i += 4) {
-            _group.push(cacheJson.slice(i, i + 4));
+          for (let i = 0; i < cacheJson.length; i += isTwoLine ? 8 : 4) {
+            _group.push(cacheJson.slice(i, i + (isTwoLine ? 8 : 4)));
           }
           setGroupedFavs(_group);
         }
@@ -50,8 +52,8 @@ export default function CollectedNFTs() {
         });
 
       const _group = [];
-      for (let i = 0; i < data.length; i += 4) {
-        _group.push(data.slice(i, i + 4));
+      for (let i = 0; i < data.length; i += isTwoLine ? 8 : 4) {
+        _group.push(data.slice(i, i + (isTwoLine ? 8 : 4)));
       }
       setGroupedFavs(_group);
       localStorage.setItem('myfavs', JSON.stringify(data));
