@@ -228,6 +228,63 @@
     "message": "Get Invite Code"
   },
   "RSS3_Feeds": {
-    "message": "RSS3 Feeds"
+    "message": "Feeds (RSS3)"
+  },
+  "governance_vote": {
+    "message": "Vote"
+  },
+  "governance_propose": {
+    "message": "Proposal"
+  },
+  "collectible_transfer": {
+    "message": "NFT tradeansfer"
+  },
+  "collectible_mint": {
+    "message": "NFT Mint"
+  },
+  "collectible_burn": {
+    "message": "NFT Burn"
+  },
+  "collectible_poap": {
+    "message": "NFT POAP"
+  },
+  "collectible_trade": {
+    "message": "Trade NFT"
+  },
+  "transaction_transfer": {
+    "message": "Transfer"
+  },
+  "cost": {
+    "message": "Cost"
+  },
+  "exchange_swap": {
+    "message": "Swap"
+  },
+  "exchange_liquidity": {
+    "message": "Liquidity"
+  },
+  "exchange_bridge": {
+    "message": "Bridge"
+  },
+  "exchange_withdraw": {
+    "message": "Withdraw"
+  },
+  "exchange_deposit": {
+    "message": "Deposit"
+  },
+  "donation_donate": {
+    "message": "Donate"
+  },
+  "donation_launch": {
+    "message": "Launch Donation"
+  },
+  "please_select_address": {
+    "message": "Please select or add a new address"
+  },
+  "add_new_address": {
+    "message": "Add New Address"
+  },
+  "todo": {
+    "message": "Open Soon"
   }
 }

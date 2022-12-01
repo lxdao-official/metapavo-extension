@@ -175,7 +175,7 @@ export default function ConnectWallet(props: {
                 href={
                   'https://twitter.com/intent/tweet?text=' +
                   encodeURIComponent(
-                    `Request for @MetaPavo invitecode #request-metapavo-invite https://metapavo.xyz, my wallet address is: `,
+                    `Request for @MetaPavo invitecode #request_metapavo_invitecode https://metapavo.xyz, my wallet address is: `,
                   )
                 }
                 style={{

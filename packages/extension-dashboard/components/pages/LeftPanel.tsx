@@ -1,3 +1,4 @@
+import { Tooltip } from '@nextui-org/react';
 import { getLang } from 'extension-common/src/lang';
 import {
   getListConfig,
@@ -62,7 +63,11 @@ export default function LeftPanel() {
             {item === 'InstallDAPPs' && (
               <CardModule
                 title={getLang('My_Installed_DAPPs')}
-                extra={<a href="#">DAPP Store</a>}
+                extra={
+                  <Tooltip content={getLang('todo')}>
+                    <a href="#">DAPP Store</a>
+                  </Tooltip>
+                }
                 id="InstallDAPPs"
                 index={i}
                 moveCard={moveCard}

@@ -28,84 +28,129 @@ export function getFeedTitle(feed: RSS3Feed) {
   const type = feed.type;
   const metadata = feed.metadata;
 
-  if (tag == 'transaction') {
-    if (type == 'transfer') {
-      if (feed.parent.tag == 'collectible') {
+  try {
+    if (tag == 'transaction') {
+      if (type == 'transfer') {
+        if (feed.parent.tag == 'collectible') {
+          return (
+            <span>{`[${getLang('cost')}] ${metadata.value_display} ${
+              metadata.symbol
+            }`}</span>
+          );
+        }
         return (
-          <span>{`[${getLang('cost')}] ${metadata.value_display} ${
-            metadata.symbol
-          }`}</span>
+          <span>
+            [{getLang(tag + '_' + type)}]
+            {` ${metadata.value_display} ${metadata.symbol}`}
+          </span>
         );
       }
-      return (
-        <span>
-          [{getLang(tag + '_' + type)}]
-          {` ${metadata.value_display} ${metadata.symbol}`}
-        </span>
-      );
     }
-  }
-  if (tag == 'exchange') {
-    if (type == 'swap') {
-      return (
-        <span>
-          [{getLang(tag + '_' + type)}]
-          {` ${metadata.from.value_display} ${metadata.from.symbol} to ${metadata.to.value_display} ${metadata.to.symbol}`}
-        </span>
-      );
-    }
-  }
-
-  if (tag == 'collectible') {
-    if (type == 'transfer' || type == 'mint' || type == 'burn') {
-      return (
-        <>
-          [{getLang(tag + '_' + type)}]
-          <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
-        </>
-      );
-    }
-    if (type == 'trade') {
-      return (
-        <>
-          [{getLang(tag + '_' + type)}]
-          <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
+    if (tag == 'exchange') {
+      if (type == 'swap') {
+        return (
           <span>
-            Cost: {metadata.cost.value_display} {metadata.cost.symbol}
+            [{getLang(tag + '_' + type)}]
+            {` ${metadata.from.value_display} ${metadata.from.symbol} to ${metadata.to.value_display} ${metadata.to.symbol}`}
           </span>
-        </>
-      );
+        );
+      } else if (type == 'liquidity') {
+        return (
+          <span>
+            [{getLang(tag + '_' + type)}]
+            {` ${metadata.action} ${metadata.from.value_display} ${metadata.from.symbol} to ${metadata.to.value_display} ${metadata.to.symbol}`}
+          </span>
+        );
+      } else if (type == 'bridge') {
+        return (
+          <span>
+            [{getLang(tag + '_' + type)}]
+            {` ${metadata.token.value_display} ${metadata.token.symbol} to ${metadata.target_network.name}`}
+          </span>
+        );
+      } else {
+        return (
+          <span>
+            [{getLang(tag + '_' + type)}]
+            {` ${metadata.value_display} ${metadata.symbol}`}
+          </span>
+        );
+      }
     }
-  }
 
-  if (tag == 'governance') {
-    if (type == 'vote') {
-      return (
-        <>
-          [{getLang(tag + '_' + type)}]
-          <a href={feed.related_urls[0]!}> {metadata.proposal.title}</a>
-        </>
-      );
+    if (tag == 'collectible') {
+      if (type == 'transfer' || type == 'mint' || type == 'burn') {
+        return (
+          <>
+            [{getLang(tag + '_' + type)}]
+            <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
+          </>
+        );
+      }
+      if (type == 'trade') {
+        return (
+          <>
+            [{getLang(tag + '_' + type)}]
+            <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
+            <span>
+              Cost: {metadata.cost.value_display} {metadata.cost.symbol}
+            </span>
+          </>
+        );
+      } else if (type == 'poap') {
+        return (
+          <>
+            [{getLang(tag + '_' + type)}]
+            <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
+          </>
+        );
+      }
     }
-    if (type == 'propose') {
-      return (
-        <>
-          [{getLang(tag + '_' + type)}]
-          <a href={feed.related_urls[0]!}> {metadata.proposal.title}</a>
-        </>
-      );
-    }
-  }
 
-  return '';
+    if (tag == 'governance') {
+      if (type == 'vote') {
+        return (
+          <>
+            [{getLang(tag + '_' + type)}]
+            <a href={feed.related_urls[0]!}> {metadata.proposal.title}</a>
+          </>
+        );
+      }
+      if (type == 'propose') {
+        return (
+          <>
+            [{getLang(tag + '_' + type)}]
+            <a href={feed.related_urls[0]!}> {metadata.title}</a>
+          </>
+        );
+      }
+    }
+
+    if (tag == 'donation') {
+      if (type == 'launch') {
+        return (
+          <>
+            [{getLang(tag + '_' + type)}]
+            <a href={feed.related_urls[0]!}> {metadata.title}</a>
+          </>
+        );
+      } else if (type == 'donate') {
+        return (
+          <>
+            [{getLang(tag + '_' + type)}]
+            <a href={feed.related_urls[0]!}> {metadata.title}</a>
+            <span>
+              Donate: {metadata.token.value_display} {metadata.token.symbol}
+            </span>
+          </>
+        );
+      }
+    }
+  } catch (e) {}
+
+  return getLang(tag + '_' + type);
 }
-type IFeed = {
-  title: string;
-  description: string;
-  pubDate: string;
-  auther: string;
-  link: string;
-};
+
 export default function RSS3Feeds(props: {
   id?: string;
   index?: number;
@@ -115,24 +160,28 @@ export default function RSS3Feeds(props: {
   const [loading, setLoading] = useState(true);
 
   const { loginedAddress } = useContext(UserContext);
-  const [activeAddress, setActiveAddress] = useState('');
+  const [activeAddress, setActiveAddress] = useState<string>();
   const [addressList, setAddressList] = useState<string[]>([]);
-  async function loadFeeds(address: string) {
+  const [cursor, setCursor] = useState<string | null>(null);
+
+  async function loadFeeds(address: string, cursor: string | null) {
     setLoading(true);
-    const result = await getFeeds(address);
-    console.log('notes', result?.result);
+    const result = await getFeeds(address, cursor);
+    setCursor(result.cursor);
     setFeeds(
-      result?.result
-        .map((r) => {
-          // @ts-ignore
-          return r.actions.map((a) => {
-            return {
-              ...a,
-              parent: r,
-            };
-          });
-        })
-        .flat() || [],
+      feeds.concat(
+        result?.result
+          .map((r) => {
+            // @ts-ignore
+            return r.actions.map((a) => {
+              return {
+                ...a,
+                parent: r,
+              };
+            });
+          })
+          .flat() || [],
+      ),
     );
     setLoading(false);
   }
@@ -143,9 +192,15 @@ export default function RSS3Feeds(props: {
   }, [loginedAddress]);
   useEffect(() => {
     if (activeAddress) {
-      loadFeeds(activeAddress);
+      setCursor(null);
+      setFeeds([]);
+      loadFeeds(activeAddress, null);
     }
   }, [activeAddress]);
+  // useEffect(() => {
+  //   if()
+  // }, [addressList]);
+
   const [showAddCategory, setshowAddCategory] = useState(false);
   const [addCategoryTitle, setaddCategoryTitle] = useState('');
   function closeModalHandler() {
@@ -189,22 +244,24 @@ export default function RSS3Feeds(props: {
           margin: '10px 0px',
         }}
       >
-        <div
-          onClick={() => {
-            setActiveAddress(loginedAddress);
-          }}
-          style={{
-            fontSize: '12px',
-            padding: '0px 10px',
-            lineHeight: '26px',
-            borderRadius: '13px',
-            cursor: 'pointer',
-            background: activeAddress == loginedAddress ? '#9f50ff' : '#fff',
-            color: activeAddress == loginedAddress ? '#fff' : '#444',
-          }}
-        >
-          {loginedAddress.substring(0, 12)}...
-        </div>
+        {loginedAddress && (
+          <div
+            onClick={() => {
+              setActiveAddress(loginedAddress);
+            }}
+            style={{
+              fontSize: '12px',
+              padding: '0px 10px',
+              lineHeight: '26px',
+              borderRadius: '13px',
+              cursor: 'pointer',
+              background: activeAddress == loginedAddress ? '#9f50ff' : '#fff',
+              color: activeAddress == loginedAddress ? '#fff' : '#444',
+            }}
+          >
+            {loginedAddress.substring(0, 12)}...
+          </div>
+        )}
         {addressList.map((a) => {
           return (
             <div
@@ -241,7 +298,11 @@ export default function RSS3Feeds(props: {
             borderRadius: '5px',
           }}
         >
-          <Tooltip content={'add new watch address'} rounded color="secondary">
+          <Tooltip
+            content={getLang('add_new_address')}
+            rounded
+            color="secondary"
+          >
             <AddCircleOutlineIcon
               style={{ fontSize: '18px', color: '#9f50ff' }}
             />
@@ -257,7 +318,28 @@ export default function RSS3Feeds(props: {
           },
         }}
       >
-        {loading ? <Loading size="xs" /> : null}
+        {!activeAddress && (
+          <div
+            style={{
+              textAlign: 'left',
+              width: '100%',
+              fontSize: '14px',
+              lineHeight: '50px',
+              paddingLeft: '5px',
+              color: '#666',
+            }}
+          >
+            {getLang('please_select_address')}
+            <a
+              target="_blank"
+              style={{
+                marginLeft: '10px',
+              }}
+            >
+              {getLang('add_new_address')}
+            </a>
+          </div>
+        )}
         {feeds.map((feed) => {
           return (
             <div
@@ -296,7 +378,7 @@ export default function RSS3Feeds(props: {
                       <a
                         href={`https://etherscan.io/address/${feed.address_from}`}
                       >
-                        {feed.address_from.substring(0, 10)}...
+                        {feed.address_from.substring(0, 20)}...
                       </a>{' '}
                     </span>
                   )}
@@ -306,7 +388,7 @@ export default function RSS3Feeds(props: {
                       <a
                         href={`https://etherscan.io/address/${feed.address_to}`}
                       >
-                        {feed.address_to.substring(0, 10)}...
+                        {feed.address_to.substring(0, 20)}...
                       </a>
                     </span>
                   )}
@@ -331,6 +413,28 @@ export default function RSS3Feeds(props: {
             </div>
           );
         })}
+        {activeAddress && loading ? <Loading size="xs" /> : null}
+        {cursor && activeAddress && (
+          <Box
+            sx={{
+              height: '50px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '12px',
+            }}
+          >
+            <a
+              href=""
+              onClick={(e) => {
+                e.preventDefault();
+                loadFeeds(activeAddress, cursor);
+              }}
+            >
+              Load More
+            </a>
+          </Box>
+        )}
       </Box>
       <Modal
         closeButton
@@ -340,7 +444,7 @@ export default function RSS3Feeds(props: {
       >
         <Modal.Header>
           <Text id="modal-title" size={18}>
-            Add address
+            {getLang('add_new_address')}
           </Text>
         </Modal.Header>
         <Modal.Body>

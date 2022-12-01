@@ -266,6 +266,7 @@ export default function Score() {
           justifyContent: 'space-between',
           lineHeight: '30px',
           marginTop: '10px',
+          flexWrap: 'wrap',
         }}
       >
         <span

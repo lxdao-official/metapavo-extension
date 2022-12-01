@@ -63,12 +63,17 @@ export interface RSS3Feed {
 // }
 
 export interface RSS3CollectibleMetadata {}
-export async function getFeeds(address: string): Promise<{
+export async function getFeeds(
+  address: string,
+  cursor: string | null,
+): Promise<{
   total: number;
   result: RSS3Feed[];
+  cursor: string;
 }> {
   const res = await fetch(
-    `https://pregod.rss3.dev/v1/notes/${address}?limit=20&include_poap=false&count_only=false&query_status=false`,
+    `https://pregod.rss3.dev/v1/notes/${address}?limit=50&include_poap=false&count_only=false&query_status=false` +
+      (cursor ? `&cursor=${cursor}` : ''),
   );
   const json = await res.json();
   return json;

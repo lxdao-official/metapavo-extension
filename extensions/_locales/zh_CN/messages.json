@@ -228,7 +228,7 @@
     "message": "获得邀请码"
   },
   "RSS3_Feeds": {
-    "message": "RSS3 Feeds"
+    "message": "动态（RSS3）"
   },
   "governance_vote": {
     "message": "投票"
@@ -245,6 +245,9 @@
   "collectible_burn": {
     "message": "NFT 销毁"
   },
+  "collectible_poap": {
+    "message": "NFT POAP"
+  },
   "collectible_trade": {
     "message": "购买 NFT"
   },
@@ -256,5 +259,32 @@
   },
   "exchange_swap": {
     "message": "兑换"
+  },
+  "exchange_liquidity": {
+    "message": "流动性"
+  },
+  "exchange_bridge": {
+    "message": "跨桥"
+  },
+  "exchange_withdraw": {
+    "message": "提取"
+  },
+  "exchange_deposit": {
+    "message": "存入"
+  },
+  "donation_donate": {
+    "message": "捐赠"
+  },
+  "donation_launch": {
+    "message": "发起筹款"
+  },
+  "please_select_address": {
+    "message": "请选择或添加新的地址"
+  },
+  "add_new_address": {
+    "message": "添加新地址/ENS"
+  },
+  "todo": {
+    "message": "暂未开放"
   }
 }
