@@ -286,5 +286,23 @@
   },
   "todo": {
     "message": "暂未开放"
+  },
+  "display_two_line": {
+    "message": "显示两行"
+  },
+  "social_post": {
+    "message": "Social 发布"
+  },
+  "social_revise": {
+    "message": "Social 修改"
+  },
+  "social_comment": {
+    "message": "Social 评论"
+  },
+  "social_share": {
+    "message": "Social 分享"
+  },
+  "social_follow": {
+    "message": "Social 关注"
   }
 }

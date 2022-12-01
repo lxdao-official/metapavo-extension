@@ -286,5 +286,24 @@
   },
   "todo": {
     "message": "Open Soon"
+  },
+  "display_two_line": {
+    "message": "Display two line"
+  },
+
+  "social_post": {
+    "message": "Social post"
+  },
+  "social_revise": {
+    "message": "Social revise"
+  },
+  "social_comment": {
+    "message": "Social comment"
+  },
+  "social_share": {
+    "message": "Social share"
+  },
+  "social_follow": {
+    "message": "Social follow"
   }
 }

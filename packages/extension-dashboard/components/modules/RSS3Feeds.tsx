@@ -238,7 +238,7 @@ export default function RSS3Feeds(props: {
           return (
             <div
               style={{
-                padding: '5px 0px',
+                padding: '10px 0px',
                 width: '100%',
                 textAlign: 'left',
                 borderBottom: '1px dashed #eee',
@@ -257,7 +257,7 @@ export default function RSS3Feeds(props: {
                     justifyContent: 'space-between',
                     fontSize: '13px',
                     fontWeight: 500,
-                    lineHeight: '30px',
+                    lineHeight: '20px',
                   }}
                 >
                   <div
@@ -266,22 +266,25 @@ export default function RSS3Feeds(props: {
                     }}
                   >
                     {getFeedTitle(feed)}
-                    <a href={feed.related_urls[0]} target={'_blank'}>
-                      <img
-                        src={linkImages.etherscan}
-                        style={{
-                          width: '12px',
-                          height: '12px',
-                          marginLeft: '5px',
-                          verticalAlign: '-2px',
-                        }}
-                      />
-                    </a>
+                    {feed.related_urls &&
+                      feed.related_urls[0]?.indexOf('etherscan.io') != -1 && (
+                        <a href={feed.related_urls[0]} target={'_blank'}>
+                          <img
+                            src={linkImages.etherscan}
+                            style={{
+                              width: '12px',
+                              height: '12px',
+                              marginLeft: '5px',
+                              verticalAlign: '-2px',
+                            }}
+                          />
+                        </a>
+                      )}
                   </div>
                   <span
                     style={{
-                      color: '#999',
                       paddingLeft: '10px',
+                      opacity: 0.7,
                     }}
                   >
                     {moment(feed.timestamp).fromNow()}
@@ -289,7 +292,8 @@ export default function RSS3Feeds(props: {
                 </div>
                 <div
                   style={{
-                    color: '#999',
+                    opacity: 0.7,
+                    lineHeight: '20px',
                   }}
                 >
                   {feed.address_from && (

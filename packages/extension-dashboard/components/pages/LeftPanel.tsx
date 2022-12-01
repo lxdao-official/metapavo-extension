@@ -99,7 +99,7 @@ export default function LeftPanel() {
                       style={{
                         fontSize: '12px',
                         color: '#666',
-                        fontWeight: 300,
+                        fontWeight: 400,
                       }}
                     >
                       <Switch
@@ -119,7 +119,7 @@ export default function LeftPanel() {
                           globalEvent.emit('reloadFavs');
                         }}
                       ></Switch>
-                      <span>显示两行</span>
+                      <span>{getLang('display_two_line')}</span>
                     </div>
                     <a href="https://opensea.io/account">OpenSea</a>
                     <a href="https://www.gem.xyz">GEM</a>

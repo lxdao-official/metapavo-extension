@@ -141,6 +141,19 @@ export function getFeedTitle(feed: RSS3Feed) {
         );
       }
     }
+    if (tag == 'social') {
+      if (type == 'post' || type == 'revise' || type == 'comment') {
+        return (
+          <>
+            [{getLang(tag + '_' + type)}]
+            <a href={feed.related_urls[0]!}>
+              {' '}
+              {metadata.title || metadata.body}
+            </a>
+          </>
+        );
+      }
+    }
   } catch (e) {}
 
   return getLang(tag + '_' + type);

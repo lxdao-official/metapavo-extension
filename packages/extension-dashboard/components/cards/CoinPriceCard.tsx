@@ -63,7 +63,7 @@ export default function CoinPriceCard(props: { symbol: string }) {
     const labelWidth = labelRect.width;
     const overflow = labelWidth + labelX > chartWidth;
     const labelY = labelRect.y;
-    console.log('labelY', labelY);
+
     let y = labelY;
     let x = labelX;
 
@@ -73,11 +73,6 @@ export default function CoinPriceCard(props: { symbol: string }) {
     if (labelX < 0) {
       x = 0;
     }
-
-    // if (labelY + labelRect.height > params.rect.height) {
-    //   y = params.rect.height - labelRect.height;
-    // }
-
     return {
       x: overflow ? chartWidth - labelWidth : x,
       y: y,
@@ -172,7 +167,7 @@ export default function CoinPriceCard(props: { symbol: string }) {
             borderRadius: 5,
             fontSize: 12,
             lineHeight: 12,
-            align: 'center',
+            align: 'left',
             offset: [0, -2],
             verticalAlign: 'bottom',
             formatter: (d: any) => {
