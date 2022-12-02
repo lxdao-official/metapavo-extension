@@ -305,5 +305,8 @@
   },
   "search_placeholder": {
     "message": "输入关键字, 支持 NFT/DAPP/Token/KOL/address 等。 回车直接 Google。"
+  },
+  "ctrl_shift_f": {
+    "message": "任何页面 Ctrl+Shift+F 唤起搜索"
   }
 }

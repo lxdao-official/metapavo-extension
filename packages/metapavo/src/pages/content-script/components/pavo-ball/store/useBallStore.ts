@@ -150,7 +150,10 @@ export default function useBallStore() {
       setMenuOpen(false);
     });
     document.body.addEventListener('keydown', (e) => {
-      if (e.code === 'KeyF' && e.metaKey && e.shiftKey) {
+      if (
+        (e.code === 'KeyF' && e.metaKey && e.shiftKey) ||
+        (e.code === 'KeyF' && e.ctrlKey && e.shiftKey)
+      ) {
         setShowSearch(true);
         e.preventDefault();
       }

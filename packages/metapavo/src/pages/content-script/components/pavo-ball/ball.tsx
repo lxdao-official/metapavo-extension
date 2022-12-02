@@ -1,3 +1,6 @@
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import BlockIcon from '@mui/icons-material/Block';
+import { Box } from '@mui/material';
 import { Button, Tooltip } from '@nextui-org/react';
 import { links } from 'extension-common/src/apis';
 import { getLogo } from 'extension-common/src/getLogo';
@@ -71,40 +74,96 @@ function Ball() {
             content={
               <div
                 style={{
-                  padding: '5px 3px',
+                  padding: '3px 0px',
+                  width: '200px',
                 }}
               >
-                <div>
-                  <Button
-                    onClick={async () => {
-                      setShowAddLinksModal(true);
-                      setlink({
-                        title: document.title,
-                        url: window.location.href,
-                        icon: await getLogo(window.location.host),
-                      });
-                    }}
-                    size="sm"
-                    color="default"
-                  >
-                    {getLang('add_to_read_later')}
-                  </Button>
-                </div>
-                <div
-                  style={{
-                    marginTop: '10px',
+                <Box
+                  style={{}}
+                  onClick={async () => {
+                    setShowAddLinksModal(true);
+                    setlink({
+                      title: document.title,
+                      url: window.location.href,
+                      icon: await getLogo(window.location.host),
+                    });
                   }}
                 >
-                  <Button
-                    onClick={() => {
-                      noDisplay7();
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      margin: '3px',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      color: '#444',
+                      alignItems: 'center',
+                      padding: '10px 8px',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        background: '#efefef',
+                      },
                     }}
-                    size="sm"
-                    color="default"
                   >
-                    {getLang('nodisplay7')}
-                  </Button>
-                </div>
+                    <AddCircleOutlineIcon
+                      style={{
+                        fontSize: '20px',
+                        marginRight: '10px',
+                        color: '#5B28EB',
+                      }}
+                    />
+                    <div>{getLang('add_to_read_later')}</div>
+                  </Box>
+                </Box>
+                <Box
+                  style={{}}
+                  onClick={() => {
+                    noDisplay7();
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      margin: '3px',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      color: '#444',
+                      alignItems: 'center',
+                      padding: '10px 8px',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        background: '#efefef',
+                      },
+                    }}
+                  >
+                    <BlockIcon
+                      style={{
+                        fontSize: '20px',
+                        marginRight: '10px',
+                        color: '#5B28EB',
+                      }}
+                    />
+                    <div> {getLang('nodisplay7')}</div>
+                  </Box>
+                </Box>
+                <Box style={{}}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      margin: '3px',
+                      borderRadius: '8px',
+                      fontSize: '12px',
+                      color: '#999',
+                      alignItems: 'center',
+                      padding: '10px 8px',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        background: '#efefef',
+                      },
+                    }}
+                  >
+                    <div> {getLang('ctrl_shift_f')}</div>
+                  </Box>
+                </Box>
               </div>
             }
             placement="leftStart"
