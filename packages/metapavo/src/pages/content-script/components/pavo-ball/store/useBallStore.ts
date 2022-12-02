@@ -12,7 +12,8 @@ export default function useBallStore() {
   const gasRef = useRef<HTMLDivElement>(null);
 
   const useG = useContext(GlobalContext);
-  const [gas, setGas] = useState(0);
+  const [gas, setGas] = useState('');
+  const [gasType, setGasType] = useState('GAS');
   const { showSearch, setShowSearch } = useContext(GlobalContext);
   const [activeDapp, setActiveDapp] = useState<
     ({ installed: boolean } & dapps) | null
@@ -132,16 +133,48 @@ export default function useBallStore() {
       sender,
       sendResponse,
     ) {
-      if (request.cmd === 'gasUpdate') setGas(request.value);
+      if (request.cmd === 'gasUpdate') {
+        if (request.type !== 'GAS') {
+          const v = Number(request.value) || 0;
+          if (v > 10000) {
+            setGas(v.toFixed(0));
+          } else if (v > 1000) {
+            setGas(v.toFixed(1));
+          } else if (v < 0) {
+            setGas(v.toFixed(4));
+          } else {
+            setGas(v.toFixed(2));
+          }
+        } else {
+          setGas(request.value);
+        }
+
+        setGasType(request.type);
+      }
       sendResponse('ok');
     });
     chrome.runtime.sendMessage(
       {
         cmd: 'getGas',
       },
-      function (response) {
+      function (request) {
         if (!chrome.runtime.lastError) {
-          setGas(response);
+          if (request.type !== 'GAS') {
+            const v = Number(request.value) || 0;
+            if (v > 10000) {
+              setGas(v.toFixed(0));
+            } else if (v > 1000) {
+              setGas(v.toFixed(1));
+            } else if (v < 0) {
+              setGas(v.toFixed(4));
+            } else {
+              setGas(v.toFixed(2));
+            }
+          } else {
+            setGas(request.value);
+          }
+
+          setGasType(request.type);
         } else {
         }
       },
@@ -158,6 +191,12 @@ export default function useBallStore() {
         e.preventDefault();
       }
     });
+  }
+  function refreshData() {
+    chrome?.runtime?.sendMessage(
+      { cmd: 'refresh_gas' },
+      function (response) {},
+    );
   }
   return {
     hide,
@@ -177,5 +216,7 @@ export default function useBallStore() {
     checkDapp,
     dragElement,
     init,
+    gasType,
+    refreshData,
   };
 }

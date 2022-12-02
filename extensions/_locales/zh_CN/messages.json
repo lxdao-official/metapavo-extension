@@ -308,5 +308,8 @@
   },
   "ctrl_shift_f": {
     "message": "任何页面 Ctrl+Shift+F 唤起搜索"
+  },
+  "choose_display_info": {
+    "message": "选择 pavo 球显示的信息"
   }
 }

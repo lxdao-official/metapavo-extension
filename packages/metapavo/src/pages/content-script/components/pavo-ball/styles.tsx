@@ -59,8 +59,8 @@ const dangerboom = keyframes`
 export const GasBox = styled.div`
   content: '';
   display: block;
-  height: 50px;
-  width: 50px;
+  height: 65px;
+  width: 65px;
   background: var(--blob);
   // box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
   // background-size: 1600% 1600%;
@@ -80,18 +80,18 @@ export const GasBox = styled.div`
 `;
 export const RootElement = styled.div`
   position: fixed;
-  bottom: 50px;
-  right: 50px;
+  bottom: 90px;
+  right: 90px;
   color: #fff !important;
   z-index: 100000000001;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
   display: flex;
   align-items: center;
-  width: 50px;
+  width: 65px;
   justify-content: center;
-  height: 50px;
+  height: 65px;
   cursor: pointer;
   --background: rgb(96, 93, 236);
   --blob: linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%);
@@ -155,10 +155,36 @@ export const RootElement = styled.div`
   //   box-shadow: none;
   // }
   #metapavo-gas-text {
-    line-height: 13px;
-    margin-top: 13px;
+    margin-top: 0px;
     color: #fff !important;
     float: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    flex-direction: column;
+  }
+  #metapavo-box-gas {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+  }
+  .auto-size-text {
+    width: 46px;
+    margin: 0 auto;
+    justify-content: center;
+    line-height: 1;
+  }
+  &.metapavo-info-gas {
+    font-size: 20px;
+    #metapavo-box-gas {
+      width: 50px;
+      height: 50px;
+    }
+    #metapavo-gas-text {
+      height: 50px;
+    }
   }
 `;
 

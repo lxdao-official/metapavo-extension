@@ -309,5 +309,8 @@
   },
   "ctrl_shift_f": {
     "message": "Any page Ctrl+Shift+F evoks search"
+  },
+  "choose_display_info": {
+    "message": "Select the information displayed by Pavo ball"
   }
 }

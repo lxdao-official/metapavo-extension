@@ -1,7 +1,8 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import BlockIcon from '@mui/icons-material/Block';
 import { Box } from '@mui/material';
-import { Button, Tooltip } from '@nextui-org/react';
+import { Button, Radio, Tooltip } from '@nextui-org/react';
+import { AutoTextSize } from 'auto-text-size';
 import { links } from 'extension-common/src/apis';
 import { getLogo } from 'extension-common/src/getLogo';
 import { getLang } from 'extension-common/src/lang';
@@ -26,7 +27,9 @@ function Ball() {
     gas,
     activeDapp,
     noDisplay7,
+    refreshData,
     checkHide,
+    gasType,
     init,
   } = useBallStore();
 
@@ -51,6 +54,7 @@ function Ball() {
           useG.detectStatus === 'danger' ? 'metapavo-main-status-danger' : '',
           useG.detectStatus === 'success' ? 'metapavo-main-status-success' : '',
           useG.addRootClass,
+          gasType === 'GAS' ? 'metapavo-info-gas' : '',
         ].join(' ')}
         ref={rootRef}
         style={{
@@ -154,14 +158,60 @@ function Ball() {
                       fontSize: '12px',
                       color: '#999',
                       alignItems: 'center',
-                      padding: '10px 8px',
+                      padding: '5px 8px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div>{getLang('ctrl_shift_f')}</div>
+                  </Box>
+                </Box>
+                <Box style={{}}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      margin: '3px',
+                      borderRadius: '8px',
+                      fontSize: '12px',
+                      color: '#999',
+                      alignItems: 'center',
+                      padding: '5px 8px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div>{getLang('choose_display_info')}</div>
+                  </Box>
+                </Box>
+                <Box style={{}}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      margin: '3px',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      color: '#444',
+                      alignItems: 'center',
+                      padding: '5px 8px',
                       cursor: 'pointer',
                       '&:hover': {
                         background: '#efefef',
                       },
                     }}
                   >
-                    <div> {getLang('ctrl_shift_f')}</div>
+                    <Radio.Group
+                      defaultValue={gasType}
+                      size="xs"
+                      orientation="horizontal"
+                      onChange={(e) => {
+                        chrome.storage.local.set({
+                          display_info: e,
+                        });
+                        refreshData();
+                      }}
+                    >
+                      <Radio value="GAS">GAS</Radio>
+                      <Radio value="BTCBUSD">BTC</Radio>
+                      <Radio value="ETHBUSD">ETH</Radio>
+                    </Radio.Group>
                   </Box>
                 </Box>
               </div>
@@ -169,20 +219,21 @@ function Ball() {
             placement="leftStart"
           >
             <div id="metapavo-gas-text">
-              {gas}
-              <br />
+              <div className="auto-size-text">
+                <AutoTextSize maxFontSizePx={20}>{gas}</AutoTextSize>
+              </div>
               <span
                 style={{
                   fontSize: '12px',
-                  fontWeight: '400',
+                  fontWeight: 'normal',
                   opacity: '0.8',
                   transform: 'scale(0.7)',
                   display: 'block',
-                  marginTop: '4px',
                   color: '#fff',
+                  lineHeight: 1,
                 }}
               >
-                GAS
+                {gasType}
               </span>
             </div>
           </Tooltip>

@@ -32,6 +32,23 @@ async function getNowGas() {
   }
   return _nowGas;
 }
+async function getTokenPrice(symbol: string) {
+  nowGas = 0;
+  const r3 = await fetch(
+    `https://api.binance.com/api/v3/avgPrice?symbol=${symbol}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  const json3 = await r3.json();
+  if (json3.price) {
+    nowGas = json3.price;
+  }
+  return nowGas;
+}
 function sendMessageToContentScript(message: any, callback: any) {
   chrome.tabs.query({}, function (tabs) {
     tabs.forEach((tab: any) => {
@@ -86,7 +103,11 @@ chrome?.runtime?.onMessage.addListener(function (
   sender,
   sendResponse,
 ) {
-  if (request.cmd === 'getGas') sendResponse(nowGas);
+  if (request.cmd === 'getGas')
+    sendResponse({
+      value: nowGas,
+      type: display_info,
+    });
   if (request.cmd === 'add_time_alarm') {
     addAlarm(
       request.value.alarm_at,
@@ -105,16 +126,41 @@ chrome?.runtime?.onMessage.addListener(function (
       url: 'login.html',
     });
   }
-});
-
-async function repeat() {
-  let gas = await getNowGas();
-  if (gas > 0) {
-    sendMessageToContentScript({ cmd: 'gasUpdate', value: gas }, function () {
-      // console.log("来自content的回复：" + response);
-    });
-    nowGas = gas;
+  if (request.cmd === 'refresh_gas') {
+    repeat();
   }
+});
+let display_info = 'GAS';
+async function repeat() {
+  chrome.storage.local.get(['display_info'], async function (data) {
+    if (data && data.display_info) {
+      display_info = data.display_info;
+    } else {
+      display_info = 'GAS';
+    }
+    if (display_info === 'GAS') {
+      let gas = await getNowGas();
+      if (gas > 0) {
+        sendMessageToContentScript(
+          { cmd: 'gasUpdate', value: gas, type: 'GAS' },
+          function () {
+            // console.log("来自content的回复：" + response);
+          },
+        );
+        nowGas = gas;
+      }
+    } else {
+      let price = await getTokenPrice(display_info);
+      if (price > 0) {
+        sendMessageToContentScript(
+          { cmd: 'gasUpdate', value: price, type: display_info },
+          function () {
+            // console.log("来自content的回复：" + response);
+          },
+        );
+      }
+    }
+  });
 }
 repeat();
 
