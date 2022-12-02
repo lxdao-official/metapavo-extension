@@ -1,3 +1,4 @@
+import { RemoveCircleOutline } from '@mui/icons-material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {
   Box,
@@ -7,8 +8,16 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { Button, Input, Modal, Text, Tooltip } from '@nextui-org/react';
+import {
+  Button,
+  Dropdown,
+  Input,
+  Modal,
+  Text,
+  Tooltip,
+} from '@nextui-org/react';
 import { links, linktags, userlinks } from 'extension-common/src/apis';
+import { fetchWrapped } from 'extension-common/src/apis/fetch';
 import {
   createUserTag,
   fetchUsersTags,
@@ -26,6 +35,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import config from '../../config';
 import { LinkLater, getList } from '../../stores/read-later';
 
 type UserLink = userlinks & {
@@ -59,6 +69,21 @@ export default function ReadLaters() {
       }
     } else {
       toast.error('title is required');
+    }
+    toast.dismiss(loading);
+  }
+  async function removeCategory(id: string) {
+    const loading = toast.loading('removing...');
+
+    try {
+      const res = await fetchWrapped(`${config.baseURL}/links/tags/${id}`, {
+        method: 'DELETE',
+      });
+      toast.success('removed');
+      await loadUserDapps();
+      await loadUsersCategories();
+    } catch (e) {
+      toast.error('remove failed');
     }
     toast.dismiss(loading);
   }
@@ -196,19 +221,12 @@ export default function ReadLaters() {
           ))}
 
           <Box
-            onClick={() => {
-              showModal();
-            }}
             sx={{
               lineHeight: '26px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               padding: '0 6px',
-              '&:hover': {
-                background: '#f5f5f5',
-              },
-              borderRadius: '5px',
             }}
           >
             <Tooltip
@@ -217,9 +235,56 @@ export default function ReadLaters() {
               color="secondary"
             >
               <AddCircleOutlineIcon
+                onClick={() => {
+                  showModal();
+                }}
                 style={{ fontSize: '18px', color: '#9f50ff' }}
               />
             </Tooltip>
+            <Dropdown>
+              <Dropdown.Trigger>
+                <RemoveCircleOutline
+                  style={{
+                    fontSize: '18px',
+                    color: '#999',
+                    marginLeft: '5px',
+                  }}
+                />
+              </Dropdown.Trigger>
+              <Dropdown.Menu
+                color="secondary"
+                aria-label="Actions"
+                css={{ $$dropdownMenuWidth: '280px' }}
+              >
+                {user_categories.map((a) => {
+                  return (
+                    <Dropdown.Item key={a.id}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <span>{a.title}</span>
+                        <Tooltip content="Delete">
+                          <RemoveCircleOutline
+                            onClick={() => {
+                              removeCategory(a.id);
+                            }}
+                            style={{
+                              fontSize: '18px',
+                              color: '#9f50ff',
+                              marginLeft: '10px',
+                            }}
+                          />
+                        </Tooltip>
+                      </div>
+                    </Dropdown.Item>
+                  );
+                })}
+              </Dropdown.Menu>
+            </Dropdown>
           </Box>
         </div>
       </div>

@@ -95,9 +95,7 @@
   "nofound_desc2": {
     "message": "上报项目信息"
   },
-  "search_placeholder": {
-    "message": "输入合约地址或项目名称..."
-  },
+
   "My_NFTs": {
     "message": "我的 NFT"
   },
@@ -304,5 +302,8 @@
   },
   "social_follow": {
     "message": "Social 关注"
+  },
+  "search_placeholder": {
+    "message": "输入关键字, 支持 NFT/DAPP/Token/KOL/address 等。 回车直接 Google。"
   }
 }

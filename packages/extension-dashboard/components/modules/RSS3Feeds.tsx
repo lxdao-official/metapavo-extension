@@ -1,10 +1,13 @@
+import { RemoveCircleOutline } from '@mui/icons-material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Box } from '@mui/material';
 import {
   Button,
+  Dropdown,
   Input,
   Loading,
   Modal,
+  Popover,
   Text,
   Tooltip,
 } from '@nextui-org/react';
@@ -92,6 +95,7 @@ export default function RSS3Feeds(props: {
       loadFeeds(activeAddress, null, true);
     } else {
       setFeeds([]);
+      setCursor(null);
     }
   }, [activeAddress]);
 
@@ -117,6 +121,15 @@ export default function RSS3Feeds(props: {
       toast.error('title is required');
     }
   }
+  async function removeCategory(address: string) {
+    const newList = addressList.filter((a) => a !== address);
+    setAddressList(newList);
+    setListConfig('rss3_address_list', newList);
+    toast.success('removed');
+    if (activeAddress == address) {
+      setActiveAddress(undefined);
+    }
+  }
   useEffect(() => {
     const list = getListConfig('rss3_address_list', []);
     if (list.length) {
@@ -134,8 +147,9 @@ export default function RSS3Feeds(props: {
         style={{
           display: 'flex',
           justifyContent: 'flex-start',
-          gap: '0 5px',
+          gap: '5px 5px',
           margin: '10px 0px',
+          flexWrap: 'wrap',
         }}
       >
         {loginedAddress && (
@@ -177,19 +191,12 @@ export default function RSS3Feeds(props: {
           );
         })}
         <Box
-          onClick={() => {
-            showModal();
-          }}
           sx={{
             lineHeight: '26px',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             padding: '0 6px',
-            '&:hover': {
-              background: '#f5f5f5',
-            },
-            borderRadius: '5px',
           }}
         >
           <Tooltip
@@ -199,8 +206,51 @@ export default function RSS3Feeds(props: {
           >
             <AddCircleOutlineIcon
               style={{ fontSize: '18px', color: '#9f50ff' }}
+              onClick={() => {
+                showModal();
+              }}
             />
           </Tooltip>
+          <Dropdown>
+            <Dropdown.Trigger>
+              <RemoveCircleOutline
+                style={{ fontSize: '18px', color: '#999', marginLeft: '5px' }}
+              />
+            </Dropdown.Trigger>
+            <Dropdown.Menu
+              color="secondary"
+              aria-label="Actions"
+              css={{ $$dropdownMenuWidth: '280px' }}
+            >
+              {addressList.map((a) => {
+                return (
+                  <Dropdown.Item key={a}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <span>{a}</span>
+                      <Tooltip content="Delete">
+                        <RemoveCircleOutline
+                          onClick={() => {
+                            removeCategory(a);
+                          }}
+                          style={{
+                            fontSize: '18px',
+                            color: '#9f50ff',
+                            marginLeft: '10px',
+                          }}
+                        />
+                      </Tooltip>
+                    </div>
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
         </Box>
       </div>
       <Box

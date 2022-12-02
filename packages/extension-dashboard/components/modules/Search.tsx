@@ -92,7 +92,7 @@ export default function Search() {
         ref={wrapperRef}
       >
         <Input
-          placeholder="Search by keyword, support NFT/DAPP/Token/KOL/address etc. Press Enter to Google."
+          placeholder={getLang('search_placeholder')}
           clearable
           width="100%"
           shadow={false}

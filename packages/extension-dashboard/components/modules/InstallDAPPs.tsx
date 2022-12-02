@@ -1,3 +1,4 @@
+import { RemoveCircleOutline } from '@mui/icons-material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {
@@ -11,6 +12,7 @@ import {
 import {
   Avatar,
   Button,
+  Dropdown,
   Input,
   Modal,
   Navbar,
@@ -150,6 +152,25 @@ export default function InstallDAPPs() {
     }
     toast.dismiss(loading);
   }
+
+  async function removeCategory(id: string) {
+    const loading = toast.loading('removing...');
+
+    try {
+      const res = await fetchWrapped(
+        `${config.baseURL}/dapps/user_dapp_categories/${id}`,
+        {
+          method: 'DELETE',
+        },
+      );
+      toast.success('removed');
+      await loadUserDapps();
+      await loadUsersCategories();
+    } catch (e) {
+      toast.error('remove failed');
+    }
+    toast.dismiss(loading);
+  }
   async function loadUsersCategories() {
     const cache = getListConfig('user_dapps_catogories', []);
     if (cache && cache.length) {
@@ -211,7 +232,8 @@ export default function InstallDAPPs() {
               style={{
                 display: 'flex',
                 justifyContent: 'flex-start',
-                gap: '0 5px',
+                gap: '5px 5px',
+                flexWrap: 'wrap',
               }}
             >
               <div
@@ -268,19 +290,12 @@ export default function InstallDAPPs() {
                 {getLang('ungrouped')}
               </div>
               <Box
-                onClick={() => {
-                  showModal();
-                }}
                 sx={{
                   lineHeight: '26px',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   padding: '0 6px',
-                  '&:hover': {
-                    background: '#f5f5f5',
-                  },
-                  borderRadius: '5px',
                 }}
               >
                 <Tooltip
@@ -289,9 +304,56 @@ export default function InstallDAPPs() {
                   color="secondary"
                 >
                   <AddCircleOutlineIcon
+                    onClick={() => {
+                      showModal();
+                    }}
                     style={{ fontSize: '18px', color: '#9f50ff' }}
                   />
                 </Tooltip>
+                <Dropdown>
+                  <Dropdown.Trigger>
+                    <RemoveCircleOutline
+                      style={{
+                        fontSize: '18px',
+                        color: '#999',
+                        marginLeft: '5px',
+                      }}
+                    />
+                  </Dropdown.Trigger>
+                  <Dropdown.Menu
+                    color="secondary"
+                    aria-label="Actions"
+                    css={{ $$dropdownMenuWidth: '280px' }}
+                  >
+                    {user_categories.map((a) => {
+                      return (
+                        <Dropdown.Item key={a.id}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                            }}
+                          >
+                            <span>{a.title}</span>
+                            <Tooltip content="Delete">
+                              <RemoveCircleOutline
+                                onClick={() => {
+                                  removeCategory(a.id);
+                                }}
+                                style={{
+                                  fontSize: '18px',
+                                  color: '#9f50ff',
+                                  marginLeft: '10px',
+                                }}
+                              />
+                            </Tooltip>
+                          </div>
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </Dropdown.Menu>
+                </Dropdown>
               </Box>
             </div>
           </div>
