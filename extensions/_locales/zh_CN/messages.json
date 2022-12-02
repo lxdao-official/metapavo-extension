@@ -252,8 +252,11 @@
   "transaction_transfer": {
     "message": "发送"
   },
+  "transaction_bridge": {
+    "message": "跨桥"
+  },
   "cost": {
-    "message": "费用"
+    "message": "花费"
   },
   "exchange_swap": {
     "message": "兑换"
@@ -264,6 +267,7 @@
   "exchange_bridge": {
     "message": "跨桥"
   },
+
   "exchange_withdraw": {
     "message": "提取"
   },

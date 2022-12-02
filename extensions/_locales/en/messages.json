@@ -252,6 +252,9 @@
   "transaction_transfer": {
     "message": "Transfer"
   },
+  "transaction_bridge": {
+    "message": "Bridge"
+  },
   "cost": {
     "message": "Cost"
   },

@@ -25,6 +25,15 @@ export function getFeedTitle(feed: RSS3Feed) {
             }`}
           </span>
         );
+      } else if (type == 'bridge') {
+        return (
+          <span>
+            [{getLang(tag + '_' + type)}]
+            {` ${AutoDecimalForToken(metadata.token.value_display)} ${
+              metadata.token.symbol
+            } to ${metadata.target_network.name}`}
+          </span>
+        );
       }
     }
     if (tag == 'exchange') {
