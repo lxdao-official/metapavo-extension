@@ -1,4 +1,3 @@
-import { createVisitHistory } from 'extension-common/src/apis/nft_api';
 import { getNftByIdV2 } from 'extension-common/src/apis/nft_api_v2';
 import { projectLinksWrapper } from 'extension-common/src/apis/project_wrapper';
 import { IProjectV2 } from 'extension-common/src/apis/types';
@@ -46,7 +45,6 @@ function useGlobal() {
         showSuccess();
       }, 1000);
       setActiveProject(projectInfo);
-      createVisitHistory(projectInfo.id);
     } else {
       setDetectStatus('none');
       setActiveProject(null);

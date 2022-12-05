@@ -78,8 +78,8 @@ function Ball() {
             content={
               <div
                 style={{
-                  padding: '3px 0px',
-                  width: '200px',
+                  padding: '6px 0px',
+                  width: '220px',
                 }}
               >
                 <Box
@@ -149,54 +149,34 @@ function Ball() {
                     <div> {getLang('nodisplay7')}</div>
                   </Box>
                 </Box>
+
                 <Box style={{}}>
                   <Box
                     sx={{
-                      display: 'flex',
                       margin: '3px',
-                      borderRadius: '8px',
-                      fontSize: '12px',
-                      color: '#999',
-                      alignItems: 'center',
-                      padding: '5px 8px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <div>{getLang('ctrl_shift_f')}</div>
-                  </Box>
-                </Box>
-                <Box style={{}}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      margin: '3px',
-                      borderRadius: '8px',
-                      fontSize: '12px',
-                      color: '#999',
-                      alignItems: 'center',
-                      padding: '5px 8px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <div>{getLang('choose_display_info')}</div>
-                  </Box>
-                </Box>
-                <Box style={{}}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      margin: '3px',
+                      marginTop: '8px',
                       borderRadius: '8px',
                       fontSize: '14px',
                       color: '#444',
                       alignItems: 'center',
-                      padding: '5px 8px',
+                      padding: '3px 8px',
+                      paddingBottom: '8px',
                       cursor: 'pointer',
+                      border: '1px dotted #ccc',
                       '&:hover': {
                         background: '#efefef',
                       },
                     }}
                   >
+                    <div
+                      style={{
+                        lineHeight: '30px',
+                        color: '#999',
+                        fontSize: '12px',
+                      }}
+                    >
+                      {getLang('choose_display_info')}
+                    </div>
                     <Radio.Group
                       defaultValue={gasType}
                       size="xs"
@@ -212,6 +192,31 @@ function Ball() {
                       <Radio value="BTCBUSD">BTC</Radio>
                       <Radio value="ETHBUSD">ETH</Radio>
                     </Radio.Group>
+                  </Box>
+                </Box>
+                <Box style={{}}>
+                  <Box
+                    sx={{
+                      margin: '3px',
+                      marginTop: '8px',
+                      borderRadius: '8px',
+                      fontSize: '12px',
+                      color: '#999',
+                      alignItems: 'center',
+                      padding: '8px 8px',
+                      cursor: 'pointer',
+                      lineHeight: '20px',
+                      border: '1px dotted #ccc',
+                    }}
+                  >
+                    <div>{getLang('ctrl_shift_f')}</div>
+                    <div
+                      style={{
+                        marginTop: '5px',
+                      }}
+                    >
+                      {getLang('press_to_move')}
+                    </div>
                   </Box>
                 </Box>
               </div>

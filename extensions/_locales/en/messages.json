@@ -311,9 +311,12 @@
     "message": "Search by keyword, support NFT/DAPP/Token/KOL/address etc. Press Enter to Google."
   },
   "ctrl_shift_f": {
-    "message": "Any page Ctrl+Shift+F evoks search"
+    "message": "Any page Ctrl+Shift+F evoks search."
   },
   "choose_display_info": {
     "message": "Select the information displayed by Pavo ball"
+  },
+  "press_to_move": {
+    "message": "Hold down the Pavo ball to drag the position to change the position."
   }
 }

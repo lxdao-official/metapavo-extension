@@ -1,7 +1,7 @@
 import { user_dapps } from '.';
 import config from '../../config';
 import { fetchWrapped } from './fetch';
-import { IProject, IProjectV2, PagedDto, favs, visit_histories } from './types';
+import { IProject, IProjectV2, PagedDto, favs } from './types';
 
 export async function getNftByTwitterId(
   twitterId: string,
@@ -102,35 +102,6 @@ export async function findAllWebsite(): Promise<string[] | null> {
       },
     );
   });
-}
-
-export async function createVisitHistory(project_id: number) {
-  const res = await fetchWrapped(`${config.baseURL}/visit-histories/create`, {
-    method: 'POST',
-    body: JSON.stringify({
-      project_id,
-    }),
-  });
-  if (res && res.success) {
-    return res.data;
-  }
-  return null;
-}
-
-export async function getVisitHistories(
-  pageIndex = 1,
-  pageSize = 10,
-): Promise<PagedDto<visit_histories> | null> {
-  const res = await fetchWrapped(
-    `${config.baseURL}/visit-histories/users/list?pageIndex=${pageIndex}&pageSize=${pageSize}`,
-    {
-      method: 'GET',
-    },
-  );
-  if (res && res.success) {
-    return res.data;
-  }
-  return null;
 }
 
 export async function isFaved(project_id: number) {

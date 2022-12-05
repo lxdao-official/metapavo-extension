@@ -9,6 +9,7 @@ const Page = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  position: relative;
 `;
 const index_logo = chrome.runtime.getURL('images/index-logo.png');
 const Banner = styled.img``;
@@ -70,15 +71,31 @@ const SecurityLink = styled.a`
 
 const SingleLoginPage = () => {
   useEffect(() => {}, []);
-  const mainImage = chrome.runtime.getURL('images/login-banner.png');
+  const mainImage = chrome.runtime.getURL('images/login-banner-2.jpg');
   return (
     <Page>
-      <Banner
-        src={mainImage}
-        alt=""
-        style={{ width: 'auto', height: '100vh' }}
+      <div
+        style={{
+          flex: 1,
+          height: '100vh',
+          background: `url(${mainImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.7,
+        }}
       />
-      <div style={{ flex: 1, alignItems: 'center', display: 'flex' }}>
+      <div
+        style={{
+          alignItems: 'center',
+          display: 'flex',
+          position: 'relative',
+          zIndex: 100,
+          height: '100vh',
+          width: '479px',
+          // background: 'rgba(255, 255, 255, 0.8)',
+          // backdropFilter: 'blur(2px)',
+        }}
+      >
         <MainBody>
           <TitleText>
             <img src={index_logo} alt="" style={{ width: '263px' }} />

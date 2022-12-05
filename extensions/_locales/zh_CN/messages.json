@@ -267,6 +267,9 @@
   "exchange_bridge": {
     "message": "跨桥"
   },
+  "press_to_move": {
+    "message": "按住 pavo 球可以拖动改变位置。"
+  },
 
   "exchange_withdraw": {
     "message": "提取"
@@ -311,7 +314,7 @@
     "message": "输入关键字, 支持 NFT/DAPP/Token/KOL/address 等。 回车直接 Google。"
   },
   "ctrl_shift_f": {
-    "message": "任何页面 Ctrl+Shift+F 唤起搜索"
+    "message": "任何页面 Ctrl+Shift+F 唤起搜索。"
   },
   "choose_display_info": {
     "message": "选择 pavo 球显示的信息"
