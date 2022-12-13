@@ -34,3 +34,13 @@ export const AutoDecimalForToken = (
     return num.toFixed(4) + (hasK ? 'K' : '');
   }
 };
+
+export const AutoKForInt = (_num: number | string) => {
+  let num = Number(_num);
+  let hasK = false;
+  if (num >= 1000) {
+    num = num / 1000;
+    hasK = true;
+  }
+  return num + (hasK ? 'K' : '');
+};

@@ -1,9 +1,11 @@
 {
   "title": {
-  "message": "MetaPavo - 您的 Web3 个人信息助理"
+  "message": "MetaPavo - 您的 Web3 个人信息助理",
+    "description": "MetaPavo - 您的 Web3 个人信息助理"
 },
   "description": {
-    "message": "您的 Web3 个人信息助理，包括以下核心能力：个人工作台 & 随时随地的超级搜索 & 浏览既识别"
+    "message": "您的 Web3 个人信息助理，包括以下核心能力：个人工作台 & 随时随地的超级搜索 & 浏览既识别",
+    "description": "您的 Web3 个人信息助理，包括以下核心能力：个人工作台 & 随时随地的超级搜索 & 浏览既识别"
   },
   "More": {
     "message": "更多"
@@ -327,5 +329,8 @@
   },
   "recommend_nfts": {
     "message": "还没有收藏 NFT 项目，我们为您推荐了一些热门项目，你可以使用超级搜索或者在浏览 OpenSea 等网站过程中通过识别弹层来收藏你关注的 NFT"
+  },
+  "no_kols": {
+    "message": "还没有收藏 KOLs，请搜索以添加"
   }
 }

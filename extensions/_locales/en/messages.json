@@ -1,10 +1,12 @@
 {
   "title": {
-    "message": "MetaPavo - Personal Web3 Information Assistant"
+    "message": "MetaPavo - Personal Web3 Information Assistant",
+    "description": "MetaPavo - Personal Web3 Information Assistant"
   },
   "description": {
     "message": "Personal Web3 Information Assistant, including the following core competencies: Personal workbench & Search everywhere & Recognition entry on browsing"
-  },
+  ,
+    "description": "Personal Web3 Information Assistant, including the following core competencies: Personal workbench & Search everywhere & Recognition entry on browsing"},
   "More": {
     "message": "More"
   },
@@ -187,7 +189,7 @@
     "message": "Person"
   },
   "unbreak_checkin_days": {
-    "message": "Unbreak Checkin Days"
+    "message": "Unbreak Days"
   },
   "days": {
     "message": "Days"
@@ -327,6 +329,9 @@
   },
   "recommend_nfts": {
     "message": "Haven't favorited NFT projects yet, we recommend some popular projects for you, you can use super search or browse through websites such as OpenSea to collect the NFTs you care about by identifying pop-up layers"
+  },
+  "no_kols": {
+    "message": "Empty favorite KOLs, please search to add"
   }
 
 }

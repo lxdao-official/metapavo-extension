@@ -25,12 +25,16 @@
   align-items: flex-start;
 }
 .searchBg {
-  background: linear-gradient(90deg, #79deb1 0%, #399efa 51.74%, #9757ff 98.61%);
+  background: none;
   height: 100px;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.searchBg *::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
 }
 .footer {
   display: flex;

@@ -1,14 +1,14 @@
 import EventEmitter from 'eventemitter3';
-import { checkMarketPlace } from 'extension-common/src/recognizer/checkers/marketplace';
-import { checkTwitter } from 'extension-common/src/recognizer/checkers/twitter';
-import { checkWebsite } from 'extension-common/src/recognizer/checkers/website';
 
 import { IProject, IProjectV2 } from '../../apis/types';
 import { ScamResult } from '../../detector/src';
 import { contractDomains, tradeDomains } from './data';
 import { checkEtherscan } from './etherscan';
+import { checkMarketPlace } from './marketplace';
+import { checkTwitter } from './twitter';
 import { checkTwitterScam } from './twitterScam';
 import { CheckResultStatus } from './types';
+import { checkWebsite } from './website';
 
 export class Checker extends EventEmitter {
   lastCheckEntryResult?: {

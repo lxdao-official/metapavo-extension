@@ -2,6 +2,7 @@ import { Box, Grid } from '@mui/material';
 import { Input, Loading } from '@nextui-org/react';
 import { dapps, tokens } from 'extension-common/src/apis';
 import { searchDapps } from 'extension-common/src/apis/dapps_api';
+import { IKOL, searchKols } from 'extension-common/src/apis/kol_api';
 import { searchProjectsV2 } from 'extension-common/src/apis/nft_api_v2';
 import { projectLinksWrapper } from 'extension-common/src/apis/project_wrapper';
 import { searchTokens } from 'extension-common/src/apis/tokens_api';
@@ -12,9 +13,8 @@ import { useEffect, useRef, useState } from 'react';
 import styles from '../../styles/Home.module.css';
 import CoinNormalCard from '../cards/CoinNormalCard';
 import DappCard from '../cards/DappCard';
+import { KolDetailCard } from '../cards/KolDetailCard';
 import NFTCard from '../cards/NFTCard';
-import { IKOL, searchKols } from "extension-common/src/apis/kol_api";
-import KolCard from "../cards/KolCard";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -36,8 +36,8 @@ export default function Search() {
   const [inputFocus, setInputFocus] = useState(false);
   const [dappsSearching, setDappsSearching] = useState(false);
   const [dapps, setDapps] = useState<dapps[]>([]);
-  const [kols, setKols] = useState<IKOL[]>([])
-  const [kolSearching,setKolSearching] = useState(false);
+  const [kols, setKols] = useState<IKOL[]>([]);
+  const [kolSearching, setKolSearching] = useState(false);
   const debouncedValue = useDebounce(keyword, 500);
 
   async function _searchKols(keyword: string) {
@@ -196,7 +196,7 @@ export default function Search() {
                 {dapps.map((dapp) => {
                   return (
                     <Grid item xs={3}>
-                      <DappCard dapp={dapp} showPick={true} />
+                      <DappCard dapp={dapp} showPick={true} key={dapp.id} />
                     </Grid>
                   );
                 })}
@@ -228,21 +228,32 @@ export default function Search() {
                 <Loading size="xs" />
               </div>
             ) : nfts.length > 0 ? (
-              <div style={{
-                overflowX:'auto',
-                width:'100%'
-              }}>
-              <Grid container spacing={1} style={{
-                width:'180%'
-              }}>
-                {nfts.map((nft) => {
-                  return (
-                    <Grid item xs={2}>
-                      <NFTCard activeProject={nft} showPick={true} />
-                    </Grid>
-                  );
-                })}
-              </Grid></div>
+              <div
+                style={{
+                  overflowX: 'auto',
+                  width: '100%',
+                }}
+              >
+                <Grid
+                  container
+                  spacing={1}
+                  style={{
+                    width: '180%',
+                  }}
+                >
+                  {nfts.map((nft) => {
+                    return (
+                      <Grid item xs={2}>
+                        <NFTCard
+                          activeProject={nft}
+                          showPick={true}
+                          key={nft.id}
+                        />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </div>
             ) : (
               <div
                 style={{
@@ -271,21 +282,31 @@ export default function Search() {
                 <Loading size="xs" />
               </div>
             ) : tokens.length > 0 ? (
-              <div style={{
-                overflowX:'auto',
-                width:'100%'
-              }}>
-              <Grid container spacing={1} style={{
-                width:'180%'
-              }}>
-                {tokens.map((token) => {
-                  return (
-                    <Grid item xs={2}>
-                      <CoinNormalCard token={token} showPick={true} />
-                    </Grid>
-                  );
-                })}
-              </Grid>
+              <div
+                style={{
+                  overflowX: 'auto',
+                  width: '100%',
+                }}
+              >
+                <Grid
+                  container
+                  spacing={1}
+                  style={{
+                    width: '180%',
+                  }}
+                >
+                  {tokens.map((token) => {
+                    return (
+                      <Grid item xs={2}>
+                        <CoinNormalCard
+                          token={token}
+                          showPick={true}
+                          key={token.id}
+                        />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
               </div>
             ) : (
               <div
@@ -315,17 +336,34 @@ export default function Search() {
                 <Loading size="xs" />
               </div>
             ) : kols.length > 0 ? (
-              <div style={{
-                overflowX:'auto',
-                width:'100%'
-              }}>
-                <Grid container spacing={1} style={{
-                  width:'180%'
-                }}>
+              <div
+                style={{
+                  overflowX: 'auto',
+                  width: '100%',
+                  marginTop: '10px',
+                }}
+              >
+                <Grid
+                  container
+                  spacing={1}
+                  style={{
+                    width: '180%',
+                  }}
+                >
                   {kols.map((kol) => {
                     return (
-                      <Grid item xs={2}>
-                        <KolCard kol={kol} showPick={true} />
+                      <Grid
+                        item
+                        xs={2}
+                        sx={{
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <KolDetailCard
+                          kol={kol}
+                          isCollected={false}
+                          key={kol.username}
+                        />
                       </Grid>
                     );
                   })}

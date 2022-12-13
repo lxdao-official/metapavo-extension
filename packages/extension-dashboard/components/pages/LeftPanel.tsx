@@ -14,6 +14,7 @@ import InstallDAPPs from '../modules/InstallDAPPs';
 import MyNFTs from '../modules/MyNFTs';
 import ReadLaters from '../modules/ReadLaters';
 import VisitHistories from '../modules/VisitHistories';
+import KOLs from '../modules/KOLs';
 
 const allModules = [
   'CollectedNFTs',
@@ -21,6 +22,7 @@ const allModules = [
   'InstallDAPPs',
   'VisitHistories',
   'ReadLaters',
+  'KOLs',
   'MyNFTs',
 ];
 export default function LeftPanel() {
@@ -81,6 +83,17 @@ export default function LeftPanel() {
                 moveCard={moveCard}
               >
                 <InstallDAPPs />
+              </CardModule>
+            )}
+            {item === 'KOLs' && (
+              <CardModule
+                title={'KOLs'}
+
+                id="KOLs"
+                index={i}
+                moveCard={moveCard}
+              >
+                <KOLs />
               </CardModule>
             )}
             {item === 'CollectedNFTs' && (
