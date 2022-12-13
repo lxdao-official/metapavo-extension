@@ -79,5 +79,5 @@ export async function generateTodayInvites() {
   if (res && res.success) {
     return res.data;
   }
-  return new Error(res.message);
+ throw new Error(res.message)
 }

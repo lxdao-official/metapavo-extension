@@ -7,7 +7,7 @@ import Ball from './components/pavo-ball/ball';
 import SearchWrapper from './components/search/SearchWrapper';
 import useGlobal, { GlobalContext } from './context/useGlobal';
 import useWallet, { WalletContext } from './context/useWallet';
-import './scripts/tag';
+// import './scripts/tag';
 
 const rootElement = document.createElement('div');
 rootElement.id = 'metapavo-root';

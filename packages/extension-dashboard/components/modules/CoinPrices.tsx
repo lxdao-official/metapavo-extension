@@ -8,7 +8,7 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import globalEvent from '../../context/EventBus';
+import globalEvent from 'extension-common/src/EventBus';
 import CardModule from '../CardModule';
 import CoinPriceCard from '../cards/CoinPriceCard';
 

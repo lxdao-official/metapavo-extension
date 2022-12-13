@@ -3,17 +3,15 @@ import {
   addFavByProjectId,
   isFaved,
   removeFavByProjectId,
-} from 'extension-common/src/apis/nft_api';
-import { IProjectV2 } from 'extension-common/src/apis/types';
-import { AutoDecimal } from 'extension-common/src/decimals';
-import { getLang } from 'extension-common/src/lang';
-import { linkImages } from 'extension-common/src/linkImages';
+} from '../../apis/nft_api';
+import { IProjectV2 } from '../../apis/types';
+import { AutoDecimal } from '../../decimals';
+import { getLang } from '../../lang';
+import { linkImages } from '../../linkImages';
 import React, { useEffect } from 'react';
-import { useContext } from 'react';
 import toast from 'react-hot-toast';
 
-import config from '../../config';
-import globalEvent from 'extension-common/src/EventBus';
+import config from '../../../config';
 import { NFTCardRoot } from '../styles';
 import Pick from './Pick';
 

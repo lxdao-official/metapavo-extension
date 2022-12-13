@@ -24,11 +24,12 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
+.searchBg  *::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
 .searchBg {
-  ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-  }
+
   background: linear-gradient(
     90deg,
     #79deb1 0%,

@@ -17,6 +17,7 @@ export default function NoLogin() {
       <a
         href={loginUrl}
         target="_blank"
+        rel="noreferrer"
         style={{
           marginLeft: '10px',
         }}

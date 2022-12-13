@@ -1,4 +1,10 @@
 {
+  "title": {
+  "message": "MetaPavo - 您的 Web3 个人信息助理"
+},
+  "description": {
+    "message": "您的 Web3 个人信息助理，包括以下核心能力：个人工作台 & 随时随地的超级搜索 & 浏览既识别"
+  },
   "More": {
     "message": "更多"
   },
@@ -103,16 +109,16 @@
     "message": "在此站隐藏7天"
   },
   "Read_Laters": {
-    "message": "稍后读"
+    "message": "文章"
   },
   "DASHBOARD_History": {
     "message": "浏览历史"
   },
   "My_Collected_NFTs": {
-    "message": "我收藏的 NFTs"
+    "message": "NFTs"
   },
   "My_Installed_DAPPs": {
-    "message": "我安装的 DAPPs"
+    "message": "DAPPs"
   },
   "No_results": {
     "message": "暂无结果"
@@ -217,7 +223,7 @@
     "message": "持有 metapavo did NFT 的用户;每天可以生成 3 个邀请码;邀请用户成功注册: 100 P;邀请用户邀请其他用户注册成功 50P;"
   },
   "generate_invitecode_error": {
-    "message": "完成任务或者持有 metapavo did NFT 的用户才可邀请，每天可以生成 3 个邀请码"
+    "message": "公测阶段暂不开放邀请权限"
   },
   "share_twitter_for_invitecode": {
     "message": "点击这里到 twitter 寻求邀请码，请在发送的 twitter 内容中补全你的钱包地址"
@@ -318,5 +324,8 @@
   },
   "choose_display_info": {
     "message": "选择 pavo 球显示的信息"
+  },
+  "recommend_nfts": {
+    "message": "还没有收藏 NFT 项目，我们为您推荐了一些热门项目，你可以使用超级搜索或者在浏览 OpenSea 等网站过程中通过识别弹层来收藏你关注的 NFT"
   }
 }

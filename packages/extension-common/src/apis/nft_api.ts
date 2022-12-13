@@ -146,7 +146,7 @@ export async function removeFavByProjectId(project_id: number) {
  */
 export async function getUsersFavs(
   pageIndex: number = 1,
-  pageSize: number = 20,
+  pageSize: number = 100,
 ): Promise<PagedDto<favs> | null> {
   const res = await fetchWrapped(
     `${config.baseURL}/favs/user/list?pageIndex=${pageIndex}&pageSize=${pageSize}`,

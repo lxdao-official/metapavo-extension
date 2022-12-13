@@ -77,7 +77,7 @@ export default function RightPanel() {
             {item === 'GasFees' && (
               <CardModule
                 title="Gas"
-                extra={<a href="https://ultrasound.money/">What's happening</a>}
+                extra={<a href="https://ultrasound.money/">What&apos;s happening</a>}
                 id="GasFees"
                 index={i}
                 moveCard={moveCard}

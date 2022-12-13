@@ -9,7 +9,7 @@ import { dapps } from 'extension-common/src/apis';
 import { addViewLog } from 'extension-common/src/apis/dapps_api';
 
 import config from '../../config';
-import globalEvent from '../../context/EventBus';
+import globalEvent from 'extension-common/src/EventBus';
 import { DappCardRoot } from '../styles';
 import Pick from './Pick';
 

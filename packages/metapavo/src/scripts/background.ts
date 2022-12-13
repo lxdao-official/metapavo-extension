@@ -62,17 +62,17 @@ function sendMessageToContentScript(message: any, callback: any) {
     });
   });
 }
-async function addAlarm(
-  timestamp: number,
-  content: string,
-  url?: string,
-  color?: string,
-) {
-  chrome.alarms.create(`time_alarm:${content}`, {
-    when: timestamp,
-  });
-  restoreAlarmsFromServer();
-}
+// async function addAlarm(
+//   timestamp: number,
+//   content: string,
+//   url?: string,
+//   color?: string,
+// ) {
+//   chrome.alarms.create(`time_alarm:${content}`, {
+//     when: timestamp,
+//   });
+//   restoreAlarmsFromServer();
+// }
 // 恢复闹钟list
 // chrome.storage.local.get(["alarm_list"], function (data) {
 //   if (data && data.alarm_list) {
@@ -86,17 +86,17 @@ async function addAlarm(
 //   }
 // });
 
-async function restoreAlarmsFromServer() {
-  const alarms = await getUsersAlarmsNoLogin();
-  if (alarms) {
-    alarms.forEach((item: any) => {
-      chrome.alarms.create(`time_alarm:${item.desc}`, {
-        when: item.alarm_at,
-      });
-    });
-  }
-}
-restoreAlarmsFromServer();
+// async function restoreAlarmsFromServer() {
+//   const alarms = await getUsersAlarmsNoLogin();
+//   if (alarms) {
+//     alarms.forEach((item: any) => {
+//       chrome.alarms.create(`time_alarm:${item.desc}`, {
+//         when: item.alarm_at,
+//       });
+//     });
+//   }
+// }
+// restoreAlarmsFromServer();
 
 chrome?.runtime?.onMessage.addListener(function (
   request,
@@ -108,19 +108,19 @@ chrome?.runtime?.onMessage.addListener(function (
       value: nowGas,
       type: display_info,
     });
-  if (request.cmd === 'add_time_alarm') {
-    addAlarm(
-      request.value.alarm_at,
-      request.value.desc,
-      request.value.url,
-      request.value.color,
-    );
-  }
-  if (request.cmd === 'get_all_time_alarm') {
-    chrome.alarms.getAll((alarms) => {
-      sendResponse(alarms);
-    });
-  }
+  // if (request.cmd === 'add_time_alarm') {
+  //   addAlarm(
+  //     request.value.alarm_at,
+  //     request.value.desc,
+  //     request.value.url,
+  //     request.value.color,
+  //   );
+  // }
+  // if (request.cmd === 'get_all_time_alarm') {
+  //   chrome.alarms.getAll((alarms) => {
+  //     sendResponse(alarms);
+  //   });
+  // }
   if (request.cmd === 'open_login') {
     chrome.tabs.create({
       url: 'login.html',
@@ -164,27 +164,27 @@ async function repeat() {
 }
 repeat();
 
-chrome.alarms.clearAll();
+// chrome.alarms.clearAll();
 
-chrome.alarms.create('gasupdate', { delayInMinutes: 0.2 });
+// chrome.alarms.create('gasupdate', { delayInMinutes: 0.2 });
 const logoIcon = chrome.runtime.getURL('images/logo-128.png');
-chrome.alarms.onAlarm.addListener(async (alarm) => {
-  if (alarm.name === 'gasupdate') {
-    repeat();
-    chrome.alarms.create('gasupdate', { delayInMinutes: 0.2 });
-  } else if (alarm.name.startsWith('time_alarm:')) {
-    chrome.notifications.create(alarm.name, {
-      type: 'basic',
-      title: 'Time Alarm',
-      iconUrl: logoIcon,
-      requireInteraction: true,
-      message: `you have a time alarm at this time [${alarm.name.replace(
-        'time_alarm:',
-        '',
-      )}]`,
-    });
-  }
-});
+// chrome.alarms.onAlarm.addListener(async (alarm) => {
+//   if (alarm.name === 'gasupdate') {
+//     repeat();
+//     chrome.alarms.create('gasupdate', { delayInMinutes: 0.2 });
+//   } else if (alarm.name.startsWith('time_alarm:')) {
+//     chrome.notifications.create(alarm.name, {
+//       type: 'basic',
+//       title: 'Time Alarm',
+//       iconUrl: logoIcon,
+//       requireInteraction: true,
+//       message: `you have a time alarm at this time [${alarm.name.replace(
+//         'time_alarm:',
+//         '',
+//       )}]`,
+//     });
+//   }
+// });
 
 chrome.action.onClicked.addListener(() => {
   chrome.tabs.create({

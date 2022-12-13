@@ -13,6 +13,8 @@ import styles from '../../styles/Home.module.css';
 import CoinNormalCard from '../cards/CoinNormalCard';
 import DappCard from '../cards/DappCard';
 import NFTCard from '../cards/NFTCard';
+import { IKOL, searchKols } from "extension-common/src/apis/kol_api";
+import KolCard from "../cards/KolCard";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -34,8 +36,19 @@ export default function Search() {
   const [inputFocus, setInputFocus] = useState(false);
   const [dappsSearching, setDappsSearching] = useState(false);
   const [dapps, setDapps] = useState<dapps[]>([]);
+  const [kols, setKols] = useState<IKOL[]>([])
+  const [kolSearching,setKolSearching] = useState(false);
   const debouncedValue = useDebounce(keyword, 500);
 
+  async function _searchKols(keyword: string) {
+    setKolSearching(true);
+    try {
+      const _kols = await searchKols(keyword);
+      setKols(_kols.slice(0, 12));
+    } catch (e) {}
+
+    setKolSearching(false);
+  }
   async function _searchDapps(keyword: string) {
     setDappsSearching(true);
     try {
@@ -84,6 +97,7 @@ export default function Search() {
       _searchDapps(keyword);
       _searchNFTs(keyword);
       _searchtokens(keyword);
+      _searchKols(keyword);
     }
   }, [debouncedValue]);
 
@@ -214,15 +228,21 @@ export default function Search() {
                 <Loading size="xs" />
               </div>
             ) : nfts.length > 0 ? (
-              <Grid container spacing={1}>
+              <div style={{
+                overflowX:'auto',
+                width:'100%'
+              }}>
+              <Grid container spacing={1} style={{
+                width:'180%'
+              }}>
                 {nfts.map((nft) => {
                   return (
-                    <Grid item xs={4}>
+                    <Grid item xs={2}>
                       <NFTCard activeProject={nft} showPick={true} />
                     </Grid>
                   );
                 })}
-              </Grid>
+              </Grid></div>
             ) : (
               <div
                 style={{
@@ -251,15 +271,66 @@ export default function Search() {
                 <Loading size="xs" />
               </div>
             ) : tokens.length > 0 ? (
-              <Grid container spacing={1}>
+              <div style={{
+                overflowX:'auto',
+                width:'100%'
+              }}>
+              <Grid container spacing={1} style={{
+                width:'180%'
+              }}>
                 {tokens.map((token) => {
                   return (
-                    <Grid item xs={4}>
+                    <Grid item xs={2}>
                       <CoinNormalCard token={token} showPick={true} />
                     </Grid>
                   );
                 })}
               </Grid>
+              </div>
+            ) : (
+              <div
+                style={{
+                  textAlign: 'left',
+                  fontSize: '12px',
+                  color: '#666',
+                  lineHeight: '40px',
+                }}
+              >
+                {getLang('No_results')}
+              </div>
+            )}
+            <div
+              style={{
+                lineHeight: '30px',
+                fontSize: '14px',
+                color: '#444',
+                fontWeight: 500,
+                marginTop: '10px',
+              }}
+            >
+              KOLs
+            </div>
+            {kolSearching ? (
+              <div style={{}}>
+                <Loading size="xs" />
+              </div>
+            ) : kols.length > 0 ? (
+              <div style={{
+                overflowX:'auto',
+                width:'100%'
+              }}>
+                <Grid container spacing={1} style={{
+                  width:'180%'
+                }}>
+                  {kols.map((kol) => {
+                    return (
+                      <Grid item xs={2}>
+                        <KolCard kol={kol} showPick={true} />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </div>
             ) : (
               <div
                 style={{

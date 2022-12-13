@@ -1,9 +1,10 @@
 import { NoSsr } from '@mui/material';
+import { Badge, Link, Navbar } from '@nextui-org/react';
 import { colorfulTextStyle } from 'extension-common/src/common-colorful-button';
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import styled from 'styled-components';
@@ -18,7 +19,7 @@ const IndexComponent = dynamic(() => import('../components/pages/Index'), {
 
 const AddressButton = styled.span`
   ${colorfulTextStyle}
-  margin-right:20px;
+  margin-right: 20px;
   font-weight: 600;
 `;
 function AddressSPAN(props: { address: string }) {
@@ -72,28 +73,130 @@ const Home: NextPage = () => {
           <link rel="icon" href={logoURL} />
         </Head>
         <header className={styles.head}>
+
           <div className={styles.headInner}>
-            <img src={indexLogoURL} style={{ height: '25px' }} />
-            {user?.address ? (
-              <span>
-                <AddressSPAN address={user.address} />
-                <a
-                  onClick={() => {
-                    _logout();
-                  }}
-                >
-                  Logout
-                </a>
-              </span>
-            ) : (
-              <a
-                onClick={() => {
-                  gotoLogin();
+
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <img
+                src={indexLogoURL}
+                style={{ height: '33px', marginRight: '10px' }}
+              />
+              <Badge
+                color="secondary"
+                size="xs"
+                disableOutline
+                css={{
+                  fontSize: '12px',
+                  height: '18px',
+                  width: '45px',
+                  fontWeight: '450',
                 }}
               >
-                Login
-              </a>
-            )}
+                Beta
+              </Badge>
+            </div>
+
+            <div style={{
+              display:'flex',
+              alignItems:'center',
+              gap:'10px'
+            }}>
+              {user?.address ? (
+                <>
+                  <AddressSPAN address={user.address} />
+
+                  <Link
+                    onClick={() => {
+                      _logout();
+                    }}
+
+                  >
+                    Logout
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  color="inherit"
+                  onClick={() => {
+                    gotoLogin();
+                  }}
+                >
+                  Login
+                </Link>
+              )}
+            </div>
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '20px',
+                color: '#fff',
+                fontWeight: '500',
+                position: 'absolute',
+                top: '0',
+                width: 'auto',
+                left:'50%',
+                transform:'translateX(-50%)',
+                height: '50px',
+              }}
+            >
+              <Link
+                href="https://metapavo.gitbook.io/whitepaper/"
+                isExternal
+                css={{
+                  color: '#fff',
+                  fontWeight: '500',
+                }}
+              >
+                WhitePaper
+              </Link>
+              <Link
+                href="https://twitter.com/MetaPavo"
+                isExternal
+                css={{
+                  color: '#fff',
+                  fontWeight: '500',
+                }}
+              >
+                Twitter
+              </Link>
+              <Link
+                href="https://discord.gg/6r5z8fxZRt"
+                isExternal
+                css={{
+                  color: '#fff',
+                  fontWeight: '500',
+                }}
+              >
+                Discord
+              </Link>
+              <Link
+                href="https://github.com/lxdao-official/metapavo-extension"
+                isExternal
+                css={{
+                  color: '#fff',
+                  fontWeight: '500',
+                }}
+              >
+                Github
+              </Link>
+              <Link
+                href="#"
+                isExternal
+                css={{
+                  color: '#fff',
+                  fontWeight: '500',
+                }}
+              >
+                Feedback
+              </Link>
+            </div>
           </div>
         </header>
         <main className={styles.main}>

@@ -4,7 +4,7 @@ import { linkImages } from 'extension-common/src/linkImages';
 import React from 'react';
 import { useEffect } from 'react';
 
-import globalEvent from '../../context/EventBus';
+import globalEvent from 'extension-common/src/EventBus';
 import { TokenCardRoot } from '../styles';
 import Pick from './Pick';
 

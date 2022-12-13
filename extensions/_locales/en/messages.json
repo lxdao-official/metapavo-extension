@@ -1,4 +1,10 @@
 {
+  "title": {
+    "message": "MetaPavo - Personal Web3 Information Assistant"
+  },
+  "description": {
+    "message": "Personal Web3 Information Assistant, including the following core competencies: Personal workbench & Search everywhere & Recognition entry on browsing"
+  },
   "More": {
     "message": "More"
   },
@@ -103,16 +109,16 @@
     "message": "no display on this site in 7 days"
   },
   "Read_Laters": {
-    "message": "Read Laters"
+    "message": "Articles"
   },
   "DASHBOARD_History": {
     "message": "History"
   },
   "My_Collected_NFTs": {
-    "message": "My Collected NFTs"
+    "message": "NFTs"
   },
   "My_Installed_DAPPs": {
-    "message": "My Installed DAPPs"
+    "message": "DAPPs"
   },
   "No_results": {
     "message": "No results"
@@ -217,7 +223,7 @@
     "message": "Users who hold metapavo did NFT; can generate 3 invitation codes per day; invite users to successfully register: 100 P; invite users to invite other users to register successfully: 50P;"
   },
   "generate_invitecode_error": {
-    "message": "Only users who have completed tasks or have metapavo did NFT can invite, and 3 invitation codes can be generated per day"
+    "message": "not open in public beta"
   },
   "share_twitter_for_invitecode": {
     "message": "Click here to go to twitter and ask for an invitation code. Please complete your wallet address in the tweet you send"
@@ -318,5 +324,9 @@
   },
   "press_to_move": {
     "message": "Hold down the Pavo ball to drag the position to change the position."
+  },
+  "recommend_nfts": {
+    "message": "Haven't favorited NFT projects yet, we recommend some popular projects for you, you can use super search or browse through websites such as OpenSea to collect the NFTs you care about by identifying pop-up layers"
   }
+
 }

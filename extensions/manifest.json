@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "version": "0.0.1",
-  "name": "MetaPavo",
-  "description": "MetaPavo links web3 information and functions into one box",
+  "version": "0.2",
+  "name": "__MSG_title__",
+  "description": "__MSG_description__",
   "action": {
     "default_icon": "logo-128.png",
-    "default_title": "MetaPavo, links web3 information and functions into one box"
+    "default_title": "__MSG_description__"
   },
   "icons": {
     "128": "logo-128.png",
@@ -18,10 +18,6 @@
     {
       "matches": ["https://*/*"],
       "js": ["./dist/static/js/content.js"]
-    },
-    {
-      "matches": ["https://opensea.io/*"],
-      "js": ["./openseaoffer.js"]
     }
   ],
   "background": {
@@ -29,15 +25,14 @@
   },
   "default_locale": "zh_CN",
   "options_page": "options.html",
-  "permissions": ["storage", "alarms", "notifications", "tabs", "history"],
+  "permissions": ["storage", "tabs", "history"],
   "web_accessible_resources": [
     {
       "resources": [
         "images/*.jpg",
         "images/*.png",
         "images/svgs/*.svg",
-        "logo-128.png",
-        "data/labels.json"
+        "logo-128.png"
       ],
       "matches": ["https://*/*"]
     }

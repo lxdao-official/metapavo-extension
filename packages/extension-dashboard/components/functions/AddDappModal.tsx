@@ -8,7 +8,7 @@ import { getLang } from 'extension-common/src/lang';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import globalEvent from '../../context/EventBus';
+import globalEvent from 'extension-common/src/EventBus';
 
 export default function AddDappModal(props: {
   onSuccess?: (dapp_id: string, selectedCatId?: string) => void;

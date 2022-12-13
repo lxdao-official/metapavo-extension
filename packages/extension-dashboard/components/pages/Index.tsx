@@ -8,7 +8,7 @@ import CollectedNFTs from '../modules/CollectedNFTs';
 import GasFees from '../modules/GasFees';
 import InstallDAPPs from '../modules/InstallDAPPs';
 import ReadLaters from '../modules/ReadLaters';
-import Search from '../modules/Search';
+import Search from '../functions/Search';
 import VisitHistories from '../modules/VisitHistories';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';

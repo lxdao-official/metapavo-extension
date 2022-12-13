@@ -6,7 +6,7 @@ import {
 } from 'extension-common/src/localStore/store';
 import { useEffect, useState } from 'react';
 
-import globalEvent from '../../context/EventBus';
+import globalEvent from 'extension-common/src/EventBus';
 import CardModule from '../CardModule';
 import CoinPrices from '../modules/CoinPrices';
 import CollectedNFTs from '../modules/CollectedNFTs';
@@ -16,9 +16,9 @@ import ReadLaters from '../modules/ReadLaters';
 import VisitHistories from '../modules/VisitHistories';
 
 const allModules = [
-  'InstallDAPPs',
   'CollectedNFTs',
   'CoinPrices',
+  'InstallDAPPs',
   'VisitHistories',
   'ReadLaters',
   'MyNFTs',

@@ -5,23 +5,23 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import globalEvent from 'extension-common/src/EventBus';
 import { dapps } from 'extension-common/src/apis';
 import { addViewLog } from 'extension-common/src/apis/dapps_api';
+import { IKOL } from 'extension-common/src/apis/kol_api';
 
 import config from '../../config';
-import globalEvent from 'extension-common/src/EventBus';
 import { DappCardRoot } from '../styles';
 import Pick from './Pick';
 
-export default function DappCard(props: {
-  dapp: dapps;
+export default function KolCard(props: {
+  kol: IKOL;
   showPick?: boolean;
-  onPick?: (dapp: dapps) => void;
+  onPick?: (kol: IKOL) => void;
 }) {
   const blankImage = chrome.runtime.getURL('images/placeholder.png');
-  const toLink = () => {
-    addViewLog(props.dapp);
-    window.location.href = `${config.baseURL}/dapps/jump/${props.dapp.id}`;
+  const toLink = (link: string) => {
+    window.location.href = link;
   };
   return (
     <DappCardRoot>
@@ -43,9 +43,9 @@ export default function DappCard(props: {
           },
         }}
         onClick={() => {
-          toLink();
+          toLink('https://twitter.com/' + props.kol.username);
         }}
-        title={props.dapp.title}
+        title={props.kol.name}
       >
         <ListItemButton style={{ padding: '5px 10px' }}>
           <ListItemIcon
@@ -56,7 +56,7 @@ export default function DappCard(props: {
             }}
           >
             <img
-              src={props.dapp.logo || blankImage}
+              src={props.kol.avatar || blankImage}
               style={{
                 height: '20px',
                 width: '20px',
@@ -71,17 +71,61 @@ export default function DappCard(props: {
           </ListItemIcon>
           <ListItemText
             primary={
-              <div
-                style={{
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  lineHeight: '20px',
-                  height: '20px',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {props.dapp.title}{' '}
+              <div>
+                <div
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    lineHeight: '20px',
+                    height: '20px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {props.kol.name}{' '}
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    fontSize: '12px',
+                    lineHeight: '20px',
+                    maxHeight: '40px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  <div
+                    style={{
+                      marginRight: '15px',
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: '#999',
+                        paddingRight: '10px',
+                      }}
+                    >
+                      followers:
+                    </span>
+                    {props.kol.followers}
+                  </div>
+                  {/*<div*/}
+                  {/*  style={{*/}
+                  {/*    marginRight: '15px',*/}
+                  {/*  }}*/}
+                  {/*>*/}
+                  {/*  <span*/}
+                  {/*    style={{*/}
+                  {/*      color: '#999',*/}
+                  {/*    }}*/}
+                  {/*  >*/}
+                  {/*    tags:*/}
+                  {/*  </span>*/}
+                  {/*  {props.kol.tags.split(',').map((t) => (*/}
+                  {/*    <span key={t}>{t}</span>*/}
+                  {/*  ))}*/}
+                  {/*</div>*/}
+                </div>
               </div>
             }
           ></ListItemText>
@@ -90,7 +134,7 @@ export default function DappCard(props: {
       {props.showPick ? (
         <Pick
           onPick={function (e: string): void {
-            globalEvent.emit('pick_dapp', props.dapp);
+            globalEvent.emit('pick_kol', props.kol);
           }}
           style={{
             position: 'absolute',

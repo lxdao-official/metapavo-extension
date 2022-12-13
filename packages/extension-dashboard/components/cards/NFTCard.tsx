@@ -13,7 +13,7 @@ import { useContext } from 'react';
 import toast from 'react-hot-toast';
 
 import config from '../../config';
-import globalEvent from '../../context/EventBus';
+import globalEvent from 'extension-common/src/EventBus';
 import { NFTCardRoot } from '../styles';
 import Pick from './Pick';
 

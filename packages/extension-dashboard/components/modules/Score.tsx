@@ -24,6 +24,7 @@ export default function Score() {
     const loading = toast.loading('Generating...');
     try {
       const res = await generateTodayInvites();
+
       toast.success('Generate success');
       loadAwailableInvites();
     } catch (e) {
