@@ -14,11 +14,28 @@ import CoinNormalCard from '../cards/CoinNormalCard';
 import DappCard from '../cards/DappCard';
 import NFTCard from '../cards/NFTCard';
 
+function useDebounce(value: string, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 export default function Search() {
   const [keyword, setKeyword] = useState('');
   const [inputFocus, setInputFocus] = useState(false);
   const [dappsSearching, setDappsSearching] = useState(false);
   const [dapps, setDapps] = useState<dapps[]>([]);
+  const debouncedValue = useDebounce(keyword, 500);
+
   async function _searchDapps(keyword: string) {
     setDappsSearching(true);
     try {
@@ -62,11 +79,13 @@ export default function Search() {
 
     settokensSearching(false);
   }
-  async function searchAll(keyword: string) {
-    _searchDapps(keyword);
-    _searchNFTs(keyword);
-    _searchtokens(keyword);
-  }
+  useEffect(() => {
+    if (debouncedValue != undefined) {
+      _searchDapps(keyword);
+      _searchNFTs(keyword);
+      _searchtokens(keyword);
+    }
+  }, [debouncedValue]);
 
   const wrapperRef = useRef(null);
   useEffect(() => {
@@ -116,7 +135,6 @@ export default function Search() {
           }}
           onChange={(e) => {
             setKeyword(e.target.value);
-            searchAll(e.target.value);
           }}
           onFocus={() => {
             setInputFocus(true);
