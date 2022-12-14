@@ -93,7 +93,11 @@ export async function findAllWebsite(): Promise<string[] | null> {
         );
         if (res && res.success && res.data && res.data.length) {
           chrome.storage.local.set({
-            nft_website_all: res.data.filter((item: string) => item),
+            nft_website_all: res.data
+              .filter((item: string) => item)
+              .map((item: string) =>
+                item.replace(/http:\/\/|https:\/\//, '').replace(/^www\./, ''),
+              ),
             nft_website_all_timestamp: new Date().getTime(),
           });
           return resolve(res.data);
