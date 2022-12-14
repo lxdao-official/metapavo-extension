@@ -1,10 +1,26 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { GlobalContext } from '../../context/useGlobal';
 import Search from './search/Search';
 
 export default function SearchWrapper() {
   const { showSearch, setShowSearch } = useContext(GlobalContext);
+
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      //@ts-ignore
+      // if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      //   setInputFocus(false);
+      // }
+      if (event.key == 'Escape') {
+        setShowSearch(false);
+      }
+    }
+    document.addEventListener('keydown', handleClickOutside);
+    return () => {
+      document.removeEventListener('keydown', handleClickOutside);
+    };
+  }, []);
   return (
     <>
       {showSearch && (

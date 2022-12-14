@@ -27,7 +27,7 @@ export interface IKOL {
 
 export async function searchKols(keyword: string): Promise<IKOL[]> {
   const res = await fetchWrapped(
-    config.dataService + '/api/v1/community/searchList?username=' + keyword,
+    config.baseURL + '/users/object/search/' + keyword + '?object_type=kol',
     {
       method: 'GET',
       headers: {
@@ -36,7 +36,7 @@ export async function searchKols(keyword: string): Promise<IKOL[]> {
     },
   );
   if (res && res.success) {
-    return res.result;
+    return res.data || [];
   }
   throw new Error(res.message);
 }

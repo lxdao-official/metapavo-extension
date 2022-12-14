@@ -102,25 +102,42 @@ export default function Search() {
   }, [debouncedValue]);
 
   const wrapperRef = useRef(null);
-  useEffect(() => {
-    function handleClickOutside(event: any) {
-      //@ts-ignore
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        setInputFocus(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [wrapperRef]);
+  // useEffect(() => {
+  //   function handleClickOutside(event: any) {
+  //     //@ts-ignore
+  //     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+  //       setInputFocus(false);
+  //     }
+  //   }
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, [wrapperRef]);
   return (
     <div className={styles.searchBg}>
+      {inputFocus && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.3)',
+            zIndex: 11998,
+          }}
+          onClick={() => {
+            setInputFocus(false);
+          }}
+        ></div>
+      )}
       <Box
         style={{
           width: '700px',
           margin: '0 auto',
           position: 'relative',
+          zIndex: 11999,
         }}
         ref={wrapperRef}
       >

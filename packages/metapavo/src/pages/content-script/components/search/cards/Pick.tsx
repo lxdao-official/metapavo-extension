@@ -7,7 +7,13 @@ export default function Pick(props: {
   const uuid = Math.random();
   return (
     <div style={{ ...props.style }}>
-      <Tooltip content="Add to dashboard" placement="top">
+      <Tooltip
+        content="Add to dashboard"
+        placement="top"
+        css={{
+          zIndex: 10000000000000,
+        }}
+      >
         <svg
           width="16"
           height="16"

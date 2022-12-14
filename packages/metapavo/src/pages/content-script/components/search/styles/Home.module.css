@@ -33,8 +33,8 @@
   align-items: center;
 }
 .searchBg *::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 1px;
+  height: 1px;
 }
 .footer {
   display: flex;

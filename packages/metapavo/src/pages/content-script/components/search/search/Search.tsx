@@ -105,13 +105,16 @@ export default function Search() {
   useEffect(() => {
     function handleClickOutside(event: any) {
       //@ts-ignore
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      // if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      //   setInputFocus(false);
+      // }
+      if (event.key == 'Escape') {
         setInputFocus(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleClickOutside);
     };
   }, [wrapperRef]);
   return (
@@ -123,6 +126,12 @@ export default function Search() {
           position: 'relative',
         }}
         ref={wrapperRef}
+        sx={{
+          '& *::-webkit-scrollbar': {
+            width: '1px',
+            height: '1px',
+          },
+        }}
       >
         <Input
           placeholder={getLang('search_placeholder')}

@@ -52,6 +52,9 @@ export const KolDetailCard = (props: {
   const uuid = Math.random();
   return (
     <Tooltip
+      css={{
+        zIndex: 10000000000000,
+      }}
       content={
         <Grid.Container
           className="user-twitter-card__container"
