@@ -30,6 +30,7 @@
     {
       "resources": [
         "images/*.jpg",
+        "images/*.jpeg",
         "images/*.png",
         "images/svgs/*.svg",
         "logo-128.png"

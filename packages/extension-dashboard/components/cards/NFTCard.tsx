@@ -1,4 +1,5 @@
 import { NoSsr, Tooltip } from '@mui/material';
+import globalEvent from 'extension-common/src/EventBus';
 import {
   addFavByProjectId,
   isFaved,
@@ -13,7 +14,6 @@ import { useContext } from 'react';
 import toast from 'react-hot-toast';
 
 import config from '../../config';
-import globalEvent from 'extension-common/src/EventBus';
 import { NFTCardRoot } from '../styles';
 import Pick from './Pick';
 
@@ -45,9 +45,9 @@ export default function NFTCard(props: {
           img: linkImages.website,
         },
         {
-          link: activeProject?.links?.gem,
-          label: 'Gem',
-          img: linkImages.gem,
+          link: activeProject?.links?.blur,
+          label: 'Blur',
+          img: linkImages.blur,
         },
       ].filter((i) => {
         return i.link;

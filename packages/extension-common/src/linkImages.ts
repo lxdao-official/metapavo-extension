@@ -44,4 +44,7 @@ export const linkImages = {
   get tenderly() {
     return chrome.runtime.getURL('images/tenderly.png');
   },
+  get blur() {
+    return chrome.runtime.getURL('images/blur.jpeg');
+  },
 };

@@ -19,6 +19,10 @@ import globalEvent from 'extension-common/src/EventBus';
 import { IKOL, getKOLsByIds } from 'extension-common/src/apis/kol_api';
 import { collectedObjects } from 'extension-common/src/apis/object_api';
 import { getLang } from 'extension-common/src/lang';
+import {
+  getListConfig,
+  setListConfig,
+} from 'extension-common/src/localStore/store';
 import { useContext, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -31,12 +35,17 @@ export default function KOLs() {
   const [loading, setLoading] = useState(false);
   const { token } = useContext(UserContext);
   async function loadKols() {
+    const cache = getListConfig('user_kols', []);
+    if (cache && cache.length) {
+      setKols(cache);
+    }
     const res = await collectedObjects('kol', 1, 50);
     if (res) {
       const kolIds = res.map((r: any) => r.object_id);
       const _kols = await getKOLsByIds(kolIds);
       if (_kols && _kols.length) {
         setKols(_kols);
+        setListConfig('user_kols', _kols);
       }
     }
   }
@@ -78,9 +87,13 @@ export default function KOLs() {
             <Grid container spacing={1}>
               {kols.map((u) => {
                 return (
-                  <Grid item xs={3} sx={{
-                    overflow:'hidden'
-                  }}>
+                  <Grid
+                    item
+                    xs={3}
+                    sx={{
+                      overflow: 'hidden',
+                    }}
+                  >
                     <KolDetailCard kol={u} isCollected={true} />
                   </Grid>
                 );

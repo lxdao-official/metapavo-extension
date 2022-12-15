@@ -335,6 +335,8 @@ export const SuccessRootElement = styled.div`
         min-width: 20px;
         vertical-align: 5px;
         display: block;
+        border-radius: 10px;
+        overflow: hidden;
       }
     }
     .dividor {

@@ -44,6 +44,11 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
       img: linkImages.opensea,
     },
     {
+      link: activeProject?.links?.blur,
+      label: 'Blur',
+      img: linkImages.blur,
+    },
+    {
       link: activeProject?.links?.gem,
       label: 'Gem',
       img: linkImages.gem,
@@ -59,11 +64,11 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
       img: linkImages.x2y2,
     },
 
-    {
-      link: activeProject?.links?.sudoswap,
-      label: 'SudoSwap',
-      img: linkImages.sudoswap,
-    },
+    // {
+    //   link: activeProject?.links?.sudoswap,
+    //   label: 'SudoSwap',
+    //   img: linkImages.sudoswap,
+    // },
     {
       link: activeProject?.links?.tenderly,
       label: 'Tenderly',

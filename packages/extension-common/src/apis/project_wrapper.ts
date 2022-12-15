@@ -34,6 +34,9 @@ export const projectLinksWrapper = (project: IProjectV2) => {
     tenderly: project?.contractAddress
       ? `https://dashboard.tenderly.co/contract/mainnet/${project.contractAddress}/source`
       : undefined,
+    blur: project?.symbol
+      ? `https://blur.io/collection/${project.symbol}`
+      : undefined,
   };
   project.links = links;
   return project;

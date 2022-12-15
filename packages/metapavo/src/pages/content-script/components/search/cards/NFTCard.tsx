@@ -39,9 +39,9 @@ export default function NFTCard(props: {
           img: linkImages.website,
         },
         {
-          link: activeProject?.links?.gem,
-          label: 'Gem',
-          img: linkImages.gem,
+          link: activeProject?.links?.blur,
+          label: 'Blur',
+          img: linkImages.blur,
         },
       ].filter((i) => {
         return i.link;

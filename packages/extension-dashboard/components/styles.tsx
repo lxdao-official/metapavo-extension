@@ -159,9 +159,7 @@ export const RootElement = styled.div`
 export const DappCardRoot = styled.div`
   position: relative;
 `;
-export const PickBtn = styled.div`
-
-`
+export const PickBtn = styled.div``;
 export const KOLCardRoot = styled.div`
   position: relative;
   ${PickBtn} {
@@ -293,6 +291,8 @@ export const NFTCardRoot = styled.div`
         min-width: 16px;
         vertical-align: 5px;
         display: block;
+        border-radius: 10px;
+        overflow: hidden;
       }
     }
   }
