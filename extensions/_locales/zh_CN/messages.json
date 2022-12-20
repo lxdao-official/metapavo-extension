@@ -1,11 +1,14 @@
 {
   "title": {
-  "message": "MetaPavo - 您的 Web3 个人信息助理",
-    "description": "MetaPavo - 您的 Web3 个人信息助理"
-},
+    "message": "MetaPavo, 您的 Web3 个人信息助理",
+    "description": "MetaPavo, 您的 Web3 个人信息助理"
+  },
   "description": {
     "message": "您的 Web3 个人信息助理，包括以下核心能力：个人工作台 & 随时随地的超级搜索 & 浏览既识别",
     "description": "您的 Web3 个人信息助理，包括以下核心能力：个人工作台 & 随时随地的超级搜索 & 浏览既识别"
+  },
+  "TopSites": {
+    "message": "最常使用的网站"
   },
   "More": {
     "message": "更多"

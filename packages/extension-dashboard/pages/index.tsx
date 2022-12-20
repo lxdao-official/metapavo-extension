@@ -73,9 +73,7 @@ const Home: NextPage = () => {
           <link rel="icon" href={logoURL} />
         </Head>
         <header className={styles.head}>
-
           <div className={styles.headInner}>
-
             <div
               style={{
                 display: 'flex',
@@ -101,11 +99,13 @@ const Home: NextPage = () => {
               </Badge>
             </div>
 
-            <div style={{
-              display:'flex',
-              alignItems:'center',
-              gap:'10px'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+              }}
+            >
               {user?.address ? (
                 <>
                   <AddressSPAN address={user.address} />
@@ -114,7 +114,6 @@ const Home: NextPage = () => {
                     onClick={() => {
                       _logout();
                     }}
-
                   >
                     Logout
                   </Link>
@@ -141,8 +140,8 @@ const Home: NextPage = () => {
                 position: 'absolute',
                 top: '0',
                 width: 'auto',
-                left:'50%',
-                transform:'translateX(-50%)',
+                left: '50%',
+                transform: 'translateX(-50%)',
                 height: '50px',
               }}
             >
@@ -187,7 +186,7 @@ const Home: NextPage = () => {
                 Github
               </Link>
               <Link
-                href="#"
+                href="https://notionforms.io/forms/metapavo-feedback"
                 isExternal
                 css={{
                   color: '#fff',

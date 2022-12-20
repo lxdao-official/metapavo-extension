@@ -3,12 +3,12 @@ import { Box, Grid } from '@mui/material';
 import { Avatar, Badge, Button, Input, Modal, Text } from '@nextui-org/react';
 import { graphic } from 'echarts';
 import ReactECharts from 'echarts-for-react';
+import globalEvent from 'extension-common/src/EventBus';
 import { getLang } from 'extension-common/src/lang';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import globalEvent from 'extension-common/src/EventBus';
 import CardModule from '../CardModule';
 import CoinPriceCard from '../cards/CoinPriceCard';
 
@@ -75,7 +75,7 @@ export default function CoinPrices(props: {
         <Grid container spacing={1}>
           {symbols.map((symbol) => {
             return (
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Box
                   sx={{
                     position: 'relative',

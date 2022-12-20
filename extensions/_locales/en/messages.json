@@ -1,12 +1,15 @@
 {
   "title": {
-    "message": "MetaPavo - Personal Web3 Information Assistant",
-    "description": "MetaPavo - Personal Web3 Information Assistant"
+    "message": "MetaPavo, Personal Web3 Information Assistant",
+    "description": "MetaPavo, Personal Web3 Information Assistant"
   },
   "description": {
-    "message": "Personal Web3 Information Assistant, including the following core competencies: Personal workbench & Search everywhere & Recognition entry on browsing"
-  ,
-    "description": "Personal Web3 Information Assistant, including the following core competencies: Personal workbench & Search everywhere & Recognition entry on browsing"},
+    "message": "Personal Web3 Information Assistant, core competencies: Personal workbench & Search everywhere & Recognition entry on browsing",
+    "description": "Personal Web3 Information Assistant, core competencies: Personal workbench & Search everywhere & Recognition entry on browsing"
+  },
+  "TopSites": {
+    "message": "Top Sites"
+  },
   "More": {
     "message": "More"
   },
@@ -333,5 +336,4 @@
   "no_kols": {
     "message": "Empty favorite KOLs, please search to add"
   }
-
 }

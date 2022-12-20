@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.2",
+  "version": "0.4",
   "name": "__MSG_title__",
   "description": "__MSG_description__",
   "action": {
@@ -23,9 +23,9 @@
   "background": {
     "service_worker": "./dist/static/js/background.js"
   },
-  "default_locale": "zh_CN",
+  "default_locale": "en",
   "options_page": "options.html",
-  "permissions": ["storage", "tabs", "history"],
+  "permissions": ["storage", "tabs", "topSites"],
   "web_accessible_resources": [
     {
       "resources": [

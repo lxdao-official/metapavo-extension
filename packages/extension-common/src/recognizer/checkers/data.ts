@@ -1,14 +1,16 @@
 export const tradeDomains = [
-  "opensea.io",
-  "www.opensea.io",
-  "x2y2.io",
-  "www.x2y2.io",
-  "gem.xyz",
-  "www.gem.xyz",
-  "sudoswap.xyz",
-  "www.sudoswap.xyz",
-  "looksrare.org",
-  "www.looksrare.org",
+  'opensea.io',
+  'www.opensea.io',
+  'x2y2.io',
+  'www.x2y2.io',
+  'gem.xyz',
+  'www.gem.xyz',
+  'sudoswap.xyz',
+  'www.sudoswap.xyz',
+  'looksrare.org',
+  'www.looksrare.org',
+  'blur.io',
+  'www.blur.io',
 ];
-export const contractDomains = ["etherscan.io"];
-export const socialDomains = ["twitter.com", "www.twitter.com"];
+export const contractDomains = ['etherscan.io'];
+export const socialDomains = ['twitter.com', 'www.twitter.com'];

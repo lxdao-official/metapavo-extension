@@ -151,6 +151,12 @@ export default function Search() {
               borderRadius: '20px',
               borderBottomLeftRadius: inputFocus ? '0px' : '20px',
               borderBottomRightRadius: inputFocus ? '0px' : '20px',
+              margin: 0,
+            },
+            '& .nextui-input': {
+              borderRadius: '20px',
+              border: 'none',
+              margin: 0,
             },
             '& .nextui-input-clear-button': {
               right: '10px',

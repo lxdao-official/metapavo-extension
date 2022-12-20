@@ -1,4 +1,5 @@
 import { Switch, Tooltip } from '@nextui-org/react';
+import globalEvent from 'extension-common/src/EventBus';
 import { getLang } from 'extension-common/src/lang';
 import {
   getListConfig,
@@ -6,17 +7,18 @@ import {
 } from 'extension-common/src/localStore/store';
 import { useEffect, useState } from 'react';
 
-import globalEvent from 'extension-common/src/EventBus';
 import CardModule from '../CardModule';
 import CoinPrices from '../modules/CoinPrices';
 import CollectedNFTs from '../modules/CollectedNFTs';
 import InstallDAPPs from '../modules/InstallDAPPs';
+import KOLs from '../modules/KOLs';
 import MyNFTs from '../modules/MyNFTs';
 import ReadLaters from '../modules/ReadLaters';
+import TopSites from '../modules/TopSites';
 import VisitHistories from '../modules/VisitHistories';
-import KOLs from '../modules/KOLs';
 
 const allModules = [
+  'TopSites',
   'CollectedNFTs',
   'CoinPrices',
   'InstallDAPPs',
@@ -70,6 +72,16 @@ export default function LeftPanel() {
       {items.map((item, i) => {
         return (
           <>
+            {item === 'TopSites' && (
+              <CardModule
+                title={getLang('TopSites')}
+                id="TopSites"
+                index={i}
+                moveCard={moveCard}
+              >
+                <TopSites />
+              </CardModule>
+            )}
             {item === 'InstallDAPPs' && (
               <CardModule
                 title={getLang('My_Installed_DAPPs')}
@@ -88,7 +100,6 @@ export default function LeftPanel() {
             {item === 'KOLs' && (
               <CardModule
                 title={'KOLs'}
-
                 id="KOLs"
                 index={i}
                 moveCard={moveCard}

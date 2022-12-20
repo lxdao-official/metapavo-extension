@@ -1,12 +1,14 @@
-import { findNftByAddress, getNftById } from "../../apis/nft_api";
-import { findNftByAddressV2, getNftByIdV2 } from "../../apis/nft_api_v2";
-import { IProject, IProjectV2 } from "../../apis/types";
-import { recognizerGEM } from "../gem";
-import { recognizerLooksrare } from "../looksrare";
-import { recognizerOpenSea } from "../opensea";
-import { recognizerSudoswap } from "../sudoswap";
-import { recognizerX2Y2 } from "../x2y2";
-import { CheckResultStatus } from "./types";
+import { findNftByAddress, getNftById } from '../../apis/nft_api';
+import { findNftByAddressV2, getNftByIdV2 } from '../../apis/nft_api_v2';
+import { IProject, IProjectV2 } from '../../apis/types';
+import { recognizerBlur } from '../blur';
+import { recognizerGEM } from '../gem';
+import { recognizerLooksrare } from '../looksrare';
+import { recognizerOpenSea } from '../opensea';
+import { recognizerSudoswap } from '../sudoswap';
+import { recognizerX2Y2 } from '../x2y2';
+import { CheckResultStatus } from './types';
+
 let lastCheckId: string | undefined = undefined;
 export async function checkMarketPlace(): Promise<{
   projectInfo?: IProjectV2;
@@ -37,6 +39,11 @@ export async function checkMarketPlace(): Promise<{
           const resultLooksrare = await recognizerLooksrare();
           if (resultLooksrare && resultLooksrare.contract) {
             nowCheckedResult = resultLooksrare;
+          } else {
+            const resultBlur = await recognizerBlur();
+            if (resultBlur && resultBlur.id) {
+              nowCheckedResult = resultBlur;
+            }
           }
         }
       }
