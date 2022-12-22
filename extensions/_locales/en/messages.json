@@ -7,6 +7,9 @@
     "message": "Personal Web3 Information Assistant, core competencies: Personal workbench & Search everywhere & Recognition entry on browsing",
     "description": "Personal Web3 Information Assistant, core competencies: Personal workbench & Search everywhere & Recognition entry on browsing"
   },
+  "topsite_warn": {
+    "message": "The data in this module is local data and will never be uploaded or shared with anyone"
+  },
   "TopSites": {
     "message": "Top Sites"
   },
@@ -133,6 +136,9 @@
   },
   "add_your_own_dapp_group": {
     "message": "add your own dapp group"
+  },
+  "add_new_group": {
+    "message": "Add new group"
   },
   "add_your_own_links_group": {
     "message": "add your own links group"

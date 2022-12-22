@@ -10,6 +10,9 @@
   "TopSites": {
     "message": "最常使用的网站"
   },
+  "topsite_warn": {
+    "message": "此模块的数据是本地数据，绝对不会上传或者共享给任何人"
+  },
   "More": {
     "message": "更多"
   },
@@ -134,6 +137,9 @@
   "add_your_own_dapp_group": {
     "message": "添加自定义 DAPP 分组"
   },
+  "add_new_group": {
+    "message": "添加新分组"
+  },
   "add_your_own_links_group": {
     "message": "添加自定义链接分组"
   },
@@ -171,7 +177,7 @@
     "message": "我持有的 NFTs"
   },
   "Please_choose_category": {
-    "message": "请选择分类"
+    "message": "请选择分组"
   },
   "add_to_read_later": {
     "message": "添加到稍后读"

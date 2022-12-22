@@ -96,6 +96,9 @@ export default function ReadLaters() {
     if (res && res.length > 0) {
       setuser_categories(res as linktags[]);
       setListConfig('readlater_category', res);
+    } else {
+      setuser_categories([]);
+      setListConfig('readlater_category', []);
     }
   }
   function closeModalHandler() {
@@ -135,6 +138,9 @@ export default function ReadLaters() {
     if (res && res.length > 0) {
       setAllDapps(res as UserLink[]);
       localStorage.setItem('userlinks', JSON.stringify(res));
+    } else {
+      localStorage.setItem('userlinks', '[]');
+      setAllDapps([]);
     }
   };
   useEffect(() => {

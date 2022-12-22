@@ -26,3 +26,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.nextui-radio-group-items {
+  flex-wrap: wrap;
+}

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 export default function CoinPriceCard(props: { symbol: string }) {
   const [option, setOption] = useState<any>({});
   const chartRef = useRef<any>();
+  const [isAwailable, setIsAwailable] = useState(true);
   const loadBTC = async () => {
     const res = await fetch(
       `https://api.binance.com/api/v3/klines?symbol=${props.symbol}&interval=15m`,
@@ -20,6 +21,10 @@ export default function CoinPriceCard(props: { symbol: string }) {
     );
 
     const json = await res.json();
+    if (json.code == 0) {
+      setIsAwailable(false);
+      return;
+    }
     const btcPrices: any[] = [];
     const lastDayBTCPrices: any[] = [];
     const lastDayStart = moment()
@@ -198,13 +203,29 @@ export default function CoinPriceCard(props: { symbol: string }) {
       >
         {props.symbol}
       </div>
-      <ReactECharts
-        option={option}
-        notMerge={true}
-        lazyUpdate={true}
-        ref={chartRef}
-        style={{ width: '100%', height: '60px' }}
-      />
+      {isAwailable ? (
+        <ReactECharts
+          option={option}
+          notMerge={true}
+          lazyUpdate={true}
+          ref={chartRef}
+          style={{ width: '100%', height: '60px' }}
+        />
+      ) : (
+        <div
+          style={{
+            width: '100%',
+            height: '60px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: '12px',
+            color: '#999999',
+          }}
+        >
+          Service Unavailable in your area
+        </div>
+      )}
     </Box>
   );
 }

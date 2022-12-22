@@ -46,6 +46,9 @@ export default function KOLs() {
       if (_kols && _kols.length) {
         setKols(_kols);
         setListConfig('user_kols', _kols);
+      } else {
+        setKols([]);
+        setListConfig('user_kols', []);
       }
     }
   }

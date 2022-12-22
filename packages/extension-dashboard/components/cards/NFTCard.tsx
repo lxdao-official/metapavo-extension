@@ -16,10 +16,14 @@ import toast from 'react-hot-toast';
 import config from '../../config';
 import { NFTCardRoot } from '../styles';
 import Pick from './Pick';
+import UnPick from './UnPick';
 
 export default function NFTCard(props: {
   activeProject: IProjectV2;
   showPick?: boolean;
+  showUnpick?: boolean;
+  onPick?: () => void;
+  onUnpick?: () => void;
 }) {
   const activeProject = props.activeProject;
   const blankImage = chrome.runtime.getURL('images/placeholder.png');
@@ -69,6 +73,7 @@ export default function NFTCard(props: {
           href={`${config.baseURL}/jump/nft?id=${
             activeProject.id
           }&url=${encodeURIComponent(activeProject?.links?.opensea || '')}`}
+          title={activeProject?.name}
         >
           {activeProject?.name}
         </a>
@@ -187,6 +192,26 @@ export default function NFTCard(props: {
             try {
               await addFavByProjectId(activeProject.id);
               toast.success('collect nft to dashboard success');
+              props.onPick && props.onPick();
+            } catch (e: any) {
+              toast.error(e.message);
+            }
+          }}
+        />
+      ) : null}
+      {props.showUnpick ? (
+        <UnPick
+          style={{
+            position: 'absolute',
+            bottom: '0px',
+            right: '5px',
+            cursor: 'pointer',
+          }}
+          onPick={async function (e: string) {
+            try {
+              await removeFavByProjectId(activeProject.id);
+              toast.success('remove nft from dashboard success');
+              props.onUnpick && props.onUnpick();
             } catch (e: any) {
               toast.error(e.message);
             }

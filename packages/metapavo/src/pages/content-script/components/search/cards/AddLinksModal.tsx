@@ -7,6 +7,7 @@ import {
   Radio,
   Text,
 } from '@nextui-org/react';
+import globalEvent from 'extension-common/src/EventBus';
 import { links, linktags, userlinks } from 'extension-common/src/apis';
 import {
   fetchUsersTags,
@@ -16,6 +17,8 @@ import { getLang } from 'extension-common/src/lang';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+
+import { AddLinksGroupModal } from './AddLinksGroupModal';
 
 export default function AddLinksModal(props: {
   onSuccess?: (dapp_id: string, selectedCatId?: string) => void;
@@ -60,53 +63,68 @@ export default function AddLinksModal(props: {
       loadUsersCategories();
     }
   }, [showModalState]);
-
+  function showAddGroupModal() {
+    globalEvent.emit('add_links_group');
+  }
+  useEffect(() => {
+    globalEvent.on('add_links_group_success', () => {
+      loadUsersCategories();
+    });
+  }, []);
   return (
-    <Modal
-      closeButton
-      aria-labelledby="modal-title"
-      open={showModalState}
-      onClose={closeModalHandler}
-      css={{
-        zIndex: '100000000000000',
-      }}
-    >
-      <Modal.Header>
-        <Text id="modal-title" size={18}>
-          Add Link to dashboard
-        </Text>
-      </Modal.Header>
-      <Modal.Body>
-        <Radio.Group
-          orientation="horizontal"
-          label={getLang('Please_choose_category')}
-          defaultValue="secondary"
-          onChange={(value) => {
-            setselectedCatId(value);
-          }}
-        >
-          {user_categories.map((item) => (
-            <Radio key={item.id} value={item.id} size="sm">
-              {item.title}
-            </Radio>
-          ))}
-          <Radio key={''} value={''} size="sm">
-            {getLang('ungrouped')}
-          </Radio>
-        </Radio.Group>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button auto flat color="error" onClick={closeModalHandler}>
-          {getLang('Cancel')}
-        </Button>
-        <Button auto onClick={save} disabled={saveing}>
-          {saveing ? (
-            <Loading type="spinner" color="currentColor" size="sm" />
-          ) : (
-            getLang('Submit')
-          )}
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    <>
+      <Modal
+        closeButton
+        aria-labelledby="modal-title"
+        open={showModalState}
+        onClose={closeModalHandler}
+        css={{
+          zIndex: '100000000000000',
+        }}
+      >
+        <Modal.Header>
+          <Text id="modal-title" size={18}>
+            Add Link to dashboard
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <Radio.Group
+            orientation="horizontal"
+            label={getLang('Please_choose_category')}
+            defaultValue="secondary"
+            onChange={(value) => {
+              setselectedCatId(value);
+            }}
+          >
+            {user_categories.map((item) => (
+              <Radio key={item.id} value={item.id} size="sm">
+                {item.title}
+              </Radio>
+            ))}
+          </Radio.Group>
+          <a
+            onClick={showAddGroupModal}
+            style={{
+              display: 'block',
+            }}
+          >
+            {getLang('add_new_group')}
+          </a>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button auto flat color="error" onClick={closeModalHandler}>
+            {getLang('Cancel')}
+          </Button>
+          <Button auto onClick={save} disabled={saveing}>
+            {saveing ? (
+              <Loading type="spinner" color="currentColor" size="sm" />
+            ) : (
+              getLang('Submit')
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <AddLinksGroupModal />
+    </>
   );
 }

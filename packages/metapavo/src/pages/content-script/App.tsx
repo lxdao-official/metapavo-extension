@@ -1,4 +1,8 @@
 import { ThemeProvider, createTheme } from '@mui/material';
+import {
+  NextUIProvider,
+  createTheme as createThemeNextUI,
+} from '@nextui-org/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Toaster } from 'react-hot-toast';
@@ -7,6 +11,7 @@ import Ball from './components/pavo-ball/ball';
 import SearchWrapper from './components/search/SearchWrapper';
 import useGlobal, { GlobalContext } from './context/useGlobal';
 import useWallet, { WalletContext } from './context/useWallet';
+
 // import './scripts/tag';
 
 const rootElement = document.createElement('div');
@@ -51,6 +56,12 @@ style.innerText = `
   margin-left: 4px !important;
   line-height: 1.2 !important;
 }
+.nextui-backdrop--open{
+  z-index:100000000000 !important;
+}
+.nextui-radio-group-items {
+  flex-wrap: wrap !important;
+}
 `;
 
 const theme = createTheme({
@@ -68,6 +79,28 @@ const theme = createTheme({
     },
   },
 });
+
+const nextTheme = createThemeNextUI({
+  type: 'light', // it could be "light" or "dark"
+  className: 'nextui-theme-pavo-', // it could be any class name
+  theme: {
+    colors: {
+      // brand colors
+      secondary: '#9f50ff',
+    },
+    zIndices: {
+      1: '100',
+      2: '200',
+      3: '300',
+      4: '400',
+      5: '500',
+      10: '1000',
+      max: '100000000000000',
+    },
+    space: {},
+    fonts: {},
+  },
+});
 document.body.appendChild(style);
 
 function Root() {
@@ -75,6 +108,7 @@ function Root() {
   const wallet = useWallet();
 
   return (
+    // <NextUIProvider theme={nextTheme}>
     <ThemeProvider theme={theme}>
       <GlobalContext.Provider value={useG}>
         <WalletContext.Provider value={wallet}>
@@ -83,6 +117,7 @@ function Root() {
         </WalletContext.Provider>
       </GlobalContext.Provider>
     </ThemeProvider>
+    // </NextUIProvider>
   );
 }
 ReactDOM.render(

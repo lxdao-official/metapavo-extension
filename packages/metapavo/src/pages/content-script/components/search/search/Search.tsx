@@ -157,6 +157,7 @@ export default function Search() {
               borderRadius: '20px',
               border: 'none',
               margin: 0,
+              paddingLeft: '15px',
             },
             '& .nextui-input-clear-button': {
               right: '10px',

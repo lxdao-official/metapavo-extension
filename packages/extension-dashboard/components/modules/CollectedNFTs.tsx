@@ -1,4 +1,5 @@
 import { Box, Grid } from '@mui/material';
+import globalEvent from 'extension-common/src/EventBus';
 import { getUsersFavs } from 'extension-common/src/apis/nft_api';
 import { projectLinksWrapper } from 'extension-common/src/apis/project_wrapper';
 import { favs } from 'extension-common/src/apis/types';
@@ -9,7 +10,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import globalEvent from 'extension-common/src/EventBus';
 import { UserContext } from '../../context/useUser';
 import NFTCard from '../cards/NFTCard';
 import NoLogin from './common/NoLogin';
@@ -18,7 +18,7 @@ export default function CollectedNFTs() {
   const { token } = useContext(UserContext);
   const [groupedFavs, setGroupedFavs] = useState<favs[][]>([]);
   const pageEle = useRef(null);
-  const [isRecommend,setIsRecommend] = useState(false);
+  const [isRecommend, setIsRecommend] = useState(false);
   const loadFavs = async () => {
     const isTwoLine = !!localStorage.getItem('myfavs_two_line');
     try {
@@ -60,23 +60,22 @@ export default function CollectedNFTs() {
       localStorage.setItem('myfavs', JSON.stringify(data));
     }
     //@ts-ignore
-    if(res&&res.recommends&&res.recommends.length){
+    if (res && res.recommends && res.recommends.length) {
       setIsRecommend(true);
       //@ts-ignore
-      const data = res.recommends
-        .map((fav:favs) => {
-          if (fav.project) {
-            fav.project = projectLinksWrapper(fav.project);
-          }
-          return fav;
-        })
+      const data = res.recommends.map((fav: favs) => {
+        if (fav.project) {
+          fav.project = projectLinksWrapper(fav.project);
+        }
+        return fav;
+      });
       const _group = [];
       for (let i = 0; i < data.length; i += isTwoLine ? 8 : 4) {
         _group.push(data.slice(i, i + (isTwoLine ? 8 : 4)));
       }
       setGroupedFavs(_group);
-    }else{
-      setIsRecommend(false)
+    } else {
+      setIsRecommend(false);
     }
   };
   useEffect(() => {
@@ -107,19 +106,23 @@ export default function CollectedNFTs() {
           </div>
         ) : (
           <>
-          {isRecommend?<div style={{
-            lineHeight:'20px',
-            padding:'10px 15px',
-            borderRadius:'8px',
-            background:'#f7f7f7',
-            color:'#444',
-            fontSize:'12px',
-            marginBottom:'15px',
-            marginTop:'5px',
-            display:'inline-block'
-          }}>
-            {getLang("recommend_nfts")}
-          </div>:null}
+            {isRecommend ? (
+              <div
+                style={{
+                  lineHeight: '20px',
+                  padding: '10px 15px',
+                  borderRadius: '8px',
+                  background: '#f7f7f7',
+                  color: '#444',
+                  fontSize: '12px',
+                  marginBottom: '15px',
+                  marginTop: '5px',
+                  display: 'inline-block',
+                }}
+              >
+                {getLang('recommend_nfts')}
+              </div>
+            ) : null}
             <Swiper
               slidesPerView={1}
               style={{ width: '100%' }} // install Swiper modules
@@ -134,7 +137,13 @@ export default function CollectedNFTs() {
                         if (fav.project) {
                           return (
                             <Grid item xs={3}>
-                              <NFTCard activeProject={fav.project}></NFTCard>
+                              <NFTCard
+                                activeProject={fav.project}
+                                showUnpick={true}
+                                onUnpick={() => {
+                                  loadFavs();
+                                }}
+                              ></NFTCard>
                             </Grid>
                           );
                         }

@@ -38,6 +38,15 @@ const theme = createTheme({
       // brand colors
       secondary: '#9f50ff',
     },
+    zIndices: {
+      1: '100',
+      2: '200',
+      3: '300',
+      4: '400',
+      5: '500',
+      10: '1000',
+      max: '1000000000000',
+    },
     space: {},
     fonts: {},
   },
@@ -50,7 +59,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RainbowKitProvider chains={chains} initialChain={chain.polygon}>
           <UserContext.Provider value={userinfo}>
             <>
-              <Component {...pageProps} /> <Toaster />
+              <Component {...pageProps} />{' '}
+              <Toaster containerStyle={{ zIndex: 1000000000000 }} />
             </>
           </UserContext.Provider>
         </RainbowKitProvider>

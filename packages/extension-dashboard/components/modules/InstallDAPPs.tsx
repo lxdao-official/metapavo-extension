@@ -53,7 +53,7 @@ export default function InstallDAPPs() {
   const [addCategoryTitle, setaddCategoryTitle] = useState('');
   const [addCategoryDesc, setaddCategoryDesc] = useState('');
   const [allDapps, setAllDapps] = useState<UserDapp[]>([]);
-  const [activeCategoryId, setActiveCategoryId] = useState<string>('recent');
+  const [activeCategoryId, setActiveCategoryId] = useState<string>('ungrouped');
   const refreshDappsList = async () => {
     if (activeCategoryId == 'recent') {
       const visitlog = getViewLogs();
@@ -236,7 +236,7 @@ export default function InstallDAPPs() {
                 flexWrap: 'wrap',
               }}
             >
-              <div
+              {/* <div
                 onClick={() => {
                   activeCategory('recent');
                 }}
@@ -251,8 +251,24 @@ export default function InstallDAPPs() {
                 }}
               >
                 {getLang('recently_visited')}
+              </div> */}
+              <div
+                onClick={() => {
+                  activeCategory('ungrouped');
+                }}
+                style={{
+                  fontSize: '12px',
+                  padding: '0px 10px',
+                  lineHeight: '26px',
+                  borderRadius: '13px',
+                  cursor: 'pointer',
+                  background:
+                    activeCategoryId == 'ungrouped' ? '#9f50ff' : '#fff',
+                  color: activeCategoryId == 'ungrouped' ? '#fff' : '#444',
+                }}
+              >
+                {getLang('ungrouped')}
               </div>
-
               {user_categories.map((cat) => (
                 <div
                   onClick={() => {
@@ -272,23 +288,7 @@ export default function InstallDAPPs() {
                   {cat.title}
                 </div>
               ))}
-              <div
-                onClick={() => {
-                  activeCategory('ungrouped');
-                }}
-                style={{
-                  fontSize: '12px',
-                  padding: '0px 10px',
-                  lineHeight: '26px',
-                  borderRadius: '13px',
-                  cursor: 'pointer',
-                  background:
-                    activeCategoryId == 'ungrouped' ? '#9f50ff' : '#fff',
-                  color: activeCategoryId == 'ungrouped' ? '#fff' : '#444',
-                }}
-              >
-                {getLang('ungrouped')}
-              </div>
+
               <Box
                 sx={{
                   lineHeight: '26px',

@@ -13,7 +13,7 @@ interface DragItem {
 }
 
 export default function CardModule(props: {
-  title: string;
+  title: string | React.ReactNode;
   children: React.ReactNode;
   extra?: React.ReactNode;
   id?: string;

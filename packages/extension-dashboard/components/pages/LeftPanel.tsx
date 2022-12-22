@@ -1,3 +1,4 @@
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Switch, Tooltip } from '@nextui-org/react';
 import globalEvent from 'extension-common/src/EventBus';
 import { getLang } from 'extension-common/src/lang';
@@ -74,7 +75,16 @@ export default function LeftPanel() {
           <>
             {item === 'TopSites' && (
               <CardModule
-                title={getLang('TopSites')}
+                title={
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div>{getLang('TopSites')}</div>
+                    <Tooltip content={getLang('topsite_warn')}>
+                      <HelpOutlineIcon
+                        style={{ fontSize: '14px', marginLeft: '5px' }}
+                      />
+                    </Tooltip>
+                  </div>
+                }
                 id="TopSites"
                 index={i}
                 moveCard={moveCard}

@@ -185,7 +185,9 @@ function Ball() {
                         chrome.storage.local.set({
                           display_info: e,
                         });
-                        refreshData();
+                        setTimeout(() => {
+                          refreshData();
+                        }, 500);
                       }}
                     >
                       <Radio value="GAS">GAS</Radio>

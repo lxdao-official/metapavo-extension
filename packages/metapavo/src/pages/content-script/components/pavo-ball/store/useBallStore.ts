@@ -112,6 +112,18 @@ export default function useBallStore() {
     }
   }
 
+  function setGasWithFormat(_v: number) {
+    const v = Number(_v) || 0;
+    if (v > 10000) {
+      setGas(v.toFixed(0));
+    } else if (v > 1000) {
+      setGas(v.toFixed(1));
+    } else if (v < 0) {
+      setGas(v.toFixed(4));
+    } else {
+      setGas(v.toFixed(2));
+    }
+  }
   function init() {
     useG.checkPlatform();
     checkDapp();
@@ -135,16 +147,7 @@ export default function useBallStore() {
     ) {
       if (request.cmd === 'gasUpdate') {
         if (request.type !== 'GAS') {
-          const v = Number(request.value) || 0;
-          if (v > 10000) {
-            setGas(v.toFixed(0));
-          } else if (v > 1000) {
-            setGas(v.toFixed(1));
-          } else if (v < 0) {
-            setGas(v.toFixed(4));
-          } else {
-            setGas(v.toFixed(2));
-          }
+          setGasWithFormat(request.value);
         } else {
           setGas(request.value);
         }
@@ -160,16 +163,7 @@ export default function useBallStore() {
       function (request) {
         if (!chrome.runtime.lastError) {
           if (request.type !== 'GAS') {
-            const v = Number(request.value) || 0;
-            if (v > 10000) {
-              setGas(v.toFixed(0));
-            } else if (v > 1000) {
-              setGas(v.toFixed(1));
-            } else if (v < 0) {
-              setGas(v.toFixed(4));
-            } else {
-              setGas(v.toFixed(2));
-            }
+            setGasWithFormat(request.value);
           } else {
             setGas(request.value);
           }
