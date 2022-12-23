@@ -43,11 +43,11 @@ export async function findNftByAddressV2(
 
 export async function findNftByURLV2(url: string): Promise<IProjectV2 | null> {
   const res = await fetchWrapped(
-    `${config.baseURL}/nfts/by_url/v2/${encodeURIComponent(url)}`,
+    `${config.baseURL}/nfts/by_url/v2/${encodeURIComponent('https://'+url)}`,
     {},
     false,
   );
-  if (res && res.success) {
+  if (res && res.success && res.data && res.data.id) {
     return res.data;
   }
   return null;
