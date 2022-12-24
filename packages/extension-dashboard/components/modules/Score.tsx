@@ -300,7 +300,7 @@ export default function Score() {
                   fontSize: '12px',
                 }}
                 className="copy"
-                data-clipboard-text={`Hello，给大家带来了三个 MetaPavo（小孔雀）的第一批抢先试用邀请码（总共 5000 个）。MetaPavo 是 LXDAO 的一款免费公益的产品，是你的 Web3 信息助理，方便你关注你感兴趣的 NFT 价格、Token 价格等，而去还带有安全钓鱼网站检测功能，帮你识别部分钓鱼诈骗网站，带来更安全的 Web3 体验。下面是三个邀请码，先到先得，可以早点开始领积分，每一个邀请码激活登陆后可以再获取三个：
+                data-clipboard-text={`${getLang('invite_text_1')}
 
 ${awailableInvites
   .map((item) => {
@@ -308,7 +308,7 @@ ${awailableInvites
   })
   .join(' \n')}
 
-激活邀请码后，仅仅需要签名验证你是钱包拥有者（无需 Gas），无任何授权和其他钱包操作，请放心使用！更多问题或者详情请加入 DC： https://discord.lxdao.io `}
+${getLang('invite_text_2')}`}
               >
                 {getLang('copy_all_codes')} ({awailableInvites.length})
               </a>

@@ -1,19 +1,28 @@
-import builtInDatabase from "./database/lite.json";
-import metamaskDatabase from "./database/whitelist.json";
-import { PostDetail, Project, DomainDetail, ScamResult, Database, NFTCheckResult } from "./types";
-import { parseDomain, ParseResultType } from "parse-domain";
-import urlParser from "url";
-import { fixWordsIfHasUnicode, compareTwoStrings } from "./confusables";
+import { ParseResultType, parseDomain } from 'parse-domain';
+import urlParser from 'url';
 
-const TOKEN_ENDPOINT = "https://cdn.jsdelivr.net/gh/scamsniffer/explorer-database@main/data/v1";
+import { compareTwoStrings, fixWordsIfHasUnicode } from './confusables';
+import builtInDatabase from './database/lite.json';
+import metamaskDatabase from './database/whitelist.json';
+import {
+  Database,
+  DomainDetail,
+  NFTCheckResult,
+  PostDetail,
+  Project,
+  ScamResult,
+} from './types';
+
+const TOKEN_ENDPOINT =
+  'https://cdn.jsdelivr.net/gh/scamsniffer/explorer-database@main/data/v1';
 
 // const TOKEN_ENDPOINT =
 //   "https://raw.githubusercontent.com/scamsniffer/explorer-database/main/data/v1";
 
-const REPORT_ENDPOINT = "https://api.scamsniffer.io/report";
-const REPORT_ENDPOINT_DEV = "http://localhost/report";
+const REPORT_ENDPOINT = 'https://api.scamsniffer.io/report';
+const REPORT_ENDPOINT_DEV = 'http://localhost/report';
 const remoteDatabase =
-  "https://raw.githubusercontent.com/scamsniffer/scamsniffer/main/database/generated/lite.json";
+  'https://raw.githubusercontent.com/scamsniffer/scamsniffer/main/database/generated/lite.json';
 const miniumWordsLength = 4;
 
 export function getTopDomainFromUrl(url: string): DomainDetail | null {
@@ -30,7 +39,7 @@ export function getTopDomainFromUrl(url: string): DomainDetail | null {
       // if (url.indexOf("io-0x13d8faf4a690f5aed2c529.in") > -1)
       //   console.log("parseResult", parseResult);
       if (subDomains) subDomainsName = subDomains;
-      topDomain = [domain].concat(topLevelDomains).join(".");
+      topDomain = [domain].concat(topLevelDomains).join('.');
       if (domain) domainName = domain;
       if (topLevelDomains) topLevelDomainsName = topLevelDomains;
       break;
@@ -93,8 +102,11 @@ function compareName(name: string, name2: string) {
 // adidas Originals
 // adidas Originals Into the Metaverse
 function matchNameInWords(nickName: string, projectName: string) {
-  const words = nickName.split(" ");
-  return words.length > 1 && projectName.toLowerCase().includes(nickName.toLowerCase());
+  const words = nickName.split(' ');
+  return (
+    words.length > 1 &&
+    projectName.toLowerCase().includes(nickName.toLowerCase())
+  );
 }
 
 function compareUserId(id: string, id2: string) {
@@ -102,7 +114,11 @@ function compareUserId(id: string, id2: string) {
 }
 
 function compareText(keyword: string, fullText: string) {
-  return keyword && keyword.length > miniumWordsLength && compareName(fullText, keyword);
+  return (
+    keyword &&
+    keyword.length > miniumWordsLength &&
+    compareName(fullText, keyword)
+  );
 }
 
 function verifyProjectMeta(project: any, post: PostDetail) {
@@ -128,17 +144,22 @@ function verifyProjectMeta(project: any, post: PostDetail) {
   return isSame;
 }
 
-async function computeCallToScore(text: string, callToActionsKeywords: string[]) {
+async function computeCallToScore(
+  text: string,
+  callToActionsKeywords: string[],
+) {
   let start = Date.now();
   let result = null;
   result = await fixWordsIfHasUnicode(text, callToActionsKeywords);
   const comparText = result ? result.content : text;
   const txtWords = comparText
-    .split("\n")
-    .map((_) => _.split(" "))
+    .split('\n')
+    .map((_) => _.split(' '))
     .reduce((all, words) => {
       words.forEach((w) =>
-        all.add(w.toLowerCase().replace(new RegExp(",", "g"), "").split(".").join("")),
+        all.add(
+          w.toLowerCase().replace(new RegExp(',', 'g'), '').split('.').join(''),
+        ),
       );
       return all;
     }, new Set());
@@ -178,11 +199,20 @@ async function _detectScam(
   options: any = {},
 ): Promise<ScamResult | null> {
   const { nickname, content, userId, links, pageDetails } = post;
-  const { ProjectList: allProjects, commonWords, BlackList, callToActionsKeywords } = database;
+  const {
+    ProjectList: allProjects,
+    commonWords,
+    BlackList,
+    callToActionsKeywords,
+  } = database;
 
   // short links
   let outLinks = links.filter((link) => {
-    return !link.includes("twitter.com/") && !link.includes("t.co/") && !link.includes("bit.ly/");
+    return (
+      !link.includes('twitter.com/') &&
+      !link.includes('t.co/') &&
+      !link.includes('bit.ly/')
+    );
   });
 
   // links
@@ -191,7 +221,7 @@ async function _detectScam(
   //   return null;
   // }
 
-  let matchType = "unknown";
+  let matchType = 'unknown';
 
   const flags = {
     checkName: true,
@@ -202,15 +232,17 @@ async function _detectScam(
     checkSubdomain: true,
   };
   if (userId) {
-    const twitterInBlackList = BlackList.twitter.find((id) => id.includes(`${userId}:`));
+    const twitterInBlackList = BlackList.twitter.find((id) =>
+      id.includes(`${userId}:`),
+    );
 
     if (twitterInBlackList) {
-      const [twitter, projectSlug] = twitterInBlackList.split(":");
+      const [twitter, projectSlug] = twitterInBlackList.split(':');
       const project = allProjects.find((_) => _.slug === projectSlug);
       if (project) {
         return {
           ...project,
-          matchType: "twitter_in_black_list",
+          matchType: 'twitter_in_black_list',
           post,
         };
       }
@@ -233,7 +265,9 @@ async function _detectScam(
   if (fuzzyTwitterCheck) {
     const skipCheck =
       nickname && userId
-        ? commonWords.find((word) => nickname.includes(word) || userId.includes(word))
+        ? commonWords.find(
+            (word) => nickname.includes(word) || userId.includes(word),
+          )
         : false;
 
     if (skipCheck) {
@@ -244,24 +278,27 @@ async function _detectScam(
     if (nickname && flags.checkName) {
       // full match
       matchProject = allProjects.find((_) => _.name === nickname);
-      matchType = "name_full_match";
+      matchType = 'name_full_match';
 
       if (!matchProject && userId) {
         matchProject = allProjects.find(
-          (_) => _.twitterUsername && includeNameCheck(userId, _.twitterUsername),
+          (_) =>
+            _.twitterUsername && includeNameCheck(userId, _.twitterUsername),
         );
-        matchType = "userId_match_twitter";
+        matchType = 'userId_match_twitter';
       }
 
       if (!matchProject) {
         matchProject = allProjects.find((_) => compareName(nickname, _.name));
-        matchType = "nickname_match_name";
+        matchType = 'nickname_match_name';
       }
 
       if (!matchProject) {
         // careful
-        matchProject = allProjects.find((_) => matchNameInWords(nickname, _.name));
-        matchType = "nickname_match_name_words";
+        matchProject = allProjects.find((_) =>
+          matchNameInWords(nickname, _.name),
+        );
+        matchType = 'nickname_match_name_words';
       }
       // console.log("matchProject", matchProject);
       if (matchProject && matchProject.twitterUsername && userId) {
@@ -283,7 +320,7 @@ async function _detectScam(
       const matchProject = allProjects.find(
         (_) => _.twitterUsername && includeName(userId, _.twitterUsername),
       );
-      matchType = "userId_match_twitter_name";
+      matchType = 'userId_match_twitter_name';
       if (matchProject && matchProject.twitterUsername && userId) {
         const verified = verifyProjectMeta(matchProject, post);
         if (!verified) {
@@ -302,7 +339,7 @@ async function _detectScam(
   if (flags.checkPage && pageDetails) {
     let metaUrl = pageDetails.canonicalLink;
     if (!metaUrl) {
-      const ogUrl = pageDetails.metaHeads["og:url"];
+      const ogUrl = pageDetails.metaHeads['og:url'];
       if (ogUrl) {
         metaUrl = ogUrl;
       }
@@ -311,15 +348,21 @@ async function _detectScam(
     if (metaUrl) {
       const siteDomain = getTopDomainFromUrl(links[0]);
       const metaDomain = getTopDomainFromUrl(metaUrl);
-      if (metaDomain && siteDomain && siteDomain.topDomain !== metaDomain.topDomain) {
+      if (
+        metaDomain &&
+        siteDomain &&
+        siteDomain.topDomain !== metaDomain.topDomain
+      ) {
         const matchProject = allProjects.find(
           (_) =>
-            _.externalUrl && metaDomain.topDomain && _.externalUrl.includes(metaDomain.topDomain),
+            _.externalUrl &&
+            metaDomain.topDomain &&
+            _.externalUrl.includes(metaDomain.topDomain),
         );
         if (matchProject) {
           return {
             ...matchProject,
-            matchType: "check_page_hit",
+            matchType: 'check_page_hit',
             post,
             callActionTest,
           };
@@ -341,11 +384,16 @@ async function _detectScam(
         const isInWhiteList = whitelistDomainList.find(
           (topDomain) => domainDetail.topDomain === topDomain,
         );
-        if (!uniqueDomains.find((_) => _.topDomain === domainDetail.topDomain) && !isInWhiteList)
+        if (
+          !uniqueDomains.find((_) => _.topDomain === domainDetail.topDomain) &&
+          !isInWhiteList
+        )
           uniqueDomains.push({
             domainName: domainDetail.domainName,
             topDomain: domainDetail.topDomain,
-            subDomainsName: domainDetail.subDomainsName ? domainDetail.subDomainsName : [],
+            subDomainsName: domainDetail.subDomainsName
+              ? domainDetail.subDomainsName
+              : [],
           });
 
         if (isInWhiteList) {
@@ -387,7 +435,7 @@ async function _detectScam(
           compareItems.push([_.twitterUsername, userId, 1]);
         }
 
-        const nameInContent = content && content.split(" ").includes(_.name);
+        const nameInContent = content && content.split(' ').includes(_.name);
         if (nameInContent) {
           score += 0.5;
         }
@@ -398,19 +446,32 @@ async function _detectScam(
         uniqueDomains.forEach((domain) => {
           if (!isSame) {
             isSame =
-              projectDomainDetail && projectDomainDetail.topDomain === domain.topDomain
+              projectDomainDetail &&
+              projectDomainDetail.topDomain === domain.topDomain
                 ? true
                 : false;
           }
 
           if (projectDomainDetail && projectDomainDetail.domainName) {
-            compareItems.push([domain.domainName, projectDomainDetail.domainName, 2]);
+            compareItems.push([
+              domain.domainName,
+              projectDomainDetail.domainName,
+              2,
+            ]);
             if (projectDomainDetail.topDomain) {
-              compareItems.push([domain.domainName, projectDomainDetail.topDomain, 2]);
+              compareItems.push([
+                domain.domainName,
+                projectDomainDetail.topDomain,
+                2,
+              ]);
             }
             if (projectDomainDetail.subDomainsName) {
-              if (projectDomainDetail.subDomainsName[0] != "www")
-                compareItems.push([domain.domainName, projectDomainDetail.subDomainsName[0], 2]);
+              if (projectDomainDetail.subDomainsName[0] != 'www')
+                compareItems.push([
+                  domain.domainName,
+                  projectDomainDetail.subDomainsName[0],
+                  2,
+                ]);
             }
 
             // if (domain.subDomainsName.length) {
@@ -425,12 +486,18 @@ async function _detectScam(
             // }
           }
 
-          if (projectName) compareItems.push([domain.domainName, projectName.toLowerCase(), 1]);
+          if (projectName)
+            compareItems.push([
+              domain.domainName,
+              projectName.toLowerCase(),
+              1,
+            ]);
         });
 
         for (let index = 0; index < compareItems.length; index++) {
           const [string1, string2, type] = compareItems[index];
-          const sim = (string1 && string2 && compareTwoStrings(string1, string2)) || 0;
+          const sim =
+            (string1 && string2 && compareTwoStrings(string1, string2)) || 0;
 
           if (sim > simLimit && simLimit <= 1) {
             score += sim;
@@ -456,7 +523,7 @@ async function _detectScam(
       .sort((a, b) => b.score - a.score);
     if (similarProjects.length && (fuzzyTwitterCheck || options.onlyLink)) {
       matchProject = similarProjects[0].project;
-      matchType = "check_by_sim";
+      matchType = 'check_by_sim';
       const verified = verifyProjectMeta(matchProject, post);
       // if (similarProjects[0].hasSimLink && !verified) {
       if (!verified) {
@@ -649,7 +716,7 @@ export class Detector {
   databaseUrl: string;
   fetching: boolean;
 
-  constructor({ onlyBuiltIn = true, databaseUrl = "" }) {
+  constructor({ onlyBuiltIn = true, databaseUrl = '' }) {
     this.onlyBuiltIn = onlyBuiltIn;
     this.database = builtInDatabase;
     this.databaseUrl = databaseUrl || remoteDatabase;
@@ -665,7 +732,8 @@ export class Detector {
       if (allProject.domainDetail) {
         continue;
       }
-      const domainDetail = allProject.externalUrl && getTopDomainFromUrl(allProject.externalUrl);
+      const domainDetail =
+        allProject.externalUrl && getTopDomainFromUrl(allProject.externalUrl);
       if (domainDetail) {
         allProject.domainDetail = domainDetail;
       }
@@ -673,7 +741,7 @@ export class Detector {
   }
   getDatabaseFromLocal(): Promise<any> {
     return new Promise((resolve, reject) => {
-      chrome.storage.local.get(["projects_database"], function (data) {
+      chrome.storage.local.get(['projects_database'], function (data) {
         if (data && data.projects_database) {
           resolve(data.projects_database);
         } else {
@@ -704,30 +772,38 @@ export class Detector {
       chrome.storage.local.set({ projects_database: remoteData.data });
       await this.buildIndex();
     } catch (e) {
-      console.error("fetch from remote failed", e);
+      console.error('fetch from remote failed', e);
     }
 
     this.fetching = false;
     this.lastFetch = Date.now();
   }
 
-  async detectScam(post: PostDetail, options: any = {}): Promise<ScamResult | null> {
+  async detectScam(
+    post: PostDetail,
+    options: any = {},
+  ): Promise<ScamResult | null> {
     try {
       if (!this.onlyBuiltIn) await this.update();
       return await _detectScam(post, this.database, options);
     } catch (e) {
-      console.error("error", e);
+      console.error('error', e);
     }
     return null;
   }
 
-  async detectProjectByTwitterId(twitterId: string): Promise<Project | undefined> {
+  async detectProjectByTwitterId(
+    twitterId: string,
+  ): Promise<Project | undefined> {
     return this.database.ProjectList.find((project) => {
       return project.twitterUsername?.toLowerCase() === twitterId.toLowerCase();
     });
   }
 
-  async checkNFTToken(contract: string, tokenId: string): Promise<NFTCheckResult | null> {
+  async checkNFTToken(
+    contract: string,
+    tokenId: string,
+  ): Promise<NFTCheckResult | null> {
     let result = null;
     try {
       const dataPath = `${TOKEN_ENDPOINT}/collections/${contract}/${tokenId}.json`;
@@ -745,11 +821,17 @@ export class Detector {
 
 export const detector = new Detector({});
 
-export async function detectScam(post: PostDetail, options: any = {}): Promise<ScamResult | null> {
+export async function detectScam(
+  post: PostDetail,
+  options: any = {},
+): Promise<ScamResult | null> {
   return detector.detectScam(post, options);
 }
 
-export async function detectScamByUrl(url: string, options: any = {}): Promise<ScamResult | null> {
+export async function detectScamByUrl(
+  url: string,
+  options: any = {},
+): Promise<ScamResult | null> {
   return detector.detectScam(
     {
       links: [url],
@@ -763,8 +845,10 @@ const CACHE_SIZE = 100;
 
 export async function reportScam(result: ScamResult) {
   const API_ENDPOINT =
-    typeof process !== "undefined" && process.env.DEV ? REPORT_ENDPOINT_DEV : REPORT_ENDPOINT;
-  const postId = result.post.id;
+    typeof process !== 'undefined' && process.env.DEV
+      ? REPORT_ENDPOINT_DEV
+      : REPORT_ENDPOINT;
+  const postId = result.post?.id;
   if (REPORT_CACHE.length > CACHE_SIZE) {
     REPORT_CACHE.shift();
   }
@@ -773,11 +857,11 @@ export async function reportScam(result: ScamResult) {
   }
   try {
     await fetch(API_ENDPOINT, {
-      mode: "cors",
-      method: "POST",
+      mode: 'cors',
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-        Accept: "application/json",
+        'Content-Type': 'application/json; charset=UTF-8',
+        Accept: 'application/json',
       },
       body: JSON.stringify(result),
     });

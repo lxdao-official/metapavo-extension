@@ -22,10 +22,10 @@ export type CallActionTest = {
 export type ScamResult = {
   slug: string;
   name: string;
-  matchType: string;
-  externalUrl: string | null;
-  twitterUsername: string | null;
-  post: PostDetail;
+  matchType?: string;
+  externalUrl?: string | null;
+  twitterUsername?: string | null;
+  post?: PostDetail;
   callActionTest?: CallActionTest | null;
   domainMeta?: any
 };

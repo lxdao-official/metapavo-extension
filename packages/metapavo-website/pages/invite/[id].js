@@ -139,6 +139,9 @@ export default function Home() {
             ? 'Bind successfully, please download extension to use'
             : '绑定成功，请下载插件使用',
         );
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } catch (e) {
         toast.error(e.message);
       }
@@ -161,8 +164,8 @@ export default function Home() {
               fontWeight="bold"
             >
               {router.query.lang == 'en'
-                ? 'Your Web3 Personal Information Assistant'
-                : '您的 Web3 个人信息助理'}
+                ? 'We sincerely invite you to join MetaPavo Public Beta'
+                : '诚邀您加入 MetaPavo 公测'}
             </Typography>
           </Box>
           <Typography
