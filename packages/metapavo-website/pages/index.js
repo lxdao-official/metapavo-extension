@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
 import Layout from '../components/Layout';
-import FirstSection from '../sections/FirstSection';
-import CoreConcept from '../sections/CoreConcept';
-import Features from '../sections/Features';
 import BuidlInLXDAO from '../sections/BuidlInLXDAO';
-import Partners from '../sections/Partners';
+import CoreConcept from '../sections/CoreConcept';
 import EarlyAccess from '../sections/EarlyAccess';
+import Features from '../sections/Features';
+import FirstSection from '../sections/FirstSection';
+import Partners from '../sections/Partners';
 
 export default function Home() {
   const [gas, setGas] = React.useState(0);
@@ -44,10 +44,10 @@ export default function Home() {
     <Layout>
       <FirstSection gas={gas} />
       <CoreConcept gas={gas} />
-      <Features />
+      {/* <Features /> */}
       <BuidlInLXDAO />
       <Partners />
-      <EarlyAccess />
+      {/* <EarlyAccess /> */}
     </Layout>
   );
 }

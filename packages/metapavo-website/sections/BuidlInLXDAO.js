@@ -1,5 +1,6 @@
+import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import { Box, Typography, Grid } from '@mui/material';
+
 import Container from '../components/Container';
 
 const BuildInLXDAO = () => {

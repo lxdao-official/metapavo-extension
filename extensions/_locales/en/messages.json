@@ -240,7 +240,13 @@
     "message": "Click here to go to twitter and ask for an invitation code. Please complete your wallet address in the tweet you send"
   },
   "get_invitecode": {
-    "message": "Get Invite Code"
+    "message": "How to get invite code?"
+  },
+  "copy_all_codes": {
+    "message": "Copy all available invite codes"
+  },
+  "invite_link": {
+    "message": "https://metapavo.gitbook.io/whitepaper/metapavo-invitecode-rule-en"
   },
   "RSS3_Feeds": {
     "message": "Feeds (RSS3)"

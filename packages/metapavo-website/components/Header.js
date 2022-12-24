@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import { Box, Typography, Link, SwipeableDrawer } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Box, Link, SwipeableDrawer, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
 import { scrollToSection } from '../common/utils';
-import Container from './Container';
 import Beta from './Beta';
+import Container from './Container';
 
 function DownloadButton() {
   return (
@@ -34,16 +34,16 @@ function DownloadButton() {
 }
 
 const menus = [
-  {
-    title: 'Features',
-    type: 'scroll',
-    id: 'features',
-  },
+  // {
+  //   title: 'Features',
+  //   type: 'scroll',
+  //   id: 'features',
+  // },
 
   {
-    title: 'Forum',
+    title: 'Twitter',
     type: 'link',
-    url: 'https://forum.lxdao.io/c/projects/002-metapavo/15',
+    url: 'https://twitter.com/MetaPavo',
   },
   {
     title: 'Discord',
@@ -58,7 +58,7 @@ const menus = [
   {
     title: 'User Security',
     type: 'link',
-    url: 'https://www.notion.so/lxdao/User-Safety-Manual-fda56105aa4a4960932f854a7f907f9f',
+    url: 'https://metapavo.gitbook.io/whitepaper/user-security-manual-zhong-wen',
   },
 ];
 
@@ -180,18 +180,6 @@ const Header = () => {
               })}
             </Box>
           </SwipeableDrawer>
-        </Box>
-        <Box marginLeft="auto" sx={{ display: { md: 'block', xs: 'none' } }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              toast(
-                'We are in the process of building the app. Please apply for the early access. Stay tuned!',
-              );
-            }}
-          >
-            <DownloadButton />
-          </Box>
         </Box>
       </Box>
       <Toaster />

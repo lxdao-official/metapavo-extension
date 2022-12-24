@@ -240,7 +240,13 @@
     "message": "点击这里到 twitter 寻求邀请码，请在发送的 twitter 内容中补全你的钱包地址"
   },
   "get_invitecode": {
-    "message": "获得邀请码"
+    "message": "如何获得邀请码？"
+  },
+  "copy_all_codes": {
+    "message": "复制所有可用邀请码"
+  },
+  "invite_link": {
+    "message": "https://metapavo.gitbook.io/whitepaper/metapavo-invite-and-score-rule"
   },
   "RSS3_Feeds": {
     "message": "动态（RSS3）"

@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-import React from 'react';
-import Head from 'next/head';
 import { Box, CssBaseline } from '@mui/material';
+import Head from 'next/head';
+import React from 'react';
 
-import Header from './Header';
 import Footer from './Footer';
+import Header from './Header';
 
 // eslint-disable-next-line react/prop-types
 export default function Layout({ children, title, description }) {

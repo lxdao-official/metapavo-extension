@@ -45,7 +45,7 @@ a {
   --error-shades: inset 10px 0 40px #ff0000, inset -10px 0 20px #ff0000,
     inset -40px 10px 100px #ff0000;
 }
-@-webkit-keyframes pavomove {
+@keyframes pavomove {
   0%,
   100% {
     border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;

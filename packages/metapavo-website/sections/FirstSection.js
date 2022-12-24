@@ -1,7 +1,8 @@
+import { Box, Link, Typography } from '@mui/material';
 import React from 'react';
-import { Link, Box, Typography } from '@mui/material';
-import Container from '../components/Container';
 import toast, { Toaster } from 'react-hot-toast';
+
+import Container from '../components/Container';
 import Pavo from '../components/pavo';
 
 const FirstSection = (props) => {
@@ -20,7 +21,7 @@ const FirstSection = (props) => {
             lineHeight={1.2}
             fontWeight="bold"
           >
-            All-in-One Web3 Information Linking Solution
+            Your Web3 Personal Information Assistant
           </Typography>
         </Box>
         <Typography
@@ -29,9 +30,9 @@ const FirstSection = (props) => {
           color="text.secondary"
           marginTop={4}
         >
-          MetaPavo is a Web3 information aggregator. Valuable Web3 information
-          All-in-One brings you a safe, efficient, and seamless Web3 experience.
-          Developed and maintained by{' '}
+          MetaPavo is your Web3 Personal Information Assistant. Valuable Web3
+          information All-in-One brings you a safe, efficient, and seamless Web3
+          experience. Developed and maintained by{' '}
           <Link
             href={`https://lxdao.io/`}
             target="_blank"
@@ -45,37 +46,36 @@ const FirstSection = (props) => {
           .
         </Typography>{' '}
         <Box marginTop={8} display="flex" flexWrap="wrap">
-          <Box
-            marginRight={2}
-            marginBottom={2}
-            sx={{
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              toast(
-                'We are in the process of building the app. Please apply for the early access. Stay tuned!',
-              );
-            }}
+          <Link
+            href="https://chrome.google.com/webstore/detail/metapavo-personal-web3-in/gjaelahefgghcaahmhbppimgiebkjlpo"
+            target="_blank"
           >
             <Box
-              display="block"
-              height={{
-                xs: '48px',
-                md: '58px',
-              }}
-              component={'img'}
-              src={'/icons/download-button.png'}
+              marginRight={2}
+              marginBottom={2}
               sx={{
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  opacity: 0.8,
-                },
+                cursor: 'pointer',
               }}
-            />
-          </Box>
-
+            >
+              <Box
+                display="block"
+                height={{
+                  xs: '48px',
+                  md: '58px',
+                }}
+                component={'img'}
+                src={'/icons/download-button.png'}
+                sx={{
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    opacity: 0.8,
+                  },
+                }}
+              />
+            </Box>
+          </Link>
           <Link
-            href={`https://forms.gle/A5XiKgg94EyJdCbS7`}
+            href={`https://metapavo.gitbook.io/whitepaper/`}
             target="_blank"
             sx={{
               textDecoration: 'none',
@@ -102,7 +102,7 @@ const FirstSection = (props) => {
                 },
               }}
             >
-              Apply for Early Access
+              WhitePaper
             </Box>
           </Link>
         </Box>

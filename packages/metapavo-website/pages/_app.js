@@ -1,14 +1,15 @@
-import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import getTheme from '../common/theme';
-import { ConfirmDialogProvider } from 'react-mui-confirm';
-import '../styles/globals.css';
+import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
-import useWallet, { WalletContext } from '../common/useWallet';
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+import React from 'react';
+import { ConfirmDialogProvider } from 'react-mui-confirm';
+import { WagmiConfig, chain, configureChains, createClient } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+
+import getTheme from '../common/theme';
+import useWallet, { WalletContext } from '../common/useWallet';
+import '../styles/globals.css';
 
 const { chains, provider } = configureChains(
   [chain.mainnet],
@@ -16,7 +17,7 @@ const { chains, provider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'Card3',
+  appName: 'MetaPavo',
   chains,
 });
 

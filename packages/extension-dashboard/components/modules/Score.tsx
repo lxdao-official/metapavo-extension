@@ -39,7 +39,9 @@ export default function Score() {
 
   const copyRef = useRef<any>(null);
   useEffect(() => {
-    if (copyRef.current) {
+    console.log('copyRef.current', copyRef.current);
+
+    setTimeout(() => {
       const clip = new ClipboardJS(
         document.getElementsByClassName('copy') as any,
         {
@@ -52,8 +54,8 @@ export default function Score() {
       clip.on('error', () => {
         toast.error('copy fail');
       });
-    }
-  }, [copyRef.current]);
+    }, 500);
+  }, [awailableInvites.length]);
   return (
     <Box
       mt={2}
@@ -279,26 +281,38 @@ export default function Score() {
           {getLang('Invites_code')}
         </span>
         {awailableInvites.length ? (
-          awailableInvites.map((item, index) => {
-            return (
-              <div ref={copyRef}>
-                <Tooltip placement="top" content={'click to copy'}>
-                  <a
-                    style={{
-                      fontSize: '12px',
-                    }}
-                    className="copy"
-                    data-clipboard-text={
-                      'metapavo invite link: https://metapavo.xyz/invite/' +
-                      item.id
-                    }
-                  >
-                    {item.id}
-                  </a>
-                </Tooltip>
-              </div>
-            );
-          })
+          <>
+            {/* {awailableInvites.map((item, index) => {
+              return (
+                <a
+                  style={{
+                    fontSize: '12px',
+                  }}
+                >
+                  {item.id}
+                </a>
+              );
+            })} */}
+            <Tooltip content={'click to copy'}>
+              <a
+                ref={copyRef}
+                style={{
+                  fontSize: '12px',
+                }}
+                className="copy"
+                data-clipboard-text={
+                  'metapavo invite code: ' +
+                  awailableInvites
+                    .map((item) => {
+                      return item.id;
+                    })
+                    .join(' | ')
+                }
+              >
+                {getLang('copy_all_codes')} ({awailableInvites.length})
+              </a>
+            </Tooltip>
+          </>
         ) : (
           <div>
             <div

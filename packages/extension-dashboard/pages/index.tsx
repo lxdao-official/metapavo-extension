@@ -119,14 +119,18 @@ const Home: NextPage = () => {
                   </Link>
                 </>
               ) : (
-                <Link
+                <div
                   color="inherit"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     gotoLogin();
+                  }}
+                  style={{
+                    cursor: 'pointer',
                   }}
                 >
                   Login
-                </Link>
+                </div>
               )}
             </div>
             <div

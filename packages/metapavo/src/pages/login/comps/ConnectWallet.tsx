@@ -170,26 +170,19 @@ export default function ConnectWallet(props: {
               onChange={(e) => setInviteCode(e.target.value)}
             />
             <br />
-            <Tooltip content={getLang('share_twitter_for_invitecode')}>
-              <a
-                href={
-                  'https://twitter.com/intent/tweet?text=' +
-                  encodeURIComponent(
-                    `Request for @MetaPavo invitecode #request_metapavo_invitecode https://metapavo.xyz, my wallet address is: `,
-                  )
-                }
-                style={{
-                  fontSize: '14px',
-                  lineHeight: '18px',
-                  padding: '10px 0',
-                  display: 'block',
-                  margin: '0 auto',
-                  textAlign: 'center',
-                }}
-              >
-                {getLang('get_invitecode')}
-              </a>
-            </Tooltip>
+            <a
+              href={getLang('invite_link')}
+              style={{
+                fontSize: '14px',
+                lineHeight: '18px',
+                padding: '10px 0',
+                display: 'block',
+                margin: '0 auto',
+                textAlign: 'center',
+              }}
+            >
+              {getLang('get_invitecode')}
+            </a>
           </div>
 
           <ButtonStyle
