@@ -56,6 +56,7 @@ export default function Score() {
       });
     }, 500);
   }, [awailableInvites.length]);
+
   return (
     <Box
       mt={2}
@@ -304,7 +305,7 @@ export default function Score() {
 
 ${awailableInvites
   .map((item) => {
-    return 'https://metapavo.xyz/invite/' + item.id;
+    return 'https://metapavo.xyz/invite/' + item.id + getLang('invite_text_3');
   })
   .join(' \n')}
 

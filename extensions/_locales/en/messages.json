@@ -245,6 +245,9 @@
   "invite_text_2": {
     "message": "After activating the invitation code, you only need to sign to verify that you are the wallet owner (no Gas required), without any authorization and other wallet operations, please feel free to use it! For more questions or details, please join DC: https://discord.lxdao.io"
   },
+  "invite_text_3": {
+    "message": "?lang=en"
+  },
   "get_invitecode": {
     "message": "How to get invite code?"
   },

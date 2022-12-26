@@ -248,6 +248,9 @@
   "invite_text_2": {
     "message": "激活邀请码后，仅仅需要签名验证你是钱包拥有者（无需 Gas），无任何授权和其他钱包操作，请放心使用！更多问题或者详情请加入 DC： https://discord.lxdao.io "
   },
+  "invite_text_3": {
+    "message": ""
+  },
   "copy_all_codes": {
     "message": "复制所有可用邀请码"
   },
