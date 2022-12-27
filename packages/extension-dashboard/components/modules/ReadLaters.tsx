@@ -17,11 +17,11 @@ import {
   Tooltip,
 } from '@nextui-org/react';
 import { links, linktags, userlinks } from 'extension-common/src/apis';
-import { fetchWrapped } from 'extension-common/src/apis/fetch';
 import {
   createUserTag,
   fetchUsersTags,
   getUserLinks,
+  removeLinkTag,
 } from 'extension-common/src/apis/links_api';
 import { getLang } from 'extension-common/src/lang';
 import {
@@ -76,9 +76,7 @@ export default function ReadLaters() {
     const loading = toast.loading('removing...');
 
     try {
-      const res = await fetchWrapped(`${config.baseURL}/links/tags/${id}`, {
-        method: 'DELETE',
-      });
+      await removeLinkTag(id);
       toast.success('removed');
       await loadUserDapps();
       await loadUsersCategories();

@@ -74,3 +74,9 @@ export async function installLink(link: links, tag_id?: string) {
   }
   throw new Error(res.message);
 }
+export async function removeLinkTag(id: string) {
+  const res = await fetchWrapped(`${config.baseURL}/links/tags/${id}`, {
+    method: 'DELETE',
+  });
+  return res;
+}

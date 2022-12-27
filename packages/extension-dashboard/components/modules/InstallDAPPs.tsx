@@ -24,8 +24,13 @@ import {
   user_dapps,
   user_dapps_catogories,
 } from 'extension-common/src/apis';
-import { getViewLogs } from 'extension-common/src/apis/dapps_api';
-import { fetchWrapped } from 'extension-common/src/apis/fetch';
+import {
+  addUserDappCategory,
+  getViewLogs,
+  loadUsersCategories,
+  removeDappCategory,
+  uninstallDapp,
+} from 'extension-common/src/apis/dapps_api';
 import { getUserDapps } from 'extension-common/src/apis/nft_api';
 import { getLang } from 'extension-common/src/lang';
 import {
@@ -89,35 +94,10 @@ export default function InstallDAPPs() {
     }
   };
 
-  async function addUserDappCategory(title: string, desc: string) {
-    const res = await fetchWrapped(
-      `${config.baseURL}/dapps/user_dapp_categories`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          title,
-          desc,
-        }),
-      },
-    );
-    if (res && res.data) {
-      loadUserDapps();
-      loadUsersCategories();
-    }
-  }
-
-  async function uninstallDapp(dapp_id: string) {
+  async function uninstall(dapp_id: string) {
     const loading = toast.loading('Uninstalling...');
     try {
-      const res = await fetchWrapped(
-        `${config.baseURL}/dapps/${dapp_id}/uninstall`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      await uninstallDapp(dapp_id);
       toast.success('uninstalled');
       await loadUserDapps();
     } catch (e) {
@@ -127,7 +107,7 @@ export default function InstallDAPPs() {
   }
   useEffect(() => {
     loadUserDapps();
-    loadUsersCategories();
+    loadCategories();
   }, []);
 
   const [user_categories, setuser_categories] = useState<
@@ -143,6 +123,8 @@ export default function InstallDAPPs() {
         setshowAddCategory(false);
         setaddCategoryTitle('');
         setaddCategoryDesc('');
+        loadUserDapps();
+        loadCategories();
         toast.success('saved');
       } catch (e) {
         toast.error('save failed');
@@ -157,34 +139,21 @@ export default function InstallDAPPs() {
     const loading = toast.loading('removing...');
 
     try {
-      const res = await fetchWrapped(
-        `${config.baseURL}/dapps/user_dapp_categories/${id}`,
-        {
-          method: 'DELETE',
-        },
-      );
+      await removeDappCategory(id);
       toast.success('removed');
       await loadUserDapps();
-      await loadUsersCategories();
+      await loadCategories();
     } catch (e) {
       toast.error('remove failed');
     }
     toast.dismiss(loading);
   }
-  async function loadUsersCategories() {
+  async function loadCategories() {
     const cache = getListConfig('user_dapps_catogories', []);
     if (cache && cache.length) {
       setuser_categories(cache);
     }
-    const res = await fetchWrapped(
-      `${config.baseURL}/dapps/user_dapp_categories`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+    const res = await loadUsersCategories();
     if (res && res.data) {
       setuser_categories(res.data as user_dapps_catogories[]);
       setListConfig('user_dapps_catogories', res.data);
@@ -236,22 +205,6 @@ export default function InstallDAPPs() {
                 flexWrap: 'wrap',
               }}
             >
-              {/* <div
-                onClick={() => {
-                  activeCategory('recent');
-                }}
-                style={{
-                  fontSize: '12px',
-                  padding: '0px 10px',
-                  lineHeight: '26px',
-                  borderRadius: '13px',
-                  cursor: 'pointer',
-                  background: activeCategoryId == 'recent' ? '#9f50ff' : '#fff',
-                  color: activeCategoryId == 'recent' ? '#fff' : '#444',
-                }}
-              >
-                {getLang('recently_visited')}
-              </div> */}
               <div
                 onClick={() => {
                   activeCategory('ungrouped');
@@ -392,7 +345,7 @@ export default function InstallDAPPs() {
                       onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
-                        uninstallDapp(dapp.id);
+                        uninstall(dapp.id);
                       }}
                       style={{
                         position: 'absolute',

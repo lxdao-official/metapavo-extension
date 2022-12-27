@@ -54,6 +54,20 @@ export async function fetchUsersCategory(): Promise<user_dapps_catogories[]> {
   }
   return [];
 }
+export async function addUserDappCategory(title: string, desc: string) {
+  const res = await fetchWrapped(
+    `${config.baseURL}/dapps/user_dapp_categories`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        title,
+        desc,
+      }),
+    },
+  );
+  if (res && res.data) {
+  }
+}
 export async function fetchByHost(
   host: string,
 ): Promise<({ installed: boolean } & dapps) | null> {
@@ -66,4 +80,39 @@ export async function fetchByHost(
     return res.data[0];
   }
   return null;
+}
+export async function uninstallDapp(dapp_id: string) {
+  const res = await fetchWrapped(
+    `${config.baseURL}/dapps/${dapp_id}/uninstall`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  return res;
+}
+
+export async function removeDappCategory(id: string) {
+  const res = await fetchWrapped(
+    `${config.baseURL}/dapps/user_dapp_categories/${id}`,
+    {
+      method: 'DELETE',
+    },
+  );
+  return res;
+}
+
+export async function loadUsersCategories() {
+  const res = await fetchWrapped(
+    `${config.baseURL}/dapps/user_dapp_categories`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  return res;
 }

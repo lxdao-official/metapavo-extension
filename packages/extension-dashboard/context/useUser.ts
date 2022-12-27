@@ -1,8 +1,6 @@
 import { users } from 'extension-common/src/apis';
-import { fetchWrapped } from 'extension-common/src/apis/fetch';
+import { me } from 'extension-common/src/apis/users_api';
 import React, { useState } from 'react';
-
-import config from '../config';
 
 export const UserContext = React.createContext<{
   loginedAddress: string;
@@ -23,20 +21,17 @@ export default function useUser() {
         setToken(data.access_token);
       }
     });
-    return new Promise((resolve, reject) => {
-      fetchWrapped(config.baseURL + '/users/me', {
-        method: 'GET',
-      })
-        .then((json) => {
-          if (json?.data?.address) {
-            setLoginedAddress(json.data.address);
-            setUser(json.data);
-            resolve(json.data.address);
-          } else {
-            reject();
-          }
-        })
-        .catch(reject);
+    return new Promise(async (resolve, reject) => {
+      try {
+        const data = await me();
+        if (data?.address) {
+          setLoginedAddress(data.address);
+          setUser(data);
+          resolve(data.address);
+        }
+      } catch (e) {
+        reject(e);
+      }
     });
   }
 

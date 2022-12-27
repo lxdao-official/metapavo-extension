@@ -1,7 +1,6 @@
 import { Button, Input, Modal, Text } from '@nextui-org/react';
-import config from 'extension-common/config';
 import globalEvent from 'extension-common/src/EventBus';
-import { fetchWrapped } from 'extension-common/src/apis/fetch';
+import { addUserDappCategory } from 'extension-common/src/apis/dapps_api';
 import { getLang } from 'extension-common/src/lang';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -16,20 +15,7 @@ export function AddDappGroupModal() {
   function showModal() {
     setshowAddCategory(true);
   }
-  async function addUserDappCategory(title: string, desc: string) {
-    const res = await fetchWrapped(
-      `${config.baseURL}/dapps/user_dapp_categories`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          title,
-          desc,
-        }),
-      },
-    );
-    if (res && res.data) {
-    }
-  }
+
   async function submitUserCategory() {
     const loading = toast.loading('saveing...');
 
