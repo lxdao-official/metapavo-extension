@@ -156,6 +156,7 @@ export default function LeftPanel() {
                       <span>{getLang('display_two_line')}</span>
                     </div>
                     <a href="https://opensea.io/account">OpenSea</a>
+                    <a href="https://blur.io/portfolio">Blur.io</a>
                     <a href="https://www.gem.xyz">GEM</a>
                   </div>
                 }

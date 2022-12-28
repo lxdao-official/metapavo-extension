@@ -47,7 +47,7 @@ export function useCheckin() {
   async function loadAwailableInvites() {
     const invites = await getAwailableInvites();
     if (invites && invites.length) {
-      setAwailableInvites(invites);
+      setAwailableInvites(invites.slice(0, 3));
     }
   }
   return {

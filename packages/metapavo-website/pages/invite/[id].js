@@ -301,7 +301,7 @@ export default function Home() {
           <Box marginTop={4} display="flex" flexWrap="wrap">
             {router.query.lang == 'en'
               ? 'First use the invitation code to bind the wallet, and then download the extension and use the wallet directly to log in and use'
-              : '首先使用该邀请码绑定钱包，然后下载插件后使用该钱包直接登录使用即可'}
+              : '首先使用该邀请码绑定钱包，然后下载插件后使用该钱包直接登录使用，登录后在工作台可获得 3 个邀请码'}
           </Box>
         </Box>
         <Box
