@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
   const wallet = useWallet();
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} initialChain={chain.polygon}>
+      <RainbowKitProvider chains={chains}>
         <WalletContext.Provider value={wallet}>
           <ThemeProvider theme={getTheme('light')}>
             <ConfirmDialogProvider>
