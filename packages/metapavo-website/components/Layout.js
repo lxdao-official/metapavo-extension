@@ -66,6 +66,10 @@ export default function Layout({ children, title, description }) {
             `,
           }}
         />
+        <meta
+          name="google-site-verification"
+          content="MQpC5Kub5VAD2qx_D7irjOe3vbpKt9go0YKfMeBOHoI"
+        />
       </Head>
 
       <CssBaseline />
