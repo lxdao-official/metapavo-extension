@@ -6,7 +6,7 @@ export async function recognizerWebsite() {
   const matches = websites
     .filter(
       (website) =>
-        window.location.href.indexOf(
+        window.location.origin.indexOf(
           website.replace(/http:\/\/|https:\/\//, '').replace(/^www\./, ''),
         ) !== -1,
     )
