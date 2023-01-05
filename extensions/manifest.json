@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.10",
+  "version": "0.11",
   "name": "__MSG_title__",
   "description": "__MSG_description__",
   "action": {
@@ -10,9 +10,6 @@
   "icons": {
     "128": "logo-128.png",
     "48": "logo-128.png"
-  },
-  "chrome_url_overrides": {
-    "newtab": "dashboard/index.html"
   },
   "content_scripts": [
     {
@@ -33,7 +30,8 @@
         "images/*.jpeg",
         "images/*.png",
         "images/svgs/*.svg",
-        "logo-128.png"
+        "logo-128.png",
+        "dashboard/index.html"
       ],
       "matches": ["https://*/*"]
     }

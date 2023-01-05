@@ -80,7 +80,7 @@ export const GasBox = styled.div`
 `;
 export const RootElement = styled.div`
   position: fixed;
-  bottom: 90px;
+  bottom: 150px;
   right: 90px;
   color: #fff !important;
   z-index: 100000000001;

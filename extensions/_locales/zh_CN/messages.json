@@ -356,5 +356,26 @@
   },
   "no_kols": {
     "message": "还没有收藏 KOLs，请搜索以添加"
+  },
+  "open_dashboard": {
+    "message": "打开个人工作台"
+  },
+  "welcome_to_pavo": {
+    "message": "欢迎使用 MetaPavo（Beta）"
+  },
+  "welcome_t_1": {
+    "message": "我们为你提供了一个可定制的 Web3 个人信息工作台"
+  },
+  "welcome_t_2": {
+    "message": "后续您可以通过点击工具栏或者页面中的 Pavo 球来打开工作台页面"
+  },
+  "welcome_t_3": {
+    "message": "关于 MetaPavo 的核心功能说明"
+  },
+  "welcome_t_4": {
+    "message": "安全说明"
+  },
+  "welcome_ok": {
+    "message": "进入工作台"
   }
 }

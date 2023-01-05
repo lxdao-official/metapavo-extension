@@ -1,5 +1,6 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import BlockIcon from '@mui/icons-material/Block';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Box } from '@mui/material';
 import { Button, Radio, Tooltip } from '@nextui-org/react';
 import { AutoTextSize } from 'auto-text-size';
@@ -82,6 +83,37 @@ function Ball() {
                   width: '220px',
                 }}
               >
+                <Box
+                  style={{}}
+                  onClick={async () => {
+                    window.open(chrome.runtime.getURL('dashboard/index.html'));
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      margin: '3px',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      color: '#444',
+                      alignItems: 'center',
+                      padding: '10px 8px',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        background: '#efefef',
+                      },
+                    }}
+                  >
+                    <OpenInNewIcon
+                      style={{
+                        fontSize: '20px',
+                        marginRight: '10px',
+                        color: '#5B28EB',
+                      }}
+                    />
+                    <div>{getLang('open_dashboard')}</div>
+                  </Box>
+                </Box>
                 <Box
                   style={{}}
                   onClick={async () => {

@@ -141,6 +141,7 @@ async function repeat() {
     if (display_info === 'GAS') {
       let gas = await getNowGas();
       if (gas > 0) {
+        chrome.browserAction.setBadgeText({ text: gas.toString() });
         sendMessageToContentScript(
           { cmd: 'gasUpdate', value: gas, type: 'GAS' },
           function () {
@@ -190,4 +191,13 @@ chrome.action.onClicked.addListener(() => {
   chrome.tabs.create({
     url: 'dashboard/index.html',
   });
+});
+
+chrome.storage.local.get(['isFirst'], async function (data) {
+  if (!data.isFirst) {
+    chrome.tabs.create({
+      url: 'dashboard/index.html',
+    });
+    chrome.storage.local.set({ isFirst: true });
+  }
 });

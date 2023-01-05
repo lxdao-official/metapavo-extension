@@ -129,7 +129,7 @@ export default function useBallStore() {
     checkDapp();
     if (rootRef.current) {
       rootRef.current.style.right = '150px';
-      rootRef.current.style.bottom = '150px';
+      rootRef.current.style.bottom = '200px';
       if (localStorage.getItem('metapavo-pos')) {
         const pos = (localStorage.getItem('metapavo-pos') || '').split('-');
         if (pos.length === 2) {

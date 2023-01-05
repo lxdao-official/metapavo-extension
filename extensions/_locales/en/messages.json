@@ -356,5 +356,26 @@
   },
   "no_kols": {
     "message": "Empty favorite KOLs, please search to add"
+  },
+  "open_dashboard": {
+    "message": "Open Dashboard"
+  },
+  "welcome_to_pavo": {
+    "message": "Wellcome to MetaPavo（Beta）"
+  },
+  "welcome_t_1": {
+    "message": "We provide you with a customizable Web3 personal information dashboard"
+  },
+  "welcome_t_2": {
+    "message": "You can then open the dashboard page by clicking on the Pavo ball in the toolbar or page"
+  },
+  "welcome_t_3": {
+    "message": "A description of MetaPavo's core functions"
+  },
+  "welcome_t_4": {
+    "message": "User Security Manual"
+  },
+  "welcome_ok": {
+    "message": "Enter Dashboard"
   }
 }
