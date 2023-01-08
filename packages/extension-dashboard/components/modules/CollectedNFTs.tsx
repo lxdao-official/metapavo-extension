@@ -1,6 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import globalEvent from 'extension-common/src/EventBus';
 import { getUsersFavs } from 'extension-common/src/apis/nft_api';
+import { getOpenSeaStats } from 'extension-common/src/apis/nft_api_v2';
 import { projectLinksWrapper } from 'extension-common/src/apis/project_wrapper';
 import { favs } from 'extension-common/src/apis/types';
 import { getLang } from 'extension-common/src/lang';
@@ -57,6 +58,34 @@ export default function CollectedNFTs() {
         _group.push(data.slice(i, i + (isTwoLine ? 8 : 4)));
       }
       setGroupedFavs(_group);
+
+      for (let i = 0; i < data.length; i++) {
+        (async () => {
+          if (
+            data[i].project?.nftProjectInfo &&
+            data[i].project?.nftProjectInfo?.slug
+          ) {
+            const stats = await getOpenSeaStats(
+              data[i].project?.nftProjectInfo?.slug!,
+            );
+            if (stats && data[i].project?.nftProjectInfo?.stats[0]) {
+              data[i].project!.nftProjectInfo!.stats[0].floorPrice = String(
+                stats.floor_price,
+              );
+              data[i].project!.nftProjectInfo!.stats[0].oneDaySales =
+                stats.one_day_sales;
+              data[i].project!.nftProjectInfo!.stats[0].oneDayChange =
+                stats.one_day_change;
+              data[i].project!.nftProjectInfo!.stats[0].oneDayVolume = String(
+                stats.one_day_volume,
+              );
+              data[i].project!.nftProjectInfo!.stats[0].oneDayDifference =
+                stats.one_day_difference;
+            }
+          }
+          setGroupedFavs(_group);
+        })();
+      }
       localStorage.setItem('myfavs', JSON.stringify(data));
     }
     //@ts-ignore
@@ -139,7 +168,7 @@ export default function CollectedNFTs() {
                             <Grid item xs={3}>
                               <NFTCard
                                 activeProject={fav.project}
-                                showUnpick={true}
+                                showUnpick={isRecommend ? false : true}
                                 onUnpick={() => {
                                   loadFavs();
                                 }}

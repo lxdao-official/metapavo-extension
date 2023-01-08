@@ -141,7 +141,6 @@ async function repeat() {
     if (display_info === 'GAS') {
       let gas = await getNowGas();
       if (gas > 0) {
-        chrome.browserAction.setBadgeText({ text: gas.toString() });
         sendMessageToContentScript(
           { cmd: 'gasUpdate', value: gas, type: 'GAS' },
           function () {
@@ -149,6 +148,7 @@ async function repeat() {
           },
         );
         nowGas = gas;
+        chrome.action?.setBadgeText({ text: gas.toString() });
       }
     } else {
       let price = await getTokenPrice(display_info);

@@ -13,3 +13,21 @@ export async function searchTokens(keyword: string): Promise<tokens[]> {
   }
   return [];
 }
+
+export async function queryBySlugs(slugs: string[]): Promise<tokens[]> {
+  const res = await fetchWrapped(
+    `${config.baseURL}/tokens/slugs/${slugs
+      .map((s) => {
+        return encodeURIComponent(s);
+      })
+      .join(',')}`,
+    {
+      method: 'GET',
+    },
+    false,
+  );
+  if (res && res.success) {
+    return res.data;
+  }
+  return [];
+}

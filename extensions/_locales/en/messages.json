@@ -240,10 +240,10 @@
     "message": "Click here to go to twitter and ask for an invitation code. Please complete your wallet address in the tweet you send"
   },
   "invite_text_1": {
-    "message": "Hello, bringing you the first early access invitation codes for three MetaPavos (5000 in total). MetaPavo is a free public welfare product of LXDAO. It is your Web3 information assistant, which is convenient for you to pay attention to the NFT price and token price you are interested in. It also has a safe phishing website detection function to help you identify some phishing and fraudulent websites , bringing a more secure Web3 experience. The following are three invitation codes, first come first served, you can start to collect points earlier, each invitation code can get three more after activation and login: "
+    "message": "Three invitation codes from the Web3 personal information assistant plug-in MetaPavo, first come, first served, each invitation code can be activated and logged in to get three more, the invitation can get points: "
   },
   "invite_text_2": {
-    "message": "After activating the invitation code, you only need to sign to verify that you are the wallet owner (no Gas required), without any authorization and other wallet operations, please feel free to use it! For more questions or details, please join DC: https://discord.lxdao.io"
+    "message": "For more invitation codes, please join DC: https://discord.lxdao.io"
   },
   "invite_text_3": {
     "message": "?lang=en"
@@ -377,5 +377,20 @@
   },
   "welcome_ok": {
     "message": "Enter Dashboard"
+  },
+  "MyTokens": {
+    "message": "My Tokens"
+  },
+  "mytoken_warn": {
+    "message": "ETH Mainnet"
+  },
+  "balance": {
+    "message": "Balance"
+  },
+  "balance_value": {
+    "message": "Value"
+  },
+  "no_tokens": {
+    "message": "No Tokens"
   }
 }

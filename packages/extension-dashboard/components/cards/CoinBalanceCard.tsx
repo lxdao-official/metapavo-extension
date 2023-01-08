@@ -1,6 +1,8 @@
 import { Tooltip } from '@nextui-org/react';
+import { utils } from 'ethers';
 import globalEvent from 'extension-common/src/EventBus';
 import { tokens } from 'extension-common/src/apis';
+import { getLang } from 'extension-common/src/lang';
 import { linkImages } from 'extension-common/src/linkImages';
 import React from 'react';
 import { useEffect } from 'react';
@@ -8,8 +10,14 @@ import { useEffect } from 'react';
 import { TokenCardRoot } from '../styles';
 import Pick from './Pick';
 
-export default function CoinNormalCard(props: {
-  token: tokens;
+type tokens_with_balance = tokens & {
+  balance?: string;
+  value?: number;
+  decimals?: number;
+};
+
+export default function CoinBalanceCard(props: {
+  token: tokens_with_balance;
   showPick?: boolean;
 }) {
   const blankImage = chrome.runtime.getURL('images/placeholder.png');
@@ -103,8 +111,9 @@ export default function CoinNormalCard(props: {
             </span>
           ) : (
             '-'
-          )}{' '}
+          )}
           <br />
+
           {props.token.percentChange24h ? (
             <span
               style={{
@@ -149,14 +158,31 @@ export default function CoinNormalCard(props: {
         </span>
       </div>
       <div className="mp-success-links">
-        <div className="mp-success-links-left">
-          {links.map((link, index) => (
-            <Tooltip content={link.label} placement="top">
-              <a href={link.link} target="_blank" rel="noreferrer">
-                <img src={link.img} alt="" />
-              </a>
-            </Tooltip>
-          ))}
+        <div
+          style={{
+            fontSize: '14px',
+          }}
+        >
+          {getLang('balance')}:{' '}
+          <span style={{ color: 'rgb(159, 80, 255)', fontSize: '16px' }}>
+            {parseFloat(
+              utils.formatUnits(
+                props.token.balance || 0,
+                props.token.decimals || 18,
+              ),
+            ).toFixed(2)}
+          </span>
+          {'  '}
+          <span
+            style={{
+              paddingLeft: '10px',
+            }}
+          >
+            {getLang('balance_value')}:{' '}
+            <span style={{ color: 'rgb(159, 80, 255)', fontSize: '16px' }}>
+              ${Number(props.token.value).toFixed(2)}
+            </span>
+          </span>
         </div>
       </div>
       {props.showPick ? (

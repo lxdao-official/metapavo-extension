@@ -14,6 +14,7 @@ import CollectedNFTs from '../modules/CollectedNFTs';
 import InstallDAPPs from '../modules/InstallDAPPs';
 import KOLs from '../modules/KOLs';
 import MyNFTs from '../modules/MyNFTs';
+import MyTokens from '../modules/MyTokens';
 import ReadLaters from '../modules/ReadLaters';
 import TopSites from '../modules/TopSites';
 import VisitHistories from '../modules/VisitHistories';
@@ -23,7 +24,7 @@ const allModules = [
   'CollectedNFTs',
   'CoinPrices',
   'InstallDAPPs',
-  'VisitHistories',
+  'MyTokens',
   'ReadLaters',
   'KOLs',
   'MyNFTs',
@@ -105,6 +106,25 @@ export default function LeftPanel() {
                 moveCard={moveCard}
               >
                 <InstallDAPPs />
+              </CardModule>
+            )}
+            {item === 'MyTokens' && (
+              <CardModule
+                title={
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div>{getLang('MyTokens')}</div>
+                    <Tooltip content={getLang('mytoken_warn')}>
+                      <HelpOutlineIcon
+                        style={{ fontSize: '14px', marginLeft: '5px' }}
+                      />
+                    </Tooltip>
+                  </div>
+                }
+                id="MyTokens"
+                index={i}
+                moveCard={moveCard}
+              >
+                <MyTokens />
               </CardModule>
             )}
             {item === 'KOLs' && (
