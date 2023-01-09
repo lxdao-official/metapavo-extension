@@ -178,6 +178,31 @@ export default function Home() {
               ? 'MetaPavo is your Web3 Personal Information Assistant. Valuable Web3 information All-in-One brings you a safe, efficient, and seamless Web3 experience. '
               : 'MetaPavo 是一个 Web3 个人信息助理，具备 分类管理信息/搜索/识别 等核心能力。它旨在帮助 Web3 用户快速获取对他们有用的信息。'}
           </Typography>{' '}
+          {router.query.id && (
+            <div>
+              <input
+                style={{
+                  color: '#fff',
+                  fontSize: '30px',
+                  padding: '20px 20px',
+                  margin: '20px 0',
+                  display: 'inline-block',
+                  fontFamily: 'Montserrat, sans-serif',
+                  border: 'none',
+
+                  fontWeight: 500,
+                  textAlign: 'center',
+                  backgroundImage:
+                    'linear-gradient(91.75deg, #7de2ac 0%, #389dfa 49.26%, #9f50ff 97.76%)',
+                }}
+                onMouseMove={function (e) {
+                  e.target.focus();
+                  e.target.select();
+                }}
+                value={router.query.id}
+              ></input>
+            </div>
+          )}
           {invitecode_status == 'valid' && (
             <>
               <Box marginTop={4} display="flex" flexWrap="wrap">
