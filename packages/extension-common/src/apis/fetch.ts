@@ -15,7 +15,6 @@ export const fetchWrapped: (
   needLogin = true,
 ) => {
   return new Promise((resolve, reject) => {
-    console.log('request', input, init);
     if (!chrome?.storage?.local) {
       reject('access_token is not found');
       return;
@@ -47,7 +46,6 @@ export const fetchWrapped: (
         }
       } else {
         if (needLogin) {
-          console.log('user not login');
           throw reject(new NoAuthError('user not login'));
         } else if (init) {
           init.headers = {

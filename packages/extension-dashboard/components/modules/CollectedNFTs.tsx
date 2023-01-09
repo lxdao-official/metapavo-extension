@@ -59,34 +59,39 @@ export default function CollectedNFTs() {
       }
       setGroupedFavs(_group);
 
-      for (let i = 0; i < data.length; i++) {
-        (async () => {
-          if (
-            data[i].project?.nftProjectInfo &&
-            data[i].project?.nftProjectInfo?.slug
-          ) {
-            const stats = await getOpenSeaStats(
-              data[i].project?.nftProjectInfo?.slug!,
-            );
-            if (stats && data[i].project?.nftProjectInfo?.stats[0]) {
-              data[i].project!.nftProjectInfo!.stats[0].floorPrice = String(
-                stats.floor_price,
-              );
-              data[i].project!.nftProjectInfo!.stats[0].oneDaySales =
-                stats.one_day_sales;
-              data[i].project!.nftProjectInfo!.stats[0].oneDayChange =
-                stats.one_day_change;
-              data[i].project!.nftProjectInfo!.stats[0].oneDayVolume = String(
-                stats.one_day_volume,
-              );
-              data[i].project!.nftProjectInfo!.stats[0].oneDayDifference =
-                stats.one_day_difference;
-            }
-          }
-          setGroupedFavs(_group);
-        })();
-      }
       localStorage.setItem('myfavs', JSON.stringify(data));
+
+      const new_group = JSON.parse(JSON.stringify(_group));
+      for (let i = 0; i < new_group.length; i++) {
+        for (let j = 0; j < new_group[i].length; j++) {
+          const d = new_group[i][j];
+          if (d.project?.nftProjectInfo && d.project?.nftProjectInfo?.slug) {
+            try {
+              const stats = await getOpenSeaStats(
+                d.project?.nftProjectInfo?.slug!,
+              );
+              if (stats && d.project?.nftProjectInfo?.stats[0]) {
+                d.project!.nftProjectInfo!.stats[0].floorPrice = String(
+                  stats.floor_price,
+                );
+                d.project!.nftProjectInfo!.stats[0].oneDaySales =
+                  stats.one_day_sales;
+                d.project!.nftProjectInfo!.stats[0].oneDayChange =
+                  stats.one_day_change;
+                d.project!.nftProjectInfo!.stats[0].oneDayVolume = String(
+                  stats.one_day_volume,
+                );
+                d.project!.nftProjectInfo!.stats[0].oneDayDifference =
+                  stats.one_day_difference;
+              }
+            } catch (e) {}
+          }
+        }
+        console.log('setGroupedFavs', new_group);
+        setGroupedFavs(new_group);
+      }
+      console.log('setGroupedFavs', new_group);
+      setGroupedFavs(new_group);
     }
     //@ts-ignore
     if (res && res.recommends && res.recommends.length) {

@@ -36,7 +36,6 @@ export default function useWallet() {
   const maskProvider = createMetaMaskProvider();
   maskProvider.key = 'metapavo';
   maskProvider.on('networkChanged', (networkId: string) => {
-    console.log('networkChanged', networkId);
     window.location.reload();
   });
   const provider = new ethers.providers.Web3Provider(maskProvider);
@@ -111,7 +110,6 @@ export default function useWallet() {
     invite_code,
   ) => {
     return new Promise(async (resolve, reject) => {
-      console.log('connector.connected', connector.connected);
       if (!connector.connected) {
         // create new session
         connector.createSession();
@@ -135,7 +133,6 @@ export default function useWallet() {
             .signPersonalMessage(msgParams)
             .then(async (signature) => {
               // Returns signature.
-              console.log(signature);
               const access_token = await signIn(_address, signature);
               resolve(access_token);
             })
@@ -155,9 +152,7 @@ export default function useWallet() {
   };
   const checkMetaMaskValid: () => Promise<boolean> = () => {
     return new Promise(async (resolve) => {
-      console.log('maskProvider', maskProvider);
       maskProvider.on('error', () => {
-        console.log('maskProvider error');
         resolve(false);
       });
     });

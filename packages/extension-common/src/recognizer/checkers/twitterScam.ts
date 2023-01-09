@@ -1,8 +1,5 @@
 import config from '../../../config';
-import {
-  checkTwitterScam as _checkTwitterScam,
-  checkTwitterUser,
-} from '../twitter';
+import { checkTwitterUser } from '../twitter';
 
 async function checkIsScamServer(name?: string) {
   if (!name) return undefined;

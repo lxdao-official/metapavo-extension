@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import React from 'react';
-import Head from 'next/head';
 import { Box, CssBaseline } from '@mui/material';
+import Head from 'next/head';
+import React from 'react';
 
 import Footer from './Footer';
 import HeaderAdmin from './HeaderAdmin';

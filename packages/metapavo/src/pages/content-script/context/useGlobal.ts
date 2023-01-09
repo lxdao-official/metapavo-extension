@@ -1,7 +1,6 @@
 import { getNftByIdV2 } from 'extension-common/src/apis/nft_api_v2';
 import { projectLinksWrapper } from 'extension-common/src/apis/project_wrapper';
 import { IProjectV2 } from 'extension-common/src/apis/types';
-import { ScamResult } from 'extension-common/src/detector/src';
 import { Checker } from 'extension-common/src/recognizer/checkers';
 import React from 'react';
 
@@ -38,7 +37,6 @@ function useGlobal() {
     }
   };
   checker.on('changed', (projectInfo: IProjectV2 | null) => {
-    console.log('changed', projectInfo);
     if (projectInfo) {
       setDetectStatus('success');
       setTimeout(() => {
@@ -51,8 +49,7 @@ function useGlobal() {
       setAddRootClass('');
     }
   });
-  checker.on('danger', (scamInfo: ScamResult) => {
-    console.log('danger', scamInfo);
+  checker.on('danger', (scamInfo: any) => {
     if (scamInfo) {
       setDetectStatus('danger');
       setTimeout(() => {

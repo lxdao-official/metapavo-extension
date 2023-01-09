@@ -85,7 +85,10 @@ export function getFeedTitle(feed: RSS3Feed) {
         return (
           <>
             [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
+            <a
+              href={feed.related_urls[1]!}
+              target="_blank"
+            >{` ${metadata.name}`}</a>
           </>
         );
       }
@@ -93,7 +96,10 @@ export function getFeedTitle(feed: RSS3Feed) {
         return (
           <>
             [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[1]!}>{` ${metadata.name} `}</a>
+            <a
+              href={feed.related_urls[1]!}
+              target="_blank"
+            >{` ${metadata.name} `}</a>
             <span>
               {getLang('cost')}: {metadata.cost.value_display}{' '}
               {metadata.cost.symbol}
@@ -104,7 +110,10 @@ export function getFeedTitle(feed: RSS3Feed) {
         return (
           <>
             [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[1]!}>{` ${metadata.name}`}</a>
+            <a
+              href={feed.related_urls[1]!}
+              target="_blank"
+            >{` ${metadata.name}`}</a>
           </>
         );
       }
@@ -115,7 +124,10 @@ export function getFeedTitle(feed: RSS3Feed) {
         return (
           <>
             [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[0]!}> {metadata.proposal.title}</a>
+            <a href={feed.related_urls[0]!} target="_blank">
+              {' '}
+              {metadata.proposal.title}
+            </a>
           </>
         );
       }
@@ -123,7 +135,10 @@ export function getFeedTitle(feed: RSS3Feed) {
         return (
           <>
             [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[0]!}> {metadata.title}</a>
+            <a href={feed.related_urls[0]!} target="_blank">
+              {' '}
+              {metadata.title}
+            </a>
           </>
         );
       }
@@ -134,14 +149,20 @@ export function getFeedTitle(feed: RSS3Feed) {
         return (
           <>
             [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[0]!}> {metadata.title}</a>
+            <a href={feed.related_urls[0]!} target="_blank">
+              {' '}
+              {metadata.title}
+            </a>
           </>
         );
       } else if (type == 'donate') {
         return (
           <>
             [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[0]!}> {metadata.title} </a>
+            <a href={feed.related_urls[0]!} target="_blank">
+              {' '}
+              {metadata.title}{' '}
+            </a>
             <span>
               Donate: {AutoDecimalForToken(metadata.token.value_display)}{' '}
               {metadata.token.symbol}
@@ -155,7 +176,7 @@ export function getFeedTitle(feed: RSS3Feed) {
         return (
           <>
             [{getLang(tag + '_' + type)}]
-            <a href={feed.related_urls[0]!}>
+            <a href={feed.related_urls[0]!} target="_blank">
               {' '}
               {metadata.title || metadata.body}
             </a>

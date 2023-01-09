@@ -63,6 +63,7 @@ export default function CoinNormalCard(props: {
           style={{
             fontSize: '13px',
           }}
+          target="_blank"
         >
           {props.token.symbol}
         </a>

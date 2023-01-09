@@ -1,7 +1,6 @@
 import EventEmitter from 'eventemitter3';
 
 import { IProject, IProjectV2 } from '../../apis/types';
-import { ScamResult } from '../../detector/src';
 import { contractDomains, tradeDomains } from './data';
 import { checkEtherscan } from './etherscan';
 import { checkMarketPlace } from './marketplace';
@@ -16,7 +15,7 @@ export class Checker extends EventEmitter {
     status: CheckResultStatus;
   };
   lastCheckTokenId?: string = '';
-  lastTwitterScamInfo?: ScamResult;
+  lastTwitterScamInfo?: any;
   async check() {
     setInterval(async () => {
       let checkEntryResult: {
@@ -59,7 +58,6 @@ export class Checker extends EventEmitter {
         }
         const twitterScamInfo = await checkTwitterScam();
         if (twitterScamInfo) {
-          console.log('twitterScamInfo', twitterScamInfo);
           this.lastTwitterScamInfo = twitterScamInfo;
           this.emit('danger', twitterScamInfo);
         }

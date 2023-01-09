@@ -156,6 +156,7 @@ const Home: NextPage = () => {
                   color: '#fff',
                   fontWeight: '500',
                 }}
+                target="_blank"
               >
                 WhitePaper
               </Link>
@@ -166,6 +167,7 @@ const Home: NextPage = () => {
                   color: '#fff',
                   fontWeight: '500',
                 }}
+                target="_blank"
               >
                 Twitter
               </Link>
@@ -176,6 +178,7 @@ const Home: NextPage = () => {
                   color: '#fff',
                   fontWeight: '500',
                 }}
+                target="_blank"
               >
                 Discord
               </Link>
@@ -186,6 +189,7 @@ const Home: NextPage = () => {
                   color: '#fff',
                   fontWeight: '500',
                 }}
+                target="_blank"
               >
                 Github
               </Link>
@@ -196,6 +200,7 @@ const Home: NextPage = () => {
                   color: '#fff',
                   fontWeight: '500',
                 }}
+                target="_blank"
               >
                 Feedback
               </Link>

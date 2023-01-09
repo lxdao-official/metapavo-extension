@@ -20,9 +20,9 @@ import TopSites from '../modules/TopSites';
 import VisitHistories from '../modules/VisitHistories';
 
 const allModules = [
-  'TopSites',
   'CollectedNFTs',
   'CoinPrices',
+  'TopSites',
   'InstallDAPPs',
   'MyTokens',
   'ReadLaters',
@@ -175,9 +175,15 @@ export default function LeftPanel() {
                       ></Switch>
                       <span>{getLang('display_two_line')}</span>
                     </div>
-                    <a href="https://opensea.io/account">OpenSea</a>
-                    <a href="https://blur.io/portfolio">Blur.io</a>
-                    <a href="https://www.gem.xyz">GEM</a>
+                    <a href="https://opensea.io/account" target="_blank">
+                      OpenSea
+                    </a>
+                    <a href="https://blur.io/portfolio" target="_blank">
+                      Blur.io
+                    </a>
+                    <a href="https://www.gem.xyz" target="_blank">
+                      GEM
+                    </a>
                   </div>
                 }
                 id="CollectedNFTs"
@@ -225,7 +231,9 @@ export default function LeftPanel() {
                       gap: '0 15px',
                     }}
                   >
-                    <a href="https://opensea.io/account">OpenSea</a>
+                    <a href="https://opensea.io/account" target="_blank">
+                      OpenSea
+                    </a>
                   </div>
                 }
                 id="MyNFTs"

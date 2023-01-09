@@ -17,8 +17,8 @@ export default function CheckIn() {
       const res = await checkin();
       toast.success('Checkin success');
       loadScoreInfo();
-    } catch (e) {
-      toast.error('Checkin failed');
+    } catch (e: any) {
+      toast.error('Checkin failed: ' + e.message);
     }
     toast.dismiss(loading);
 

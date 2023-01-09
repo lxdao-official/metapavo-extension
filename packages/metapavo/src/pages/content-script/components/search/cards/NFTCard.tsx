@@ -63,6 +63,7 @@ export default function NFTCard(props: {
           href={`${config.baseURL}/jump/nft?id=${
             activeProject.id
           }&url=${encodeURIComponent(activeProject?.links?.opensea || '')}`}
+          target="_blank"
         >
           {activeProject?.name}
         </a>

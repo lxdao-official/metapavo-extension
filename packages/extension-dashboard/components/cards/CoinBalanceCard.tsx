@@ -72,6 +72,7 @@ export default function CoinBalanceCard(props: {
           style={{
             fontSize: '13px',
           }}
+          target="_blank"
         >
           {props.token.symbol}
         </a>

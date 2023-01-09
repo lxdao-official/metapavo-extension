@@ -1,28 +1,18 @@
-import config from "../../config";
-import { findNftByAddress, getNftById, getNftByTwitterId } from "../apis/nft_api";
-import { findNftByAddressV2, getNftByIdV2, getNftByTwitterIdV2 } from "../apis/nft_api_v2";
-import { IProject, IProjectV2 } from "../apis/types";
-import { Detector, PageDetail, PostDetail, Project, ScamResult } from "../detector/src";
+import {
+  findNftByAddressV2,
+  getNftByIdV2,
+  getNftByTwitterIdV2,
+} from '../apis/nft_api_v2';
+import { IProject, IProjectV2 } from '../apis/types';
 
-let detector: Detector | null = null;
-
-function initDetector() {
-  if (detector === null) {
-    detector = new Detector({
-      onlyBuiltIn: false,
-      databaseUrl: `${config.baseURL}/nfts/projects/all`,
-    });
-    detector.update();
-  }
-}
-
-initDetector();
 export function getTwitterMeta() {
-  if (!window.location.host.includes("twitter.com")) return null;
+  if (!window.location.host.includes('twitter.com')) return null;
 
   const title = document.title;
 
-  const titleMatched = title.match(/^(\([0-9]+\) |)(.*?) \(\@(.*?)\) \/ Twitter/);
+  const titleMatched = title.match(
+    /^(\([0-9]+\) |)(.*?) \(\@(.*?)\) \/ Twitter/,
+  );
   if (titleMatched) {
     const [, messagecount, name, username] = titleMatched;
     const meta = {
@@ -36,25 +26,29 @@ export function getTwitterMeta() {
   }
 }
 const getPageDescription = () => {
-  const description = document.querySelector("meta[name=description]");
+  const description = document.querySelector('meta[name=description]');
   if (description) {
-    return description.getAttribute("description");
+    return description.getAttribute('description');
   }
-  return "";
+  return '';
 };
 export function getPageMeta() {
-  if (!window.location.host.includes("twitter.com")) throw new Error("no twitter page");
-  const metaHeads = Array.from(document.querySelectorAll("meta")).reduce((all: any, item: any) => {
-    const metaName = item.name || item.getAttribute("property");
-    if (metaName) all[metaName] = item.content;
-    return all;
-  }, {});
+  if (!window.location.host.includes('twitter.com'))
+    throw new Error('no twitter page');
+  const metaHeads = Array.from(document.querySelectorAll('meta')).reduce(
+    (all: any, item: any) => {
+      const metaName = item.name || item.getAttribute('property');
+      if (metaName) all[metaName] = item.content;
+      return all;
+    },
+    {},
+  );
 
-  const canonicalEl = document.querySelectorAll("link[rel=canonical]")[0];
+  const canonicalEl = document.querySelectorAll('link[rel=canonical]')[0];
   const canonicalLink = canonicalEl ? (canonicalEl as any).href : null;
-  const topSourceDomains = Array.from(document.querySelectorAll("img"))
+  const topSourceDomains = Array.from(document.querySelectorAll('img'))
     .map((img: any) => {
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = img.src;
       return a.hostname;
     })
@@ -80,25 +74,33 @@ export function getPageMeta() {
   };
 }
 
-const delay = async (ms: number) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-};
-
 export interface checkTwitterResult {
   postDetail?: PostDetail;
-  detectResult?: ScamResult;
 }
+export type PostDetail = {
+  id?: string;
+  userId?: string | undefined;
+  nickname?: string | null;
+  content?: string | null;
+  links: string[];
+  pageDetails?: PageDetail | null;
+};
+
+export type PageDetail = {
+  title: string;
+  metaHeads: any;
+  canonicalLink: string | null;
+  topSourceDomains: any[];
+};
 export const checkTwitterUser: () => Promise<PostDetail | null> = async () => {
   const pageDetails: PageDetail = getPageMeta();
   // 确定是 twitter 主页
-  if (pageDetails.metaHeads["og:type"] === "profile") {
+  if (pageDetails.metaHeads['og:type'] === 'profile') {
     const postDetail: PostDetail = {
       links: [window.location.href],
-      userId: "",
-      nickname: "",
-      content: "",
+      userId: '',
+      nickname: '',
+      content: '',
       pageDetails,
     };
 
@@ -124,30 +126,15 @@ export const checkTwitterUser: () => Promise<PostDetail | null> = async () => {
   return null;
 };
 
-export const checkTwitterScam: (
-  postDetail: PostDetail,
-) => Promise<checkTwitterResult | null> = async (postDetail: PostDetail) => {
-  const detectResult = await detector?.detectScam(postDetail, {
-    checkBySim: true,
-    checkUserId: true,
-    checkContent: true,
-    checkPage: true,
-    checkName: true,
-  });
-  console.log("detect result", detectResult);
-  return {
-    postDetail,
-    detectResult,
-  } as checkTwitterResult;
-};
-
-export const detectProjectByTwitterId: (twitterId: string) => Promise<IProjectV2 | null> = async (
+export const detectProjectByTwitterId: (
   twitterId: string,
-) => {
+) => Promise<IProjectV2 | null> = async (twitterId: string) => {
   return await getNftByTwitterIdV2(twitterId);
 };
 
-export const detectProjectById: (id: string) => Promise<IProjectV2 | null> = async (id: string) => {
+export const detectProjectById: (
+  id: string,
+) => Promise<IProjectV2 | null> = async (id: string) => {
   return await getNftByIdV2(id);
 };
 
@@ -155,10 +142,4 @@ export const detectProjectByContractAddress: (
   contract: string,
 ) => Promise<IProjectV2 | null> = async (contract: string) => {
   return await findNftByAddressV2(contract);
-};
-
-export const detectProjectByTwitterIdFromServer: (
-  twitterId: string,
-) => Promise<Project | null> = async (twitterId: string) => {
-  return (await detector?.detectProjectByTwitterId(twitterId)) || null;
 };

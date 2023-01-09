@@ -95,7 +95,6 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
   const refreshFavedStatus = async () => {
     if (activeProject?.id) {
       const _isFaved = await isFaved(activeProject?.id);
-      console.log('is faved', _isFaved);
       setFaved(_isFaved);
     }
   };

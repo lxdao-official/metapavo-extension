@@ -41,7 +41,7 @@ const ButtonStyleSec = styled.button`
   margin: 0 auto;
   margin-top: 10px !important;
   background: none !important;
-  color: #d1d0d6 !important;
+  color: #666 !important;
   &:disabled {
     opacity: 0.6;
   }
@@ -105,7 +105,6 @@ export default function ConnectWallet(props: {
       toast.success('mint did success, please login again', {});
       setShowMint(false);
     } catch (e: any) {
-      console.log(e);
       toast.error('mint fail: ' + (e.error?.message || e.message));
     }
     toast.dismiss(loading);

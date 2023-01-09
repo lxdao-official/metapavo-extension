@@ -82,6 +82,7 @@ export default function TopSites() {
                     flexDirection: 'row',
                     width: '100%',
                   }}
+                  target="_blank"
                 >
                   <img
                     src={u.icon || websiteURL}

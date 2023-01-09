@@ -11,10 +11,9 @@ export async function checkWebsite(): Promise<{
   status: CheckResultStatus;
 }> {
   const matchedURL = await recognizerWebsite();
-  
+
   if (matchedURL) {
     if (lastMatchedUrl !== matchedURL) {
-      console.log('matchedURL', matchedURL);
       lastMatchedUrl = matchedURL;
       const projectInfo = await findNftByURLV2(matchedURL);
       if (projectInfo && projectInfo.id) {

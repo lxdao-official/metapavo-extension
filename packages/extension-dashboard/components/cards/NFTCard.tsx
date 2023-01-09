@@ -74,6 +74,7 @@ export default function NFTCard(props: {
             activeProject.id
           }&url=${encodeURIComponent(activeProject?.links?.opensea || '')}`}
           title={activeProject?.name}
+          target="_blank"
         >
           {activeProject?.name}
         </a>

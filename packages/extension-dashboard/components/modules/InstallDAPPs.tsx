@@ -62,7 +62,6 @@ export default function InstallDAPPs() {
   const refreshDappsList = async () => {
     if (activeCategoryId == 'recent') {
       const visitlog = getViewLogs();
-      console.log('visitlog', visitlog);
       setDapps(visitlog);
     } else if (activeCategoryId == 'ungrouped') {
       const _list = allDapps.filter((_dapp) => {

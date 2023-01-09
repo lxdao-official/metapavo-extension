@@ -39,8 +39,6 @@ export default function Score() {
 
   const copyRef = useRef<any>(null);
   useEffect(() => {
-    console.log('copyRef.current', copyRef.current);
-
     setTimeout(() => {
       const clip = new ClipboardJS(
         document.getElementsByClassName('copy') as any,

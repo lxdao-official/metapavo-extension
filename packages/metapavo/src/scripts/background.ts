@@ -5,7 +5,6 @@ import {
 } from 'extension-common/src/apis/nft_api';
 
 // eslint-disable-next-line no-console
-console.log('background script');
 
 export {};
 let nowGas = 0;

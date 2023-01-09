@@ -223,7 +223,10 @@ export const KolDetailCard = (props: {
           width: '100%',
         }}
       >
-        <User.Link href={'https://twitter.com/' + props.kol.username}>
+        <User.Link
+          href={'https://twitter.com/' + props.kol.username}
+          target="_blank"
+        >
           @{props.kol.username}
         </User.Link>
       </User>
