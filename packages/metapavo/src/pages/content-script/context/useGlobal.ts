@@ -19,6 +19,21 @@ export const GlobalContext = React.createContext<{
   refreshActiveProject: () => void;
   showSearch: boolean;
   setShowSearch: (showSearch: boolean) => void;
+  scamInfo: {
+    result: boolean;
+    slug: string;
+    name: string;
+    twitterUsername: string;
+    scamDataList?: {
+      name: string;
+      url: string;
+      username: string;
+      status: number;
+      createTime: string;
+      updateTime: string;
+      levenshtein: number;
+    }[];
+  } | null;
 }>({} as any);
 function useGlobal() {
   const [activeProject, _setActiveProject] = React.useState<IProjectV2 | null>(
@@ -28,6 +43,21 @@ function useGlobal() {
   const [detectStatus, setDetectStatus] =
     React.useState<RecognizerStatus>('none');
   const [addRootClass, setAddRootClass] = React.useState('');
+  const [scamInfo, setScamInfo] = React.useState<{
+    result: boolean;
+    slug: string;
+    name: string;
+    twitterUsername: string;
+    scamDataList?: {
+      name: string;
+      url: string;
+      username: string;
+      status: number;
+      createTime: string;
+      updateTime: string;
+      levenshtein: number;
+    }[];
+  } | null>(null);
   const checker = new Checker();
   const setActiveProject = (_project: IProjectV2 | null) => {
     if (_project) {
@@ -49,14 +79,34 @@ function useGlobal() {
       setAddRootClass('');
     }
   });
-  checker.on('danger', (scamInfo: any) => {
-    if (scamInfo) {
-      setDetectStatus('danger');
-      setTimeout(() => {
-        setAddRootClass('metapavo-main-box-danger');
-      }, 1000);
-    }
-  });
+  checker.on(
+    'danger',
+    (scamInfo: {
+      result: boolean;
+      slug: string;
+      name: string;
+      twitterUsername: string;
+      scamDataList?: {
+        name: string;
+        url: string;
+        username: string;
+        status: number;
+        createTime: string;
+        updateTime: string;
+        levenshtein: number;
+      }[];
+    }) => {
+      if (scamInfo) {
+        setDetectStatus('danger');
+        setTimeout(() => {
+          setAddRootClass('metapavo-main-box-danger');
+        }, 1000);
+        setScamInfo(scamInfo);
+      } else {
+        setScamInfo(null);
+      }
+    },
+  );
   checker.on('tokenIdChanged', (tokenId: string) => {
     if (tokenId) {
       setActiveTokenId(tokenId);
@@ -96,6 +146,7 @@ function useGlobal() {
     setActiveTokenId,
     showSearch,
     setShowSearch,
+    scamInfo,
   };
 }
 export default useGlobal;

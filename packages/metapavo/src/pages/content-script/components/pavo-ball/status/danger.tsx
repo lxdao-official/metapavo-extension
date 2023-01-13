@@ -9,7 +9,7 @@ const RootElement = styled.div`
   transition: all 0.76s ease-in-out 0s;
   position: absolute;
   width: 307px;
-  height: 167px;
+  height: 157px;
   box-shadow: 0px 8px 24px -6px rgba(214, 214, 214, 0.16),
     0px 0px 1px rgba(0, 0, 0, 0.4);
   border-radius: 16px;
@@ -79,7 +79,8 @@ const RootElement = styled.div`
     display: flex;
     text-align: left;
     padding: 20px;
-
+    padding-top: 20px;
+    padding-bottom: 10px;
     color: #dedede;
   }
   .mp-success-bd-price {
@@ -127,10 +128,19 @@ const RootElement = styled.div`
       }
     }
   }
+
+  .mp-success-scams {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0 20px;
+    color: #fff;
+    align-items: flex-start;
+  }
 `;
 export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
   const useG = useContext(GlobalContext);
-  const { activeProject, setAddRootClass, detectStatus } = useG;
+  const { scamInfo, setAddRootClass, detectStatus } = useG;
 
   const linkImages = {
     etherscan: chrome.runtime.getURL('images/etherscan.png'),
@@ -147,46 +157,68 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
         state === 'show' ? 'mp-success-show' : 'mp-success-hide',
       ].join(' ')}
     >
-      <div className="mp-success-hd">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M3.18372 4.53336L12.0043 1.95917L20.8164 4.53336V9.81241C20.8164 15.3611 17.2654 20.287 12.0013 22.041C6.73576 20.2871 3.18372 15.36 3.18372 9.80996V4.53336Z"
-            fill="white"
-            stroke="white"
-            strokeOpacity="0.85"
-            strokeWidth="1.95918"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M14.6939 9.01624L9.15247 14.5576"
-            stroke="#E14942"
-            strokeWidth="1.95918"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M9.15247 9.01624L14.6939 14.5576"
-            stroke="#E14942"
-            strokeWidth="1.95918"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+      {state === 'show' ? (
+        <>
+          <div className="mp-success-hd">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.18372 4.53336L12.0043 1.95917L20.8164 4.53336V9.81241C20.8164 15.3611 17.2654 20.287 12.0013 22.041C6.73576 20.2871 3.18372 15.36 3.18372 9.80996V4.53336Z"
+                fill="white"
+                stroke="white"
+                strokeOpacity="0.85"
+                strokeWidth="1.95918"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M14.6939 9.01624L9.15247 14.5576"
+                stroke="#E14942"
+                strokeWidth="1.95918"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M9.15247 9.01624L14.6939 14.5576"
+                stroke="#E14942"
+                strokeWidth="1.95918"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
 
-        <div className="mp-success-title">{getLang('Very_risky')}</div>
-      </div>
-      <div className="mp-success-bd">
-        {detectStatus === 'danger'
-          ? getLang('danger_desc')
-          : getLang('warning_desc')}
-      </div>
-      <div className="mp-success-links"></div>
+            <div className="mp-success-title">{getLang('Very_risky')}</div>
+          </div>
+          <div className="mp-success-bd">
+            {detectStatus === 'danger'
+              ? getLang('danger_desc')
+              : getLang('warning_desc')}
+          </div>
+
+          <div className="mp-success-scams">
+            {scamInfo?.scamDataList?.slice(0, 1).map((s) => {
+              return (
+                <a
+                  href={`https://twitter.com/${s.username}`}
+                  style={{
+                    fontSize: '12px',
+                    color: '#fff',
+                    lineHeight: '20px',
+                  }}
+                  target="_blank"
+                >
+                  {s.name}(@{s.username})
+                </a>
+              );
+            })}
+          </div>
+        </>
+      ) : null}
+
       <div
         onClick={(e) => {
           e.preventDefault();

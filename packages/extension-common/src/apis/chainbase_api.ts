@@ -5,6 +5,7 @@ export async function getTokenList(address: string): Promise<
     symbol: string;
     decimals: string;
     balance: string;
+    value?: number;
   }[]
 > {
   const res = await fetch(

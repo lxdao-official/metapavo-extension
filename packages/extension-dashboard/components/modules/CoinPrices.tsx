@@ -29,7 +29,7 @@ export default function CoinPrices(props: {
     }
   }
   async function addToken() {
-    const newList = [...symbols, addSymbol];
+    const newList = [...symbols, addSymbol.toUpperCase()];
     localStorage.setItem(STORE_KEY, JSON.stringify(newList));
     loadConfig();
     hideModal();
@@ -148,7 +148,7 @@ export default function CoinPrices(props: {
               placeholder="input token's symbol"
               value={addSymbol}
               onChange={(e) => {
-                e.target.value && setaddSymbol(e.target.value.toUpperCase());
+                e.target.value && setaddSymbol(e.target.value);
               }}
             />
           </Modal.Body>

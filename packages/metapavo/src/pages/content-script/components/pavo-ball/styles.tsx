@@ -128,32 +128,7 @@ export const RootElement = styled.div`
     // box-shadow: var(--shades), 0 0 5px rgba(0, 0, 0, 0.4);
     opacity: 1;
   }
-  // &.metapavo-main-box-success {
-  //   width: 307px;
-  //   height: 167px;
-  // }
-  // &.metapavo-main-box-success #metapavo-box-gas {
-  //   width: 307px;
-  //   height: 167px;
-  //   animation: ${boom} 1s ease-in-out both alternate;
-  //   overflow: hidden;
-  //   background-color: #fff;
-  //   border-radius: 16px;
-  //   box-shadow: none;
-  // }
-  // &.metapavo-main-box-danger {
-  //   width: 307px;
-  //   height: 167px;
-  // }
-  // &.metapavo-main-box-danger #metapavo-box-gas {
-  //   width: 307px;
-  //   height: 167px;
-  //   animation: ${dangerboom} 1s ease-in-out both alternate;
-  //   overflow: hidden;
-  //   background-color: #fff;
-  //   border-radius: 16px;
-  //   box-shadow: none;
-  // }
+
   #metapavo-gas-text {
     margin-top: 0px;
     color: #fff !important;

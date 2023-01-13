@@ -56,7 +56,7 @@
     "message": "UNKOWN"
   },
   "danger_desc": {
-    "message": "There are certain risks in this project. It may be a copy of a well-known project, or other problems. Make sure you have a full understanding of the project!"
+    "message": "This item may be a knockoff of the following items. Please be aware of the associated risks!"
   },
   "warning_desc": {
     "message": "This project may be scam. It may be a copy of a well-known project, or other problems. Make sure you have a full understanding of the project!"

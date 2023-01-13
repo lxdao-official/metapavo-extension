@@ -15,7 +15,21 @@ export class Checker extends EventEmitter {
     status: CheckResultStatus;
   };
   lastCheckTokenId?: string = '';
-  lastTwitterScamInfo?: any;
+  lastTwitterScamInfo?: {
+    result: boolean;
+    slug: string;
+    name: string;
+    twitterUsername: string;
+    scamDataList?: {
+      name: string;
+      url: string;
+      username: string;
+      status: number;
+      createTime: string;
+      updateTime: string;
+      levenshtein: number;
+    }[];
+  };
   async check() {
     setInterval(async () => {
       let checkEntryResult: {

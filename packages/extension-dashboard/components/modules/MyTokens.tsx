@@ -40,6 +40,7 @@ export default function MyTokens() {
       symbol: string;
       decimals: string;
       balance: string;
+      value?: number;
     }[]
   >([]);
   const loadTokens = async () => {
@@ -58,23 +59,25 @@ export default function MyTokens() {
       });
     let tokens = (await queryBySlugs(myTokenSymbols)) as tokens_with_balance[];
 
-    tokens = tokens
+    let ts = res
       .map((t) => {
-        const myToken = res.find((r) => r.symbol == t.symbol);
+        let myToken = tokens.find((r) => r.symbol == t.symbol);
         if (myToken) {
-          t.balance = myToken.balance;
-          t.value =
-            parseFloat(
-              utils.formatUnits(myToken.balance, myToken.decimals || 18),
-            ) * (t.price || 0);
-          t.decimals = parseInt(myToken.decimals);
+          myToken.balance = t.balance;
+          myToken.value =
+            parseFloat(utils.formatUnits(t.balance, t.decimals || 18)) *
+            (myToken.price || 0);
+          myToken.decimals = parseInt(t.decimals);
+          return myToken;
+        } else {
+          return null;
         }
-        return t;
       })
-      .sort((a, b) => {
-        return a.value! - b.value! > 0 ? -1 : 1;
-      });
-    setTokens(tokens || []);
+      .filter((t) => t !== null) as tokens_with_balance[];
+    ts = ts.sort((a, b) => {
+      return a!.value! - b!.value! > 0 ? -1 : 1;
+    });
+    setTokens(ts || []);
 
     setListConfig('my_tokens', tokens);
   };
