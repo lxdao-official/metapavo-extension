@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { Tooltip } from '@nextui-org/react';
 import {
   addFavByProjectId,
   isFaved,
@@ -283,7 +283,7 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
             <div className="mp-success-links-left">
               <div className="mp-success-links-left-inner">
                 {mainLinks.map((link, index) => (
-                  <Tooltip title={link.label} placement="top" arrow>
+                  <Tooltip content={link.label} placement="top">
                     <a
                       href={`${config.baseURL}/jump/nft?id=${
                         activeProject?.id
@@ -297,7 +297,7 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
                 ))}
                 <a className="dividor"></a>
                 {links.map((link, index) => (
-                  <Tooltip title={link.label} placement="top" arrow>
+                  <Tooltip content={link.label} placement="top">
                     <a
                       href={`${config.baseURL}/jump/nft?id=${
                         activeProject?.id
@@ -315,7 +315,7 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
               </div>
             </div>
             {faved ? (
-              <Tooltip title="Remove from Watchlist" placement="top" arrow>
+              <Tooltip content="Remove from Watchlist" placement="top">
                 <svg
                   width="27"
                   height="27"
@@ -336,7 +336,7 @@ export default function SuccessPopup({ state }: { state: 'show' | 'hide' }) {
                 </svg>
               </Tooltip>
             ) : (
-              <Tooltip title="Add to Watchlist" placement="top" arrow>
+              <Tooltip content="Add to Watchlist" placement="top">
                 <svg
                   width="27"
                   height="27"

@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { Tooltip } from '@nextui-org/react';
 import { getLang } from 'extension-common/src/lang';
 import { useEffect } from 'react';
 import styled from 'styled-components';
@@ -111,7 +111,7 @@ const SingleLoginPage = () => {
               }}
             />
           </ButtonContainer>
-          <Tooltip title={getLang('security_desc')}>
+          <Tooltip content={getLang('security_desc')}>
             <SecurityLink
               href="https://www.notion.so/lxdao/User-Security-Manual-fda56105aa4a4960932f854a7f907f9f"
               target={'_blank'}

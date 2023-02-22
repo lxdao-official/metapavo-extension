@@ -1,9 +1,7 @@
-import { Box, Tab, Tabs } from '@mui/material';
 import { NextUIProvider, createTheme } from '@nextui-org/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import { MemoryRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import useWallet, { WalletContext } from '../content-script/context/useWallet';

@@ -392,5 +392,11 @@
   },
   "no_tokens": {
     "message": "暂无代币"
+  },
+  "open_bar": {
+    "message": "开启信息条显示"
+  },
+  "show_search": {
+    "message": "搜索"
   }
 }

@@ -1,23 +1,52 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import BlockIcon from '@mui/icons-material/Block';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Box } from '@mui/material';
-import { Button, Radio, Tooltip } from '@nextui-org/react';
+// import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+// import BlockIcon from '@mui/icons-material/Block';
+// import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Radio, Switch, Tooltip } from '@nextui-org/react';
 import { AutoTextSize } from 'auto-text-size';
 import { links } from 'extension-common/src/apis';
 import { getLogo } from 'extension-common/src/getLogo';
 import { getLang } from 'extension-common/src/lang';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import AddLinksModal from '../search/cards/AddLinksModal';
 import DangerPopup from './status/danger';
 import DappPopup from './status/dapp';
 import SuccessPopup from './status/success';
+import Bar from './statusbar/Bar';
 import useBallStore from './store/useBallStore';
 import { GasBox, RootElement } from './styles';
 
 let inited = false;
-
+const IconMenuItem = styled.div`
+  display: flex;
+  margin: 3px;
+  borderradius: 8px;
+  fontsize: 14px;
+  color: #444;
+  alignitems: center;
+  padding: 10px 8px;
+  cursor: pointer;
+  &:hover {
+    background: #efefef;
+  }
+`;
+const MenuItem = styled.div`
+  margin: 3px;
+  margintop: 8px;
+  borderradius: 8px;
+  fontsize: 14px;
+  color: #444;
+  alignitems: center;
+  padding: 3px 8px;
+  paddingbottom: 8px;
+  cursor: pointer;
+  border: 1px dotted #ccc;
+  border-radius: 8px;
+  &:hover {
+    background: #efefef;
+  }
+`;
 function Ball() {
   const {
     hide,
@@ -26,12 +55,16 @@ function Ball() {
     gasRef,
     useG,
     gas,
+    price,
     activeDapp,
     noDisplay7,
     refreshData,
     checkHide,
     gasType,
     init,
+    barHide,
+    setBarHide,
+    setShowSearch,
   } = useBallStore();
 
   const [showAddLinksModal, setShowAddLinksModal] = useState(false);
@@ -44,10 +77,23 @@ function Ball() {
     if (!inited) init();
     inited = true;
     checkHide();
+    chrome.storage.local.get(['display_bar'], (res) => {
+      console.log('display_bar', res.display_bar);
+      setBarHide(!res.display_bar);
+    });
   }, []);
+
+  // useEffect(() => {
+  //   if (barHide) {
+  //     document.body.style.paddingBottom = '0px';
+  //   } else {
+  //     document.body.style.paddingBottom = '40px';
+  //   }
+  // }, [barHide]);
 
   return (
     <>
+      {hide ? null : barHide ? null : <Bar />}
       <RootElement
         id="metapavo-box"
         className={[
@@ -83,38 +129,41 @@ function Ball() {
                   width: '220px',
                 }}
               >
-                <Box
+                <div
                   style={{}}
                   onClick={async () => {
-                    window.open(chrome.runtime.getURL('dashboard/index.html'));
+                    setShowSearch(true);
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      margin: '3px',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      color: '#444',
-                      alignItems: 'center',
-                      padding: '10px 8px',
-                      cursor: 'pointer',
-                      '&:hover': {
-                        background: '#efefef',
-                      },
-                    }}
-                  >
-                    <OpenInNewIcon
+                  <IconMenuItem>
+                    {/* <OpenInNewIcon
                       style={{
                         fontSize: '20px',
                         marginRight: '10px',
                         color: '#5B28EB',
                       }}
-                    />
+                    /> */}
+                    <div>{getLang('show_search')}</div>
+                  </IconMenuItem>
+                </div>
+                <div
+                  style={{}}
+                  onClick={async () => {
+                    window.open(chrome.runtime.getURL('dashboard/index.html'));
+                  }}
+                >
+                  <IconMenuItem>
+                    {/* <OpenInNewIcon
+                      style={{
+                        fontSize: '20px',
+                        marginRight: '10px',
+                        color: '#5B28EB',
+                      }}
+                    /> */}
                     <div>{getLang('open_dashboard')}</div>
-                  </Box>
-                </Box>
-                <Box
+                  </IconMenuItem>
+                </div>
+                <div
                   style={{}}
                   onClick={async () => {
                     setShowAddLinksModal(true);
@@ -125,81 +174,52 @@ function Ball() {
                     });
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      margin: '3px',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      color: '#444',
-                      alignItems: 'center',
-                      padding: '10px 8px',
-                      cursor: 'pointer',
-                      '&:hover': {
-                        background: '#efefef',
-                      },
-                    }}
-                  >
-                    <AddCircleOutlineIcon
+                  <IconMenuItem>
+                    {/* <AddCircleOutlineIcon
                       style={{
                         fontSize: '20px',
                         marginRight: '10px',
                         color: '#5B28EB',
                       }}
-                    />
+                    /> */}
                     <div>{getLang('add_to_read_later')}</div>
-                  </Box>
-                </Box>
-                <Box
+                  </IconMenuItem>
+                </div>
+                <div
                   style={{}}
                   onClick={() => {
                     noDisplay7();
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      margin: '3px',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      color: '#444',
+                  <IconMenuItem>
+                    <div> {getLang('nodisplay7')}</div>
+                  </IconMenuItem>
+                </div>
+                <div style={{}}>
+                  <IconMenuItem
+                    style={{
                       alignItems: 'center',
-                      padding: '10px 8px',
-                      cursor: 'pointer',
-                      '&:hover': {
-                        background: '#efefef',
-                      },
+                      color: '#999',
+                      fontSize: '12px',
+                      gap: '10px',
+                      border: '1px dotted #ccc',
                     }}
                   >
-                    <BlockIcon
-                      style={{
-                        fontSize: '20px',
-                        marginRight: '10px',
-                        color: '#5B28EB',
+                    {getLang('open_bar')}
+                    <Switch
+                      checked={!barHide}
+                      size="xs"
+                      onChange={(e) => {
+                        chrome.storage.local.set({
+                          display_bar: e.target.checked,
+                        });
+                        setBarHide(!e.target.checked);
                       }}
                     />
-                    <div> {getLang('nodisplay7')}</div>
-                  </Box>
-                </Box>
-
-                <Box style={{}}>
-                  <Box
-                    sx={{
-                      margin: '3px',
-                      marginTop: '8px',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      color: '#444',
-                      alignItems: 'center',
-                      padding: '3px 8px',
-                      paddingBottom: '8px',
-                      cursor: 'pointer',
-                      border: '1px dotted #ccc',
-                      '&:hover': {
-                        background: '#efefef',
-                      },
-                    }}
-                  >
+                  </IconMenuItem>
+                </div>
+                <div style={{}}>
+                  <MenuItem>
                     <div
                       style={{
                         lineHeight: '30px',
@@ -226,11 +246,11 @@ function Ball() {
                       <Radio value="BTCBUSD">BTC</Radio>
                       <Radio value="ETHBUSD">ETH</Radio>
                     </Radio.Group>
-                  </Box>
-                </Box>
-                <Box style={{}}>
-                  <Box
-                    sx={{
+                  </MenuItem>
+                </div>
+                <div style={{}}>
+                  <div
+                    style={{
                       margin: '3px',
                       marginTop: '8px',
                       borderRadius: '8px',
@@ -251,15 +271,19 @@ function Ball() {
                     >
                       {getLang('press_to_move')}
                     </div>
-                  </Box>
-                </Box>
+                  </div>
+                </div>
               </div>
             }
-            placement="leftStart"
+            placement="left"
+            leaveDelay={300}
+            hideArrow={true}
           >
             <div id="metapavo-gas-text">
               <div className="auto-size-text">
-                <AutoTextSize maxFontSizePx={20}>{gas}</AutoTextSize>
+                <AutoTextSize maxFontSizePx={20}>
+                  {gasType == 'GAS' ? gas : price}
+                </AutoTextSize>
               </div>
               <span
                 style={{

@@ -5,6 +5,7 @@ import React from 'react';
 import { ConfirmDialogProvider } from 'react-mui-confirm';
 import { WagmiConfig, chain, configureChains, createClient } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { infuraProvider } from 'wagmi/providers/infura';
 import { publicProvider } from 'wagmi/providers/public';
 
 import getTheme from '../common/theme';
@@ -13,7 +14,7 @@ import '../styles/globals.css';
 
 const { chains, provider } = configureChains(
   [chain.mainnet],
-  [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()],
+  [infuraProvider({ apiKey: process.env.INFURA_ID }), publicProvider()],
 );
 
 const { connectors } = getDefaultWallets({

@@ -1,12 +1,3 @@
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  TextField,
-} from '@mui/material';
-import Dialog from '@mui/material/Dialog';
 import { addAlarmForUser } from 'extension-common/src/apis/nft_api';
 import _ from 'lodash';
 import React, { useContext } from 'react';

@@ -1,14 +1,5 @@
-import AddIcon from '@mui/icons-material/Add';
-import {
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material';
 import { Button, Spacer } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
-
-import Footer from './Footer';
 
 export default function Index() {
   const [url, setUrl] = useState<string>('');
@@ -23,7 +14,7 @@ export default function Index() {
   }, []);
   return (
     <div>
-      <div>
+      {/* <div>
         <div
           style={{
             padding: '20px 20px',
@@ -159,7 +150,7 @@ export default function Index() {
             Install DAPP
           </Button>
         </div>
-      </div>
+      </div> */}
       {/* <Footer></Footer> */}
     </div>
   );

@@ -1,5 +1,4 @@
-import { Box, Grid } from '@mui/material';
-import { Input, Loading } from '@nextui-org/react';
+import { Container, Grid, Input, Loading } from '@nextui-org/react';
 import { dapps, tokens } from 'extension-common/src/apis';
 import { searchDapps } from 'extension-common/src/apis/dapps_api';
 import { IKOL, searchKols } from 'extension-common/src/apis/kol_api';
@@ -9,6 +8,7 @@ import { searchTokens } from 'extension-common/src/apis/tokens_api';
 import { IProjectV2 } from 'extension-common/src/apis/types';
 import { getLang } from 'extension-common/src/lang';
 import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 import CoinNormalCard from '../cards/CoinNormalCard';
 import DappCard from '../cards/DappCard';
@@ -16,6 +16,15 @@ import { KolDetailCard } from '../cards/KolDetailCard';
 import NFTCard from '../cards/NFTCard';
 import styles from '../styles/Home.module.css';
 
+const InputContainer = styled.div`
+width: 700px;
+margin: 0 auto;
+position: relative;
+& *::-webkit-scrollbar: {
+  width: 1px
+  height: 1px
+}
+`;
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -102,6 +111,7 @@ export default function Search() {
   }, [debouncedValue]);
 
   const wrapperRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     function handleClickOutside(event: any) {
       //@ts-ignore
@@ -117,22 +127,16 @@ export default function Search() {
       document.removeEventListener('keydown', handleClickOutside);
     };
   }, [wrapperRef]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [inputRef]);
+
   return (
-    <div className={styles.searchBg}>
-      <Box
-        style={{
-          width: '700px',
-          margin: '0 auto',
-          position: 'relative',
-        }}
-        ref={wrapperRef}
-        sx={{
-          '& *::-webkit-scrollbar': {
-            width: '1px',
-            height: '1px',
-          },
-        }}
-      >
+    <div className={styles.searchBg} ref={wrapperRef}>
+      <InputContainer>
         <Input
           placeholder={getLang('search_placeholder')}
           clearable
@@ -175,14 +179,15 @@ export default function Search() {
               window.location.href = `https://www.google.com/search?q=${keyword}`;
             }
           }}
+          ref={inputRef}
         />
         {inputFocus && (
-          <Box
+          <div
             style={{
               position: 'absolute',
               top: '40px',
               left: '0',
-              width: '100%',
+              width: '700px',
               overflowY: 'auto',
               background: '#fff',
               borderRadius: '20px',
@@ -208,15 +213,15 @@ export default function Search() {
                 <Loading size="xs" />
               </div>
             ) : dapps.length > 0 ? (
-              <Grid container spacing={1}>
+              <Grid.Container gap={1}>
                 {dapps.map((dapp) => {
                   return (
-                    <Grid item xs={3}>
+                    <Grid xs={3}>
                       <DappCard dapp={dapp} showPick={true} key={dapp.id} />
                     </Grid>
                   );
                 })}
-              </Grid>
+              </Grid.Container>
             ) : (
               <div
                 style={{
@@ -250,16 +255,15 @@ export default function Search() {
                   width: '100%',
                 }}
               >
-                <Grid
-                  container
-                  spacing={1}
+                <Grid.Container
+                  gap={1}
                   style={{
                     width: '180%',
                   }}
                 >
                   {nfts.map((nft) => {
                     return (
-                      <Grid item xs={2}>
+                      <Grid xs={2}>
                         <NFTCard
                           activeProject={nft}
                           showPick={true}
@@ -268,7 +272,7 @@ export default function Search() {
                       </Grid>
                     );
                   })}
-                </Grid>
+                </Grid.Container>
               </div>
             ) : (
               <div
@@ -304,16 +308,15 @@ export default function Search() {
                   width: '100%',
                 }}
               >
-                <Grid
-                  container
-                  spacing={1}
+                <Grid.Container
+                  gap={1}
                   style={{
                     width: '180%',
                   }}
                 >
                   {tokens.map((token) => {
                     return (
-                      <Grid item xs={2}>
+                      <Grid xs={2}>
                         <CoinNormalCard
                           token={token}
                           showPick={true}
@@ -322,7 +325,7 @@ export default function Search() {
                       </Grid>
                     );
                   })}
-                </Grid>
+                </Grid.Container>
               </div>
             ) : (
               <div
@@ -359,9 +362,8 @@ export default function Search() {
                   marginTop: '10px',
                 }}
               >
-                <Grid
-                  container
-                  spacing={1}
+                <Grid.Container
+                  gap={1}
                   style={{
                     width: '180%',
                   }}
@@ -369,9 +371,8 @@ export default function Search() {
                   {kols.map((kol) => {
                     return (
                       <Grid
-                        item
                         xs={2}
-                        sx={{
+                        css={{
                           overflow: 'hidden',
                         }}
                       >
@@ -383,7 +384,7 @@ export default function Search() {
                       </Grid>
                     );
                   })}
-                </Grid>
+                </Grid.Container>
               </div>
             ) : (
               <div
@@ -397,9 +398,9 @@ export default function Search() {
                 {getLang('No_results')}
               </div>
             )}
-          </Box>
+          </div>
         )}
-      </Box>
+      </InputContainer>
     </div>
   );
 }

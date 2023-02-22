@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { Tooltip } from '@nextui-org/react';
 import { addFavByProjectId } from 'extension-common/src/apis/nft_api';
 import { IProjectV2 } from 'extension-common/src/apis/types';
 import { AutoDecimal } from 'extension-common/src/decimals';
@@ -156,7 +156,7 @@ export default function NFTCard(props: {
       <div className="mp-success-links">
         <div className="mp-success-links-left">
           {links.map((link, index) => (
-            <Tooltip title={link.label} placement="top" arrow>
+            <Tooltip content={link.label} placement="top">
               <a
                 href={`${config.baseURL}/jump/nft?id=${
                   activeProject.id

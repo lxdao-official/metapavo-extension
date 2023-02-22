@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import { Input, Tooltip } from '@nextui-org/react';
 import { getLang } from 'extension-common/src/lang';
 import { useContext, useState } from 'react';
@@ -113,7 +112,7 @@ export default function ConnectWallet(props: {
   return (
     <>
       {showMint ? (
-        <Box
+        <div
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -153,7 +152,7 @@ export default function ConnectWallet(props: {
           >
             {minting ? 'Minting...' : 'Mint Pavo DID'}
           </ButtonStyle>
-        </Box>
+        </div>
       ) : (
         <>
           <div>

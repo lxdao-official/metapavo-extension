@@ -5,7 +5,8 @@ import React, { useContext, useRef, useState } from 'react';
 import { GlobalContext } from '../../../context/useGlobal';
 
 export default function useBallStore() {
-  const [hide, setHide] = React.useState(false);
+  const [hide, setHide] = React.useState(true);
+  const [barHide, setBarHide] = React.useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
@@ -13,6 +14,7 @@ export default function useBallStore() {
 
   const useG = useContext(GlobalContext);
   const [gas, setGas] = useState('');
+  const [price, setPrice] = useState('');
   const [gasType, setGasType] = useState('GAS');
   const { showSearch, setShowSearch } = useContext(GlobalContext);
   const [activeDapp, setActiveDapp] = useState<
@@ -31,6 +33,8 @@ export default function useBallStore() {
     const hideUntil = localStorage.getItem('metapavo-hide-until');
     if (hideUntil && Number(hideUntil) > new Date().getTime()) {
       setHide(true);
+    } else {
+      setHide(false);
     }
   }
   async function checkDapp() {
@@ -57,7 +61,8 @@ export default function useBallStore() {
       if (new Date().getTime() - mousedownTimestamp < 300) {
         if (!useG.addRootClass) {
           // 点击事件
-          setShowSearch(true);
+
+          window.open(chrome.runtime.getURL('dashboard/index.html'));
         }
       }
       closeDragElement();
@@ -112,16 +117,16 @@ export default function useBallStore() {
     }
   }
 
-  function setGasWithFormat(_v: number) {
+  function setPriceWithFormat(_v: number) {
     const v = Number(_v) || 0;
     if (v > 10000) {
-      setGas(v.toFixed(0));
+      setPrice(v.toFixed(0));
     } else if (v > 1000) {
-      setGas(v.toFixed(1));
+      setPrice(v.toFixed(1));
     } else if (v < 0) {
-      setGas(v.toFixed(4));
+      setPrice(v.toFixed(4));
     } else {
-      setGas(v.toFixed(2));
+      setPrice(v.toFixed(2));
     }
   }
   function init() {
@@ -145,34 +150,48 @@ export default function useBallStore() {
       sender,
       sendResponse,
     ) {
-      if (request.cmd === 'gasUpdate') {
+      if (request.cmd === 'pavoInfoUpdate') {
         if (request.type !== 'GAS') {
-          setGasWithFormat(request.value);
+          setPriceWithFormat(request.value);
         } else {
           setGas(request.value);
         }
-
-        setGasType(request.type);
+        chrome.storage.local.get(['display_info'], async function (data) {
+          setGasType(data.display_info);
+        });
+      }
+      if (request.cmd === 'gasUpdate') {
+        setGas(request.value);
       }
       sendResponse('ok');
     });
-    chrome.runtime.sendMessage(
-      {
-        cmd: 'getGas',
-      },
-      function (request) {
-        if (!chrome.runtime.lastError) {
-          if (request.type !== 'GAS') {
-            setGasWithFormat(request.value);
+    chrome.storage.local.get(['display_info'], async function (data) {
+      let command = 'getGas';
+      if (data.display_info === 'GAS') {
+        command = 'getGas';
+      } else {
+        command = 'getPrice';
+      }
+      chrome.runtime.sendMessage(
+        {
+          cmd: command,
+        },
+        function (request) {
+          if (!chrome.runtime.lastError) {
+            if (request.type !== 'GAS') {
+              setPriceWithFormat(request.value);
+            } else {
+              setGas(request.value);
+            }
+            chrome.storage.local.get(['display_info'], async function (data) {
+              setGasType(data.display_info);
+            });
           } else {
-            setGas(request.value);
           }
+        },
+      );
+    });
 
-          setGasType(request.type);
-        } else {
-        }
-      },
-    );
     document.body.addEventListener('click', () => {
       setMenuOpen(false);
     });
@@ -212,5 +231,9 @@ export default function useBallStore() {
     init,
     gasType,
     refreshData,
+    barHide,
+    setBarHide,
+    price,
+    setPrice,
   };
 }
